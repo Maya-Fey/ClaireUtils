@@ -1,0 +1,44 @@
+package claire.util.crypto.hash.primitive;
+
+import java.util.Arrays;
+
+import claire.util.memory.Bits;
+
+final class SHA2_224
+	  extends SHA2_Base_32 {
+
+	public SHA2_224() 
+	{
+		super(28);
+	}
+
+	protected void reset()
+	{
+		length = 0;
+		STATE[0] = 0xc1059ed8;
+        STATE[1] = 0x367cd507;
+        STATE[2] = 0x3070dd17;
+        STATE[3] = 0xf70e5939;
+        STATE[4] = 0xffc00b31;
+        STATE[5] = 0x68581511;
+        STATE[6] = 0x64f98fa7;
+        STATE[7] = 0xbefa4fa4;
+	}
+
+	protected void complete(byte[] remaining, int pos, byte[] out, int start)
+	{
+		byte[] bytes = new byte[64];
+		System.arraycopy(remaining, 0, bytes, 0, pos);
+		bytes[pos] = (byte) 0x80;
+		length += pos;
+		if(pos >= 56) {
+			processNext(bytes, 0);
+			length -= 64;
+			Arrays.fill(bytes, (byte) 0);
+		}
+		Bits.BigEndian.longToBytes(length << 3, bytes, 56);
+		processNext(bytes, 0);
+		Bits.BigEndian.intsToBytes(STATE, 0, out, start, 7);
+	}
+
+}

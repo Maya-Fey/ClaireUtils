@@ -1,0 +1,334 @@
+package claire.util.standards;
+
+import claire.util.encoding.CString;
+import claire.util.encoding.EncodingUtil;
+import claire.util.math.MathHelper;
+import claire.util.memory.Bits;
+
+/**
+ * Note: This interface does NOT define:
+ * <ul>
+ * 	<li>Overflow behavior</li>
+ * 	<li>Signed modular behavior</li>
+ * 	<li>Conversion behavior</li>
+ * 	<li>Integer ordering</li>
+ * 	<li>Operations with other implementations</li>
+ * </ul>
+ * Use at your own risk, and be careful of accepting a IInteger
+ * of any type before considering the possibility of undefined 
+ * behavior. Implementing classes of this interface are not required
+ * to give all internal state data given a call to getArr() only an
+ * integer representation (in <b>undefined</b> order) of the integer.
+ * You have been warned.
+ * <br>
+ * @author Claire
+ * @param <Type> The implementation used
+ */
+public interface IInteger<Type extends IInteger<?>> 
+	   extends IDeepClonable<Type>, 
+	   		   IReferrable<Type> {
+	
+	default Type add(IInteger<?> i)
+	{
+		Type n = this.createDeepClone();
+		n.p_add(i);
+		return n;
+	}
+	default Type subtract(IInteger<?> i)
+	{
+		Type n = this.createDeepClone();
+		n.p_subtract(i);
+		return n;
+	}
+	default Type multiply(IInteger<?> i)
+	{
+		Type n = this.createDeepClone();
+		n.p_multiply(i);
+		return n;
+	}
+	default Type divide(IInteger<?> i)
+	{
+		Type n = this.createDeepClone();
+		n.p_divide(i);
+		return n;
+	}
+	default Type modulo(IInteger<?> i)
+	{
+		Type n = this.createDeepClone();
+		n.p_modulo(i);
+		return n;
+	}
+	default Type exponent(IInteger<?> i)
+	{
+		Type n = this.createDeepClone();
+		n.p_exponent(i);
+		return n;
+	}
+	
+	void p_add(IInteger<?> i);
+	void p_subtract(IInteger<?> i);
+	void p_multiply(IInteger<?> i);
+	void p_divide(IInteger<?> i);
+	void p_modulo(IInteger<?> i);
+	IInteger<?> p_divmod(IInteger<?> i);
+	
+	default void p_exponent(IInteger<?> i)
+	{
+		if(!i.isNonZero()) {
+			this.setTo(1);
+			return;
+		} else if(i.isEqualTo(1))
+			return;
+		IInteger<?> n = i.createDeepClone();
+		Type o = this.createDeepClone();
+		o.setTo(1);
+		while(n.isGreaterThan(1))
+		{
+			if(n.isOdd()) {
+				o.p_multiply(this);
+				this.p_square();
+				n.decrement();
+				n.p_divide(2);
+			} else {
+				this.p_square();
+				n.p_divide(2);
+			}
+		}
+		this.p_multiply(o);
+	}
+	
+	boolean isSigned();
+	boolean isNegative();
+	
+	default boolean isGreaterThan(IInteger<?> i)
+	{
+		return MathHelper.absolute_compare(this.getArr(), i.getArr()) == 1;
+	}
+	
+	default boolean isLesserThan(IInteger<?> i)
+	{
+		return MathHelper.absolute_compare(this.getArr(), i.getArr()) == -1;
+	}
+	
+	default boolean isEqualTo(IInteger<?> i)
+	{
+		return MathHelper.absolute_compare(this.getArr(), i.getArr()) == 0;
+	}
+
+	default boolean doesNotEqual(IInteger<?> i)
+	{
+		return MathHelper.absolute_compare(this.getArr(), i.getArr()) != 0;
+	}
+	
+	default boolean isGreaterOrEqualTo(IInteger<?> i)
+	{
+		return MathHelper.absolute_compare(this.getArr(), i.getArr()) >= 0;
+	}
+	
+	default boolean isLesserOrEqualTo(IInteger<?> i)
+	{
+		return MathHelper.absolute_compare(this.getArr(), i.getArr()) <= 0;
+	}
+		
+	void increment();
+	void decrement();
+	
+	int[] getInts();
+	int[] getArr();
+	void upsize(int size);
+	Type getLarge(int size);
+	
+	byte toInt8();
+	short toInt16();
+	int toInt32();
+	long toInt64();
+	
+	default Type add(long i)
+	{
+		Type n = this.createDeepClone();
+		n.p_add(i);
+		return n;
+	}
+	default Type subtract(long i)
+	{
+		Type n = this.createDeepClone();
+		n.p_subtract(i);
+		return n;
+	}
+	default Type multiply(long i)
+	{
+		Type n = this.createDeepClone();
+		n.p_multiply(i);
+		return n;
+	}
+	default Type divide(long i)
+	{
+		Type n = this.createDeepClone();
+		n.p_divide(i);
+		return n;
+	}
+	default Type modulo(long i)
+	{
+		Type n = this.createDeepClone();
+		n.p_modulo(i);
+		return n;
+	}
+	default Type exponent(long i)
+	{
+		Type n = this.createDeepClone();
+		n.p_exponent(i);
+		return n;
+	}
+
+	void p_add(long i);
+	void p_subtract(long i);
+	void p_multiply(long i);
+	void p_divide(long i);
+	void p_modulo(long i);
+	long p_divmod(long i);
+	
+	default void p_exponent(long l)
+	{
+		if(l == 0) {
+			this.setTo(1);
+			return;
+		} else if(l == 1)
+			return;
+		Type o = this.createDeepClone();
+		o.setTo(1);
+		while(l > 1)
+		{
+			if((l & 1) == 0) {
+				this.p_square();
+				l /= 2;
+			} else {
+				o.p_multiply(this);
+				this.p_square();
+				l--;
+				l /= 2;
+			}
+		}
+		this.p_multiply(o);
+	}
+	
+	boolean isGreaterThan(long i);
+	boolean isLesserThan(long i);
+	boolean isEqualTo(long i);
+	boolean doesNotEqual(long i);
+	boolean isGreaterOrEqualTo(long i);
+	boolean isLesserOrEqualTo(long i);
+	boolean isNonZero();
+	
+	boolean bitAt(int pos);
+	int getBits();
+	int getIntLen();
+	
+	void setNegative(boolean b);
+	void invertSign();
+	void setTo(long l);
+	void setTo(IInteger<?> other);
+	
+	void setArr(int[] arr);
+	
+	default void setToAbs(IInteger<?> i)
+	{
+		this.setArr(i.getArr());
+	}
+	
+	void zero();
+	
+	boolean isOdd();
+	
+	default void p_square()
+	{
+		Type self = this.createDeepClone();
+		this.p_multiply(self);
+	}
+	
+	default Type square()
+	{
+		Type n = this.createDeepClone();
+		n.p_square();
+		return n;
+	}
+	
+	default byte[] toBytes()
+	{
+		return Bits.intsToBytes(this.getArr());
+	}
+
+	default char[] toChars()
+	{
+		Type n = this.createDeepClone();
+		int[] arr = n.getArr();
+		int len = arr.length - Bits.countEndingZeroes(arr);
+		if(len == 0)
+			return new char[] { '0' };
+		boolean negative = this.isNegative();
+		char[] characters = negative ? new char[Bits.APPROXIMATEB10DIDGITS(len) + 1] : new char[Bits.APPROXIMATEB10DIDGITS(len)];
+		int pos = 0;
+		for(; n.isNonZero(); pos++)
+		{
+			int remainder = (int) n.p_divmod(10);
+			characters[pos] = (char)(48 + remainder);
+		}
+		if(n.isNegative())
+			characters[pos++] = '-';
+		EncodingUtil.REVERSE(characters);
+		return EncodingUtil.ELIMINATE_PREPENDING_CHARS(characters);
+	}
+	
+	default CString toCString()
+	{
+		return new CString(this.toChars());
+	}
+	
+	default void setTo(String s)
+	{
+		this.setTo(s.toCharArray());
+	}
+	
+	default void setTo(CString s)
+	{
+		this.setTo(s.array());
+	}
+	
+	default void setTo(char[] chars)
+	{
+		this.zero();
+		int i = 0;
+		boolean negative = false;
+		if(chars[0] == '-') {
+			i++;
+			negative = true;
+		}
+		this.p_add(chars[i] - 48);
+		i++;
+		for(; i < chars.length; i++)
+		{
+			this.p_multiply(10);
+			this.p_add(chars[i] - 48);
+		}
+		this.setNegative(negative);
+	}
+	
+	static <Type extends IInteger<?>> void make(Type t, char[] chars)
+	{
+		int i = 0;
+		boolean negative = false;
+		if(chars[0] == '-') {
+			i++;
+			negative = true;
+		}
+		t.p_add(chars[i] - 48);
+		i++;
+		for(; i < chars.length; i++)
+		{
+			t.p_multiply(10);
+			t.p_add(chars[i] - 48);
+		}
+		if(negative)
+			t.invertSign();
+	}
+
+}

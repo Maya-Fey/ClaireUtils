@@ -1,0 +1,188 @@
+package claire.util.crypto.rng;
+
+import claire.util.crypto.rng.primitive.FastXorShift;
+import claire.util.crypto.rng.primitive.JRandom;
+import claire.util.standards.IRandom;
+
+public class RandUtils {
+	
+	public static final IRandom dprng = new FastXorShift();
+	public static final JRandom guass = new JRandom();
+	
+	public static final int inRange(int min, int max)
+	{
+		int t = inrange_fast(dprng, max - min);
+		return t + min;
+	}
+	
+	public static final int inRange(int min, int max, IRandom prng)
+	{
+		int t = inrange_fast(prng, max - min);
+		return t + min;
+	}
+	
+	public static final int vary(int in, int max)
+	{
+		if(dprng.nextBoolean())
+			return in + inrange_fast(dprng, max);
+		else 
+			return in - inrange_fast(dprng, max);
+	}	
+	
+	public static final int vary(int in, int max, IRandom prng)
+	{
+		if(prng.nextBoolean())
+			return in + inrange_fast(prng, max);
+		else 
+			return in - inrange_fast(prng, max);
+	}	
+	
+	public static final double guassPositive(JRandom prng)
+	{
+		return (prng.nextGaussian() + 1.0D) / 2;
+	}
+	
+	public static final double guassPositive()
+	{
+		return (guass.nextGaussian() + 1.0D) / 2;
+	}
+	
+	public static final void fillArr(byte[] i)
+	{
+		fillArr(i, 0, i.length);
+	}
+	
+	public static final void fillArr(byte[] i, int start, int len)
+	{
+		for(int j = 0; j < len; j++)
+			i[start++] = dprng.nextByte();
+	}
+	
+	public static final void fillArr(byte[] i, IRandom prng)
+	{
+		fillArr(i, 0, i.length, prng);
+	}
+	
+	public static final void fillArr(byte[] i, int start, int len, IRandom prng)
+	{
+		for(int j = 0; j < len; j++)
+			i[start++] = prng.nextByte();
+	}
+	
+	public static final void fillArr(char[] i)
+	{
+		fillArr(i, 0, i.length);
+	}
+	
+	public static final void fillArr(char[] i, int start, int len)
+	{
+		for(int j = 0; j < len; j++)
+			i[start++] = (char) dprng.nextShort();
+	}
+	
+	public static final void fillArr(char[] i, IRandom prng)
+	{
+		fillArr(i, 0, i.length, prng);
+	}
+	
+	public static final void fillArr(char[] i, int start, int len, IRandom prng)
+	{
+		for(int j = 0; j < len; j++)
+			i[start++] = (char) prng.nextShort();
+	}
+	
+	public static final void fillArr(short[] i)
+	{
+		fillArr(i, 0, i.length);
+	}
+	
+	public static final void fillArr(short[] i, int start, int len)
+	{
+		for(int j = 0; j < len; j++)
+			i[start++] = dprng.nextShort();
+	}
+	
+	public static final void fillArr(short[] i, IRandom prng)
+	{
+		fillArr(i, 0, i.length, prng);
+	}
+	
+	public static final void fillArr(short[] i, int start, int len, IRandom prng)
+	{
+		for(int j = 0; j < len; j++)
+			i[start++] = prng.nextShort();
+	}
+	
+	public static final void fillArr(int[] i)
+	{
+		fillArr(i, 0, i.length);
+	}
+	
+	public static final void fillArr(int[] i, int start, int len)
+	{
+		for(int j = 0; j < len; j++)
+			i[start++] = dprng.nextInt();
+	}
+	
+	public static final void fillArr(int[] i, IRandom prng)
+	{
+		fillArr(i, 0, i.length, prng);
+	}
+	
+	public static final void fillArr(int[] i, int start, int len, IRandom prng)
+	{
+		for(int j = 0; j < len; j++)
+			i[start++] = prng.nextInt();
+	}
+	
+	public static final void fillArr(long[] i)
+	{
+		fillArr(i, 0, i.length);
+	}
+	
+	public static final void fillArr(long[] i, int start, int len)
+	{
+		for(int j = 0; j < len; j++)
+			i[start++] = dprng.nextLong();
+	}
+	
+	public static final void fillArr(long[] i, IRandom prng)
+	{
+		fillArr(i, 0, i.length, prng);
+	}
+	
+	public static final void fillArr(long[] i, int start, int len, IRandom prng)
+	{
+		for(int j = 0; j < len; j++)
+			i[start++] = prng.nextLong();
+	}
+	
+	public static final void randomize(byte[] arr, IRandom prng)
+	{
+		byte t1;
+		int t2;
+		for(int i = arr.length - 1; i > 1; i--)
+		{
+			t1 = arr[i];
+			t2 = prng.nextIntFast(i + 1);
+			arr[i] = arr[t2];
+			arr[t2] = t1;
+		}	
+	}
+	
+	public static final int inrange_fast(IRandom rand, int max)
+	{
+		return (rand.nextInt() & 0x7FFFFFFF) % max;
+	}
+	
+	public static final int inrange_best(IRandom rand, int max)
+	{
+		int bits, val;
+	    do {
+	    	bits = (rand.nextInt() >>> 1);
+	    	val = bits % max;
+        } while(bits - val + (max - 1) < 0);
+	    return val;
+	}
+
+}

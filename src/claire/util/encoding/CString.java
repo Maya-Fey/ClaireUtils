@@ -1,0 +1,675 @@
+package claire.util.encoding;
+
+import java.io.IOException;
+import java.util.Arrays;
+
+import claire.util.io.Factory;
+import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayBuilder;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.CObject;
+import claire.util.standards.IIterable;
+import claire.util.standards.IIterator;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IOutgoingStream;
+
+public class CString 
+	   implements CObject<CString>, 
+	   			  IIterable<Character> {
+	
+	private char[] chars;
+	
+	public CString(final String s)
+	{
+		chars = s.toCharArray();
+	}
+	
+	public CString(char c)
+	{
+		this.chars = new char[] { c };
+	}
+	
+	public CString(final char ... c)
+	{
+		this.chars = c;
+	}
+	
+	public CString(byte[] bytes)
+	{
+		this(bytes, "UTF-16");
+	}
+	
+	public CString(byte[] bytes, String encoding)
+	{
+		switch(encoding)
+		{
+			case "CTF-S":
+				this.chars = CTFS.toUTF16(bytes);
+				break;
+			case "CTF-L":
+				this.chars = CTFL.toUTF16(bytes);
+				break;
+			case "UTF-8":
+				this.chars = UTF8.toUTF16(bytes);
+				break;
+			case "UTF-16":
+				this.chars = Bits.bytesToChars(bytes);
+				break;
+			case "ASCII":
+				chars = new char[bytes.length];
+				for(int i = 0; i < bytes.length; i++)
+					chars[i] = (char) bytes[i];
+				break;
+			default:
+				throw new java.lang.NullPointerException("Unsupported Encoding");
+		}
+	}
+	
+	public CString(byte i)
+	{
+		this.chars = EncodingUtil.fromByte(i);
+	}
+	
+	public CString(short i)
+	{
+		this.chars = EncodingUtil.fromShort(i);
+	}
+	
+	public CString(int i)
+	{
+		this.chars = EncodingUtil.fromInt(i);
+	}
+	
+	public CString(long i)
+	{
+		this.chars = EncodingUtil.fromLong(i);
+	}
+	
+	public CString(boolean b)
+	{
+		if(b)
+			this.chars = new char[] { 't', 'r', 'u', 'e' };
+		else
+			this.chars = new char[] { 'f', 'a', 'l', 's', 'e' };
+	}
+	
+	public CString(CString string)
+	{
+		this.chars = ArrayUtil.copy(string.array());
+	}
+	
+	public CString(boolean[] bools)
+	{
+		this.chars = new char[bools.length];
+		for(int i = 0; i < bools.length; i++)
+			if(bools[i])
+				chars[i] = '1';
+			else
+				chars[i] = '0';
+	}
+	
+	public void add(final char c)
+	{
+		chars = ArrayUtil.upsize(chars, 1);
+		chars[chars.length - 1] = c;
+	}
+	
+	public void add(final String s)
+	{
+		char[] n = s.toCharArray();
+		this.concat(n);
+	}
+	
+	public void add(final CString s)
+	{
+		char[] n = s.toCharArray();
+		this.concat(n);
+	}
+	
+	public int length()
+	{
+		return this.chars.length;
+	}
+	
+	public void concat(final char[] c)
+	{
+		final char[] chars = this.chars;
+		final char[] n = new char[chars.length + c.length];
+		System.arraycopy(chars, 0, n, 0, chars.length);
+		System.arraycopy(c, 0, n, chars.length, c.length);
+		this.chars = n;
+	}
+	
+	public void prepend(final char[] c)
+	{
+		final char[] chars = this.chars;
+		final char[] n = new char[chars.length + c.length];
+		System.arraycopy(chars, 0, n, c.length, chars.length);
+		System.arraycopy(c, 0, n, 0, c.length);
+		this.chars = n;
+	}
+	
+	public char[] toCharArray()
+	{
+		final char[] chars = this.chars;
+		final char[] n = new char[chars.length];
+		System.arraycopy(chars, 0, n, 0, chars.length);
+		return n;
+	}
+	
+	public char[] array()
+	{
+		return this.chars;
+	}
+	
+	public char charAt(int index)
+	{
+		return chars[index];
+	}
+	
+	public String toString()
+	{
+		return new String(this.chars);
+	}
+	
+	/**
+	 * Note: any parts of the string that match the character will be discarded. 
+	 * @param c
+	 * @return
+	 */
+	public CString[] split(char c)
+	{
+		ArrayBuilder<CString> builder = new ArrayBuilder<CString>(CString.class, 4);
+		int i, last = 0;
+		for(i = 0; i < chars.length; i++)
+		{
+			if(chars[i] == c) {
+				builder.addElement(new CString(ArrayUtil.subArr(chars, last, i)));
+				last = i + 1;
+			}
+		}
+		if(last != chars.length)
+			builder.addElement(new CString(ArrayUtil.subArr(chars, last, i)));
+		return builder.build();
+	}
+	
+	/**
+	 * Note: any parts of the string that match the string will be discarded. 
+	 * @param c
+	 * @return
+	 */
+	public CString[] split(CString s)
+	{
+		if(s.length() == 1)
+			return this.split(s.array()[0]);
+		ArrayBuilder<CString> builder = new ArrayBuilder<CString>(CString.class, 4);
+		int i, last = 0;
+		int len = s.length();
+		for(i = 0; i < chars.length;)
+		{
+			if(this.substrEquals(s, i, i + len - 1)) {
+				builder.addElement(new CString(ArrayUtil.subArr(chars, last, i)));
+				last = i + len;
+				i += len;
+			} else
+				i++;
+		}
+		if(last < chars.length)
+			builder.addElement(new CString(ArrayUtil.subArr(chars, last, i)));
+		return builder.build();
+	}
+	
+	public boolean contains(char c)
+	{
+		for(char ch : chars)
+			if(c == ch)
+				return true;
+		return false;
+	}
+	
+	public boolean contains(CString s)
+	{
+		char[] chars = s.array();
+		if(chars.length > this.chars.length)
+			return false;
+		for(int i = 0; i <= this.chars.length - chars.length; i++)
+		{
+			boolean found = true;
+			for(int j = 0; j < chars.length; j++)
+				if(!(this.chars[i + j] == chars[j]))
+				{
+					found = false;
+					break;
+				}
+			if(found) 
+				return true;
+		}
+		return false;
+	}
+	
+	public void replaceWith(CString find, CString replace)
+	{
+		replaceWith(find.chars, replace.chars);
+	}
+	
+	public void replaceWith(char[] farr, char[] rarr)
+	{
+		//System.out.println("Replacing " + new String(farr) + " with " + new String(rarr) + " in " + this.toString());
+		if(farr.length > this.chars.length)
+			return;
+		int diff = rarr.length - farr.length;
+		int p = 0;
+		int last = -1;
+		for(int i = 0; i < this.length(); i++) {
+			if(chars[i] == farr[p])
+				p++;
+			else {
+				p = 0;
+				last = i;
+			}
+			if(p == farr.length)
+			{
+				char[] newval = new char[chars.length + diff];
+				System.arraycopy(chars, 0, newval, 0, last + 1);
+				System.arraycopy(rarr, 0, newval, last + 1, rarr.length);
+				System.arraycopy(chars, last + 1 + farr.length, newval, last + 1 + rarr.length , chars.length - last - 1 - farr.length);
+				chars = newval;				
+				p = 0;
+				i--;
+			}
+			
+		}
+	}
+	
+	public int count(char c)
+	{
+		int counter = 0;
+		for(char ch : chars)
+			if(ch == c)
+				counter++;
+		return counter;
+	}
+	
+	public byte toByte()
+	{
+		byte acc = 0;
+		boolean negative = false;
+		if(chars.length > 0)
+		{
+			int pos = 0;
+			if(chars[pos] == '-')
+			{
+				negative = true;
+				pos++;
+			}
+			while(pos < chars.length)
+			{
+				acc *= 10;
+				acc -= (chars[pos] - 48);
+				pos++;
+			}
+		}
+		return (byte) ((negative) ? acc : -acc);
+	}
+	
+	public short toShort()
+	{
+		short acc = 0;
+		boolean negative = false;
+		if(chars.length > 0)
+		{
+			int pos = 0;
+			if(chars[pos] == '-')
+			{
+				negative = true;
+				pos++;
+			}
+			while(pos < chars.length)
+			{
+				acc *= 10;
+				acc -= (chars[pos] - 48);
+				pos++;
+			}
+		}
+		return (short) ((negative) ? acc : -acc);
+	}
+	
+	public int toInt()
+	{
+		int acc = 0;
+		boolean negative = false;
+		if(chars.length > 0)
+		{
+			int pos = 0;
+			if(chars[pos] == '-')
+			{
+				negative = true;
+				pos++;
+			}
+			while(pos < chars.length)
+			{
+				acc *= 10;
+				acc -= (chars[pos] - 48);
+				pos++;
+			}
+		}
+		return (negative) ? acc : -acc;
+	}
+	
+	public long toLong()
+	{
+		long acc = 0;
+		boolean negative = false;
+		if(chars.length > 0)
+		{
+			int pos = 0;
+			if(chars[pos] == '-')
+			{
+				negative = true;
+				pos++;
+			}
+			while(pos < chars.length)
+			{
+				acc *= 10;
+				acc -= (chars[pos] - 48);
+				pos++;
+			}
+		}
+		return (negative) ? acc : -acc;
+	}
+
+	public CString createDeepClone()
+	{
+		return new CString(this.toCharArray());
+	}
+	
+	public CString reverse()
+	{
+		EncodingUtil.REVERSE(chars);
+		return this;
+	}
+
+	public int NAMESPACE()
+	{
+		return _NAMESPACE.CSTRING;
+	}
+
+	public boolean sameAs(CString s)
+	{
+		return this.equals(s);
+	}
+	
+	public boolean equals(String s)
+	{
+		final char[] o = s.toCharArray();
+		if(o.length != this.chars.length)
+			return false;
+		else
+			for(int i = 0; i < this.chars.length; i++)
+				if(this.chars[i] != o[i])
+					return false;
+		return true;
+	}
+	
+	public boolean equals(CString s)
+	{
+		final char[] o = s.array();
+		if(o.length != this.chars.length)
+			return false;
+		else
+			for(int i = 0; i < this.chars.length; i++)
+				if(this.chars[i] != o[i])
+					return false;
+		return true;
+	}
+	
+	public boolean substrEquals(CString s, int st, int en)
+	{
+		final char[] o = s.array();
+		int length = en - st + 1;
+		if(s.length() != length)
+			return false;
+		else 
+			for(int i = st; i < en; i++)
+				if(chars[i] != o[i - st])
+					return false;
+		return true;
+	}
+	
+	public void erase()
+	{
+		Arrays.fill(chars, '☺');
+	}
+	
+	public void print()
+	{
+		for(char c : chars)
+			System.out.print(c);
+		System.out.println();
+	}
+	
+	public final byte[] toBytes()
+	{
+		return this.toBytesUTF16();
+	}
+	
+	public byte[] toBytes(String encoding)
+	{
+		switch(encoding)
+		{
+			case "CTF-S":
+				return this.toBytesCTFS();
+			case "CTF-L":
+				return this.toBytesCTFL();
+			case "ASCII":
+				return this.toBytesASCII();
+			case "UTF-8":
+				return this.toBytesUTF8();
+			case "UTF-16":
+				return this.toBytesUTF16();
+			case "UTF-32":
+				return this.toBytesUTF32();
+			default:
+				throw new java.lang.NullPointerException("Unsupported encoding: " + encoding);
+		}
+	}
+	
+	public byte[] toBytesCTFS()
+	{
+		return CTFS.fromUTF16(chars);
+	}
+	
+	public void toBytesCTFS(byte[] bytes)
+	{
+		CTFS.fromUTF16(chars, bytes);
+	}
+	
+	public void toBytesCTFS(byte[] bytes, int start)
+	{
+		CTFS.fromUTF16(chars, 0, bytes, start);
+	}
+	
+	public byte[] toBytesCTFL()
+	{
+		return CTFL.fromUTF16(chars);
+	}
+	
+	public void toBytesCTFL(byte[] bytes)
+	{
+		CTFL.fromUTF16(chars, bytes);
+	}
+	
+	public void toBytesCTFL(byte[] bytes, int start)
+	{
+		CTFL.fromUTF16(chars, 0, bytes, start);
+	}
+	
+	public byte[] toBytesASCII()
+	{
+		int len = 0;
+		for(char c : chars)
+			if(c < 128)
+				len++;
+		byte[] bytes = new byte[len];
+		this.toBytesASCII(bytes);
+		return bytes;
+	}
+	
+	public void toBytesASCII(byte[] bytes)
+	{
+		for(int i = 0; i < bytes.length; i++)
+			if(chars[i] < 128)
+				bytes[i] = (byte) chars[i];
+	}
+	
+	public void toBytesASCII(byte[] bytes, int start)
+	{
+		for(int i = start; i < bytes.length; i++)
+			if(chars[i - start] < 128)
+				bytes[i] = (byte) chars[i];
+	}
+	
+	public byte[] toBytesUTF16()
+	{
+		return Bits.charsToBytes(chars);
+	}
+	
+	public void toBytesUTF16(byte[] bytes)
+	{
+		Bits.charsToBytes(chars, bytes);
+	}
+	
+	public void toBytesUTF16(byte[] bytes, int start)
+	{
+		Bits.charsToBytes(chars, 0, bytes, start);
+	}
+	
+	public byte[] toBytesUTF8()
+	{
+		return UTF8.fromUTF16(chars);
+	}
+	
+	public void toBytesUTF8(byte[] bytes)
+	{
+		UTF8.fromUTF16(chars, bytes);
+	}
+	
+	public void toBytesUTF8(byte[] bytes, int start)
+	{
+		UTF8.fromUTF16(chars, 0, bytes, start);
+	}
+	
+	public byte[] toBytesUTF32()
+	{
+		byte[] bytes = new byte[chars.length << 1];
+		this.toBytesUTF32(bytes);
+		return bytes;
+	}
+	
+	public void toBytesUTF32(byte[] bytes)
+	{
+		for(int i = 0; i < chars.length; i++)
+			Bits.intToBytes(chars[i], bytes, i << 2);
+	}
+	
+	public void toBytesUTF32(byte[] bytes, int start)
+	{
+		for(int i = 0; i < chars.length; i++)
+		{
+			Bits.intToBytes(chars[i], bytes, start);
+			start += 4;
+		}
+	}
+	
+	public void export(IOutgoingStream stream) throws IOException
+	{
+		stream.writeInt(chars.length);
+		stream.writeChars(this.chars);
+	}
+
+	public void export(byte[] bytes, int offset)
+	{
+		Bits.intToBytes(chars.length, bytes, offset);
+		Bits.charsToBytes(chars, 0, bytes, offset + 4);
+	}
+	
+	public int exportSize()
+	{
+		return (this.chars.length << 1) + 4;
+	}
+
+	public IIterator<Character> iterator()
+	{
+		return this.new StringIterator();
+	}
+	
+	private final class StringIterator 
+				  implements IIterator<Character>
+	{
+		private int pos = 0;
+		
+		public boolean hasNext()
+		{
+			return !(pos == chars.length);
+		}
+
+		public Character next()
+		{
+			try {
+				return chars[pos];
+			} finally {
+				pos++;
+			}
+		}
+
+		public void skip()
+		{
+			pos++;
+		}
+
+		public void skip(int amt)
+		{
+			pos += amt;
+		}
+		
+	}
+	
+	public static final char[] newFrom(char[] src, int frm)
+	{
+		char[] n = new char[src.length - frm];
+		System.arraycopy(src, frm, n, 0, n.length);
+		return n;
+	}
+	
+	public static final CString[] arrayFrom(String[] strings)
+	{
+		CString[] s = new CString[strings.length];
+		for(int i = 0; i < strings.length; i++)
+			s[i] = new CString(strings[i]);
+		return s;
+	}
+	
+	public static final CString[] arrayFrom(char[][] strings)
+	{
+		CString[] s = new CString[strings.length];
+		for(int i = 0; i < strings.length; i++)
+			s[i] = new CString(strings[i]);
+		return s;
+	}
+	
+	public static final String[] arrayTo(CString[] strings)
+	{
+		String[] s = new String[strings.length];
+		for(int i = 0; i < strings.length; i++)
+			s[i] = new String(strings[i].chars);
+		return s;
+	}
+
+	public static final Factory<CString> factory = new StringFactory();
+	
+	public Factory<CString> factory()
+	{
+		return factory;
+	}
+	
+}
