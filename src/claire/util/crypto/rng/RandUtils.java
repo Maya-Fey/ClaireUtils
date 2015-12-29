@@ -170,6 +170,149 @@ public class RandUtils {
 		}	
 	}
 	
+	public static final void randomize(short[] arr, IRandom prng)
+	{
+		short t1;
+		int t2;
+		for(int i = arr.length - 1; i > 1; i--)
+		{
+			t1 = arr[i];
+			t2 = prng.nextIntFast(i + 1);
+			arr[i] = arr[t2];
+			arr[t2] = t1;
+		}	
+	}
+	
+	public static final void randomize(char[] arr, IRandom prng)
+	{
+		char t1;
+		int t2;
+		for(int i = arr.length - 1; i > 1; i--)
+		{
+			t1 = arr[i];
+			t2 = prng.nextIntFast(i + 1);
+			arr[i] = arr[t2];
+			arr[t2] = t1;
+		}	
+	}
+	
+	public static final void randomize(int[] arr, IRandom prng)
+	{
+		int t1;
+		int t2;
+		for(int i = arr.length - 1; i > 1; i--)
+		{
+			t1 = arr[i];
+			t2 = prng.nextIntFast(i + 1);
+			arr[i] = arr[t2];
+			arr[t2] = t1;
+		}	
+	}
+	
+	public static final void randomize(long[] arr, IRandom prng)
+	{
+		long t1;
+		int t2;
+		for(int i = arr.length - 1; i > 1; i--)
+		{
+			t1 = arr[i];
+			t2 = prng.nextIntFast(i + 1);
+			arr[i] = arr[t2];
+			arr[t2] = t1;
+		}	
+	}
+	
+	public static final void randomize(Object[] arr, IRandom prng)
+	{
+		Object t1;
+		int t2;
+		for(int i = arr.length - 1; i > 1; i--)
+		{
+			t1 = arr[i];
+			t2 = prng.nextIntFast(i + 1);
+			arr[i] = arr[t2];
+			arr[t2] = t1;
+		}	
+	}
+	
+	public static final void randomize(byte[] arr)
+	{
+		byte t1;
+		int t2;
+		for(int i = arr.length - 1; i > 1; i--)
+		{
+			t1 = arr[i];
+			t2 = dprng.nextIntFast(i + 1);
+			arr[i] = arr[t2];
+			arr[t2] = t1;
+		}	
+	}
+	
+	public static final void randomize(short[] arr)
+	{
+		short t1;
+		int t2;
+		for(int i = arr.length - 1; i > 1; i--)
+		{
+			t1 = arr[i];
+			t2 = dprng.nextIntFast(i + 1);
+			arr[i] = arr[t2];
+			arr[t2] = t1;
+		}	
+	}
+	
+	public static final void randomize(char[] arr)
+	{
+		char t1;
+		int t2;
+		for(int i = arr.length - 1; i > 1; i--)
+		{
+			t1 = arr[i];
+			t2 = dprng.nextIntFast(i + 1);
+			arr[i] = arr[t2];
+			arr[t2] = t1;
+		}	
+	}
+	
+	public static final void randomize(int[] arr)
+	{
+		int t1;
+		int t2;
+		for(int i = arr.length - 1; i > 1; i--)
+		{
+			t1 = arr[i];
+			t2 = dprng.nextIntFast(i + 1);
+			arr[i] = arr[t2];
+			arr[t2] = t1;
+		}	
+	}
+	
+	public static final void randomize(long[] arr)
+	{
+		long t1;
+		int t2;
+		for(int i = arr.length - 1; i > 1; i--)
+		{
+			t1 = arr[i];
+			t2 = dprng.nextIntFast(i + 1);
+			arr[i] = arr[t2];
+			arr[t2] = t1;
+		}	
+	}
+	
+	public static final void randomize(Object[] arr)
+	{
+		Object t1;
+		int t2;
+		for(int i = arr.length - 1; i > 1; i--)
+		{
+			t1 = arr[i];
+			t2 = dprng.nextIntFast(i + 1);
+			arr[i] = arr[t2];
+			arr[t2] = t1;
+		}	
+	}
+	
 	public static final int inrange_fast(IRandom rand, int max)
 	{
 		return (rand.nextInt() & 0x7FFFFFFF) % max;
