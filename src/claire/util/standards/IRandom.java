@@ -18,7 +18,7 @@ public interface IRandom {
 	
 	default int nextIntFast(int max)
 	{
-		return this.nextInt() % max;
+		return (this.nextInt() >>> 1) % max;
 	}
 	
 	default int nextIntGood(int max)
