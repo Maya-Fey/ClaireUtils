@@ -18,7 +18,7 @@ public abstract class Factory<Type> {
 	public abstract Type resurrect(byte[] data, int start) throws InstantiationException;
 	public abstract Type resurrect(IIncomingStream stream) throws InstantiationException, IOException;
 	
-	public Type resurrect(byte[] data) throws Exception
+	public Type resurrect(byte[] data) throws InstantiationException
 	{
 		return resurrect(data, 0);
 	}
