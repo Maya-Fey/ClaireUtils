@@ -14,14 +14,14 @@ public interface IPersistable<T> {
 	int exportSize();
 	Factory<T> factory();
 	
-	default byte[] export() throws IOException
+	default byte[] export() 
 	{
 		byte[] bytes = new byte[(int) this.exportSize()];
 		this.export(bytes);
 		return bytes;
 	}
 	
-	default void export(byte[] bytes) throws IOException
+	default void export(byte[] bytes) 
 	{
 		this.export(bytes, 0);
 	}
