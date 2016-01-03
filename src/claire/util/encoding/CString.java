@@ -29,6 +29,12 @@ public class CString
 		this.chars = new char[] { c };
 	}
 	
+	public CString(char[] c, int start, int len)
+	{
+		chars = new char[len];
+		System.arraycopy(c, 0, chars, start, len);
+	}
+	
 	public CString(final char ... c)
 	{
 		this.chars = c;

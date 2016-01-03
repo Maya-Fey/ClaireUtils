@@ -2,7 +2,8 @@ package claire.util.crypto.cipher.key;
 
 import claire.util.standards._NAMESPACE;
 
-public class KeySEED extends ByteKey<KeySEED> {
+public class KeySEED 
+	   extends ByteKey<KeySEED> {
 
 	public KeySEED(byte[] key)
 	{

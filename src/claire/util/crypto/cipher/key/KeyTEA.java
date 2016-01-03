@@ -2,7 +2,8 @@ package claire.util.crypto.cipher.key;
 
 import claire.util.standards._NAMESPACE;
 
-public class KeyTEA extends ByteKey<KeyTEA> {
+public class KeyTEA 
+	   extends ByteKey<KeyTEA> {
 	
 	public KeyTEA(byte[] key, int size) 
 	{

@@ -2,7 +2,8 @@ package claire.util.crypto.cipher.key;
 
 import claire.util.standards._NAMESPACE;
 
-public class KeySkipjack extends ByteKey<KeySkipjack> {
+public class KeySkipjack 
+	   extends ByteKey<KeySkipjack> {
 
 	public KeySkipjack(byte[] key, int size) 
 	{
