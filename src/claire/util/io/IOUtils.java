@@ -87,7 +87,7 @@ public final class IOUtils {
 	public static byte[] readByteArr(byte[] bytes, int off)
 	{
 		byte[] arr = new byte[Bits.intFromBytes(bytes, off)];
-		System.arraycopy(bytes, 0, arr, off += 4, arr.length);
+		System.arraycopy(bytes, off += 4, arr, 0, arr.length);
 		return arr;
 	}
 	
