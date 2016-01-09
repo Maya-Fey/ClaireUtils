@@ -125,5 +125,20 @@ public final class Hex {
 			len--;
 		}
 	}
+	
+	public static char[] toHex(byte b)
+	{
+		return new char[] { EncodingUtil.ALPHABET[(b & 0xF0) >>> 4], EncodingUtil.ALPHABET[b & 0x0F] };
+	}
+	
+	public static String toHexStr(byte b)
+	{
+		return new String(toHex(b));
+	}
+	
+	public static CString toHexCStr(byte b)
+	{
+		return new CString(toHex(b));
+	}
 
 }

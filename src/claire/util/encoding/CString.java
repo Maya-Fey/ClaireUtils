@@ -73,22 +73,22 @@ public class CString
 	
 	public CString(byte i)
 	{
-		this.chars = EncodingUtil.fromByte(i);
+		this.chars = Base10.fromByte(i);
 	}
 	
 	public CString(short i)
 	{
-		this.chars = EncodingUtil.fromShort(i);
+		this.chars = Base10.fromShort(i);
 	}
 	
 	public CString(int i)
 	{
-		this.chars = EncodingUtil.fromInt(i);
+		this.chars = Base10.fromInt(i);
 	}
 	
 	public CString(long i)
 	{
-		this.chars = EncodingUtil.fromLong(i);
+		this.chars = Base10.fromLong(i);
 	}
 	
 	public CString(boolean b)

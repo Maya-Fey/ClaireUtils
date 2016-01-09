@@ -76,5 +76,23 @@ public final class Base8 {
 			return -f;
 		return f;
 	}
+	
+	public static boolean isBase8(CString s)
+	{
+		for(char c : s.array())
+			if(c < '0' || c > '7')
+				return false;
+		return true;
+	}
+	
+	public static boolean isBase8(String s)
+	{
+		for(int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			if(c < '0' || c > '7')
+				return false;
+		}
+		return true;
+	}
 
 }

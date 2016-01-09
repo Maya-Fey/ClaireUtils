@@ -1,7 +1,6 @@
 package claire.util.test.crypto;
 
 import claire.util.encoding.CString;
-import claire.util.encoding.EncodingUtil;
 import claire.util.encoding.Hex;
 import claire.util.logging.Log;
 import claire.util.memory.util.ArrayBuilder;
@@ -62,7 +61,7 @@ public class HashTest {
 		
 		public void addTest(CString in, CString out)
 		{
-			arr.addElement(new HashTest(name, type, in.toString().getBytes(), EncodingUtil.bytesFromString(out)));
+			arr.addElement(new HashTest(name, type, in.toString().getBytes(), Hex.fromHex(out)));
 		}
 		
 		public HashTest[] finish()

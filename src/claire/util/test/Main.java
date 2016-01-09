@@ -8,8 +8,10 @@ import java.util.Arrays;
 
 import claire.util.crypto.hash.primitive.BEAR.$BEAR3;
 import claire.util.display.ImageUtil;
+import claire.util.encoding.Base64;
 import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
+import claire.util.encoding.Hex;
 import claire.util.math.MathHelper;
 import claire.util.math.UInt;
 import claire.util.math.VariableSInt;
@@ -17,45 +19,11 @@ import claire.util.memory.Bits;
 
 public final class Main {
 	
-	static final byte[] SBOX =
-	{
-		  -54,   78, -103,    7,   77,  -53,   51,   73,  
-		   40,  113, -125,  -60,  -39, -122,  -44,   41,   
-		   71,  106,  -35,  -31, -113,  -15,  -57,  -52,   
-		   43,   82,  -67,  -77,  103,   36, -101,  -18, 
-		 -123,   66,   88,  109,   46,   35,   27,  -72,   
-		   97,   70,  116,   11,   96,  -14,   69, -109,   
-		   72,  -90,   19,  120,   -6,  -49,   25,  115,  
-		  -84,  -92,  108,   98,  -95,  -47,   26,   14,   
-		   60,   34,  -29,  -69,  104,  -94,    3,  -20, 
-	     -102,  -25,   54,  -75,  100,   29, -120,  -62,  
-	       87,  -48,  -59,  123,   -3, -108,  105,   38,  
-		  -80,   45,  -46,   64,  -73,   83,    1,  125,    
-		    9,  -23,  119, -128,  102,  -83,  -79,  -19,   
-		   33,  -51,  121,   22,   49,  -97,  -89,    8,  
-		  112,  -70, -126,  107,   -4, -105, -107,  -38,   
-		   61,   28,  -17,   74, -110,  -76,   47, -112,  
-		  -82,   -1, -115,   57,   -2,  -87,   12,    0,  
-		  -68,  -30,  -58,  -91,  -33,   92,  -85,   24,  
-		  -12,   42,  -24,  -74,  -43,  -71,  -88,  -34,   
-		   37,  118,   63, -119,  -10,   85,  -96,  -45,  
-		  -78,  -99,   17,  -26,   31,  -56,   18,  -98,   
-		   52,  -61,   76,  114,   80, -117,   -9,  -81,   
-		   86,    2,  127, -124,   91,   21,  -55,   53,  
-		  126,  -40,   44,  -37,   32, -118,   94,   -5,  
-		  -28,    4,  -16,  -65,   16,  117,   84,  -50,   
-		   81,   62,   99,  -42,  101,  -21,   39,  -64,   
-		   56,   30,  124,   79, -127,  -32,   -8,   67,  
-		   20,   89,  -11, -114,   90,   10,   23,   13,  
-		  -13, -100,  -63,  -86,   59,  -93,   48,  -27,  
-		  -36,    6,    5,   95,  122, -121,  110,   93,  
-		  -41,   65,  -66, -111,   15,   50,   68,   75,  
-		  -22,   55, -116,   58, -106,  111, -104,   -7
-	};
-	
 	@SuppressWarnings("all")
 	private static final void end()
 	{
+		System.out.println();
+		System.out.println();
 		throw new java.lang.NullPointerException();
 	}
 	
@@ -67,30 +35,21 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
-		//*
+		
+		/*
 		Test.runTests();
 		end();
 		//*/
-		VariableSInt s1 = new VariableSInt("-500");
-		VariableSInt s2 = new VariableSInt("50");
-		System.out.println(s1);
-		System.out.println(s2);
-		MathHelper.p_exponent(s1, s2);
-		System.out.println(s1);
-		end();
-		/*File file = new File("test.key");
-		RSALargeKeyPair pair = RSALargeKeyPair.factory.resurrect(file);
-		RSACrypter crypt = new RSACrypter(pair);
-		byte[] bytes = new byte[crypt.ciphertextSize()];
-		new CString("What if I told you the entire planet is a donut").export(bytes);
+		byte[] bytes = Hex.fromHex("6afc812ab3ef31");
 		System.out.println(Hex.toHexString(bytes));
-		crypt.encryptBlock(bytes);
+		char[] b64 = Base64.fromBytes(bytes, 0, bytes.length);
+		System.out.println(b64);
+		bytes = Base64.toBytes(b64, 0, b64.length);
 		System.out.println(Hex.toHexString(bytes));
-		crypt.decryptBlock(bytes);
-		System.out.println(Hex.toHexString(bytes));
-		System.out.println(CString.factory.resurrect(bytes));
-		//RSALargeKeyPair pair = RSAKeyGenerator.generateBig(32, 2, new FastXorShift(), new UInt("17", 3), 60);
-		//pair.export(file);
+		//end();
+		char c = 0;
+		while(c < 128)
+			System.out.print(c++);
 		
 		/*
 		int[][][] table = new int[16][16][16];
@@ -124,87 +83,7 @@ public final class Main {
 		/*System.out.println(db.resurrect(9));
 		db.save();
 		
-		/*
-		UInt min = new UInt(136);
-		MathHelper.getMinBitValue(min, 1024);
-		UInt max = min.multiply(0xFFF);
-		PrimeGenerator<UInt> primes = new PrimeGenerator<UInt>(1, 8, min, max);
-		UInt p1 = primes.nextPrime();
-		primes.nextCanidate();
-		UInt p2 = primes.nextPrime();
-		UInt modulus = p1.multiply(p2);
-		p1.decrement();
-		p2.decrement();
-		UInt phi = p1.multiply(p2);
-		UInt exp = new UInt("65537", 136);
-		SInt sexp = new SInt(exp.getArr());
-		SInt sphi = new SInt(phi.getArr());
-		SInt sinv = MathHelper.modular_inverse(sexp, sphi);
-		UInt inv = new UInt(sinv.getArr());
-		System.out.println(modulus.toCString());
-		System.out.println(exp.toCString());
-		System.out.println(inv.toCString());
-		UInt message = new UInt("2301738971289", 136);
-		System.out.println("Plaintext:  " + message.toCString().toString());
-		MathHelper.p_modular_exponent(message, exp, modulus);
-		System.out.println("Ciphertext: " + message.toCString().toString());
-		MathHelper.p_modular_exponent(message, inv, modulus);
-		System.out.println("Result:     " + message.toCString().toString());
-		//*/
-		//System.out.println(Time.getTimeAmount(3600 * 24 * 30, 5, true, false));
-		//System.out.println(RNGTest.runRunsTest(new FastXorShift(), 1 << 16));
-		/*bearImage(1024, "functiontest.bmp");
-		$BEAR3 bear = new $BEAR3(1, 1, 1, 4, 8, 16, 2, 2);
-		bear.init(Hex.fromHex("00"));
-		bear.hash();
-		System.out.println(Hex.toHex(bear.getOut()));
-		bear.init(Hex.fromHex("01"));
-		bear.hash();
-		System.out.println(Hex.toHex(bear.getOut()));
-		bear.init(Hex.fromHex("02"));
-		bear.hash();
-		System.out.println(Hex.toHex(bear.getOut()));
-		bear.init(Hex.fromHex("1123456789abcdef"));
-		bear.hash();
-		System.out.println(Hex.toHex(bear.getOut()));
 		*/
-	}
-	
-	//convertByteString(", 0xca, 0x4e, 0x99, 0x07, 0x4d, 0xcb, 0x33, 0x49, 0x28, 0x71, 0x83, 0xc4, 0xd9, 0x86, 0xd4, 0x29, 0x47, 0x6a, 0xdd, 0xe1, 0x8f, 0xf1, 0xc7, 0xcc, 0x2b, 0x52, 0xbd, 0xb3, 0x67, 0x24, 0x9b, 0xee, 0x85, 0x42, 0x58, 0x6d, 0x2e, 0x23, 0x1b, 0xb8, 0x61, 0x46, 0x74, 0x0b, 0x60, 0xf2, 0x45, 0x93, 0x48, 0xa6, 0x13, 0x78, 0xfa, 0xcf, 0x19, 0x73, 0xac, 0xa4, 0x6c, 0x62, 0xa1, 0xd1, 0x1a, 0x0e, 0x3c, 0x22, 0xe3, 0xbb, 0x68, 0xa2, 0x03, 0xec, 0x9a, 0xe7, 0x36, 0xb5, 0x64, 0x1d, 0x88, 0xc2, 0x57, 0xd0, 0xc5, 0x7b, 0xfd, 0x94, 0x69, 0x26, 0xb0, 0x2d, 0xd2, 0x40, 0xb7, 0x53, 0x01, 0x7d, 0x09, 0xe9, 0x77, 0x80, 0x66, 0xad, 0xb1, 0xed, 0x21, 0xcd, 0x79, 0x16, 0x31, 0x9f, 0xa7, 0x08, 0x70, 0xba, 0x82, 0x6b, 0xfc, 0x97, 0x95, 0xda, 0x3d, 0x1c, 0xef, 0x4a, 0x92, 0xb4, 0x2f, 0x90, 0xae, 0xff, 0x8d, 0x39, 0xfe, 0xa9, 0x0c, 0x00, 0xbc, 0xe2, 0xc6, 0xa5, 0xdf, 0x5c, 0xab, 0x18, 0xf4, 0x2a, 0xe8, 0xb6, 0xd5, 0xb9, 0xa8, 0xde, 0x25, 0x76, 0x3f, 0x89, 0xf6, 0x55, 0xa0, 0xd3, 0xb2, 0x9d, 0x11, 0xe6, 0x1f, 0xc8, 0x12, 0x9e, 0x34, 0xc3, 0x4c, 0x72, 0x50, 0x8b, 0xf7, 0xaf, 0x56, 0x02, 0x7f, 0x84, 0x5b, 0x15, 0xc9, 0x35, 0x7e, 0xd8, 0x2c, 0xdb, 0x20, 0x8a, 0x5e, 0xfb, 0xe4, 0x04, 0xf0, 0xbf, 0x10, 0x75, 0x54, 0xce, 0x51, 0x3e, 0x63, 0xd6, 0x65, 0xeb, 0x27, 0xc0, 0x38, 0x1e, 0x7c, 0x4f, 0x81, 0xe0, 0xf8, 0x43, 0x14, 0x59, 0xf5, 0x8e, 0x5a, 0x0a, 0x17, 0x0d, 0xf3, 0x9c, 0xc1, 0xaa, 0x3b, 0xa3, 0x30, 0xe5, 0xdc, 0x06, 0x05, 0x5f, 0x7a, 0x87, 0x6e, 0x5d, 0xd7, 0x41, 0xbe, 0x91, 0x0f, 0x32, 0x44, 0x4b, 0xea, 0x37, 0x8c, 0x3a, 0x96, 0x6f, 0x98, 0xf9, ");
-	//byte[] nibbles = Bits.bytesToNibbles(SBOX);
-	/*byte[] bytes = new byte[256];
-	for(int i = 0; i < 256; i++)
-		bytes[i] = (byte) i;
-	System.out.println(EncodingUtil.hexString(bytes));
-	int best = 0;
-	while(true)
-	{
-		RandUtils.randomize(bytes, new FastXorShift());
-		//System.out.println("New: " + EncodingUtil.hexString(bytes));
-		int challenge = testSbox(bytes);
-		if(challenge > best)
-		{
-			System.out.println("Found SBox with score of " + challenge + " which beat previous best score of " + best);
-			best = challenge;
-			String s = "";
-			for(byte b : bytes)
-				s += "0x" + EncodingUtil.byteToHexString(b) + ", ";
-			System.out.println(s);
-		}
-	}*/
-	
-	public static int testSbox(byte[] SBOX)
-	{
-		int total = 0;
-		byte prev = SBOX[0];
-		for(int i = 1; i < 256; i++)
-		{
-			byte change = (byte) ((prev ^ SBOX[i]) & 0xFF);
-			prev = SBOX[i];
-			int pos = Bits.countTrue(change);
-			total += pos;
-		}
-		return total;
 	}
 	
 	public static void intStrToByte(String str)
@@ -252,7 +131,7 @@ public final class Main {
 		for(byte b : data)
 			totals[(int)b & 0xFF]++;
 		for(int i = 0; i < 256; i++)
-			System.out.println(EncodingUtil.byteToHexString((byte) i) + ": " + totals[i]);
+			System.out.println(Hex.toHexStr((byte) i) + ": " + totals[i]);
 		File fi = new File(name);
 		BufferedImage i = ImageUtil.imageFromBytes(data, SAMPLE, SAMPLE);
 		ImageUtil.saveImage(i, fi);
@@ -287,7 +166,7 @@ public final class Main {
 			for(int i = buf.length(); i < 4; i++)
 				f += ' ';
 			f += buf + ", ";
-			f2 += EncodingUtil.byteToHexString(byt).toString() + ", ";
+			f2 += Hex.toHexStr(byt) + ", ";
 		}
 		
 		System.out.println(f);

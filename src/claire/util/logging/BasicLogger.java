@@ -1,5 +1,6 @@
 package claire.util.logging;
 
+import claire.util.encoding.Base10;
 import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
 import claire.util.encoding.Hex;
@@ -39,12 +40,12 @@ public abstract class BasicLogger
 
 	public void print(byte b)
 	{
-		add(EncodingUtil.fromByte(b));
+		add(Base10.fromByte(b));
 	}
 
 	public void print(short b)
 	{
-		add(EncodingUtil.fromShort(b));
+		add(Base10.fromShort(b));
 	}
 
 	public void print(char b)
@@ -54,12 +55,12 @@ public abstract class BasicLogger
 
 	public void print(int b)
 	{
-		add(EncodingUtil.fromInt(b));
+		add(Base10.fromInt(b));
 	}
 
 	public void print(long b)
 	{
-		add(EncodingUtil.fromLong(b));
+		add(Base10.fromLong(b));
 	}
 
 	public void print(Object o)
