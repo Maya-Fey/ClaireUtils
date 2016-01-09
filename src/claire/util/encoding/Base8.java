@@ -79,6 +79,8 @@ public final class Base8 {
 	
 	public static boolean isBase8(CString s)
 	{
+		if(s.length() == 0)
+			return false;
 		for(char c : s.array())
 			if(c < '0' || c > '7')
 				return false;
@@ -87,6 +89,8 @@ public final class Base8 {
 	
 	public static boolean isBase8(String s)
 	{
+		if(s.length() == 0)
+			return false;
 		for(int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);
 			if(c < '0' || c > '7')

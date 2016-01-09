@@ -188,6 +188,8 @@ public final class Base10 {
 	
 	public static boolean isBase10(CString s)
 	{
+		if(s.length() == 0)
+			return false;
 		for(char c : s.array())
 			if(c < '0' || c > '9')
 				return false;
@@ -196,6 +198,8 @@ public final class Base10 {
 	
 	public static boolean isBase10(String s)
 	{
+		if(s.length() == 0)
+			return false;
 		for(int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);
 			if(c < '0' || c > '9')
