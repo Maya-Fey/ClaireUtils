@@ -90,6 +90,94 @@ public final class Base10 {
 		return (negative) ? acc : -acc;
 	}
 	
+	public static byte stringToByte(String chars)
+	{
+		byte acc = 0;
+		boolean negative = false;
+		if(chars.length() > 0)
+		{
+			int pos = 0;
+			if(chars.charAt(pos) == '-')
+			{
+				negative = true;
+				pos++;
+			}
+			while(pos < chars.length())
+			{
+				acc *= 10;
+				acc -= (chars.charAt(pos) - 48);
+				pos++;
+			}
+		}
+		return (byte) ((negative) ? acc : -acc);
+	}
+	
+	public static short stringToShort(String chars)
+	{
+		short acc = 0;
+		boolean negative = false;
+		if(chars.length() > 0)
+		{
+			int pos = 0;
+			if(chars.charAt(pos) == '-')
+			{
+				negative = true;
+				pos++;
+			}
+			while(pos < chars.length())
+			{
+				acc *= 10;
+				acc -= (chars.charAt(pos) - 48);
+				pos++;
+			}
+		}
+		return (short) ((negative) ? acc : -acc);
+	}
+	
+	public static int stringToInt(String chars)
+	{
+		int acc = 0;
+		boolean negative = false;
+		if(chars.length() > 0)
+		{
+			int pos = 0;
+			if(chars.charAt(pos) == '-')
+			{
+				negative = true;
+				pos++;
+			}
+			while(pos < chars.length())
+			{
+				acc *= 10;
+				acc -= (chars.charAt(pos) - 48);
+				pos++;
+			}
+		}
+		return (negative) ? acc : -acc;
+	}
+	
+	public static long stringToLong(String chars)
+	{
+		long acc = 0;
+		boolean negative = false;
+		if(chars.length() > 0)
+		{
+			int pos = 0;
+			if(chars.charAt(pos) == '-')
+			{
+				negative = true;
+				pos++;
+			}
+			while(pos < chars.length())
+			{
+				acc *= 10;
+				acc -= (chars.charAt(pos) - 48);
+				pos++;
+			}
+		}
+		return (negative) ? acc : -acc;
+	}
+	
 	public static char[] fromLong(long ger)
 	{
 		if(ger == 0x8000000000000000L)
