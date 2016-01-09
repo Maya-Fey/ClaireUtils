@@ -6,23 +6,23 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JPanel;
 
-public class TableLayout {
+public class TablePane 
+	   extends JPanel {
+
+	private static final long serialVersionUID = -6912515493480346058L;
 	
 	private final GridBagConstraints con = new GridBagConstraints();
-	private final JPanel panel;
 
-	public TableLayout(JPanel panel) 
+	public TablePane() 
 	{
-		this.panel = panel;
-		panel.setLayout(new GridBagLayout());
+		super(new GridBagLayout());
 		con.fill = GridBagConstraints.HORIZONTAL;
 		con.gridx = 0;
 	}
 	
-	public TableLayout(JPanel panel, int fill) 
+	public TablePane(int fill) 
 	{
-		this.panel = panel;
-		panel.setLayout(new GridBagLayout());
+		super(new GridBagLayout());
 		con.fill = fill;
 		con.gridx = 0;
 	}
@@ -44,14 +44,14 @@ public class TableLayout {
 	public void newCol(Component com)
 	{
 		con.weightx = 0.0000001D;
-		panel.add(com, con);
+		this.add(com, con);
 		con.gridx++;
 	}
 	
 	public void newCol(Component com, double weight)
 	{
 		con.weightx = weight;
-		panel.add(com, con);
+		this.add(com, con);
 		con.gridx++;
 	}
 	
@@ -59,7 +59,7 @@ public class TableLayout {
 	{
 		con.weightx = 0.0000001D;
 		con.gridwidth = width;
-		panel.add(com, con);
+		this.add(com, con);
 		con.gridwidth = 1;
 		con.gridx += width;
 	}
@@ -68,7 +68,7 @@ public class TableLayout {
 	{
 		con.weightx = weight;
 		con.gridwidth = width;
-		panel.add(com, con);
+		this.add(com, con);
 		con.gridwidth = 1;
 		con.gridx += width;
 	}

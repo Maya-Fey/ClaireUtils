@@ -10,7 +10,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 public class ErrorPanel 
-	   extends TableLayout {
+	   extends TablePane {
 	
 	private static final long serialVersionUID = -2811137992288778513L;
 	
