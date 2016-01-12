@@ -14,6 +14,8 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
+import claire.util.display.message.ErrorMessage;
+
 public final class DisplayHelper {
 
 	public static JMenuItem getActionMenu(ActionListener listener, String s)
