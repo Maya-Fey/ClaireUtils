@@ -1,5 +1,6 @@
 package claire.util.display.message;
 
+import java.awt.GridBagConstraints;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +26,7 @@ public class InformationCollectionMessage
 	{
 		super(arg0, panel, message);
 		this.panel = panel;
-		TablePane table = new TablePane();
+		TablePane table = new TablePane(GridBagConstraints.BOTH);
 		table.newRow(1.0D);
 		if(cancel) {
 			table.newCol(panel, 3);
@@ -37,8 +38,8 @@ public class InformationCollectionMessage
 			can.setActionCommand("2");
 			ok.addActionListener(this);
 			can.addActionListener(this);
-			table.newCol(DisplayHelper.nestBorder(ok, new EmptyBorder(4, 10, 4, 10)), 0.3D);
-			table.newCol(DisplayHelper.nestBorder(can, new EmptyBorder(4, 10, 4, 10)), 0.3D);
+			table.newCol(DisplayHelper.nestBorderWide(ok, new EmptyBorder(4, 4, 4, 4)), 0.1D);
+			table.newCol(DisplayHelper.nestBorderWide(can, new EmptyBorder(4, 4, 4, 4)), 0.1D);
 		} else {
 			table.newCol(panel, 2);
 			table.newRow();
@@ -46,7 +47,7 @@ public class InformationCollectionMessage
 			JButton ok = new JButton("Ok");
 			ok.setActionCommand("1");
 			ok.addActionListener(this);
-			table.newCol(DisplayHelper.nestBorder(ok, new EmptyBorder(4, 10, 4, 10)), 0.3D);
+			table.newCol(DisplayHelper.nestBorderWide(ok, new EmptyBorder(4, 4, 4, 4)), 0.3D);
 		}
 		this.setSize(368, 167);
 		this.add(table);

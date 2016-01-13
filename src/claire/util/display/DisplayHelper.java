@@ -1,5 +1,6 @@
 package claire.util.display;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -39,6 +40,14 @@ public final class DisplayHelper {
 	{
 		JPanel panel = new JPanel();
 		panel.add(c);
+		panel.setBorder(b);
+		return panel;
+	}
+	
+	public static JPanel nestBorderWide(Component c, Border b)
+	{
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.add(c, BorderLayout.CENTER);
 		panel.setBorder(b);
 		return panel;
 	}
