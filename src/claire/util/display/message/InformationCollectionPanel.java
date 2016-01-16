@@ -13,4 +13,14 @@ public abstract class InformationCollectionPanel
 	public abstract boolean error(Pointer<String> msg);
 	public abstract boolean close(Pointer<String> msg);
 	
+	public int requestedHeight()
+	{
+		return 171;
+	}
+	
+	public int requestedWidth()
+	{
+		return 304;
+	}
+	
 }

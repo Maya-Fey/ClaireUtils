@@ -21,6 +21,8 @@ public class InformationCollectionMessage
 	
 	private final InformationCollectionPanel panel;
 	private final Pointer<String> p = new Pointer<String>();
+	
+	private boolean ok = false;
 
 	public InformationCollectionMessage(Window arg0, InformationCollectionPanel panel, String message, boolean cancel) 
 	{
@@ -49,7 +51,7 @@ public class InformationCollectionMessage
 			ok.addActionListener(this);
 			table.newCol(DisplayHelper.nestBorderWide(ok, new EmptyBorder(4, 4, 4, 4)), 0.3D);
 		}
-		this.setSize(368, 167);
+		this.setSize(panel.requestedWidth(), panel.requestedHeight());
 		this.add(table);
 	}
 
@@ -64,6 +66,7 @@ public class InformationCollectionMessage
 					mes.start();
 					break;
 				} else {
+					ok = true;
 					this.close();
 					break;
 				}
@@ -80,6 +83,11 @@ public class InformationCollectionMessage
 			default:
 				throw new java.lang.AssertionError("Invalid event recieved");
 		}
+	}
+	
+	public boolean isOk()
+	{
+		return this.ok;
 	}
 
 }
