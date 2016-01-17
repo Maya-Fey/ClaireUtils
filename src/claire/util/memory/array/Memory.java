@@ -74,6 +74,12 @@ public class Memory<Type> {
 		return array[i];
 	}
 	
+	public int getNextOccupied(int i)
+	{
+		while(free[++i]);
+		return i;
+	}
+	
 	public Type[] getArr()
 	{
 		return this.array;
@@ -82,6 +88,15 @@ public class Memory<Type> {
 	public int size()
 	{
 		return this.array.length;
+	}
+	
+	public int length()
+	{
+		int total = 0;
+		for(boolean b : free)
+			if(b ^ true)
+				total++;
+		return total;
 	}
 	
 	public IPointer<Type> pointer(int index)
