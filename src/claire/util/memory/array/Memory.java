@@ -45,17 +45,30 @@ public class Memory<Type> {
 		this.free = ArrayUtil.concat(free, n);
 	}
 	
+	public int preallocate()
+	{
+		while(first < free.length) 
+			if(free[first]) 
+				return first;
+			else
+				first++;
+		this.overflow();
+		return first;
+	}
+	
 	public int allocate(Type t)
 	{
-		for(int i = first; i < free.length; i++)
-			if(free[i]) {
-				array[i] = t;
-				free[i] = false;
-				first = i;
-				return i;
-			} 
+		while(first < free.length) 
+			if(free[first]) {
+				array[first] = t;
+				free[first] = false;
+				return first++;
+			} else
+				first++;
 		this.overflow();
-		return this.allocate(t);
+		array[first] = t;
+		free[first] = false;
+		return first;
 	}
 	
 	public void free(int pos)
@@ -74,6 +87,9 @@ public class Memory<Type> {
 		return array[i];
 	}
 	
+	/**
+	 * Throws NullPointerException if no such thing is available.
+	 */
 	public int getNextOccupied(int i)
 	{
 		while(free[++i]);
@@ -97,6 +113,17 @@ public class Memory<Type> {
 			if(b ^ true)
 				total++;
 		return total;
+	}
+	
+	public void freeAll()
+	{
+		Arrays.fill(free, true);
+	}
+	
+	public void secureWipe()
+	{
+		Arrays.fill(free, true);
+		Arrays.fill(array, null);
 	}
 	
 	public IPointer<Type> pointer(int index)

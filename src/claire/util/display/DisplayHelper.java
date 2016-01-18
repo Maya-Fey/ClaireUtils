@@ -58,6 +58,13 @@ public final class DisplayHelper {
 		c.setBorder(new CompoundBorder(b, b1));
 	}
 	
+	public static JPanel widen(Component c)
+	{
+		JPanel p = new JPanel(new BorderLayout());
+		p.add(c, BorderLayout.CENTER);
+		return p;
+	}
+	
 	public static void center(Window window)
 	{
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
