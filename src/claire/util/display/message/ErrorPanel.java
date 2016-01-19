@@ -4,24 +4,27 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+import claire.util.display.DisplayHelper;
 import claire.util.display.component.TablePane;
+import claire.util.display.component.WrappedLabel;
 
 public class ErrorPanel 
 	   extends TablePane {
 	
 	private static final long serialVersionUID = -2811137992288778513L;
+	private static final Border border = DisplayHelper.uniformBorder(5);
 	
 	private final JButton button;
 	
 	public ErrorPanel(String error)
 	{
 		super(GridBagConstraints.BOTH);
-		JLabel label = new JLabel(error, SwingConstants.CENTER);
+		WrappedLabel label = new WrappedLabel(error);
+		DisplayHelper.addBorder(label, border);
 		JButton button = new JButton("OK");
 		this.newRow(1.0D);
 		this.newCol(label, 2, 1.0D);

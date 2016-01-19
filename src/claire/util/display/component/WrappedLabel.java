@@ -30,7 +30,7 @@ public class WrappedLabel
 		this(rows, cols);
 		this.setText(text);
 	}
-	
+
 	private void init()
 	{
 		this.setWrapStyleWord(true);

@@ -1,5 +1,6 @@
 package claire.util.display.message;
 
+import java.awt.Dimension;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,10 @@ public class ErrorMessage
 	   implements ActionListener {
 
 	private static final long serialVersionUID = 2746064158494094128L;
+	private static final int MIN_WIDTH = 320;
+	private static final int MIN_HEIGHT = 142;
+	private static final double IDEAL = Math.sqrt(9D / 4D);
+	//Uses a 9:4 aspect ratio
 
 	public ErrorMessage(Window arg0, String error) 
 	{
@@ -18,7 +23,17 @@ public class ErrorMessage
 		ErrorPanel panel = new ErrorPanel(error);
 		panel.getButton().addActionListener(this);
 		this.add(panel);
-		this.setSize(320, 140);
+		this.pack();
+		Dimension dim = panel.getPreferredSize();
+		System.out.println(dim);
+		double root = Math.sqrt(dim.width * dim.height);
+		int width = (int) (root * IDEAL) + 40;
+		int height = (int) (root / IDEAL) + 40;
+		System.out.println(width + " " + height);
+		if(width > MIN_WIDTH)
+			this.setSize(width, height);
+		else
+			this.setSize(MIN_WIDTH, MIN_HEIGHT);
 	}
 	
 	public void start()
