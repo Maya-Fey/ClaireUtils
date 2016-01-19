@@ -25,11 +25,9 @@ public class ErrorMessage
 		this.add(panel);
 		this.pack();
 		Dimension dim = panel.getPreferredSize();
-		System.out.println(dim);
 		double root = Math.sqrt(dim.width * dim.height);
 		int width = (int) (root * IDEAL) + 40;
 		int height = (int) (root / IDEAL) + 40;
-		System.out.println(width + " " + height);
 		if(width > MIN_WIDTH)
 			this.setSize(width, height);
 		else
