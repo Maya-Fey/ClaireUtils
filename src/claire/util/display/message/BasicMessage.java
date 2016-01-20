@@ -15,6 +15,11 @@ public class BasicMessage
 		super(arg0, message, ModalityType.APPLICATION_MODAL);
 		this.add(panel);
 	}
+	
+	public BasicMessage(Window arg0, String message) 
+	{
+		super(arg0, message, ModalityType.APPLICATION_MODAL);
+	}
 
 	public void start()
 	{
