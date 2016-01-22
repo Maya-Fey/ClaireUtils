@@ -12,9 +12,7 @@ import claire.util.encoding.Base64;
 import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
 import claire.util.encoding.Hex;
-import claire.util.math.MathHelper;
 import claire.util.math.UInt;
-import claire.util.math.VariableSInt;
 import claire.util.memory.Bits;
 
 public final class Main {
@@ -36,6 +34,10 @@ public final class Main {
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
 		
+		char[] chars = "some/path/to/file".toCharArray();
+		System.out.println(chars);
+		System.out.println(EncodingUtil.removeLast(chars, '/', true, true));
+		end();
 		/*
 		Test.runTests();
 		end();

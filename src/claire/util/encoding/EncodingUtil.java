@@ -15,7 +15,7 @@ public class EncodingUtil {
 	
 	public static final char[] NEWLINE = System.lineSeparator().toCharArray();
 	
-	public int findFirst(char c, char[] chars)
+	public static int findFirst(char c, char[] chars)
 	{
 		for(int i = 0; i < chars.length; i++)
 			if(c == chars[i])
@@ -23,7 +23,7 @@ public class EncodingUtil {
 		return -1;
 	}
 	
-	public int findLast(char c, char[] chars)
+	public static int findLast(char c, char[] chars)
 	{
 		int i = chars.length;
 		while(i > 0)
@@ -32,7 +32,7 @@ public class EncodingUtil {
 		return -1;
 	}
 	
-	public int findFirst(char c, String chars)
+	public static int findFirst(char c, String chars)
 	{
 		for(int i = 0; i < chars.length(); i++)
 			if(c == chars.charAt(i))
@@ -40,13 +40,63 @@ public class EncodingUtil {
 		return -1;
 	}
 	
-	public int findLast(char c, String chars)
+	public static int findLast(char c, String chars)
 	{
 		int i = chars.length();
 		while(i > 0)
 			if(c == chars.charAt(--i))
 				return i;
 		return -1;
+	}
+	
+	/**
+	 * including: if true it removes the target char aswell
+	 * after: if true it removes everything after the target char as opposed to before
+	 */
+	public static char[] removeFirst(char[] chars, char c, boolean after, boolean including)
+	{
+		int i = 0;
+		for(; i < chars.length; i++)
+			if(c == chars[i])
+				break;		
+		final char[] n;
+		if(after) {
+			if(!including)
+				i++;
+			n = new char[i];
+			System.arraycopy(chars, 0, n, 0, i);
+		} else {
+			if(including)
+				i++;
+			n = new char[chars.length - i];
+			System.arraycopy(chars, i, n, 0, n.length);
+		}
+		return n;
+	}
+	
+	/**
+	 * including: if true it removes the target char aswell
+	 * after: if true it removes everything after the target char as opposed to before
+	 */
+	public static char[] removeLast(char[] chars, char c, boolean after, boolean including)
+	{
+		int i = chars.length;
+		while(--i >= 0)
+			if(c == chars[i])
+				break;		
+		final char[] n;
+		if(after) {
+			if(!including)
+				i++;
+			n = new char[i];
+			System.arraycopy(chars, 0, n, 0, i);
+		} else {
+			if(including)
+				i++;
+			n = new char[chars.length - i];
+			System.arraycopy(chars, i, n, 0, n.length);
+		}
+		return n;
 	}
 
 	public static final void REVERSE(char[] c)
