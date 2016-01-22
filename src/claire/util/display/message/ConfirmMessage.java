@@ -48,7 +48,6 @@ public class ConfirmMessage
 		this.add(table);
 		this.pack();
 		Dimension dim = table.getPreferredSize();
-		System.out.println(dim);
 		double root = Math.sqrt(dim.width * dim.height) + 48;
 		int width = (int) (root * IDEAL);
 		int height = (int) (root / IDEAL);

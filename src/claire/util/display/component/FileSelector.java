@@ -2,22 +2,16 @@ package claire.util.display.component;
 
 import java.io.File;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class FileSelector 
-	   extends JFrame {
+	   extends JPanel {
 
 	private static final long serialVersionUID = 4983742565289393874L;
 
-	public FileSelector(String name)
-	{
-		super(name);
-		this.setSize(480, 360);
-	}
-	
 	public FileSelector()
 	{
-		this("Select File");
+		this.setSize(480, 270);
 	}
 	
 	public File getFile(File base)

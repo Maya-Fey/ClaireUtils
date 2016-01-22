@@ -14,6 +14,40 @@ public class EncodingUtil {
 	};
 	
 	public static final char[] NEWLINE = System.lineSeparator().toCharArray();
+	
+	public int findFirst(char c, char[] chars)
+	{
+		for(int i = 0; i < chars.length; i++)
+			if(c == chars[i])
+				return i;
+		return -1;
+	}
+	
+	public int findLast(char c, char[] chars)
+	{
+		int i = chars.length;
+		while(i > 0)
+			if(c == chars[--i])
+				return i;
+		return -1;
+	}
+	
+	public int findFirst(char c, String chars)
+	{
+		for(int i = 0; i < chars.length(); i++)
+			if(c == chars.charAt(i))
+				return i;
+		return -1;
+	}
+	
+	public int findLast(char c, String chars)
+	{
+		int i = chars.length();
+		while(i > 0)
+			if(c == chars.charAt(--i))
+				return i;
+		return -1;
+	}
 
 	public static final void REVERSE(char[] c)
 	{
