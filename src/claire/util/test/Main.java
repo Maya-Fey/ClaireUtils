@@ -7,7 +7,10 @@ import java.math.BigInteger;
 import java.util.Arrays;
 
 import claire.util.crypto.hash.primitive.BEAR.$BEAR3;
+import claire.util.display.DisplayHelper;
 import claire.util.display.ImageUtil;
+import claire.util.display.component.FilePane;
+import claire.util.display.display.SimpleDisplay;
 import claire.util.encoding.Base64;
 import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
@@ -34,9 +37,12 @@ public final class Main {
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
 		
-		char[] chars = "some/path/to/file".toCharArray();
-		System.out.println(chars);
-		System.out.println(EncodingUtil.removeLast(chars, '/', true, true));
+		SimpleDisplay disp = new SimpleDisplay("File Test");
+		disp.add(new FilePane(disp.getOwner(), new File("/")));
+		
+		disp.setSize(800, 450);
+		DisplayHelper.center(disp);
+		disp.start();
 		end();
 		/*
 		Test.runTests();
