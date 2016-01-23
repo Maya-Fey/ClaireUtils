@@ -9,8 +9,8 @@ import java.util.Arrays;
 import claire.util.crypto.hash.primitive.BEAR.$BEAR3;
 import claire.util.display.DisplayHelper;
 import claire.util.display.ImageUtil;
-import claire.util.display.component.file.AdvancedFilePane;
 import claire.util.display.display.SimpleDisplay;
+import claire.util.display.message.FileSelectionMessage;
 import claire.util.encoding.Base64;
 import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
@@ -37,11 +37,14 @@ public final class Main {
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
 		SimpleDisplay disp = new SimpleDisplay("File Test");
-		disp.add(new AdvancedFilePane(disp.getOwner(), new File("/")));
-		
 		disp.setSize(800, 450);
 		DisplayHelper.center(disp);
+		FileSelectionMessage m = new FileSelectionMessage(disp.getOwner(), new File("J:/_Downloads"), "Select a download", true);
 		disp.start();
+		m.start();
+		System.out.println(m.isOk());
+		System.out.println(m.getFile().getAbsolutePath());
+		
 		end();
 		/*
 		Test.runTests();
