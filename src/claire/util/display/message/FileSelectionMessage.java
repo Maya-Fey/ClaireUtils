@@ -12,7 +12,7 @@ import javax.swing.border.EmptyBorder;
 
 import claire.util.display.DisplayHelper;
 import claire.util.display.component.TablePane;
-import claire.util.display.component.file.FilePane;
+import claire.util.display.component.file.SFilePane;
 
 public class FileSelectionMessage 
 	   extends BasicMessage
@@ -20,13 +20,13 @@ public class FileSelectionMessage
 	
 	private static final long serialVersionUID = -5479749734176388607L;
 	
-	private final FilePane filepane;
+	private final SFilePane filepane;
 	
 	private boolean ok = false;
 
-	public FileSelectionMessage(Window arg0, File file, String message, boolean cancel) {
+	public FileSelectionMessage(Window arg0, SFilePane pane, String message, boolean cancel) {
 		super(arg0, message);
-		FilePane pane = filepane = new FilePane(this.getOwner(), file);
+		filepane = pane;
 		TablePane table = new TablePane(GridBagConstraints.BOTH);
 		table.newRow(1.0D);
 		if(cancel) {

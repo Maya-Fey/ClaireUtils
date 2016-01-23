@@ -20,16 +20,14 @@ import javax.swing.event.ListSelectionListener;
 
 import claire.util.display.DisplayHelper;
 import claire.util.display.component.FilenameCollectionPanel;
-import claire.util.display.component.TablePane;
 import claire.util.display.message.ErrorMessage;
 import claire.util.display.message.InformationCollectionMessage;
 
 public class AdvancedFilePane
-	   extends TablePane
+	   extends SFilePane
 	   implements ActionListener,
 	   			  ListSelectionListener,
-	   			  KeyListener,
-	   			  IFilePane {
+	   			  KeyListener {
 
 	private static final long serialVersionUID = 4983742565289393874L;
 	private static final Border border = DisplayHelper.uniformBorder(6);	
