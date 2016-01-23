@@ -72,6 +72,46 @@ public class TablePane
 		con.gridwidth = 1;
 		con.gridx += width;
 	}
+	
+	public void newMCol(Component com, int height)
+	{
+		con.weightx = 0.0000001D;
+		con.gridheight = height;
+		this.add(com, con);
+		con.gridheight = 1;
+		con.gridx++;
+	}
+	
+	public void newMCol(Component com, int height, double weight)
+	{
+		con.weightx = weight;
+		con.gridheight = height;
+		this.add(com, con);
+		con.gridheight = 1;
+		con.gridx++;
+	}
+	
+	public void newMCol(Component com, int height, int width)
+	{
+		con.weightx = 0.0000001D;
+		con.gridwidth = width;
+		con.gridheight = height;
+		this.add(com, con);
+		con.gridheight = 1;
+		con.gridwidth = 1;
+		con.gridx += width;
+	}
+	
+	public void newMCol(Component com, int height, int width, double weight)
+	{
+		con.weightx = weight;
+		con.gridwidth = width;
+		con.gridheight = height;
+		this.add(com, con);
+		con.gridheight = 1;
+		con.gridwidth = 1;
+		con.gridx += width;
+	}
 
 
 }
