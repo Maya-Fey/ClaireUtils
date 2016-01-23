@@ -9,7 +9,7 @@ import java.util.Arrays;
 import claire.util.crypto.hash.primitive.BEAR.$BEAR3;
 import claire.util.display.DisplayHelper;
 import claire.util.display.ImageUtil;
-import claire.util.display.component.AdvancedFilePane;
+import claire.util.display.component.file.AdvancedFilePane;
 import claire.util.display.display.SimpleDisplay;
 import claire.util.encoding.Base64;
 import claire.util.encoding.CString;
