@@ -9,7 +9,7 @@ import java.util.Arrays;
 import claire.util.crypto.hash.primitive.BEAR.$BEAR3;
 import claire.util.display.DisplayHelper;
 import claire.util.display.ImageUtil;
-import claire.util.display.component.FolderPane;
+import claire.util.display.component.AdvancedFolderPane;
 import claire.util.display.display.SimpleDisplay;
 import claire.util.encoding.Base64;
 import claire.util.encoding.CString;
@@ -36,9 +36,8 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
-		
 		SimpleDisplay disp = new SimpleDisplay("File Test");
-		disp.add(new FolderPane(disp.getOwner(), new File("/")));
+		disp.add(new AdvancedFolderPane(disp.getOwner(), new File("/")));
 		
 		disp.setSize(800, 450);
 		DisplayHelper.center(disp);

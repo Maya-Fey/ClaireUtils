@@ -98,7 +98,27 @@ public class EncodingUtil {
 		}
 		return n;
 	}
+	
+	public static boolean contains(char[] c1, char[] c2)
+	{
+		for(char c3 : c1) 
+			for(char c4 : c2)
+				if(c3 == c4)
+					return true;
+		return false;
+	}
 
+	public static boolean contains(String s, char[] c2)
+	{
+		for(int i = 0; i < s.length(); i++) { 
+			char c3 = s.charAt(i);
+			for(char c4 : c2)
+				if(c3 == c4)
+					return true;
+		}
+		return false;
+	}
+	
 	public static final void REVERSE(char[] c)
 	{
 		for(int i = 0; i < c.length / 2; i++)
