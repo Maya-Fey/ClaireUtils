@@ -20,7 +20,7 @@ import javax.swing.event.ListSelectionListener;
 import claire.util.display.DisplayHelper;
 import claire.util.display.message.ErrorMessage;
 
-public class FilePane
+public class FolderPane
 	   extends TablePane
 	   implements ActionListener,
 	   			  ListSelectionListener,
@@ -30,23 +30,20 @@ public class FilePane
 	private static final Border border = DisplayHelper.uniformBorder(6);	
 
 	private final JTextField folder = new JTextField();
-	private final JTextField file = new JTextField();
 	private final JList<String> list = new JList<String>();
-	private final JLabel status = new JLabel("No file or folder selected");
+	private final JLabel status = new JLabel("No folder selected");
 	private final Window owner;
-	
+
 	private File[] files = null;
-	private File selected = null;
+	private int[] ints = null;
 	private File current = null;
 	
-	public FilePane(Window owner, File f)
+	public FolderPane(Window owner, File f)
 	{
 		super(GridBagConstraints.BOTH);
 		this.owner = owner;
 		folder.setActionCommand("0");
 		folder.addActionListener(this);
-		file.setActionCommand("2");
-		file.addActionListener(this);
 		list.addListSelectionListener(this);
 		list.addKeyListener(this);
 		
@@ -63,32 +60,28 @@ public class FilePane
 		this.newRow(1.0D);
 		JScrollPane pane = new JScrollPane(list);
 		this.newCol(DisplayHelper.nestBorderWide(pane, border), 2);
-		this.newRow();
-		JLabel t = new JLabel("File Selected: ");
-		DisplayHelper.addBorder(t, border);
-		this.newCol(t);
-		this.newCol(DisplayHelper.nestBorderWide(file, border), 1.0D);
 		this.update(f);
 	}
 	
 	public void update(File f)
 	{
 		File[] sub = files = f.listFiles();
-		String[] str = new String[sub.length];
+		int len = 0;
 		for(int i = 0; i < sub.length; i++)
 			if(sub[i].isDirectory())
-				str[i] = sub[i].getName() + "/";
-			else
-				str[i] = sub[i].getName();
+				len++;
+		if(ints == null || ints.length < len)
+			ints = new int[len];
+		String[] str = new String[len];
+		len = 0;
+		for(int i = 0; i < sub.length; i++)
+			if(sub[i].isDirectory()) {
+				ints[len ] = i;
+				str[len++] = sub[i].getName();
+			}
 		list.setListData(str);
 		folder.setText(f.getAbsolutePath());
 		current = f;
-	}
-	
-	public void select(File f)
-	{
-		this.selected = f;
-		this.file.setText(f.getAbsolutePath());
 	}
 	
 	public void back()
@@ -103,14 +96,9 @@ public class FilePane
 		update(p);
 	}
 	
-	public boolean hasSelected()
-	{
-		return selected != null;
-	}
-	
 	public File getFile()
 	{
-		return this.selected;
+		return this.current;
 	}
 
 	public void actionPerformed(ActionEvent arg0)
@@ -136,48 +124,24 @@ public class FilePane
 			case "1":
 				back();
 				break;
-			case "2":
-				f = new File(this.file.getText());
-				if(f.exists()) {
-					if(f.isFile()) {
-						this.select(f);
-					} else {
-						ErrorMessage m = new ErrorMessage(owner, "That is not a file.");
-						DisplayHelper.center(m);
-						m.start();
-					}
-				} else {
-					ErrorMessage m = new ErrorMessage(owner, "That file does not exist.");
-					DisplayHelper.center(m);
-					m.start();
-				}
 		}
 	}
 
 	public void valueChanged(ListSelectionEvent arg0)
 	{
 		if(arg0.getValueIsAdjusting()) {
-			File f = files[list.getSelectedIndex()];
-			if(f.isDirectory()) 
-				status.setText("Directory " + f.getName() + " selected, press Enter to browse");
-			else 
-				status.setText("File " + f.getName() + " selected, " + f.length() + " bytes. Press Enter to Browse.");
+			File f = files[ints[list.getSelectedIndex()]];
+			status.setText(f.getName() + " selected, press Enter to browse");
 		}
 	}
 
 	public void keyPressed(KeyEvent arg0)
 	{
 		int code = arg0.getKeyCode();
-		if(code == KeyEvent.VK_ENTER) {
-			File f = files[list.getSelectedIndex()];
-			if(f.isDirectory()) 
-				this.update(f);
-			else 
-				this.select(f);
-		} else if(code == KeyEvent.VK_BACK_SPACE) {
-			back();
-		}
-			
+		if(code == KeyEvent.VK_ENTER) 
+			this.update(files[ints[list.getSelectedIndex()]]);
+		else if(code == KeyEvent.VK_BACK_SPACE) 
+			back();			
 	}
 
 	public void keyReleased(KeyEvent arg0) {}
