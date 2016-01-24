@@ -23,6 +23,11 @@ public class TextBox
 		this.getDocument().addDocumentListener(this);
 	}
 
+	public TextBox(int i) 
+	{
+		super(i);
+	}
+
 	public void changedUpdate(DocumentEvent arg0)
 	{
 		changed = true;
