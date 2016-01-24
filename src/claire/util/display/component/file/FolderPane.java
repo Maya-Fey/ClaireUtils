@@ -134,16 +134,20 @@ public class FolderPane
 
 	public void valueChanged(ListSelectionEvent arg0)
 	{
-		if(arg0.getValueIsAdjusting()) {
-			File f = files[ints[list.getSelectedIndex()]];
-			status.setText(f.getName() + " selected, press Enter to browse");
+		if(!arg0.getValueIsAdjusting()) {
+			int i = list.getSelectedIndex();
+			if(i > -1) {
+				File f = files[i];
+				status.setText("Directory " + f.getName() + " selected, press Enter to browse");
+			} else
+				status.setText("No folder selected.");
 		}
 	}
 
 	public void keyPressed(KeyEvent arg0)
 	{
 		int code = arg0.getKeyCode();
-		if(code == KeyEvent.VK_ENTER) 
+		if(code == KeyEvent.VK_ENTER && list.getSelectedIndex() > -1) 
 			this.update(files[ints[list.getSelectedIndex()]]);
 		else if(code == KeyEvent.VK_BACK_SPACE) 
 			back();			

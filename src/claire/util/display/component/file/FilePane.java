@@ -156,19 +156,23 @@ public class FilePane
 
 	public void valueChanged(ListSelectionEvent arg0)
 	{
-		if(arg0.getValueIsAdjusting()) {
-			File f = files[list.getSelectedIndex()];
-			if(f.isDirectory()) 
-				status.setText("Directory " + f.getName() + " selected, press Enter to browse");
-			else 
-				status.setText("File " + f.getName() + " selected, " + f.length() + " bytes. Press Enter to Browse.");
+		if(!arg0.getValueIsAdjusting()) {
+			int i = list.getSelectedIndex();
+			if(i > -1) {
+				File f = files[i];
+				if(f.isDirectory()) 
+					status.setText("Directory " + f.getName() + " selected, press Enter to browse");
+				else 
+					status.setText("File " + f.getName() + " selected, " + f.length() + " bytes. Press Enter to Select.");
+			} else
+				status.setText("No file or folder selected.");
 		}
 	}
 
 	public void keyPressed(KeyEvent arg0)
 	{
 		int code = arg0.getKeyCode();
-		if(code == KeyEvent.VK_ENTER) {
+		if(code == KeyEvent.VK_ENTER && list.getSelectedIndex() > -1) {
 			File f = files[list.getSelectedIndex()];
 			if(f.isDirectory()) 
 				this.update(f);
