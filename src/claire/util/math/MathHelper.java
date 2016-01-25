@@ -10,32 +10,32 @@ import claire.util.standards.IRandom;
 
 public final class MathHelper {
 	
-	public static void shiftArrayRight(int[] arr, int places)
+	public static void shiftArrayRight(final int[] arr, int places)
 	{
-		int bplaces = places / 32;
+		final int bplaces = places / 32;
 		if(bplaces != 0)
 			ArrayUtil.shiftRight(arr, bplaces);
 		places &= 31;
 		if(places > 0)
 		{
+			final int invplaces = 32 - places;
 			int start = arr.length - bplaces - 1;
-			int invplaces = 32 - places;
 			while(start > 0)
 				arr[start] = (arr[start--] >>> places) | (arr[start] << invplaces);
 			arr[start] >>>= places;
 		}
 	}
 	
-	public static void shiftArrayLeft(int[] arr, int places)
+	public static void shiftArrayLeft(final int[] arr, int places)
 	{
-		int bplaces = places / 32;
+		final int bplaces = places / 32;
 		if(bplaces != 0)
 			ArrayUtil.shiftLeft(arr, bplaces);
 		places &= 31;
 		if(places > 0)
 		{
+			final int invplaces = 32 - places;
 			int end = arr.length - bplaces - 1;
-			int invplaces = 32 - places;
 			int i = 0;
 			while(i < end)
 				arr[i] = (arr[i++] << places) | (arr[i] >>> invplaces);
@@ -50,7 +50,7 @@ public final class MathHelper {
 	 * @param arr
 	 * @param places
 	 */
-	public static void shiftArrayRightBE(int[] arr, int places)
+	public static void shiftArrayRightBE(final int[] arr, int places)
 	{
 		final int bplaces; 
 		if(places > 31) {
@@ -62,8 +62,8 @@ public final class MathHelper {
 		
 		if(places > 0)
 		{
+			final int invplaces = 32 - places;
 			int start = arr.length - bplaces - 1;
-			int invplaces = 32 - places;
 			while(start > 0)
 				arr[start] = (arr[start--] << places) | (arr[start] >>> invplaces);
 			arr[0] <<= places;
@@ -79,7 +79,7 @@ public final class MathHelper {
 	 * @param arr
 	 * @param places
 	 */
-	public static void shiftArrayLeftBE(int[] arr, int places)
+	public static void shiftArrayLeftBE(final int[] arr, int places)
 	{
 		final int bplaces; 
 		if(places > 31) {
@@ -91,8 +91,8 @@ public final class MathHelper {
 		
 		if(places > 0)
 		{
-			int end = arr.length - bplaces - 1;
-			int invplaces = 32 - places;
+			final int invplaces = 32 - places,
+					  end = arr.length - bplaces - 1;
 			int i = 0;
 			while(i < end)
 				arr[i] = (arr[i++] >>> places) | (arr[i] << invplaces);
@@ -102,17 +102,16 @@ public final class MathHelper {
 			ArrayUtil.shiftLeft(arr, bplaces);
 	}
 	
-	public static int getLSB(int[] arr)
+	public static int getLSB(final int[] arr)
 	{
 		int total = 0;
 		int i = -1;
 		while(arr[++i] == 0) 
 			total += 32;
-		
 		return total + Bits.getLSB(arr[i]);
 	}
 	
-	public static int getMSB(int[] arr)
+	public static int getMSB(final int[] arr)
 	{
 		int total = arr.length << 5;
 		int i = arr.length;
@@ -122,17 +121,17 @@ public final class MathHelper {
 		return total + Bits.getMSB(arr[i]);
 	}
 	
-	public static void p_rightShift(IInteger<?> i, int bits)
+	public static void p_rightShift(final IInteger<?> i, final int bits)
 	{
 		shiftArrayRightBE(i.getArr(), bits);
 	}
 	
-	public static void p_leftShift(IInteger<?> i, int bits)
+	public static void p_leftShift(final IInteger<?> i, final int bits)
 	{
 		shiftArrayLeftBE(i.getArr(), bits);
 	}
 	
-	public static int getRealLength(int[] num)
+	public static int getRealLength(final int[] num)
 	{
 		int i = num.length - 1;
 		while(num[i] == 0 && i != 0)
@@ -152,8 +151,9 @@ public final class MathHelper {
 		return l;
 	}
 	
-	public static long exponent(long i, long exponent)
+	public static long exponent(final long i, final long exponent)
 	{
+		//TODO: Use fast exponentiation
 		if(exponent == 0) {
 			return 1;
 		} else if(exponent == 1) {
@@ -166,7 +166,7 @@ public final class MathHelper {
 		}
 	}
 	
-	public static long ceiling(long ... longs)
+	public static long ceiling(final long ... longs)
 	{
 		long r = longs[0];
 		for(int i = 1; i < longs.length; i++)
@@ -175,7 +175,7 @@ public final class MathHelper {
 		return r;
 	}
 	
-	public static long floor(long ... longs)
+	public static long floor(final long ... longs)
 	{
 		long r = longs[0];
 		for(int i = 1; i < longs.length; i++)
@@ -184,7 +184,7 @@ public final class MathHelper {
 		return r;
 	}
 	
-	public static double ceiling(double ... longs)
+	public static double ceiling(final double ... longs)
 	{
 		double r = longs[0];
 		for(int i = 1; i < longs.length; i++)
@@ -193,7 +193,7 @@ public final class MathHelper {
 		return r;
 	}
 	
-	public static double floor(double ... longs)
+	public static double floor(final double ... longs)
 	{
 		double r = longs[0];
 		for(int i = 1; i < longs.length; i++)
@@ -232,33 +232,7 @@ public final class MathHelper {
 		return (int) carry;
 	}
 	
-	public static void p_safe_exponent(IInteger<?> i, int exponent)
-	{
-		if(exponent == 0)
-			i.setTo("1");
-		else if(exponent == 1)
-			return;
-		else {
-			IInteger<?> i2 = i.createDeepClone();
-			i2.p_square();
-			long mask = 0x8000000000000000L;
-			while((mask & exponent) == 0)
-				mask >>>= 1;
-			mask >>>= 1;
-			while(mask != 0) {
-				if((exponent & mask) == 0) {
-					i2.p_multiply(i);
-					i.p_square();
-				} else {
-					i.p_multiply(i2);
-					i2.p_square();
-				}
-				mask >>>= 1;
-			}
-		}
-	}
-	
-	public static void p_exponent(IInteger<?> i, int exponent)
+	public static void p_exponent(final IInteger<?> i, int exponent)
 	{
 		if(exponent == 0) {
 			i.setTo(1);
@@ -278,7 +252,7 @@ public final class MathHelper {
 		i.p_multiply(o);
 	}
 	
-	public static void p_exponent(IInteger<?> i, IInteger<?> exponent)
+	public static void p_exponent(final IInteger<?> i, final IInteger<?> exponent)
 	{
 		if(getRealLength(exponent.getArr()) == 1)
 			p_exponent(i, exponent.getArr()[0]);
@@ -286,7 +260,7 @@ public final class MathHelper {
 			p_exponent_sure(i, exponent);
 	}
 	
-	public static void p_exponent_sure(IInteger<?> i, IInteger<?> exponent)
+	public static void p_exponent_sure(final IInteger<?> i, final IInteger<?> exponent)
 	{
 		if(!exponent.isNonZero()) {
 			i.setTo(1);
@@ -294,10 +268,10 @@ public final class MathHelper {
 		}
 		if(exponent.isEqualTo(1))
 			return;
-		IInteger<?> o = i.createDeepClone();
-		o.setTo(1);
+		final IInteger<?> o = i.createDeepClone();
+		final int max = getMSB(exponent.getArr());
 		int bit = 0;
-		int max = getMSB(exponent.getArr());
+		o.setTo(1);
 		while(bit < max)
 		{
 			if(exponent.bitAt(bit++)) 
@@ -307,7 +281,7 @@ public final class MathHelper {
 		i.p_multiply(o);
 	}
 	
-	public static void p_modular_exponent(IInteger<?> i, int exponent, IInteger<?> mod)
+	public static void p_modular_exponent(final IInteger<?> i, int exponent, final IInteger<?> mod)
 	{
 		if(exponent == 0) {
 			i.setTo(1);
@@ -317,7 +291,7 @@ public final class MathHelper {
 			i.p_modulo(mod);
 		if(exponent == 1)
 			return;
-		IInteger<?> o = i.createDeepClone();
+		final IInteger<?> o = i.createDeepClone();
 		o.setTo(1);
 		while(exponent > 1)
 		{
@@ -333,7 +307,7 @@ public final class MathHelper {
 		i.p_modulo(mod);
 	}
 	
-	public static void p_modular_exponent(IInteger<?> i, IInteger<?> exponent, IInteger<?> mod)
+	public static void p_modular_exponent(final IInteger<?> i, final IInteger<?> exponent, final IInteger<?> mod)
 	{
 		if(getRealLength(exponent.getArr()) == 1)
 			p_modular_exponent(i, exponent.getArr()[0], mod);
@@ -341,7 +315,7 @@ public final class MathHelper {
 			p_modular_exponent_sure(i, exponent, mod);
 	}
 	
-	public static void p_modular_exponent_sure(IInteger<?> i, IInteger<?> exponent, IInteger<?> mod)
+	public static void p_modular_exponent_sure(final IInteger<?> i, final IInteger<?> exponent, final IInteger<?> mod)
 	{
 		if(!exponent.isNonZero()) {
 			i.setTo(1);
@@ -352,10 +326,10 @@ public final class MathHelper {
 		}
 		if(exponent.isEqualTo(1))
 			return;
-		IInteger<?> o = i.createDeepClone();
-		o.setTo(1);
+		final IInteger<?> o = i.createDeepClone();
+		final int max = getMSB(exponent.getArr());
 		int bit = 0;
-		int max = getMSB(exponent.getArr());
+		o.setTo(1);
 		while(bit < max)
 		{
 			if(exponent.bitAt(bit++)) {
@@ -370,7 +344,7 @@ public final class MathHelper {
 		i.p_modulo(mod);
 	}
 	
-	public static BigInteger p_modular_exponent(BigInteger i, BigInteger exponent, BigInteger mod)
+	public static BigInteger p_modular_exponent(BigInteger i, BigInteger exponent, final BigInteger mod)
 	{
 		if(exponent.equals(BigInteger.ZERO)) {
 			return BigInteger.ONE;
@@ -391,11 +365,11 @@ public final class MathHelper {
 		return i.multiply(o).mod(mod);
 	}
 	
-	public static <T extends IInteger<T>> IInteger<T> gcd(IInteger<T> i1, IInteger<T> i2)
+	public static <Int extends IInteger<Int>> IInteger<Int> gcd(IInteger<Int> i1, IInteger<Int> i2)
 	{
 		i1 = i1.createDeepClone();
 		i2 = i2.createDeepClone();
-		IInteger<T> i3 = i1.createDeepClone();
+		IInteger<Int> i3 = i1.createDeepClone();
 		i3.setTo(1);
 		while(!i1.isOdd() && !i2.isOdd()) {
 			p_leftShift(i1, 1);
@@ -443,10 +417,10 @@ public final class MathHelper {
 		return i3 * i1;
 	}
 	
-	public static <T extends IInteger<T>> IInteger<T> lcm(IInteger<T> i1, IInteger<T> i2)
+	public static <Int extends IInteger<Int>> IInteger<Int> lcm(final IInteger<Int> i1, final IInteger<Int> i2)
 	{
-		IInteger<T> gcd = gcd(i1, i2);
-		IInteger<T> X = i1.createDeepClone();
+		IInteger<Int> gcd = gcd(i1, i2);
+		IInteger<Int> X = i1.createDeepClone();
 		X.p_divide(gcd);
 		X.p_multiply(i2);
 		return X;
@@ -457,7 +431,7 @@ public final class MathHelper {
 		return (i1 / gcd(i1, i2)) * i2;
 	}
 	
-	public static boolean isPrimeProbableMR(IInteger<?> prospective, IRandom rng, int times)
+	public static boolean isPrimeProbableMR(final IInteger<?> prospective, final IRandom rng, int times)
 	{
 		IInteger<?> test = prospective.createDeepClone();
 		test.decrement();
@@ -469,6 +443,11 @@ public final class MathHelper {
 		{
 			RandUtils.fillArr(witness.getArr(), rng);
 			witness.p_modulo(prospective);
+			/* 
+			 * Note: This check will cause a very rare problem of the witness
+			 * being incremented beyond the modulus. However, it is not an issue
+			 * as p_modular_exponent 
+			 */
 			if(witness.getArr()[0] < 2 && witness.getArr()[0] >= 0) 
 				witness.getArr()[0] += 2;
 			p_modular_exponent(witness, exponent, prospective);
@@ -492,20 +471,18 @@ public final class MathHelper {
 		return true;
 	}
 	
-	public static UInt u_modular_inverse(UInt product, UInt modulus)
+	public static UInt u_modular_inverse(final UInt product, final UInt modulus)
 	{
 		SInt s1 = new SInt(product.getArr());
 		SInt s2 = new SInt(modulus.getArr());
 		return new UInt(modular_inverse(s1, s2).getArr());
 	}
 	
-	public static <Int extends IInteger<Int>> Int modular_inverse(Int product, Int modulus)
+	public static <Int extends IInteger<Int>> Int modular_inverse(final Int product, final Int modulus)
 	{
-		Int t = product.createDeepClone();
-		t.zero();
+		Int t = product.createDeepClone(); t.zero();
 		Int r = modulus.createDeepClone();
-		Int t2 = t.createDeepClone();
-		t2.increment();
+		Int t2 = t.createDeepClone(); t2.increment();
 		Int r2 = product.createDeepClone();
 		if(r2.isGreaterOrEqualTo(modulus))
 			r2.p_modulo(modulus);
@@ -530,7 +507,7 @@ public final class MathHelper {
 		return t;	
 	}
 	
-	public static int modular_inverse(int product, int modulus)
+	public static int modular_inverse(final int product, final int modulus)
 	{
 		int t = 0;
 		int r = modulus;
@@ -569,7 +546,7 @@ public final class MathHelper {
 	 * @param int2 Integer 2
 	 * @return Comparator
 	 */
-	public static int absolute_compare(int[] int1, int[] int2)
+	public static int absolute_compare(final int[] int1, final int[] int2)
 	{
 		int i = int1.length - 1;
 		if(int1.length > int2.length) {
@@ -592,27 +569,18 @@ public final class MathHelper {
 		return 0;
 	}
 	
-	public static void getMinBitValue(IInteger<?> i, int bits)
+	public static void getMinBitValue(final IInteger<?> i, final int bits)
 	{
 		i.increment();
 		p_rightShift(i, bits - 1);
 	}
 	
-	public static void getMinIntValue(IInteger<?> i, int ints)
+	public static void getMinIntValue(final IInteger<?> i, final int ints)
 	{
 		i.getArr()[ints] = 1;
 	}
 	
-	/**
-	 * Fuck. Java.
-	 * 
-	 * @param divd The signed dividend
-	 * @param divi The signed divisor
-	 * @return The signed quotient
-	 * <br><br>
-	 * How does it return the result as if it were unsigned? Maaaaagic.
-	 */
-	public static long divideC(long divd, long divi)
+	public static long divideC(final long divd, final long divi)
 	{
 		if(divi < 0) {
 			if(Bits.u_greaterOrEqual(divd, divi))
@@ -623,7 +591,6 @@ public final class MathHelper {
 		if(divd > 0)
 			return divd / divi;
 		else {
-			//Attention: You have reached the end of my patience. You have been warned.
 			long approx = (divd >>> 1) / (divi >>> 1);
 			long inv = divd - approx * divi;
 			while(inv < 0) {
@@ -638,7 +605,7 @@ public final class MathHelper {
 		}
 	}
 	
-	public static long moduloC(long divd, long divi)
+	public static long moduloC(final long divd, final long divi)
 	{
 		if(divi < 0) {
 			if(Bits.u_greaterOrEqual(divd, divi))
@@ -649,7 +616,6 @@ public final class MathHelper {
 		if(divd > 0)
 			return divd % divi;
 		else {
-			//Attention: You have reached the end of my patience. You have been warned.
 			long approx = (divd >>> 1) / (divi >>> 1);
 			long inv = divd - approx * divi;
 			while(inv < 0) {
@@ -664,32 +630,4 @@ public final class MathHelper {
 		}
 	}
 	
-	/**
-	 * For use when an algorithm assumes there is a value in
-	 * a spot when there isn't, but doesn't actually need to 
-	 * write to that spot at any point.
-	 * 
-	 * @author Claire
-	 */
-	public static final class SafeArray {
-		
-		private final int[] array;
-		
-		public SafeArray(int[] array) { this.array = array; }
-		
-		public int get(int i)
-		{
-			try {
-				return array[i];
-			} catch(java.lang.ArrayIndexOutOfBoundsException e) {
-				return 0;
-			}
-		}
-		
-		public void set(int i, int val)
-		{
-			if(val != 0)
-				array[i] = val;
-		}
-	}
 }
