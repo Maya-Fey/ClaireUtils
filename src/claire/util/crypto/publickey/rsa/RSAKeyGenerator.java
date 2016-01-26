@@ -21,7 +21,7 @@ public class RSAKeyGenerator {
 		UInt mod = new UInt("1", size + (amt / 24) + 1);
 		UInt phi = new UInt("1", size + (amt / 24) + 1);
 		MathHelper.getMinIntValue(min, per);
-		MathHelper.getMinBitValue(max, (per << 5) + 2);
+		MathHelper.getMinBitValue(max, (per << 5) + 1);
 		PrimeGenerator<UInt> pg = new PrimeGenerator<UInt>(scan_tests, conf_tests, min, max, primes, rng);
 		UInt t = null;
 		pg.setMinMax(min, max);
@@ -87,7 +87,7 @@ public class RSAKeyGenerator {
 		UInt mod = new UInt("1", size + (amt / 24) + 1);
 		UInt phi = new UInt("1", size + (amt / 24) + 1);
 		MathHelper.getMinIntValue(min, per);
-		MathHelper.getMinBitValue(max, (per << 5) + 2);
+		MathHelper.getMinBitValue(max, (per << 5) + 1);
 		PrimeGenerator<UInt> pg = new PrimeGenerator<UInt>(scan_tests, conf_tests, min, max, primes, rng);
 		UInt t = null;
 		pg.setMinMax(min, max);
@@ -158,7 +158,7 @@ public class RSAKeyGenerator {
 		UInt phi = new UInt("1", size + (amt / 24) + 1);
 		UInt exp = new UInt(new CString(iexp), size + (amt / 24) + 1);
 		MathHelper.getMinIntValue(min, per);
-		MathHelper.getMinBitValue(max, (per << 5) + 2);
+		MathHelper.getMinBitValue(max, (per << 5) + 1);
 		PrimeGenerator<UInt> pg = new PrimeGenerator<UInt>(scan_tests, conf_tests, min, max, primes, rng);
 		UInt t = null;
 		pg.setMinMax(min, max);
@@ -225,7 +225,7 @@ public class RSAKeyGenerator {
 		UInt mod = new UInt("1", size + (amt / 24) + 1);
 		UInt phi = new UInt("1", size + (amt / 24) + 1);
 		MathHelper.getMinIntValue(min, per);
-		MathHelper.getMinBitValue(max, (per << 5) + 2);
+		MathHelper.getMinBitValue(max, (per << 5) + 1);
 		UInt exp = new UInt(new CString(iexp), size + (amt / 24) + 1);
 		PrimeGenerator<UInt> pg = new PrimeGenerator<UInt>(scan_tests, conf_tests, min, max, primes, rng);
 		UInt t = null;

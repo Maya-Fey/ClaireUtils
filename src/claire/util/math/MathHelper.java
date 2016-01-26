@@ -10,6 +10,25 @@ import claire.util.standards.IRandom;
 
 public final class MathHelper {
 	
+	/**
+	 * This method shifts an integer array right by <code>places</code> <i>bit
+	 * positions</i>. Not to be confused with the array rotation methods in <code>
+	 * ArrayUtil</code>. This method shifts both the <i>array</i> right (e.g, with
+	 * a shift of 32 (one whole integer), it would move an int in position one to
+	 * position two), and the <i>integers</i> right (in code it uses the <code>>>>
+	 * </code> operator).
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An integer array of any length</li>
+	 * <li>An integer greater then or equal to zero</li>
+	 * </ul>
+	 * If a number less then zero is passed, then an exception will be thrown, however
+	 * the array is not guaranteed to survive intact.
+	 * <br><br>
+	 * Returns: void
+	 * <br>
+	 */
 	public static void shiftArrayRight(final int[] arr, int places)
 	{
 		final int bplaces = places / 32;
@@ -26,6 +45,25 @@ public final class MathHelper {
 		}
 	}
 	
+	/**
+	 * This method shifts an integer array left by <code>places</code> <i>bit
+	 * positions</i>. Not to be confused with the array rotation methods in <code>
+	 * ArrayUtil</code>. This method shifts both the <i>array</i> left (e.g, with
+	 * a shift of 32 (one whole integer), it would move an int in position two to
+	 * position one), and the <i>integers</i> left (in code it uses the <code><<
+	 * </code> operator).
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An integer array of any length</li>
+	 * <li>An integer greater then or equal to zero</li>
+	 * </ul>
+	 * If a number less then zero is passed, then an exception will be thrown, however
+	 * the array is not guaranteed to survive intact.
+	 * <br><br>
+	 * Returns: void
+	 * <br>
+	 */
 	public static void shiftArrayLeft(final int[] arr, int places)
 	{
 		final int bplaces = places / 32;
@@ -44,11 +82,24 @@ public final class MathHelper {
 	}
 	
 	/**
-	 * Shifts array right. Takes into account Bit Big-Endianness vs
-	 * Int little-endianness
-	 * 
-	 * @param arr
-	 * @param places
+	 * This method shifts an integer array right by <code>places</code> <i>bit
+	 * positions</i>. Not to be confused with the array rotation methods in <code>
+	 * ArrayUtil</code>. While this method shifts the <i>array</i> right (e.g, with
+	 * a shift of 32 (one whole integer), it would move an int in position one to
+	 * position two), it the integers <i><b>left</b></i> (in code it uses the <code><<
+	 * </code> operator). This is so that multi-integer arithmetic with little-endian
+	 * integer array but big bit-endian individual integers can be shifted properly
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An integer array of any length</li>
+	 * <li>An integer greater then or equal to zero</li>
+	 * </ul>
+	 * If a number less then zero is passed, then an exception will be thrown, however
+	 * the array is not guaranteed to survive intact.
+	 * <br><br>
+	 * Returns: void
+	 * <br>
 	 */
 	public static void shiftArrayRightBE(final int[] arr, int places)
 	{
@@ -73,11 +124,24 @@ public final class MathHelper {
 	}
 	
 	/**
-	 * Shifts array left. Takes into account Bit Big-Endianness vs
-	 * Int little-endianness
-	 * 
-	 * @param arr
-	 * @param places
+	 * This method shifts an integer array left by <code>places</code> <i>bit
+	 * positions</i>. Not to be confused with the array rotation methods in <code>
+	 * ArrayUtil</code>. While this method shifts the <i>array</i> right (e.g, with
+	 * a shift of 32 (one whole integer), it would move an int in position one to
+	 * position two), it the integers <i><b>right</b></i> (in code it uses the <code>>>>
+	 * </code> operator). This is so that multi-integer arithmetic with bit-endian
+	 * integer array but little bit-endian individual integers can be shifted properly
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An integer array of any length</li>
+	 * <li>An integer greater then or equal to zero</li>
+	 * </ul>
+	 * If a number less then zero is passed, then an exception will be thrown, however
+	 * the array is not guaranteed to survive intact.
+	 * <br><br>
+	 * Returns: void
+	 * <br>
 	 */
 	public static void shiftArrayLeftBE(final int[] arr, int places)
 	{
@@ -102,6 +166,28 @@ public final class MathHelper {
 			ArrayUtil.shiftLeft(arr, bplaces);
 	}
 	
+	/**
+	 * This method finds the least significant bit in an integer array. 
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An integer array with a length greater then zero, but less then 2<sup>26</sup>
+	 * , where at least one nonzero value is present</li>
+	 * </ul>
+	 * <br>
+	 * <ul>
+	 * <li>If an array with a length of zero is passed, a NullPointerException
+	 * will be thrown</li>
+	 * <li>If an array entirely comprised of zeros is passed, a NullPointerException
+	 * will be thrown.</li>
+	 * <li>If an array too large is passed, this method may return a negative value,
+	 * and will always return an incorrect value.</li>
+	 * </ul>
+	 * <br>
+	 * Returns: an integer indicating the position of the Least Significant bit from
+	 * position <code>[0]</code> in the array from position <code>[0]</code> in the 
+	 * integer (0x00000001 position). 
+	 */
 	public static int getLSB(final int[] arr)
 	{
 		int total = 0;
@@ -111,6 +197,28 @@ public final class MathHelper {
 		return total + Bits.getLSB(arr[i]);
 	}
 	
+	/**
+	 * This method finds the most significant bit in an integer array. 
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An integer array with a length greater then zero, but less then 2<sup>26</sup>
+	 * , where at least one nonzero value is present</li>
+	 * </ul>
+	 * <br>
+	 * <ul>
+	 * <li>If an array with a length of zero is passed, a ArrayIndexOutOfBoundsException
+	 * will be thrown</li>
+	 * <li>If an array entirely comprised of zeros is passed, a NullPointerException
+	 * will be thrown.</li>
+	 * <li>If an array too large is passed, this method may return a negative value,
+	 * and will always return an incorrect value.</li>
+	 * </ul>
+	 * <br>
+	 * Returns: an integer indicating the position of the Most Significant bit from
+	 * position <code>[0]</code> in the array from position <code>[0]</code> in the 
+	 * integer (0x00000001 position). 
+	 */
 	public static int getMSB(final int[] arr)
 	{
 		int total = arr.length << 5;
@@ -121,16 +229,60 @@ public final class MathHelper {
 		return total + Bits.getMSB(arr[i]);
 	}
 	
+	/**
+	 * This method shifts an integer right by <code>places</code> <i>bit
+	 * positions</i>. 
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An IInteger of any specification</li>
+	 * <li>An integer greater then or equal to zero</li>
+	 * </ul>
+	 * If a number less then zero is passed, then an exception will be thrown, however
+	 * the array is not guaranteed to survive intact.
+	 * <br><br>
+	 * Returns: void
+	 * <br>
+	 */
 	public static void p_rightShift(final IInteger<?> i, final int bits)
 	{
 		shiftArrayRightBE(i.getArr(), bits);
 	}
 	
+	/**
+	 * This method shifts an integer left by <code>places</code> <i>bit
+	 * positions</i>. 
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An IInteger of any specification</li>
+	 * <li>An integer greater then or equal to zero</li>
+	 * </ul>
+	 * If a number less then zero is passed, then an exception will be thrown, however
+	 * the array is not guaranteed to survive intact.
+	 * <br><br>
+	 * Returns: void
+	 * <br>
+	 */
 	public static void p_leftShift(final IInteger<?> i, final int bits)
 	{
 		shiftArrayLeftBE(i.getArr(), bits);
 	}
 	
+	/**
+	 * This method finds the amounts of integers actually required for the array
+	 * to retain the same value.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An array with a length greater then zero</li>
+	 * </ul>
+	 * <br>
+	 * If the length is zero, an ArrayIndexOutOfBounds Exception will be thrown.
+	 * <br><br>
+	 * Returns: the amount of integers required to represent the array as a little-
+	 * endian multi-word integer.
+	 */
 	public static int getRealLength(final int[] num)
 	{
 		int i = num.length - 1;
@@ -139,18 +291,46 @@ public final class MathHelper {
 		return i + 1;
 	}
 
+	/**
+	 * This method returns the <i>absolute</i> value of the number passed (the
+	 * distance from zero on the number line).
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A double of any value</li>
+	 * </ul>
+	 * This method is safe, and will always return the correct number (not accounting
+	 * for floating-point errors).
+	 * <br><br>
+	 * Returns: the absolute value of double <code>d</code>.
+	 */
 	public static double absolute(double d)
 	{
 		if(d < 0) { d *= (double)-1; }
 		return d;
 	}
 	
+	/**
+	 * This method returns the <i>absolute</i> value of the number passed (the
+	 * distance from zero on the number line).
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A long of any value</li>
+	 * </ul>
+	 * This method is safe, and will always return the correct number.
+	 * <br><br>
+	 * Returns: the absolute value of long <code>l</code>.
+	 */
 	public static long absolute(long l)
 	{
 		if(l < 0) { l *= -1; }
 		return l;
 	}
 	
+	/**
+	 * TODO: Write documentation for method once finished.
+	 */
 	public static long exponent(final long i, final long exponent)
 	{
 		//TODO: Use fast exponentiation
@@ -166,6 +346,18 @@ public final class MathHelper {
 		}
 	}
 	
+	/**
+	 * This method finds the greatest value in an array of longs.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An array of longs with length greater then zero</li>
+	 * </ul>
+	 * If an array of length zero is passed, and ArrayIndexOutOfBounds
+	 * Exception will be thrown.
+	 * <br><br>
+	 * Returns: The long in the array with the greatest value.
+	 */
 	public static long ceiling(final long ... longs)
 	{
 		long r = longs[0];
@@ -175,6 +367,18 @@ public final class MathHelper {
 		return r;
 	}
 	
+	/**
+	 * This method finds the smallest value in an array of longs.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An array of longs with length greater then zero</li>
+	 * </ul>
+	 * If an array of length zero is passed, and ArrayIndexOutOfBounds
+	 * Exception will be thrown.
+	 * <br><br>
+	 * Returns: The long in the array with the smallest value.
+	 */
 	public static long floor(final long ... longs)
 	{
 		long r = longs[0];
@@ -184,6 +388,18 @@ public final class MathHelper {
 		return r;
 	}
 	
+	/**
+	 * This method finds the greatest value in an array of doubles.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An array of doubles with length greater then zero</li>
+	 * </ul>
+	 * If an array of length zero is passed, and ArrayIndexOutOfBounds
+	 * Exception will be thrown.
+	 * <br><br>
+	 * Returns: The doubles in the array with the greatest value.
+	 */
 	public static double ceiling(final double ... longs)
 	{
 		double r = longs[0];
@@ -193,6 +409,18 @@ public final class MathHelper {
 		return r;
 	}
 	
+	/**
+	 * This method finds the smallest value in an array of doubles.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An array of doubles with length greater then zero</li>
+	 * </ul>
+	 * If an array of length zero is passed, and ArrayIndexOutOfBounds
+	 * Exception will be thrown.
+	 * <br><br>
+	 * Returns: The doubles in the array with the smallest value.
+	 */
 	public static double floor(final double ... longs)
 	{
 		double r = longs[0];
@@ -202,17 +430,31 @@ public final class MathHelper {
 		return r;
 	}
 	
-	public static long distancefrom(long i1, long i2)
+	/**
+	 * This method finds the distance between two numbers on the number line
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>Any two longs that must have a distance of less then 2<sup>63</sup></li>
+	 * </ul>
+	 * If the two longs have a distance greater then 2<sup>63</sup>, then
+	 * a negative signed value will return. If parsed in an unsigned manner, the
+	 * value will be correct.
+	 * <br><br>
+	 * Returns: The long in the array with the greatest value.
+	 */
+	public static long distancefrom(long l1, long l2)
 	{
-		return ceiling(i1, i2) - floor(i1, i2);
+		return l1 > l2 ? l1 - l2 : l2 - l1;
 	}
 	
 	/**
 	 * Multiplies Base2^32 Integer by one 32-bit integer.
 	 * Returns any carry-over from the calculation.
 	 * 
-	 * @param r1
-	 * @param mul
+	 * No documentation required. If you are using this method
+	 * outside of claire.util.math, then you are doing something 
+	 * wrong.
 	 */
 	public static int mul1(int[] r1, int tlen, int mul)
 	{
@@ -232,6 +474,18 @@ public final class MathHelper {
 		return (int) carry;
 	}
 	
+	/**
+	 * This method takes the exponent of an IInteger by a 32-bit integer
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An IInteger of any value</li>
+	 * <li>An Integer greater then or equal to zero</li>
+	 * </ul>
+	 * An negative exponent will result in undefined behavior.
+	 * <br><br>
+	 * Returns: void, however the result ends up in <code>i</code>.
+	 */
 	public static void p_exponent(final IInteger<?> i, int exponent)
 	{
 		if(exponent == 0) {
@@ -252,6 +506,18 @@ public final class MathHelper {
 		i.p_multiply(o);
 	}
 	
+	/**
+	 * This method takes the exponent of an IInteger by another IInteger
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An IInteger of any value</li>
+	 * <li>An IInteger greater then or equal to zero</li>
+	 * </ul>
+	 * An negative exponent will result in undefined behavior.
+	 * <br><br>
+	 * Returns: void, however the result ends up in <code>i</code>.
+	 */
 	public static void p_exponent(final IInteger<?> i, final IInteger<?> exponent)
 	{
 		if(getRealLength(exponent.getArr()) == 1)
@@ -260,6 +526,19 @@ public final class MathHelper {
 			p_exponent_sure(i, exponent);
 	}
 	
+	/**
+	 * This method takes the exponent of an IInteger by another IInteger, without
+	 * testing if the number can fit in 32 bits.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An IInteger of any value</li>
+	 * <li>An IInteger greater then or equal to zero</li>
+	 * </ul>
+	 * An negative exponent will result in undefined behavior.
+	 * <br><br>
+	 * Returns: void, however the result ends up in <code>i</code>.
+	 */
 	public static void p_exponent_sure(final IInteger<?> i, final IInteger<?> exponent)
 	{
 		if(!exponent.isNonZero()) {
@@ -281,6 +560,20 @@ public final class MathHelper {
 		i.p_multiply(o);
 	}
 	
+	/**
+	 * This method takes the exponent of an IInteger by a 32-bit integer,
+	 * modulo a IInteger.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An IInteger of any value</li>
+	 * <li>An Integer greater then or equal to zero</li>
+	 * <li>An IInteger of any value</li>
+	 * </ul>
+	 * An negative exponent will result in undefined behavior.
+	 * <br><br>
+	 * Returns: void, however the result ends up in <code>i</code>.
+	 */
 	public static void p_modular_exponent(final IInteger<?> i, int exponent, final IInteger<?> mod)
 	{
 		if(exponent == 0) {
@@ -307,6 +600,20 @@ public final class MathHelper {
 		i.p_modulo(mod);
 	}
 	
+	/**
+	 * This method takes the exponent of an IInteger by an IInteger,
+	 * modulo a IInteger.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An IInteger of any value</li>
+	 * <li>An IInteger greater then or equal to zero</li>
+	 * <li>An IInteger of any value</li>
+	 * </ul>
+	 * An negative exponent will result in undefined behavior.
+	 * <br><br>
+	 * Returns: void, however the result ends up in <code>i</code>.
+	 */
 	public static void p_modular_exponent(final IInteger<?> i, final IInteger<?> exponent, final IInteger<?> mod)
 	{
 		if(getRealLength(exponent.getArr()) == 1)
@@ -315,6 +622,21 @@ public final class MathHelper {
 			p_modular_exponent_sure(i, exponent, mod);
 	}
 	
+	/**
+	 * This method takes the exponent of an IInteger by an IInteger,
+	 * modulo an IInteger without checking if the exponent can fit
+	 * int 32 bits.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An IInteger of any value</li>
+	 * <li>An IInteger greater then or equal to zero</li>
+	 * <li>An IInteger of any value</li>
+	 * </ul>
+	 * An negative exponent will result in undefined behavior.
+	 * <br><br>
+	 * Returns: void, however the result ends up in <code>i</code>.
+	 */
 	public static void p_modular_exponent_sure(final IInteger<?> i, final IInteger<?> exponent, final IInteger<?> mod)
 	{
 		if(!exponent.isNonZero()) {
@@ -344,27 +666,22 @@ public final class MathHelper {
 		i.p_modulo(mod);
 	}
 	
-	public static BigInteger p_modular_exponent(BigInteger i, BigInteger exponent, final BigInteger mod)
-	{
-		if(exponent.equals(BigInteger.ZERO)) {
-			return BigInteger.ONE;
-		} else if(exponent.equals(BigInteger.ONE))
-			return i;
-		BigInteger n = exponent;
-		BigInteger o = BigInteger.ONE;
-		while(n.compareTo(BigInteger.ONE) > 0)
-		{
-			if(n.testBit(0)) {
-				o = o.multiply(i);
-				o = o.mod(mod);
-			} 
-			i = i.multiply(i);
-			i = i.mod(mod);
-			n = n.shiftRight(1);
-		}
-		return i.multiply(o).mod(mod);
-	}
-	
+	/**
+	 * This method takes greatest common divisor of two IIntegers.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An Int greater then or equal to one</li>
+	 * <li>An Int greater then or equal to one</li>
+	 * </ul>
+	 * <br>
+	 * <ul>
+	 * <li>Either IInteger being 0 or 1 will result in an infinite loop.</li>
+	 * <li>Negative numbers will result in undefined behavior/</li>
+	 * <br><br>
+	 * Returns: An Int of the same type that holds the value of the greatest
+	 * common devisor of <code>i1</code> and <code>i2</code>.
+	 */
 	public static <Int extends IInteger<Int>> IInteger<Int> gcd(IInteger<Int> i1, IInteger<Int> i2)
 	{
 		i1 = i1.createDeepClone();
@@ -393,6 +710,22 @@ public final class MathHelper {
 		return i3;
 	}
 	
+	/**
+	 * This method takes greatest common divisor of two Longs.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An Long greater then or equal to one</li>
+	 * <li>An Long greater then or equal to one</li>
+	 * </ul>
+	 * <br>
+	 * <ul>
+	 * <li>Either Long being 0 or 1 will result in an infinite loop.</li>
+	 * <li>Negative numbers will result in undefined behavior/</li>
+	 * <br><br>
+	 * Returns: An Long of the same type that holds the value of the greatest
+	 * common devisor of <code>i1</code> and <code>i2</code>.
+	 */
 	public static long gcd(long i1, long i2)
 	{
 		long i3 = 1;
@@ -417,6 +750,22 @@ public final class MathHelper {
 		return i3 * i1;
 	}
 	
+	/**
+	 * This method takes lowest common multiple of two IIntegers.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An Int greater then or equal to one</li>
+	 * <li>An Int greater then or equal to one</li>
+	 * </ul>
+	 * <br>
+	 * <ul>
+	 * <li>Either IInteger being 0 or 1 will result in an infinite loop.</li>
+	 * <li>Negative numbers will result in undefined behavior/</li>
+	 * <br><br>
+	 * Returns: An Int of the same type that holds the value of the lowest
+	 * common multiple of <code>i1</code> and <code>i2</code>.
+	 */
 	public static <Int extends IInteger<Int>> IInteger<Int> lcm(final IInteger<Int> i1, final IInteger<Int> i2)
 	{
 		IInteger<Int> gcd = gcd(i1, i2);
@@ -426,11 +775,47 @@ public final class MathHelper {
 		return X;
 	}
 	
+	/**
+	 * This method takes lowest common multiple of two Longs.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An Long greater then or equal to one</li>
+	 * <li>An Long greater then or equal to one</li>
+	 * </ul>
+	 * <br>
+	 * <ul>
+	 * <li>Either Long being 0 or 1 will result in an infinite loop.</li>
+	 * <li>Negative numbers will result in undefined behavior/</li>
+	 * <br><br>
+	 * Returns: An Long of the same type that holds the value of the lowest
+	 * common multiple of <code>i1</code> and <code>i2</code>.
+	 */
 	public static long lcm(long i1, long i2)
 	{
 		return (i1 / gcd(i1, i2)) * i2;
 	}
 	
+	/**
+	 * This method finds whether a number is prime or not with a 
+	 * probabilistic success rate. 
+	 * <br><br>
+	 * Note that <code>rng</code> is not cryptographically important, just needs
+	 * to have a decent distribution.
+	 * <br><br>
+	 * <code>times</code> decides how many iterations the test runs. The more 
+	 * iterations you run the greater probability the result is correct.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An IInteger greater then two</li>
+	 * <li>A RNG</li>
+	 * <li>An Integer greater then zero</li>
+	 * </ul>
+	 * A prospective integer less then three will result in undefined behavior.
+	 * <br><br>
+	 * Returns: true if probably prime, false if composite
+	 */
 	public static boolean isPrimeProbableMR(final IInteger<?> prospective, final IRandom rng, int times)
 	{
 		IInteger<?> test = prospective.createDeepClone();
@@ -471,6 +856,26 @@ public final class MathHelper {
 		return true;
 	}
 	
+	/**
+	 * A helper method to compute the modular inverse of <code>product</code>
+	 * mod <code>modulus</code> where product and modulus are unsigned.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A UInt greater then one, coprime to <code>modulus</code></li>
+	 * <li>A UInt greater then <code>product</code></li>
+	 * </ul>
+	 * <br><br>
+	 * <ul>
+	 * <li>If <code>product</code> is not coprime to <code>modulus</code>, this
+	 * will likely return 0, though doesn't have too</li>
+	 * <li>Any value being zero will return zero</li>
+	 * <li>Values of one for either the product or modulus will result in
+	 * undefined behavior</li>
+	 * </ul>
+	 * <br><br>
+	 * Returns: The modular inverse of product mod modulus.
+	 */
 	public static UInt u_modular_inverse(final UInt product, final UInt modulus)
 	{
 		SInt s1 = new SInt(product.getArr());
@@ -478,6 +883,26 @@ public final class MathHelper {
 		return new UInt(modular_inverse(s1, s2).getArr());
 	}
 	
+	/**
+	 * A method to compute the modular inverse of <code>product</code>
+	 * mod <code>modulus</code>.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A Signed IInteger greater then one, coprime to <code>modulus</code></li>
+	 * <li>A Signed IInteger then <code>product</code></li>
+	 * </ul>
+	 * <br><br>
+	 * <ul>
+	 * <li>If <code>product</code> is not coprime to <code>modulus</code>, this
+	 * will likely return 0, though doesn't have too</li>
+	 * <li>Any lower then two for either product or modulus will result in 
+	 * undefined behavior.</li>
+	 * <li>Either operand being unsigned will result in undefined behavior</li>
+	 * </ul>
+	 * <br><br>
+	 * Returns: The modular inverse of product mod modulus.
+	 */
 	public static <Int extends IInteger<Int>> Int modular_inverse(final Int product, final Int modulus)
 	{
 		Int t = product.createDeepClone(); t.zero();
@@ -507,6 +932,25 @@ public final class MathHelper {
 		return t;	
 	}
 	
+	/**
+	 * A method to compute the modular inverse of <code>product</code>
+	 * mod <code>modulus</code>.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A Long greater then one, coprime to <code>modulus</code></li>
+	 * <li>A Long greater then <code>product</code></li>
+	 * </ul>
+	 * <br><br>
+	 * <ul>
+	 * <li>If <code>product</code> is not coprime to <code>modulus</code>, this
+	 * will likely return 0, though doesn't have too</li>
+	 * <li>Any lower then two for either product or modulus will result in 
+	 * undefined behavior.</li>
+	 * </ul>
+	 * <br><br>
+	 * Returns: The modular inverse of product mod modulus.
+	 */
 	public static int modular_inverse(final int product, final int modulus)
 	{
 		int t = 0;
@@ -535,16 +979,22 @@ public final class MathHelper {
 	
 	/**
 	 * Returns comparator based on int1 compared to int2 (ie, greater
-	 * then means int1 > int2, not int2 > int1)
-	 * <br>
+	 * then means int1 > int2, not int2 > int1). Comparator treats integer
+	 * array as little-endian.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An integer array</li>
+	 * <li>An integer array</li>
+	 * </ul>
+	 * This method is safe for all inputs.
+	 * <br><br>
+	 * Returns: and integer according to this table:
 	 * <ul>
 	 * <li> 1 = Greater than</li>
 	 * <li> 0 = Equal to</li>
 	 * <li>-1 = Less than</li>
 	 * </ul>
-	 * @param int1 Integer 1
-	 * @param int2 Integer 2
-	 * @return Comparator
 	 */
 	public static int absolute_compare(final int[] int1, final int[] int2)
 	{
@@ -569,17 +1019,68 @@ public final class MathHelper {
 		return 0;
 	}
 	
+	/**
+	 * This method takes an IInteger and makes it equal to 2<sup>
+	 * <code>bits</code></sup>. Or you could say it sets the <code>
+	 * bits</code>-th bit starting at 0 being the first bit.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An IInteger equal to zero</li>
+	 * <li>An Integer greater or equal to zero</li>
+	 * </ul>
+	 * <br>
+	 * <ul>
+	 * <li>If <code>i != 0</code> then the behavior of this method is undefined.</li>
+	 * <li>If <code>bits < 0</code> then the behavior of this method is undefined.</li>
+	 * </ul>
+	 * <br>
+	 * Returns: null, <code>i</code> is set to the desired value.
+	 */
 	public static void getMinBitValue(final IInteger<?> i, final int bits)
 	{
 		i.increment();
-		p_rightShift(i, bits - 1);
+		p_rightShift(i, bits);
 	}
 	
+	/**
+	 * This method takes an IInteger and sets its <code>bits</code>
+	 * -th integer to one. This is equivalent to running <code>
+	 * getMinBitValue(ints * 32)</code>, however this method will return
+	 * faster.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An IInteger equal to zero</li>
+	 * <li>An Integer greater or equal to zero</li>
+	 * </ul>
+	 * <br>
+	 * <ul>
+	 * <li>If <code>i != 0</code> then the behavior of this method is undefined.</li>
+	 * <li>If <code>bits < 0</code> then the behavior of this method is undefined.</li>
+	 * </ul>
+	 * <br>
+	 * Returns: null, <code>i</code> is set to the desired value.
+	 */
 	public static void getMinIntValue(final IInteger<?> i, final int ints)
 	{
 		i.getArr()[ints] = 1;
 	}
 	
+	/**
+	 * This method divides two long integers as if they were unsigned,
+	 * will take much longer then normal division by several times (Try
+	 * to avoid this).
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A long of any value</li>
+	 * <li>A long of any value</li>
+	 * </ul>
+	 * This method is safe for any set of inputs.
+	 * <br><br>
+	 * Returns: The result of unsigned division between <code>divd / divi</code>
+	 */
 	public static long divideC(final long divd, final long divi)
 	{
 		if(divi < 0) {
@@ -605,6 +1106,20 @@ public final class MathHelper {
 		}
 	}
 	
+	/**
+	 * This method computes the modulus two long integers as if they were 
+	 * unsigned, will take much longer then normal modulus by several times 
+	 * (Try to avoid this).
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A long of any value</li>
+	 * <li>A long of any value</li>
+	 * </ul>
+	 * This method is safe for any set of inputs.
+	 * <br><br>
+	 * Returns: The result of unsigned modulua between <code>divd % divi</code>
+	 */
 	public static long moduloC(final long divd, final long divi)
 	{
 		if(divi < 0) {

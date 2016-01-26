@@ -34,10 +34,13 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
-		Test.runTests();
+		UInt u = new UInt("0", 4);
+		MathHelper.getMinBitValue(u, 32);
+		System.out.println(u);
+		System.out.println(0x80000000L);
 		end();
 		/*
-		
+		Test.runTests();
 		end();
 		//*/
 		byte[] bytes = Hex.fromHex("6afc812ab3ef31");

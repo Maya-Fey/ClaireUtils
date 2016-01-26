@@ -21,7 +21,7 @@ public final class Base10 {
 				pos++;
 			}
 		}
-		return (byte) ((negative) ? acc : -acc);
+		return (byte) (negative ? acc : -acc);
 	}
 	
 	public static short stringToShort(char[] chars)
@@ -43,7 +43,7 @@ public final class Base10 {
 				pos++;
 			}
 		}
-		return (short) ((negative) ? acc : -acc);
+		return (short) (negative ? acc : -acc);
 	}
 	
 	public static int stringToInt(char[] chars)
@@ -65,7 +65,7 @@ public final class Base10 {
 				pos++;
 			}
 		}
-		return (negative) ? acc : -acc;
+		return negative ? acc : -acc;
 	}
 	
 	public static long stringToLong(char[] chars)
@@ -87,7 +87,7 @@ public final class Base10 {
 				pos++;
 			}
 		}
-		return (negative) ? acc : -acc;
+		return negative ? acc : -acc;
 	}
 	
 	public static byte stringToByte(String chars)
