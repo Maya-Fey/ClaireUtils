@@ -1,7 +1,5 @@
 package claire.util.math;
 
-import java.math.BigInteger;
-
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;

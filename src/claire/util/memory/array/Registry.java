@@ -11,7 +11,6 @@ public class Registry<Type>
 	
 	public Registry(Type[] arrayFrom) {
 		super(arrayFrom);
-		this.current = arrayFrom.length;
 	}
 
 	public void add(Type t)
