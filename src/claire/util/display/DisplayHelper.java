@@ -20,71 +20,71 @@ import claire.util.display.message.ErrorMessage;
 
 public final class DisplayHelper {
 	
-	public static boolean confirm(Window window, String title, String message)
+	public static boolean confirm(final Window window, final String title, final String message)
 	{
-		ConfirmMessage m = new ConfirmMessage(window, title, message);
+		final ConfirmMessage m = new ConfirmMessage(window, title, message);
 		DisplayHelper.center(m);
 		m.start();
 		return m.isOk();
 	}
 
-	public static JMenuItem getActionMenu(ActionListener listener, String s)
+	public static JMenuItem getActionMenu(final ActionListener listener, final String s)
 	{
-		JMenuItem item = new JMenuItem(s);
+		final JMenuItem item = new JMenuItem(s);
 		item.addActionListener(listener);
 		return item;
 	}
 	
-	public static JScrollPane getScrollPane(Component c, int vert, int horz)
+	public static JScrollPane getScrollPane(final Component c, final int vert, final int horz)
 	{
 		return new JScrollPane(c, vert, horz);
 	}
 	
-	public static Border uniformBorder(int size)
+	public static Border uniformBorder(final int size)
 	{
 		return new EmptyBorder(size, size, size, size);
 	}
 	
-	public static JPanel nestBorder(Component c, Border b)
+	public static JPanel nestBorder(final Component c, final Border b)
 	{
-		JPanel panel = new JPanel();
+		final JPanel panel = new JPanel();
 		panel.add(c);
 		panel.setBorder(b);
 		return panel;
 	}
 	
-	public static JPanel nestBorderWide(Component c, Border b)
+	public static JPanel nestBorderWide(final Component c, final Border b)
 	{
-		JPanel panel = new JPanel(new BorderLayout());
+		final JPanel panel = new JPanel(new BorderLayout());
 		panel.add(c, BorderLayout.CENTER);
 		panel.setBorder(b);
 		return panel;
 	}
 	
-	public static void addBorder(JComponent c, Border b)
+	public static void addBorder(final JComponent c, final Border b)
 	{
-		Border b1 = c.getBorder();
+		final Border b1 = c.getBorder();
 		c.setBorder(new CompoundBorder(b, b1));
 	}
 	
-	public static JPanel widen(Component c)
+	public static JPanel widen(final Component c)
 	{
-		JPanel p = new JPanel(new BorderLayout());
+		final JPanel p = new JPanel(new BorderLayout());
 		p.add(c, BorderLayout.CENTER);
 		return p;
 	}
 	
-	public static void center(Window window)
+	public static void center(final Window window)
 	{
-		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		final int X = (int) ((screen.getWidth() - window.getWidth()) / 2);
 		final int Y = (int) ((screen.getHeight() - window.getHeight()) / 2);
 		window.setLocation(X, Y);
 	}
 	
-	public static void showError(Window parent, String message)
+	public static void showError(final Window parent, final String message)
 	{
-		ErrorMessage error = new ErrorMessage(parent, message);
+		final ErrorMessage error = new ErrorMessage(parent, message);
 		center(error);
 		error.start();
 	}
