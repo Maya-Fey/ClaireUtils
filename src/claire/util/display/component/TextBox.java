@@ -26,6 +26,7 @@ public class TextBox
 	public TextBox(int i) 
 	{
 		super(i);
+		this.getDocument().addDocumentListener(this);
 	}
 
 	public void changedUpdate(DocumentEvent arg0)
