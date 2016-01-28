@@ -4,7 +4,7 @@ import claire.util.memory.util.Pointer;
 
 public final class Base10 {
 
-	public static byte stringToByte(char[] chars)
+	public static byte stringToByte(final char[] chars)
 	{
 		byte acc = 0;
 		boolean negative = false;
@@ -28,7 +28,7 @@ public final class Base10 {
 		return (byte) (negative ? acc : -acc);
 	}
 	
-	public static short stringToShort(char[] chars)
+	public static short stringToShort(final char[] chars)
 	{
 		short acc = 0;
 		boolean negative = false;
@@ -52,7 +52,7 @@ public final class Base10 {
 		return (short) (negative ? acc : -acc);
 	}
 	
-	public static int stringToInt(char[] chars)
+	public static int stringToInt(final char[] chars)
 	{
 		int acc = 0;
 		boolean negative = false;
@@ -76,7 +76,7 @@ public final class Base10 {
 		return negative ? acc : -acc;
 	}
 	
-	public static long stringToLong(char[] chars)
+	public static long stringToLong(final char[] chars)
 	{
 		long acc = 0;
 		boolean negative = false;
@@ -100,7 +100,7 @@ public final class Base10 {
 		return negative ? acc : -acc;
 	}
 	
-	public static byte stringToByte(String chars)
+	public static byte stringToByte(final String chars)
 	{
 		byte acc = 0;
 		boolean negative = false;
@@ -124,7 +124,7 @@ public final class Base10 {
 		return (byte) ((negative) ? acc : -acc);
 	}
 	
-	public static short stringToShort(String chars)
+	public static short stringToShort(final String chars)
 	{
 		short acc = 0;
 		boolean negative = false;
@@ -148,7 +148,7 @@ public final class Base10 {
 		return (short) ((negative) ? acc : -acc);
 	}
 	
-	public static int stringToInt(String chars)
+	public static int stringToInt(final String chars)
 	{
 		int acc = 0;
 		boolean negative = false;
@@ -172,7 +172,7 @@ public final class Base10 {
 		return (negative) ? acc : -acc;
 	}
 	
-	public static long stringToLong(String chars)
+	public static long stringToLong(final String chars)
 	{
 		long acc = 0;
 		boolean negative = false;
@@ -201,7 +201,7 @@ public final class Base10 {
 	 * 1 = Out of bound characters
 	 * 2 = Number too big for int width
 	 */
-	public static byte stringCheckByte(char[] chars, Pointer<Integer> error)
+	public static byte stringCheckByte(final char[] chars, final Pointer<Integer> error)
 	{
 		if(chars.length > 0)
 		{
@@ -239,7 +239,7 @@ public final class Base10 {
 			return 0;
 	}
 	
-	public static short stringCheckShort(char[] chars, Pointer<Integer> error)
+	public static short stringCheckShort(final char[] chars, final Pointer<Integer> error)
 	{
 		if(chars.length > 0)
 		{
@@ -277,7 +277,7 @@ public final class Base10 {
 			return 0;
 	}
 	
-	public static int stringCheckInt(char[] chars, Pointer<Integer> error)
+	public static int stringCheckInt(final char[] chars, final Pointer<Integer> error)
 	{
 		if(chars.length > 0)
 		{
@@ -315,7 +315,7 @@ public final class Base10 {
 			return 0;
 	}
 	
-	public static long stringCheckLong(char[] chars, Pointer<Integer> error)
+	public static long stringCheckLong(final char[] chars, final Pointer<Integer> error)
 	{
 		if(chars.length > 0)
 		{
@@ -353,7 +353,7 @@ public final class Base10 {
 			return 0;
 	}
 	
-	public static byte stringCheckByte(String chars, Pointer<Integer> error)
+	public static byte stringCheckByte(final String chars, final Pointer<Integer> error)
 	{
 		if(chars.length() > 0)
 		{
@@ -391,7 +391,7 @@ public final class Base10 {
 			return 0;
 	}
 	
-	public static short stringCheckShort(String chars, Pointer<Integer> error)
+	public static short stringCheckShort(final String chars, final Pointer<Integer> error)
 	{
 		if(chars.length() > 0)
 		{
@@ -429,7 +429,7 @@ public final class Base10 {
 			return 0;
 	}
 	
-	public static int stringCheckInt(String chars, Pointer<Integer> error)
+	public static int stringCheckInt(final String chars,final Pointer<Integer> error)
 	{
 		if(chars.length() > 0)
 		{
@@ -467,7 +467,7 @@ public final class Base10 {
 			return 0;
 	}
 	
-	public static long stringCheckLong(String chars, Pointer<Integer> error)
+	public static long stringCheckLong(final String chars, final Pointer<Integer> error)
 	{
 		if(chars.length() > 0)
 		{
@@ -509,9 +509,9 @@ public final class Base10 {
 	{
 		if(ger == 0x8000000000000000L)
 			return new char[] {'-', '9', '2', '2', '3', '3', '7', '2', '0', '3', '6', '8', '5', '4', '7', '7', '5', '8', '0', '8' };
-		char[] chars = new char[20];
+		final char[] chars = new char[20];
+		final boolean negative;
 		int i = chars.length - 1;
-		boolean negative;
 		if(ger < 0) 	
 			negative = true;
 		else {
@@ -533,9 +533,9 @@ public final class Base10 {
 	{
 		if(ger == 0x80000000)
 			return new char[] {'-', '2', '1', '4', '7', '4', '8', '3', '6', '4', '8' };
-		char[] chars = new char[11];
+		final char[] chars = new char[11];
+		final boolean negative;
 		int i = chars.length - 1;
-		boolean negative;
 		if(ger < 0) 
 			negative = true;
 		else {
@@ -557,9 +557,9 @@ public final class Base10 {
 	{
 		if(ger == 0x8000)
 			return new char[] {'-', '3', '2', '7', '6', '8' };
-		char[] chars = new char[6];
+		final char[] chars = new char[6];
+		final boolean negative;
 		int i = chars.length - 1;
-		boolean negative;
 		if(ger < 0) 	
 			negative = true;
 		else {
@@ -581,9 +581,9 @@ public final class Base10 {
 	{
 		if(ger == 0x80)
 			return new char[] {'-', '1', '2', '8'};
-		char[] chars = new char[4];
+		final char[] chars = new char[4];
+		final boolean negative;
 		int i = chars.length - 1;
-		boolean negative;
 		if(ger < 0) 
 			negative = true;
 		else {
@@ -601,34 +601,34 @@ public final class Base10 {
 		return CString.newFrom(chars, ++i);
 	}
 	
-	public static boolean isBase10(CString s)
+	public static boolean isBase10(final CString s)
 	{
 		if(s.length() == 0)
 			return false;
-		for(char c : s.array())
+		for(final char c : s.array())
 			if(c < '0' || c > '9')
 				return false;
 		return true;
 	}
 	
 	//TODO: Update all uses of isBase10 + stringTo* to a safe stringTo
-	public static boolean isBase10(String s)
+	public static boolean isBase10(final String s)
 	{
 		if(s.length() == 0)
 			return false;
 		for(int i = 0; i < s.length(); i++) {
-			char c = s.charAt(i);
+			final char c = s.charAt(i);
 			if(c < '0' || c > '9')
 				return false;
 		}
 		return true;
 	}
 	
-	public static boolean isBase10(char[] chars)
+	public static boolean isBase10(final char[] chars)
 	{
 		if(chars.length == 0)
 			return false;
-		for(char c : chars)
+		for(final char c : chars)
 			if(c < '0' || c > '9')
 				return false;
 		return true;
