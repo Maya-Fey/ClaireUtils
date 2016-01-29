@@ -4,6 +4,24 @@ import claire.util.memory.util.Pointer;
 
 public final class Base10 {
 
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 8 bits.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the array contains non-numerals, the behavior of this
+	 * method is undefined</li>
+	 * <li>If the array represents an integer greater then 127 or
+	 * less then -128, then the behavior of this method is undefined</li>
+	 * </ul>
+	 * Returns: a byte with the value that the character string
+	 * represented.
+	 */
 	public static byte stringToByte(final char[] chars)
 	{
 		byte acc = 0;
@@ -28,6 +46,25 @@ public final class Base10 {
 		return (byte) (negative ? acc : -acc);
 	}
 	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 16 bits.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the array contains non-numerals, the behavior of this
+	 * method is undefined</li>
+	 * <li>If the array represents an integer greater then 32767 or
+	 * less then -32768, then the behavior of this method is undefined
+	 * </li>
+	 * </ul>
+	 * Returns: a short with the value that the character string
+	 * represented.
+	 */
 	public static short stringToShort(final char[] chars)
 	{
 		short acc = 0;
@@ -52,6 +89,25 @@ public final class Base10 {
 		return (short) (negative ? acc : -acc);
 	}
 	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 32 bits.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the array contains non-numerals, the behavior of this
+	 * method is undefined</li>
+	 * <li>If the array represents an integer greater then 2147483647 
+	 * or less then -2147483648, then the behavior of this method is 
+	 * undefined</li>
+	 * </ul>
+	 * Returns: a int with the value that the character string
+	 * represented.
+	 */
 	public static int stringToInt(final char[] chars)
 	{
 		int acc = 0;
@@ -75,7 +131,26 @@ public final class Base10 {
 		}
 		return negative ? acc : -acc;
 	}
-	
+
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 64 bits.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the array contains non-numerals, the behavior of this
+	 * method is undefined</li>
+	 * <li>If the array represents an integer greater then Long.MAX_VALUE 
+	 * or less then Long.MIN_VALUE, then the behavior of this method is 
+	 * undefined</li>
+	 * </ul>
+	 * Returns: a long with the value that the character string
+	 * represented.
+	 */
 	public static long stringToLong(final char[] chars)
 	{
 		long acc = 0;
@@ -100,6 +175,24 @@ public final class Base10 {
 		return negative ? acc : -acc;
 	}
 	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 8 bits.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>A String representing an integer</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the string contains non-numerals, the behavior of this
+	 * method is undefined</li>
+	 * <li>If the string represents an integer greater then 127 or
+	 * less then -128, then the behavior of this method is undefined</li>
+	 * </ul>
+	 * Returns: a byte with the value that the character string
+	 * represented.
+	 */
 	public static byte stringToByte(final String chars)
 	{
 		byte acc = 0;
@@ -124,6 +217,25 @@ public final class Base10 {
 		return (byte) ((negative) ? acc : -acc);
 	}
 	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 16 bits.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>A strings representing an integer</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the string contains non-numerals, the behavior of this
+	 * method is undefined</li>
+	 * <li>If the string represents an integer greater then 32767 or
+	 * less then -32768, then the behavior of this method is undefined
+	 * </li>
+	 * </ul>
+	 * Returns: a short with the value that the character string
+	 * represented.
+	 */
 	public static short stringToShort(final String chars)
 	{
 		short acc = 0;
@@ -148,6 +260,25 @@ public final class Base10 {
 		return (short) ((negative) ? acc : -acc);
 	}
 	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 32 bits.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>A string representing an integer</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the string contains non-numerals, the behavior of this
+	 * method is undefined</li>
+	 * <li>If the string represents an integer greater then 2147483647 
+	 * or less then -2147483648, then the behavior of this method is 
+	 * undefined</li>
+	 * </ul>
+	 * Returns: a int with the value that the character string
+	 * represented.
+	 */
 	public static int stringToInt(final String chars)
 	{
 		int acc = 0;
@@ -172,6 +303,25 @@ public final class Base10 {
 		return (negative) ? acc : -acc;
 	}
 	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 64 bits.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>A string of chars representing an integer</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the string contains non-numerals, the behavior of this
+	 * method is undefined</li>
+	 * <li>If the string represents an integer greater then Long.MAX_VALUE 
+	 * or less then Long.MIN_VALUE, then the behavior of this method is 
+	 * undefined</li>
+	 * </ul>
+	 * Returns: a long with the value that the character string
+	 * represented.
+	 */
 	public static long stringToLong(final String chars)
 	{
 		long acc = 0;
@@ -196,10 +346,30 @@ public final class Base10 {
 		return (negative) ? acc : -acc;
 	}
 	
-	/*
-	 * 0 = A-OK
-	 * 1 = Out of bound characters
-	 * 2 = Number too big for int width
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 8 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * <li>An integer pointer for passing error codes with the value of
+	 * zero.</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the pointer points too a nonzero error code, and the method
+	 * returns no errors, the error code will remain identical.</li>
+	 * <li>If the string contains non-numeral chars, then the value
+	 * of zero will be returned and the error code will be set too one.</li>
+	 * <li>If the string represents and integer that cannot fit in 8 bits,
+	 * then zero will be returned and the error code will be set to 
+	 * two.</li>
+	 * </ul>
+	 * Returns: a byte with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
 	 */
 	public static byte stringCheckByte(final char[] chars, final Pointer<Integer> error)
 	{
@@ -239,6 +409,31 @@ public final class Base10 {
 			return 0;
 	}
 	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 16 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * <li>An integer pointer for passing error codes with the value of
+	 * zero.</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the pointer points too a nonzero error code, and the method
+	 * returns no errors, the error code will remain identical.</li>
+	 * <li>If the string contains non-numeral chars, then the value
+	 * of zero will be returned and the error code will be set too one.</li>
+	 * <li>If the string represents and integer that cannot fit in 16 bits,
+	 * then zero will be returned and the error code will be set to 
+	 * two.</li>
+	 * </ul>
+	 * Returns: a short with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
+	 */
 	public static short stringCheckShort(final char[] chars, final Pointer<Integer> error)
 	{
 		if(chars.length > 0)
@@ -277,6 +472,31 @@ public final class Base10 {
 			return 0;
 	}
 	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 32 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * <li>An integer pointer for passing error codes with the value of
+	 * zero.</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the pointer points too a nonzero error code, and the method
+	 * returns no errors, the error code will remain identical.</li>
+	 * <li>If the string contains non-numeral chars, then the value
+	 * of zero will be returned and the error code will be set too one.</li>
+	 * <li>If the string represents and integer that cannot fit in 32 bits,
+	 * then zero will be returned and the error code will be set to 
+	 * two.</li>
+	 * </ul>
+	 * Returns: a int with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
+	 */
 	public static int stringCheckInt(final char[] chars, final Pointer<Integer> error)
 	{
 		if(chars.length > 0)
@@ -315,6 +535,31 @@ public final class Base10 {
 			return 0;
 	}
 	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 64 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * <li>An integer pointer for passing error codes with the value of
+	 * zero.</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the pointer points too a nonzero error code, and the method
+	 * returns no errors, the error code will remain identical.</li>
+	 * <li>If the string contains non-numeral chars, then the value
+	 * of zero will be returned and the error code will be set too one.</li>
+	 * <li>If the string represents and integer that cannot fit in 64 bits,
+	 * then zero will be returned and the error code will be set to 
+	 * two.</li>
+	 * </ul>
+	 * Returns: a long with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
+	 */
 	public static long stringCheckLong(final char[] chars, final Pointer<Integer> error)
 	{
 		if(chars.length > 0)
@@ -353,6 +598,31 @@ public final class Base10 {
 			return 0;
 	}
 	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 8 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An string representing an integer</li>
+	 * <li>An integer pointer for passing error codes with the value of
+	 * zero.</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the pointer points too a nonzero error code, and the method
+	 * returns no errors, the error code will remain identical.</li>
+	 * <li>If the string contains non-numeral chars, then the value
+	 * of zero will be returned and the error code will be set too one.</li>
+	 * <li>If the string represents and integer that cannot fit in 8 bits,
+	 * then zero will be returned and the error code will be set to 
+	 * two.</li>
+	 * </ul>
+	 * Returns: a byte with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
+	 */
 	public static byte stringCheckByte(final String chars, final Pointer<Integer> error)
 	{
 		if(chars.length() > 0)
@@ -391,6 +661,31 @@ public final class Base10 {
 			return 0;
 	}
 	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 16 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An string representing an integer</li>
+	 * <li>An integer pointer for passing error codes with the value of
+	 * zero.</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the pointer points too a nonzero error code, and the method
+	 * returns no errors, the error code will remain identical.</li>
+	 * <li>If the string contains non-numeral chars, then the value
+	 * of zero will be returned and the error code will be set too one.</li>
+	 * <li>If the string represents and integer that cannot fit in 16 bits,
+	 * then zero will be returned and the error code will be set to 
+	 * two.</li>
+	 * </ul>
+	 * Returns: a short with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
+	 */
 	public static short stringCheckShort(final String chars, final Pointer<Integer> error)
 	{
 		if(chars.length() > 0)
@@ -429,6 +724,31 @@ public final class Base10 {
 			return 0;
 	}
 	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 32 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An string representing an integer</li>
+	 * <li>An integer pointer for passing error codes with the value of
+	 * zero.</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the pointer points too a nonzero error code, and the method
+	 * returns no errors, the error code will remain identical.</li>
+	 * <li>If the string contains non-numeral chars, then the value
+	 * of zero will be returned and the error code will be set too one.</li>
+	 * <li>If the string represents and integer that cannot fit in 32 bits,
+	 * then zero will be returned and the error code will be set to 
+	 * two.</li>
+	 * </ul>
+	 * Returns: a int with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
+	 */
 	public static int stringCheckInt(final String chars,final Pointer<Integer> error)
 	{
 		if(chars.length() > 0)
@@ -467,6 +787,31 @@ public final class Base10 {
 			return 0;
 	}
 	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 64 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An string representing an integer</li>
+	 * <li>An integer pointer for passing error codes with the value of
+	 * zero.</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the pointer points too a nonzero error code, and the method
+	 * returns no errors, the error code will remain identical.</li>
+	 * <li>If the string contains non-numeral chars, then the value
+	 * of zero will be returned and the error code will be set too one.</li>
+	 * <li>If the string represents and integer that cannot fit in 64 bits,
+	 * then zero will be returned and the error code will be set to 
+	 * two.</li>
+	 * </ul>
+	 * Returns: a long with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
+	 */
 	public static long stringCheckLong(final String chars, final Pointer<Integer> error)
 	{
 		if(chars.length() > 0)
@@ -505,6 +850,20 @@ public final class Base10 {
 			return 0;
 	}
 	
+	//TODO: Make from*() meyhods conform to memory regulations
+	
+	/**
+	 * Converts a long integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A long integer of any value</li>
+	 * </ul>
+	 * This method is safe and will not result in exceptions or undefined
+	 * behavior.
+	 * <br><br>
+	 * Returns: a string representing the integer passed.
+	 */
 	public static char[] fromLong(long ger)
 	{
 		if(ger == 0x8000000000000000L)
@@ -529,6 +888,18 @@ public final class Base10 {
 		return CString.newFrom(chars, ++i);
 	}
 
+	/**
+	 * Converts a integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A integer of any value</li>
+	 * </ul>
+	 * This method is safe and will not result in exceptions or undefined
+	 * behavior.
+	 * <br><br>
+	 * Returns: a string representing the integer passed.
+	 */
 	public static char[] fromInt(int ger)
 	{
 		if(ger == 0x80000000)
@@ -553,6 +924,18 @@ public final class Base10 {
 		return CString.newFrom(chars, ++i);
 	}
 
+	/**
+	 * Converts a short integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A short integer of any value</li>
+	 * </ul>
+	 * This method is safe and will not result in exceptions or undefined
+	 * behavior.
+	 * <br><br>
+	 * Returns: a string representing the integer passed.
+	 */
 	public static char[] fromShort(short ger)
 	{
 		if(ger == 0x8000)
@@ -577,6 +960,18 @@ public final class Base10 {
 		return CString.newFrom(chars, ++i);
 	}
 
+	/**
+	 * Converts a byte too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A byte of any value</li>
+	 * </ul>
+	 * This method is safe and will not result in exceptions or undefined
+	 * behavior.
+	 * <br><br>
+	 * Returns: a string representing the integer passed.
+	 */
 	public static char[] fromByte(byte ger)
 	{
 		if(ger == 0x80)
@@ -601,17 +996,40 @@ public final class Base10 {
 		return CString.newFrom(chars, ++i);
 	}
 	
-	public static boolean isBase10(final CString s)
+	/**
+	 * Checks if a string represents a number or not.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An array of chars that you want to check</li>
+	 * </ul>
+	 * This method is safe and will work normally with any
+	 * non-null values.
+	 * <br><br>
+	 * Returns: true if the chars represent a number
+	 */
+	public static boolean isBase10(final char[] chars)
 	{
-		if(s.length() == 0)
+		if(chars.length == 0)
 			return false;
-		for(final char c : s.array())
+		for(final char c : chars)
 			if(c < '0' || c > '9')
 				return false;
 		return true;
 	}
-	
-	//TODO: Update all uses of isBase10 + stringTo* to a safe stringTo
+
+	/**
+	 * Checks if a string represents a number or not.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An string that you want to check</li>
+	 * </ul>
+	 * This method is safe and will work normally with any
+	 * non-null values.
+	 * <br><br>
+	 * Returns: true if the chars represent a number
+	 */
 	public static boolean isBase10(final String s)
 	{
 		if(s.length() == 0)
@@ -624,11 +1042,23 @@ public final class Base10 {
 		return true;
 	}
 	
-	public static boolean isBase10(final char[] chars)
+	/**
+	 * Checks if a string represents a number or not.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An string that you want to check</li>
+	 * </ul>
+	 * This method is safe and will work normally with any
+	 * non-null values.
+	 * <br><br>
+	 * Returns: true if the chars represent a number
+	 */
+	public static boolean isBase10(final CString s)
 	{
-		if(chars.length == 0)
+		if(s.length() == 0)
 			return false;
-		for(final char c : chars)
+		for(final char c : s.array())
 			if(c < '0' || c > '9')
 				return false;
 		return true;
