@@ -76,7 +76,59 @@ public final class Base8 {
 		return f;
 	}
 	
+	public static boolean isBase8(final char[] chars)
+	{
+		if(chars.length == 0)
+			return false;
+		int i = 0;
+		if(chars[i] == '-')
+			i++;
+		while(i < chars.length)
+			if(chars[i] < '0' || chars[i++] > '7')
+				return false;
+		return true;
+	}
+	
 	public static boolean isBase8(final CString s)
+	{
+		if(s.length() == 0)
+			return false;
+		final char[] chars = s.array();
+		int i = 0;
+		if(chars[i] == '-')
+			i++;
+		while(i < chars.length)
+			if(chars[i] < '0' || chars[i++] > '7')
+				return false;
+		return true;
+	}
+	
+	public static boolean isBase8(final String s)
+	{
+		if(s.length() == 0)
+			return false;
+		int i = 0;
+		if(s.charAt(i) == '-')
+			i++;
+		for(; i < s.length(); i++) {
+			char c = s.charAt(i);
+			if(c < '0' || c > '7')
+				return false;
+		}
+		return true;
+	}
+	
+	public static boolean isBase8Un(final char[] chars)
+	{
+		if(chars.length == 0)
+			return false;
+		for(char c : chars)
+			if(c < '0' || c > '7')
+				return false;
+		return true;
+	}
+	
+	public static boolean isBase8Un(final CString s)
 	{
 		if(s.length() == 0)
 			return false;
@@ -86,7 +138,7 @@ public final class Base8 {
 		return true;
 	}
 	
-	public static boolean isBase8(final String s)
+	public static boolean isBase8Un(final String s)
 	{
 		if(s.length() == 0)
 			return false;
