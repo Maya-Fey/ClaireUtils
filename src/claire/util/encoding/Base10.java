@@ -3,6 +3,16 @@ package claire.util.encoding;
 import claire.util.memory.util.Pointer;
 
 public final class Base10 {
+	
+	/*
+	 * Note: This class has a lot of bloat. Significant bloat comes from
+	 * the distinction between String, CString, and char[], which accounts
+	 * for a few hundred lines, the next is the distinction between byte,
+	 * short, int, and long which could easily halve the size of this class
+	 * if removed, and the no-memory version of from*(), and the distinction
+	 * between signed and unsigned. It would be wise to use the outline bar 
+	 * to traverse this class.
+	 */
 
 	/**
 	 * Converts a string of human-readable chars into a machine
@@ -850,7 +860,151 @@ public final class Base10 {
 			return 0;
 	}
 	
-	//TODO: Make from*() meyhods conform to memory regulations
+	/**
+	 * Converts a long integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A long integer of any value</li>
+	 * <li>An array of chars with a minimum length of twenty</li>
+	 * </ul>
+	 * If the array has a length less then four an ArrayIndexOutOfBounds
+	 * exception may occur.
+	 * behavior.
+	 * <br><br>
+	 * Returns: a string representing the integer passed.
+	 */
+	public static char[] fromLong(long ger, final char[] chars)
+	{
+		if(ger == 0x8000000000000000L)
+			return new char[] {'-', '9', '2', '2', '3', '3', '7', '2', '0', '3', '6', '8', '5', '4', '7', '7', '5', '8', '0', '8' };
+		final boolean negative;
+		int i = chars.length - 1;
+		if(ger < 0) 	
+			negative = true;
+		else {
+			ger = -ger;
+			negative = false;
+		}
+		while(ger <= -10)
+		{
+			chars[i--] = (char) (48 + (-ger % 10));
+			ger /= 10;
+		}
+		chars[i--] = (char) (48 + -ger);
+		if(negative)
+			chars[i--] = '-';
+		return CString.newFrom(chars, ++i);
+	}
+
+	/**
+	 * Converts a integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A integer of any value</li>
+	 * <li>An array of chars with a minimum length of eleven</li>
+	 * </ul>
+	 * If the array has a length less then four an ArrayIndexOutOfBounds
+	 * exception may occur.
+	 * <br><br>
+	 * Returns: a string representing the integer passed.
+	 */
+	public static char[] fromInt(int ger, final char[] chars)
+	{
+		if(ger == 0x80000000)
+			return new char[] {'-', '2', '1', '4', '7', '4', '8', '3', '6', '4', '8' };
+		final boolean negative;
+		int i = chars.length - 1;
+		if(ger < 0) 
+			negative = true;
+		else {
+			negative = false;
+			ger = -ger;
+		}
+		while(ger <= -10)
+		{
+			chars[i--] = (char) (48 + (-ger % 10));
+			ger /= 10;
+		}
+		chars[i--] = (char) (48 + -ger);
+		if(negative)
+			chars[i--] = '-';
+		return CString.newFrom(chars, ++i);
+	}
+
+	/**
+	 * Converts a short integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A short integer of any value</li>
+	 * <li>An array of chars with a minimum length of six</li>
+	 * </ul>
+	 * If the array has a length less then four an ArrayIndexOutOfBounds
+	 * exception may occur.
+	 * behavior.
+	 * <br><br>
+	 * Returns: a string representing the integer passed.
+	 */
+	public static char[] fromShort(short ger, final char[] chars)
+	{
+		if(ger == 0x8000)
+			return new char[] {'-', '3', '2', '7', '6', '8' };
+		final boolean negative;
+		int i = chars.length - 1;
+		if(ger < 0) 	
+			negative = true;
+		else {
+			negative = false;
+			ger = (short) -ger;
+		}
+		while(ger <= -10)
+		{
+			chars[i--] = (char) (48 + (-ger % 10));
+			ger /= 10;
+		}
+		chars[i--] = (char) (48 + -ger);
+		if(negative)
+			chars[i--] = '-';
+		return CString.newFrom(chars, ++i);
+	}
+
+	/**
+	 * Converts a byte too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A byte of any value</li>
+	 * <li>An array of chars with a minimum length of four</li>
+	 * </ul>
+	 * If the array has a length less then four an ArrayIndexOutOfBounds
+	 * exception may occur.
+	 * <br><br>
+	 * Returns: a string representing the integer passed.
+	 */
+	public static char[] fromByte(byte ger, final char[] chars)
+	{
+		if(ger == 0x80)
+			return new char[] {'-', '1', '2', '8'};
+		final boolean negative;
+		int i = chars.length - 1;
+		if(ger < 0) 
+			negative = true;
+		else {
+			negative = false;
+			ger = (byte) -ger;
+		}
+		while(ger <= -10)
+		{
+			chars[i--] = (char) (48 + (-ger % 10));
+			ger /= 10;
+		}
+		chars[i--] = (char) (48 + -ger);
+		if(negative)
+			chars[i--] = '-';
+		return CString.newFrom(chars, ++i);
+	}
 	
 	/**
 	 * Converts a long integer too a string of chars representing it.
