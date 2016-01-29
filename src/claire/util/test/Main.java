@@ -12,7 +12,6 @@ import claire.util.encoding.Base64;
 import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
 import claire.util.encoding.Hex;
-import claire.util.math.MathHelper;
 import claire.util.math.UInt;
 import claire.util.memory.Bits;
 
@@ -34,10 +33,6 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
-		long l1 = 10;
-		long l2 = 0x8000000000000002L;
-		System.out.println(l2);
-		System.out.println(MathHelper.moduloC(l2, l1));
 		end();
 		/*
 		Test.runTests();

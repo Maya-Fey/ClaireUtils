@@ -1,5 +1,6 @@
 package claire.util.encoding;
 
+import claire.util.math.MathHelper;
 import claire.util.memory.util.Pointer;
 
 public final class Base10 {
@@ -12,6 +13,13 @@ public final class Base10 {
 	 * if removed, and the no-memory version of from*(), and the distinction
 	 * between signed and unsigned. It would be wise to use the outline bar 
 	 * to traverse this class.
+	 * 
+	 * I am aware this is considered poor 'code climate' or whatever, and if
+	 * somebody seriously wants to modify these basic functions in the future 
+	 * it will probably require modifying 10+ equivalent bits of code. Here
+	 * is a code representation of how many fucks I give:
+	 * 
+	 * public static final double FUCKS_GIVEN = 0.0000;
 	 */
 
 	/**
@@ -1148,6 +1156,224 @@ public final class Base10 {
 		if(negative)
 			chars[i--] = '-';
 		return CString.newFrom(chars, ++i);
+	}
+	
+	/**
+	 * Converts an unsigned long integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A long integer of any value</li>
+	 * <li>An array of chars with a minimum length of twenty</li>
+	 * </ul>
+	 * If the array has a length less then four an ArrayIndexOutOfBounds
+	 * exception may occur.
+	 * behavior.
+	 * <br><br>
+	 * Returns: a string representing the integer passed.
+	 */
+	public static char[] fromLongUn(long ger, final char[] chars)
+	{
+		int i = chars.length - 1;
+		if(ger < 10) {
+			Pointer<Long> p = new Pointer<Long>(0L);
+			ger = MathHelper.dividemodC(ger, 10, p);
+			chars[i--] = (char) (48 + p.get());
+		}
+		while(ger > 10)
+		{
+			chars[i--] = (char) (48 + (ger % 10));
+			ger /= 10;
+		}
+		chars[i] = (char) (48 + ger);
+		return CString.newFrom(chars, i);
+	}
+
+	/**
+	 * Converts an unsigned integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A integer of any value</li>
+	 * <li>An array of chars with a minimum length of eleven</li>
+	 * </ul>
+	 * If the array has a length less then four an ArrayIndexOutOfBounds
+	 * exception may occur.
+	 * <br><br>
+	 * Returns: a string representing the integer passed.
+	 */
+	public static char[] fromIntUn(int uger, final char[] chars)
+	{
+		long ger = uger;
+		int i = chars.length - 1;
+		while(ger >= 10)
+		{
+			chars[i--] = (char) (48 + (ger % 10));
+			ger /= 10;
+		}
+		chars[i] = (char) (48 + ger);
+		return CString.newFrom(chars, i);
+	}
+
+	/**
+	 * Converts an unsigned short integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A short integer of any value</li>
+	 * <li>An array of chars with a minimum length of six</li>
+	 * </ul>
+	 * If the array has a length less then four an ArrayIndexOutOfBounds
+	 * exception may occur.
+	 * behavior.
+	 * <br><br>
+	 * Returns: a string representing the integer passed.
+	 */
+	public static char[] fromShortUn(short uger, final char[] chars)
+	{
+		int ger = (short) (uger & 0xFFFF);
+		int i = chars.length - 1;
+		while(ger >= 10)
+		{
+			chars[i--] = (char) (48 + (ger % 10));
+			ger /= 10;
+		}
+		chars[i] = (char) (48 + ger);
+		return CString.newFrom(chars, i);
+	}
+
+	/**
+	 * Converts an unsigned byte too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A byte of any value</li>
+	 * <li>An array of chars with a minimum length of four</li>
+	 * </ul>
+	 * If the array has a length less then four an ArrayIndexOutOfBounds
+	 * exception may occur.
+	 * <br><br>
+	 * Returns: a string representing the integer passed.
+	 */
+	public static char[] fromByteUn(byte uger, final char[] chars)
+	{
+		short ger = (short) (uger & 0xFF);
+		int i = chars.length - 1;
+		while(ger >= 10)
+		{
+			chars[i--] = (char) (48 + (ger % 10));
+			ger /= 10;
+		}
+		chars[i] = (char) (48 + ger);
+		return CString.newFrom(chars, i);
+	}
+	
+	/**
+	 * Converts an unsigned long integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A long integer of any value</li>
+	 * </ul>
+	 * This method is safe and will not result in exceptions or undefined
+	 * behavior.
+	 * <br><br>
+	 * Returns: a string representing the integer passed.
+	 */
+	public static char[] fromLongUn(long ger)
+	{
+		final char[] chars = new char[20];
+		int i = 19;
+		if(ger < 10) {
+			Pointer<Long> p = new Pointer<Long>(0L);
+			ger = MathHelper.dividemodC(ger, 10, p);
+			chars[i--] = (char) (48 + p.get());
+		}
+		while(ger > 10)
+		{
+			chars[i--] = (char) (48 + (ger % 10));
+			ger /= 10;
+		}
+		chars[i] = (char) (48 + ger);
+		return CString.newFrom(chars, i);
+	}
+
+	/**
+	 * Converts an unsigned integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A integer of any value</li>
+	 * </ul>
+	 * This method is safe and will not result in exceptions or undefined
+	 * behavior.
+	 * <br><br>
+	 * Returns: a string representing the integer passed.
+	 */
+	public static char[] fromIntUn(final int uger)
+	{
+		long ger = uger;
+		final char[] chars = new char[10];
+		int i = 9;
+		while(ger >= 10)
+		{
+			chars[i--] = (char) (48 + (ger % 10));
+			ger /= 10;
+		}
+		chars[i] = (char) (48 + ger);
+		return CString.newFrom(chars, i);
+	}
+
+	/**
+	 * Converts an unsigned short integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A short integer of any value</li>
+	 * </ul>
+	 * This method is safe and will not result in exceptions or undefined
+	 * behavior.
+	 * <br><br>
+	 * Returns: a string representing the integer passed.
+	 */
+	public static char[] fromShortUn(final short uger)
+	{
+		int ger = (short) (uger & 0xFFFF);
+		final char[] chars = new char[5];
+		int i = 4;
+		while(ger >= 10)
+		{
+			chars[i--] = (char) (48 + (ger % 10));
+			ger /= 10;
+		}
+		chars[i] = (char) (48 + ger);
+		return CString.newFrom(chars, i);
+	}
+	
+	/**
+	 * Converts an unsigned byte too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A byte of any value</li>
+	 * </ul>
+	 * This method is safe and will not result in exceptions or undefined
+	 * behavior.
+	 * <br><br>
+	 * Returns: a string representing the integer passed.
+	 */
+	public static char[] fromByteUn(final byte uger)
+	{
+		short ger = (short) (uger & 0xFF);
+		final char[] chars = new char[3];
+		int i = 2;
+		while(ger >= 10)
+		{
+			chars[i--] = (char) (48 + (ger % 10));
+			ger /= 10;
+		}
+		chars[i] = (char) (48 + ger);
+		return CString.newFrom(chars, i);
 	}
 	
 	/**
