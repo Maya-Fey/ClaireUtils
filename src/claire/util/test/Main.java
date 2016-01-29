@@ -8,14 +8,13 @@ import java.util.Arrays;
 
 import claire.util.crypto.hash.primitive.BEAR.$BEAR3;
 import claire.util.display.ImageUtil;
-import claire.util.encoding.Base10;
 import claire.util.encoding.Base64;
 import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
 import claire.util.encoding.Hex;
+import claire.util.math.MathHelper;
 import claire.util.math.UInt;
 import claire.util.memory.Bits;
-import claire.util.memory.util.Pointer;
 
 public final class Main {
 	
@@ -35,9 +34,10 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
-		Pointer<Integer> p = new Pointer<Integer>(0);
-		System.out.println(Base10.stringCheckLong("543534534534", p));
-		System.out.println(p.get());
+		long l1 = 10;
+		long l2 = 0x8000000000000002L;
+		System.out.println(l2);
+		System.out.println(MathHelper.moduloC(l2, l1));
 		end();
 		/*
 		Test.runTests();

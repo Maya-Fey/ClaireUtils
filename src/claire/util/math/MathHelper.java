@@ -3,6 +3,7 @@ package claire.util.math;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
+import claire.util.memory.util.Pointer;
 import claire.util.standards.IInteger;
 import claire.util.standards.IRandom;
 
@@ -1116,7 +1117,8 @@ public final class MathHelper {
 	 * </ul>
 	 * This method is safe for any set of inputs.
 	 * <br><br>
-	 * Returns: The result of unsigned modulua between <code>divd % divi</code>
+	 * Returns: The result of unsigned modular reduction between <code>divd %
+	 * divi</code>
 	 */
 	public static long moduloC(final long divd, final long divi)
 	{
@@ -1139,7 +1141,49 @@ public final class MathHelper {
 				approx++;
 				inv -= divi;
 			}
-			return approx * divi;
+			return divd - (approx * divi);
+		}
+	}
+	
+	/**
+	 * This method divides two long integers as if they were unsigned,
+	 * will take much longer then normal division by several times (Try
+	 * to avoid this). 
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A long of any value</li>
+	 * <li>A long of any value</li>
+	 * <li>A long pointer<li>
+	 * </ul>
+	 * This method is safe for any non-null set of inputs.
+	 * <br><br>
+	 * Returns: The result of unsigned division between <code>divd / divi</code>,
+	 * puts the result of unsigned modular reduction in <code>p</code>.
+	 */
+	public static long dividemodC(final long divd, final long divi, final Pointer<Long> p)
+	{
+		if(divi < 0) {
+			if(Bits.u_greaterOrEqual(divd, divi))
+				return 1;
+			else
+				return 0;
+		}
+		if(divd > 0)
+			return divd / divi;
+		else {
+			long approx = (divd >>> 1) / (divi >>> 1);
+			long inv = divd - approx * divi;
+			while(inv < 0) {
+				approx--;
+				inv += divi;
+			}
+			while(inv >= divi) {
+				approx++;
+				inv -= divi;
+			}
+			p.set(divd - (approx * divi));
+			return approx;
 		}
 	}
 	
