@@ -1012,8 +1012,11 @@ public final class Base10 {
 	{
 		if(chars.length == 0)
 			return false;
-		for(final char c : chars)
-			if(c < '0' || c > '9')
+		int i = 0;
+		if(chars[i] == '-')
+			i++;
+		while(i < chars.length)
+			if(chars[i] < '0' || chars[i++] > '9')
 				return false;
 		return true;
 	}
@@ -1060,6 +1063,81 @@ public final class Base10 {
 			return false;
 		for(final char c : s.array())
 			if(c < '0' || c > '9')
+				return false;
+		return true;
+	}
+	
+	/**
+	 * Checks if a string represents a number or not.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An array of chars that you want to check</li>
+	 * </ul>
+	 * This method is safe and will work normally with any
+	 * non-null values.
+	 * <br><br>
+	 * Returns: true if the chars represent a number
+	 */
+	public static boolean isBase10Un(final char[] chars)
+	{
+		if(chars.length == 0)
+			return false;
+		for(final char c : chars)
+			if(c < '0' || c > '9')
+				return false;
+		return true;
+	}
+
+	/**
+	 * Checks if a string represents a number or not.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An string that you want to check</li>
+	 * </ul>
+	 * This method is safe and will work normally with any
+	 * non-null values.
+	 * <br><br>
+	 * Returns: true if the chars represent a number
+	 */
+	public static boolean isBase10Un(final String s)
+	{
+		if(s.length() == 0)
+			return false;
+		int i = 0;
+		if(s.charAt(i) == '-')
+			i++;
+		for(; i < s.length(); i++) {
+			final char c = s.charAt(i);
+			if(c < '0' || c > '9')
+				return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Checks if a string represents a number or not.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An string that you want to check</li>
+	 * </ul>
+	 * This method is safe and will work normally with any
+	 * non-null values.
+	 * <br><br>
+	 * Returns: true if the chars represent a number
+	 */
+	public static boolean isBase10Un(final CString s)
+	{
+		if(s.length() == 0)
+			return false;
+		final char[] chars = s.array();
+		int i = 0;
+		if(chars[i] == '-')
+			i++;
+		while(i < chars.length)
+			if(chars[i] < '0' || chars[i++] > '9')
 				return false;
 		return true;
 	}
