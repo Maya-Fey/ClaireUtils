@@ -9,12 +9,15 @@ import claire.util.io.Factory;
 public interface IIncomingStream 
 	   extends Closeable {
 	
+	boolean readBool() throws IOException;
 	byte readByte() throws IOException;
 	short readShort() throws IOException;
 	char readChar() throws IOException;
 	int readInt() throws IOException;
 	long readLong() throws IOException;
 	
+	void readBools(boolean[] out, int off, int amt) throws IOException;
+	void readNibbles(byte[] out, int off, int amt) throws IOException;
 	void readBytes(byte[] out, int off, int bytes) throws IOException;
 	void readShorts(short[] shorts, int off, int amt) throws IOException;
 	void readChars(char[] chars, int off, int amt) throws IOException;
@@ -35,6 +38,16 @@ public interface IIncomingStream
 	default <T> T resurrect(Factory<T> obj) throws IOException, InstantiationException
 	{
 		return obj.resurrect(this);
+	}
+	
+	default void readBools(boolean[] bools) throws IOException
+	{
+		this.readBools(bools, 0, bools.length);
+	}
+	
+	default void readNibbles(byte[] nibbles) throws IOException
+	{
+		this.readNibbles(nibbles, 0, nibbles.length);
 	}
 	
 	default void readBytes(byte[] bytes) throws IOException
@@ -60,6 +73,20 @@ public interface IIncomingStream
 	default void readLongs(long[] longs) throws IOException
 	{
 		this.readLongs(longs, 0, longs.length);
+	}
+	
+	default boolean[] readBools(int bools) throws IOException
+	{
+		boolean[] data = new boolean[bools];
+		this.readBools(data, 0, bools);
+		return data;
+	}
+	
+	default byte[] readNibbles(int bytes) throws IOException
+	{
+		byte[] data = new byte[bytes];
+		this.readNibbles(data, 0, bytes);
+		return data;
 	}
 	
 	default byte[] readBytes(int bytes) throws IOException
@@ -94,6 +121,20 @@ public interface IIncomingStream
 	{
 		long[] data = new long[longs];
 		this.readLongs(data, 0, longs);
+		return data;
+	}
+	
+	default boolean[] readBoolArr() throws IOException
+	{
+		boolean[] data = new boolean[this.readInt()];
+		this.readBools(data, 0, data.length);
+		return data;
+	}
+	
+	default byte[] readNibbleArr() throws IOException
+	{
+		byte[] data = new byte[this.readInt()];
+		this.readNibbles(data, 0, data.length);
 		return data;
 	}
 	

@@ -9,12 +9,15 @@ import claire.util.standards.IPersistable;
 public interface IOutgoingStream 
 	   extends Closeable {
 	
+	void writeBool(boolean data) throws IOException;
 	void writeByte(byte data) throws IOException;
 	void writeShort(short data) throws IOException;
 	void writeChar(char data) throws IOException;
 	void writeInt(int data) throws IOException;
 	void writeLong(long data) throws IOException;
 	
+	void writeBools(boolean[] bools, int off, int len) throws IOException;
+	void writeNibbles(byte[] nibbles, int off, int len) throws IOException;
 	void writeBytes(byte[] bytes, int off, int len) throws IOException;
 	void writeShorts(short[] shorts, int off, int len) throws IOException;
 	void writeChars(char[] charss, int off, int len) throws IOException;
@@ -30,6 +33,16 @@ public interface IOutgoingStream
 	default void writeString(CString s) throws IOException
 	{
 		this.writeChars(s.array());
+	}
+	
+	default void writeBools(boolean[] bools) throws IOException
+	{
+		this.writeBools(bools, 0, bools.length);
+	}
+	
+	default void writeNibbles(byte[] nibbles) throws IOException
+	{
+		this.writeNibbles(nibbles, 0, nibbles.length);
 	}
 	
 	default void writeBytes(byte[] bytes) throws IOException
@@ -60,6 +73,18 @@ public interface IOutgoingStream
 	default void persist(IPersistable<?> obj) throws IOException
 	{
 		obj.export(this);
+	}
+	
+	default void writeBoolArr(boolean[] arr) throws IOException
+	{
+		this.writeInt(arr.length);
+		this.writeBools(arr);
+	}
+	
+	default void writeNibbleArr(byte[] arr) throws IOException
+	{
+		this.writeInt(arr.length);
+		this.writeNibbleArr(arr);
 	}
 	
 	default void writeByteArr(byte[] arr) throws IOException
