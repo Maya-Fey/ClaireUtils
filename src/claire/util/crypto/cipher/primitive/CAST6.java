@@ -3,9 +3,7 @@ package claire.util.crypto.cipher.primitive;
 import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.KeyCAST6;
-import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
-import claire.util.standards.IRandom;
 import claire.util.standards.crypto.ISymmetric;
 
 public class CAST6 
@@ -14,23 +12,14 @@ public class CAST6
 
 	private KeyCAST6 key;
 	
-	private final int R;
+	private int R;
 	
-	private final int[] KMASK;
-	private final int[] KROT;
+	private int[] KMASK;
+	private int[] KROT;
 	
-	public CAST6()
+	public CAST6(KeyCAST6 key)
 	{
-		R = 12;
-		KROT = new int[R << 2];
-		KMASK = new int[R << 2];
-	}
-	
-	public CAST6(int rounds)
-	{
-		R = rounds;
-		KROT = new int[R << 2];
-		KMASK = new int[R << 2];
+		this.setKey(key);
 	}
 
 	public KeyCAST6 getKey()
@@ -41,6 +30,7 @@ public class CAST6
 	public void setKey(KeyCAST6 t)
 	{
 		this.key = t;
+		R = t.getRounds();
 		byte[] raw = t.getBytes();
 		
 		int A = 0x5a827999;
@@ -60,7 +50,7 @@ public class CAST6
           	 TROT[i] = C;
           	C = (C + D) & 0x1f;           
         }
-		Bits.bytesToInts(raw, KEY);
+		Bits.bytesToIntsFull(raw, 0, KEY, 0);
 		
 		int j = 0, k = 0;
 		for(int i = 0; i < R; i++)
@@ -94,10 +84,13 @@ public class CAST6
         }
 	}
 
-	public void destroyKey()
+	public void wipe()
 	{
 		Arrays.fill(KMASK, 0);
 		Arrays.fill(KROT, 0);
+		KMASK = KROT = null;
+		this.R = 0;
+		this.key = null;
 	}
 
 	public int plaintextSize()
@@ -224,18 +217,6 @@ public class CAST6
 		Bits.intToBytes(B, out, start1 + 4 );
 		Bits.intToBytes(C, out, start1 + 8 );
 		Bits.intToBytes(D, out, start1 + 12);
-	}
-
-	public KeyCAST6 newKey(IRandom rand)
-	{
-		byte[] n = new byte[32];
-		RandUtils.fillArr(n, rand);
-		return new KeyCAST6(n);
-	}
-
-	public void genKey(IRandom rand)
-	{
-		this.setKey(newKey(rand));
 	}
 	
 	public void reset() {}
