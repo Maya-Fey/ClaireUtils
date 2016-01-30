@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
 
+import claire.util.crypto.cipher.key.KeyAES;
+import claire.util.crypto.cipher.primitive.AES;
 import claire.util.crypto.hash.primitive.BEAR.$BEAR3;
 import claire.util.display.ImageUtil;
 import claire.util.encoding.Base64;
@@ -33,6 +35,13 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
+		int[] ints = new int[200];
+		KeyAES aes = new KeyAES(ints);
+		AES cip = new AES(aes);
+		byte[] bytez = new byte[16];
+		bytez[0] = 1;
+		cip.encryptBlock(bytez);
+		System.out.println(Hex.toHex(bytez));
 		end();
 		/*
 		Test.runTests();

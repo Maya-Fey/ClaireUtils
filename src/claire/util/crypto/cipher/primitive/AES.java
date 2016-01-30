@@ -3,9 +3,7 @@ package claire.util.crypto.cipher.primitive;
 import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.KeyAES;
-import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
-import claire.util.standards.IRandom;
 import claire.util.standards.crypto.ISymmetric;
 
 public class AES 
@@ -233,6 +231,11 @@ public class AES
 	private int[][] DKEY;
 	private int rounds;
 
+	public AES(KeyAES aes) 
+	{
+		this.setKey(aes);
+	}
+
 	public KeyAES getKey()
 	{
 		return this.key;
@@ -241,46 +244,56 @@ public class AES
 	public void setKey(KeyAES in)
 	{
 		this.key = in;
-		byte[] raw = in.getBytes();
-		rounds = (raw.length >> 2) + 6;
+		rounds = in.getRounds();
+		this.destroy();
+		final int[] raw = in.getInts();
 		
-		//You never know how long the GC will take
-		this.wipeInternalKey();
+		if(EKEY == null || EKEY.length < rounds + 1) {
+			EKEY = new int[rounds + 1][4];
+			DKEY = new int[rounds + 1][4];
+		}
 		
-		EKEY = new int[rounds + 1][4];
-		DKEY = new int[rounds + 1][4];
-        int t = 0, i = 0;
+        int i = 0;
         while (i < raw.length)
-        {
-            EKEY[t >> 2][t & 3] = Bits.intFromBytes(raw, i);
-            i += 4;
-            t++;
-        }
+            EKEY[i >> 2][i & 3] = raw[i++];
+        
         int total = EKEY.length << 2;
-        int words = raw.length >> 2;
-       	for(; t < total; t++)
+        int words = raw.length;
+       	for(; i < total; i++)
         {
-        	int temp = EKEY[(t - 1) >> 2][(t - 1) & 3];
-            if ((t % words) == 0)
-                temp = subBytes(Bits.rotateRight(temp, 8)) ^ GF[(t / words) - 1];
-            else if ((words > 6) && ((t % words) == 4))
+        	int temp = EKEY[(i - 1) >> 2][(i - 1) & 3];
+            if ((i % words) == 0)
+                temp = subBytes(Bits.rotateRight(temp, 8)) ^ GF[(i / words) - 1];
+            else if ((words > 6) && ((i % words) == 4))
                 temp = subBytes(temp);
             
-            EKEY[t >> 2][t & 3] = EKEY[(t - words) >> 2][(t - words) & 3] ^ temp;
+            EKEY[i >> 2][i & 3] = EKEY[(i - words) >> 2][(i - words) & 3] ^ temp;
         }
 
-       	for (int j = 1; j < rounds; j++)
-            for (i = 0; i < 4; i++)
+       	for(int j = 1; j < rounds; j++)
+            for(i = 0; i < 4; i++)
                 DKEY[j][i] = invCol(EKEY[j][i]);
        	
        	System.arraycopy(EKEY[0], 0, DKEY[0], 0, 4);
        	System.arraycopy(EKEY[rounds], 0, DKEY[rounds], 0, 4);   	
 	}
-
-	public void destroyKey()
+	
+	public void wipe()
 	{
 		this.rounds = 0;
-		this.wipeInternalKey();
+		key = null;
+		EKEY = DKEY = null;
+		this.destroy();
+	}
+
+	private void destroy()
+	{	
+		if(EKEY != null)
+			for(int[] i : EKEY)
+				Arrays.fill(i, 0);
+		if(DKEY != null)
+			for(int[] i : DKEY)
+				Arrays.fill(i, 0);
 	}
 
 	public int plaintextSize()
@@ -406,7 +419,6 @@ public class AES
         Bits.intToBytes((SBOX[G & 0xFF] & 0xFF) ^ ((SBOX[(D >> 8) & 0xFF] & 0xFF) << 8) ^ ((SBOX[(E >> 16) & 0xFF] & 0xFF) << 16) ^ (SBOX[(F >> 24) & 0xFF] << 24) ^ EKEY[i][3], block, start + 12);
 	}
 
-	@Override
 	public void encryptBlock(byte[] block, int start0, byte[] out, int start1)
 	{
 		int A = Bits.intFromBytes(block, start0	   ) ^ EKEY[0][0];
@@ -435,28 +447,6 @@ public class AES
         Bits.intToBytes((SBOX[E & 0xFF] & 0xFF) ^ ((SBOX[(F >> 8) & 0xFF] & 0xFF) << 8) ^ ((SBOX[(G >> 16) & 0xFF] & 0xFF) << 16) ^ (SBOX[(D >> 24) & 0xFF] << 24) ^ EKEY[i][1], out, start1 + 4 );
         Bits.intToBytes((SBOX[F & 0xFF] & 0xFF) ^ ((SBOX[(G >> 8) & 0xFF] & 0xFF) << 8) ^ ((SBOX[(D >> 16) & 0xFF] & 0xFF) << 16) ^ (SBOX[(E >> 24) & 0xFF] << 24) ^ EKEY[i][2], out, start1 + 8 );
         Bits.intToBytes((SBOX[G & 0xFF] & 0xFF) ^ ((SBOX[(D >> 8) & 0xFF] & 0xFF) << 8) ^ ((SBOX[(E >> 16) & 0xFF] & 0xFF) << 16) ^ (SBOX[(F >> 24) & 0xFF] << 24) ^ EKEY[i][3], out, start1 + 12);
-	}
-	
-	private void wipeInternalKey()
-	{
-		if(EKEY != null)
-			for(int[] i : EKEY)
-				Arrays.fill(i, 0);
-		if(DKEY != null)
-			for(int[] i : DKEY)
-				Arrays.fill(i, 0);
-	}
-
-	public KeyAES newKey(IRandom rand)
-	{
-		byte[] bytes = new byte[32];
-		RandUtils.fillArr(bytes, rand);
-		return new KeyAES(bytes);
-	}
-
-	public void genKey(IRandom rand)
-	{
-		this.setKey(newKey(rand));
 	}
 
 	public void reset() {}

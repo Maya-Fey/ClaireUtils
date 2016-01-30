@@ -16,11 +16,6 @@ public interface ICrypto<Type extends IKey<?>> {
 	 * key used to encrypt and decrypt. For Asymmetric algorithms this is the
 	 * private key
 	 */
-	void setKey(Type t);
-	
-	/**
-	 * Removes all secret data. Does not destroy given key
-	 */
-	public void destroyKey();	
+	void setKey(Type t);	
 
 }

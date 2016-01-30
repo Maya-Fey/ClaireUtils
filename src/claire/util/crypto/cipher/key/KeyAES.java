@@ -1,27 +1,62 @@
 package claire.util.crypto.cipher.key;
 
+import java.io.IOException;
+import java.util.Arrays;
+
+import claire.util.io.Factory;
+import claire.util.io.IOUtils;
+import claire.util.memory.util.ArrayUtil;
 import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IKey;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
-public class KeyAES extends ByteKey<KeyAES> {
-
-	public KeyAES(byte[] key, int size) 
+public class KeyAES 
+	   implements IKey<KeyAES> {
+	
+	private int[] ints;
+	private int rounds;
+	
+	public KeyAES(int[] ints)
 	{
-		super(KeyAES.class, key, size);
+		this.ints = ints;
+		this.rounds = ints.length + 6;
 	}
 	
-	public KeyAES(byte[] key)
+	private KeyAES(int[] ints, int rounds)
 	{
-		super(KeyAES.class, key);
+		this.ints = ints;
+		this.rounds = rounds;
+	}
+
+	public int getRounds()
+	{
+		return this.rounds;
 	}
 	
-	protected int getLength(byte[] bytes, int size)
+	public int[] getInts()
 	{
-		if(size == 16 || 
-		   size == 24 ||
-		   size == 32)
-			return size;
-		else
-			throw new java.lang.IllegalArgumentException("AES keys are 128, 192, or 256 bits.");
+		return this.ints;
+	}
+	
+	public KeyAES createDeepClone()
+	{
+		return new KeyAES(ArrayUtil.copy(ints), rounds);
+	}
+
+	public void export(IOutgoingStream stream) throws IOException
+	{
+		stream.writeIntArr(ints);
+	}
+
+	public void export(byte[] bytes, int offset)
+	{
+		IOUtils.writeArr(ints, bytes, offset);
+	}
+	
+	public int exportSize()
+	{
+		return ints.length * 4 + 4;
 	}
 
 	public int NAMESPACE()
@@ -29,9 +64,42 @@ public class KeyAES extends ByteKey<KeyAES> {
 		return _NAMESPACE.AESKEY;
 	}
 
-	protected KeyAES construct(byte[] bytes)
+	public boolean sameAs(KeyAES obj)
 	{
-		return new KeyAES(bytes);
+		return ArrayUtil.equals(ints, obj.ints);
+	}
+
+	public void erase()
+	{
+		Arrays.fill(ints, 0);
+		this.rounds = 0;
+		this.ints = null;
+	}
+	
+	public Factory<KeyAES> factory()
+	{
+		return factory;
+	}
+	
+	public static final KeyAESFactory factory = new KeyAESFactory();
+
+	public static final class KeyAESFactory extends Factory<KeyAES> {
+
+		protected KeyAESFactory() 
+		{
+			super(KeyAES.class);
+		}
+
+		public KeyAES resurrect(byte[] data, int start) throws InstantiationException
+		{
+			return new KeyAES(IOUtils.readIntArr(data, start));
+		}
+
+		public KeyAES resurrect(IIncomingStream stream) throws InstantiationException, IOException
+		{
+			return new KeyAES(stream.readIntArr());
+		}
+		
 	}
 
 }
