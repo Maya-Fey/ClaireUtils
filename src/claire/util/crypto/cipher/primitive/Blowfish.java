@@ -3,9 +3,7 @@ package claire.util.crypto.cipher.primitive;
 import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.KeyBlowfish;
-import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
-import claire.util.standards.IRandom;
 import claire.util.standards.crypto.ISymmetric;
 
 public class Blowfish implements ISymmetric<KeyBlowfish> {
@@ -378,7 +376,7 @@ public class Blowfish implements ISymmetric<KeyBlowfish> {
 		gen(SCUBE[2][254], SCUBE[2][255], SCUBE[3]);
 	}
 
-	public void destroyKey()
+	public void wipe()
 	{
 		for(int[] arr : SCUBE)
 			Arrays.fill(arr, 0);

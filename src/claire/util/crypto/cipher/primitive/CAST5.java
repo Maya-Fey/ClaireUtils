@@ -182,11 +182,13 @@ public class CAST5
         KROT[15] = (SCUBE[4][key[0xE] & 0xFF] ^ SCUBE[5][key[0xF] & 0xFF] ^ SCUBE[6][key[0x1] & 0xFF] ^ SCUBE[7][key[0x0] & 0xFF] ^ SCUBE[7][key[0xD] & 0xFF])&0x1f;
 	}
 
-	public void destroyKey()
+	public void wipe()
 	{
 		R = 0;
 		Arrays.fill(KROT, 0);
 		Arrays.fill(KMASK, 0);
+		KROT = KMASK = null;
+		this.key = null;
 	}
 
 	public int plaintextSize()
