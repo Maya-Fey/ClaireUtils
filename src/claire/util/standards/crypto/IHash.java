@@ -21,7 +21,7 @@ public interface IHash {
 	default byte[] finish()
 	{
 		byte[] bytes = new byte[this.outputLength()];
-		finish(bytes);
+		finish(bytes, 0);
 		return bytes;
 	}
 	

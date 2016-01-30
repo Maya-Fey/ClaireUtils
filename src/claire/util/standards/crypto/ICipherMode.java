@@ -1,6 +1,6 @@
 package claire.util.standards.crypto;
 
-public interface ICipherMode<Key extends ISymmetricKey<Key>> 
+public interface ICipherMode<Key extends IKey<Key>> 
 	   extends IEncrypter, 
 	   		   IDecrypter,
 	   		   ICrypto<Key> {

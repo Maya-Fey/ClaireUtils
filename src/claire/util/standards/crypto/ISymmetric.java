@@ -2,7 +2,7 @@ package claire.util.standards.crypto;
 
 import claire.util.standards.IRandom;
 
-public interface ISymmetric<Key extends ISymmetricKey<Key>>
+public interface ISymmetric<Key extends IKey<Key>>
 	   extends ICrypto<Key>, 
 	   		   IEncrypter, 
 	   		   IDecrypter {
