@@ -140,4 +140,54 @@ public class FileIncomingStream
 		return stream.length() - stream.getFilePointer();
 	}
 
+	public boolean readBool() throws IOException
+	{
+		return stream.readByte() == 1;
+	}
+
+	public void readBools(boolean[] out, int off, int amt) throws IOException
+	{
+		while(amt >= 8) {
+			if(stream.read(buffer, 0, 8) != 8)
+				throw new java.io.IOException("Bytes could not be read");
+			int i = 0;
+			while(i < 8) 
+				out[off++] = buffer[i++] == 1;
+			amt -= 8;
+		}
+		if(amt > 0) {
+			if(stream.read(buffer, 0, amt) != amt)
+				throw new java.io.IOException("Bytes could not be read");
+			int i = 0;
+			while(i < amt) 
+				out[off++] = buffer[i++] == 1;
+		}
+	}
+
+	public void readNibbles(byte[] out, int off, int amt) throws IOException
+	{
+		amt >>>= 1;
+		while(amt >= 8) {
+			if(stream.read(buffer, 0, 8) != 8)
+				throw new java.io.IOException("Bytes could not be read");
+			int i = 0;
+			while(i < 8) {
+				byte b = buffer[i++];
+				out[off++] = (byte) ((b & 0xFF) >>> 4);
+				out[off++] = (byte)  (b & 0x0F)       ;
+			}
+			amt -= 8;
+		}
+		if(amt > 0) {
+			if(stream.read(buffer, 0, amt) != amt)
+				throw new java.io.IOException("Bytes could not be read");
+			int i = 0;
+			while(i < amt) {
+				byte b = buffer[i++];
+				out[off++] = (byte) ((b & 0xFF) >>> 4);
+				out[off++] = (byte)  (b & 0x0F)       ;
+			}
+		}
+	}
+
 }

@@ -211,4 +211,96 @@ public class FileBidirectionalStream
 		stream.getChannel().truncate(l);
 	}
 
+	public boolean readBool() throws IOException
+	{
+		return stream.readByte() == 1;
+	}
+
+	public void readBools(boolean[] out, int off, int amt) throws IOException
+	{
+		while(amt >= 8) {
+			if(stream.read(buffer, 0, 8) != 8)
+				throw new java.io.IOException("Bytes could not be read");
+			int i = 0;
+			while(i < 8) 
+				out[off++] = buffer[i++] == 1;
+			amt -= 8;
+		}
+		if(amt > 0) {
+			if(stream.read(buffer, 0, amt) != amt)
+				throw new java.io.IOException("Bytes could not be read");
+			int i = 0;
+			while(i < amt) 
+				out[off++] = buffer[i++] == 1;
+		}
+	}
+
+	public void readNibbles(byte[] out, int off, int amt) throws IOException
+	{
+		amt >>>= 1;
+		while(amt >= 8) {
+			if(stream.read(buffer, 0, 8) != 8)
+				throw new java.io.IOException("Bytes could not be read");
+			int i = 0;
+			while(i < 8) {
+				byte b = buffer[i++];
+				out[off++] = (byte) ((b & 0xFF) >>> 4);
+				out[off++] = (byte)  (b & 0x0F)       ;
+			}
+			amt -= 8;
+		}
+		if(amt > 0) {
+			if(stream.read(buffer, 0, amt) != amt)
+				throw new java.io.IOException("Bytes could not be read");
+			int i = 0;
+			while(i < amt) {
+				byte b = buffer[i++];
+				out[off++] = (byte) ((b & 0xFF) >>> 4);
+				out[off++] = (byte)  (b & 0x0F)       ;
+			}
+		}
+	}
+	
+	public void writeBool(boolean data) throws IOException
+	{
+		this.writeByte((byte) (data ? 1 : 0)); 
+	}
+
+	public void writeBools(boolean[] bools, int off, int len) throws IOException
+	{
+		while(len >= 8) {
+			int i = 0; 
+			while(i < 8)
+				buffer[i++] = (byte) (bools[off++] ? 1 : 0);
+			stream.write(buffer, 0, 8);
+			len -= 8;
+		}
+		if(len > 0) {
+			int i = 0; 
+			while(i < 8)
+				buffer[i++] = (byte) (bools[off++] ? 1 : 0);
+			stream.write(buffer, 0, len);
+		}
+	}
+
+	public void writeNibbles(byte[] nibbles, int off, int len) throws IOException
+	{
+		len >>>= 1;
+		while(len >= 8) {
+			int i = 0; 
+			while(i < 8)
+				buffer[i++] = (byte) (((nibbles[off++] & 0xF) << 4) |
+					    		       (nibbles[off++] & 0xF));
+			stream.write(buffer, 0, 8);
+			len -= 8;
+		}
+		if(len > 0) {
+			int i = 0; 
+			while(i < 8)
+				buffer[i++] = (byte) (((nibbles[off++] & 0xF) << 4) |
+									   (nibbles[off++] & 0xF));
+			stream.write(buffer, 0, len);
+		}
+	}
+	
 }

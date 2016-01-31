@@ -161,4 +161,25 @@ public class BufferedFileIncomingStream implements IIncomingStream {
 		this.pos = 0;
 	}
 
+	@Override
+	public boolean readBool() throws IOException
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void readBools(boolean[] out, int off, int amt) throws IOException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void readNibbles(byte[] out, int off, int amt) throws IOException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

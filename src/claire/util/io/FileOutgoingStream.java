@@ -115,4 +115,46 @@ public class FileOutgoingStream
 		return new FileIncomingStream(file);
 	}
 
+	public void writeBool(boolean data) throws IOException
+	{
+		this.writeByte((byte) (data ? 1 : 0)); 
+	}
+
+	public void writeBools(boolean[] bools, int off, int len) throws IOException
+	{
+		while(len >= 8) {
+			int i = 0; 
+			while(i < 8)
+				buffer[i++] = (byte) (bools[off++] ? 1 : 0);
+			stream.write(buffer, 0, 8);
+			len -= 8;
+		}
+		if(len > 0) {
+			int i = 0; 
+			while(i < 8)
+				buffer[i++] = (byte) (bools[off++] ? 1 : 0);
+			stream.write(buffer, 0, len);
+		}
+	}
+
+	public void writeNibbles(byte[] nibbles, int off, int len) throws IOException
+	{
+		len >>>= 1;
+		while(len >= 8) {
+			int i = 0; 
+			while(i < 8)
+				buffer[i++] = (byte) (((nibbles[off++] & 0xF) << 4) |
+					    		       (nibbles[off++] & 0xF));
+			stream.write(buffer, 0, 8);
+			len -= 8;
+		}
+		if(len > 0) {
+			int i = 0; 
+			while(i < 8)
+				buffer[i++] = (byte) (((nibbles[off++] & 0xF) << 4) |
+									   (nibbles[off++] & 0xF));
+			stream.write(buffer, 0, len);
+		}
+	}
+
 }
