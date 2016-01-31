@@ -1,11 +1,7 @@
 package claire.util.crypto.cipher.primitive;
 
-import java.util.Arrays;
-
 import claire.util.crypto.cipher.key.KeyTEA;
-import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
-import claire.util.standards.IRandom;
 import claire.util.standards.crypto.ISymmetric;
 
 public class TEA implements ISymmetric<KeyTEA> {
@@ -25,12 +21,13 @@ public class TEA implements ISymmetric<KeyTEA> {
 	public void setKey(KeyTEA t)
 	{
 		this.key = t;
-		schedule = Bits.bytesToInts(key.getBytes());
+		schedule = t.getInts();
 	}
 
-	public void destroyKey()
+	public void wipe()
 	{
-		Arrays.fill(schedule, 0);
+		key = null;
+		schedule = null;
 	}
 
 	public int plaintextSize()
@@ -133,19 +130,7 @@ public class TEA implements ISymmetric<KeyTEA> {
 				
 		Bits.intToBytes(A, out, start1 + 0);
 		Bits.intToBytes(B, out, start1 + 4);
-	}
-
-	public KeyTEA newKey(IRandom rand)
-	{
-		byte[] bytes = new byte[16];
-		RandUtils.fillArr(bytes, rand);
-		return new KeyTEA(bytes);
-	}
-
-	public void genKey(IRandom rand)
-	{
-		this.setKey(newKey(rand));
-	}
+	}	
 
 	public void reset() {}
 	
