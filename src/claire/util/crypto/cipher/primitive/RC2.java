@@ -8,7 +8,8 @@ import claire.util.memory.Bits;
 import claire.util.standards.IRandom;
 import claire.util.standards.crypto.ISymmetric;
 
-public class RC2 implements ISymmetric<KeyRC2> {
+public class RC2 
+	   implements ISymmetric<KeyRC2> {
 	
 	private static final byte[] SBOX = {
 		 -39,  120,   -7,  -60,   25,  -35,  -75,  -19, 
@@ -81,7 +82,7 @@ public class RC2 implements ISymmetric<KeyRC2> {
 			newKey[i] = SBOX[(newKey[i - length] + newKey[i - 1]) & 0xFF];
 		
 		newKey[128 - length] = SBOX[newKey[128 - length] & 0xFF];
-		for (int i = 127 - length; i >= 0; i--)
+		for(int i = 127 - length; i >= 0; i--)
 			newKey[i] = SBOX[(newKey[i + length] ^ newKey[i + 1]) & 0xFF];
 		Bits.bytesToShorts(newKey, keyData);
 	}

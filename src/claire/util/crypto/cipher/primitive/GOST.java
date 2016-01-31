@@ -4,7 +4,8 @@ import claire.util.crypto.cipher.key.KeyGOST;
 import claire.util.memory.Bits;
 import claire.util.standards.crypto.ISymmetric;
 
-public class GOST implements ISymmetric<KeyGOST> {
+public class GOST 
+	   implements ISymmetric<KeyGOST> {
 
 	private KeyGOST key;
 	private byte[] SBOX;
