@@ -48,7 +48,7 @@ public class RC2
 	
 	private KeyRC2 key;
 	
-	private final short[] keyData = new short[64];
+	private short[] keyData = new short[64];
 	
 	public RC2(int keysize)
 	{
@@ -72,10 +72,10 @@ public class RC2
 	public void setKey(KeyRC2 t)
 	{
 		this.key = t;
-		int length = this.key.keySize();
 		
 		byte[] oldKey = this.key.getBytes();
 		byte[] newKey = new byte[128];
+		int length = oldKey.length;
 		System.arraycopy(oldKey, 0, newKey, 0, length);
 		
 		for(int i = length; i < 128; i++)
@@ -87,9 +87,10 @@ public class RC2
 		Bits.bytesToShorts(newKey, keyData);
 	}
 
-	public void destroyKey()
+	public void wipe()
 	{
 		Arrays.fill(keyData, (short) 0); 
+		key = null;
 	}
 
 	public int plaintextSize()
