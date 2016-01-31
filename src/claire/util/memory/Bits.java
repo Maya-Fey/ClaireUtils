@@ -887,6 +887,196 @@ public interface Bits<Type extends Bits<Type>>
 		return longs;
 	}
 	
+	public static void nibblesToBits(byte[] nibbles, int start0, boolean[] bits, int start1, int len)
+	{
+		int roof = len + start0;
+		byte num;
+		while(start0 < roof)
+		{
+			num = nibbles[start0++];
+			bits[start1++] = (num & 0x1) != 0;
+			bits[start1++] = (num & 0x2) != 0;
+			bits[start1++] = (num & 0x4) != 0;
+			bits[start1++] = (num & 0x8) != 0;
+		}
+	}
+	
+	public static void nibblesToBits(byte[] nibbles, int start0, boolean[] bits, int start1)
+	{
+		nibblesToBits(nibbles, start0, bits, start1, nibbles.length - start0);
+	}
+	
+	public static void nibblesToBits(byte[] nibbles, boolean[] bits)
+	{
+		nibblesToBits(nibbles, 0, bits, 0, nibbles.length);
+	}
+	
+	public static boolean[] nibblesToBits(byte[] nibbles)
+	{
+		boolean[] bits = new boolean[nibbles.length << 2];
+		nibblesToBits(nibbles, bits);
+		return bits;
+	}
+	
+	public static void nibblesToBytes(byte[] nibbles, int start0, byte[] bytes, int start1, int len)
+	{
+		final int roof = start0 + len;
+		while(start0 < roof)
+		{
+			bytes[start1++] = (byte) (((nibbles[start0++] & 0xF) << 4) |
+				                       (nibbles[start0++] & 0xF));
+		}
+	}
+	
+	public static void nibblesToBytes(byte[] nibbles, int start0, byte[] bytes, int start1)
+	{
+		nibblesToBytes(nibbles, start0, bytes, start1, nibbles.length);
+	}
+	
+	public static void nibblesToBytes(byte[] nibbles, byte[] bytes)
+	{
+		nibblesToBytes(nibbles, 0, bytes, 0, nibbles.length);
+	}
+	
+	public static byte[] nibblesToBytes(byte[] nibbles)
+	{
+		byte[] bytes = new byte[nibbles.length >>> 1];
+		nibblesToBytes(nibbles, bytes);
+		return bytes;
+	}
+	
+	public static void nibblesToShorts(byte[] nibbles, int start0, short[] shorts, int start1, int len)
+	{
+		int roof = len + start1;
+		while(start1 < roof)
+		{
+			shorts[start1++] = (short) (((nibbles[start0++] & 0xF) << 12) |
+  				  					    ((nibbles[start0++] & 0xF) << 8 ) |
+  				  					    ((nibbles[start0++] & 0xF) << 4 ) |
+  				  					    ((nibbles[start0++] & 0xF)));
+		}
+	}
+	
+	public static void nibblesToShorts(byte[] nibbles, int start0, short[] shorts, int start1)
+	{
+		nibblesToShorts(nibbles, start0, shorts, start1, shorts.length - start1);
+	}
+	
+	public static void nibblesToShorts(byte[] nibbles, short[] shorts)
+	{
+		nibblesToShorts(nibbles, 0, shorts, 0, shorts.length);
+	}
+	
+	public static short[] nibblesToShorts(byte[] nibbles)
+	{
+		short[] shorts = new short[nibbles.length >>> 2];
+		nibblesToShorts(nibbles, shorts);
+		return shorts;
+	}
+	
+	public static void nibblesToChars(byte[] nibbles, int start0, char[] chars, int start1, int len)
+	{
+		int roof = len + start1;
+		while(start1 < roof)
+		{
+			chars[start1++] = (char) (((nibbles[start0++] & 0xF) << 12) |
+					    			  ((nibbles[start0++] & 0xF) << 8 ) |
+					    			  ((nibbles[start0++] & 0xF) << 4 ) |
+					    			  ((nibbles[start0++] & 0xF)));
+		}
+	}
+	
+	public static void nibblesToChars(byte[] nibbles, int start0, char[] chars, int start1)
+	{
+		nibblesToChars(nibbles, start0, chars, start1, chars.length - start1);
+	}
+	
+	public static void nibblesToChars(byte[] nibbles, char[] chars)
+	{
+		nibblesToChars(nibbles, 0, chars, 0, chars.length);
+	}
+	
+	public static char[] nibblesToChars(byte[] nibbles)
+	{
+		char[] chars = new char[nibbles.length >> 1];
+		nibblesToChars(nibbles, chars);
+		return chars;
+	}
+	
+	public static void nibblesToInts(byte[] nibbles, int start0, int[] ints, int start1, int len)
+	{
+		int roof = len + start1;
+		while(start1 < roof)
+		{
+			ints[start1++] = (((nibbles[start0++] & 0xF) << 28) |
+	    			  		  ((nibbles[start0++] & 0xF) << 24) |
+	    			  		  ((nibbles[start0++] & 0xF) << 20) |
+	    			  		  ((nibbles[start0++] & 0xF) << 16) |
+	    			  		  ((nibbles[start0++] & 0xF) << 12) |
+	    			  		  ((nibbles[start0++] & 0xF) << 8 ) |
+	    			  		  ((nibbles[start0++] & 0xF) << 4 ) |
+	    			  		  ((nibbles[start0++] & 0xF)));
+		}
+	}
+	
+	public static void nibblesToInts(byte[] nibbles, int start0, int[] ints, int start1)
+	{
+		nibblesToInts(nibbles, start0, ints, start1, ints.length - start1);
+	}
+	
+	public static void nibblesToInts(byte[] nibbles, int[] ints)
+	{
+		nibblesToInts(nibbles, 0, ints, 0, ints.length);
+	}
+	
+	public static int[] nibblesToInts(byte[] nibbles)
+	{
+		int[] ints = new int[nibbles.length >> 2];
+		nibblesToInts(nibbles, ints);
+		return ints;
+	}
+	
+	public static void nibblesToLongs(byte[] nibbles, int start0, long[] longs, int start1, int len)
+	{
+		long roof = len + start1;
+		while(start1 < roof)
+		{
+			longs[start1++] = (((nibbles[start0++] & 0xFL) << 60) |
+							   ((nibbles[start0++] & 0xFL) << 56) |
+							   ((nibbles[start0++] & 0xFL) << 52) |
+							   ((nibbles[start0++] & 0xFL) << 48) |
+							   ((nibbles[start0++] & 0xFL) << 44) |
+	  		  		   		   ((nibbles[start0++] & 0xFL) << 40) |
+	  		  		   		   ((nibbles[start0++] & 0xFL) << 36) |
+	  		  		   		   ((nibbles[start0++] & 0xFL) << 32) |
+	  		  		   		   ((nibbles[start0++] & 0xFL) << 38) |
+			  		  		   ((nibbles[start0++] & 0xFL) << 24) |
+			  		  		   ((nibbles[start0++] & 0xFL) << 20) |
+			  		  		   ((nibbles[start0++] & 0xFL) << 16) |
+			  		  		   ((nibbles[start0++] & 0xFL) << 12) |
+			  		  		   ((nibbles[start0++] & 0xFL) << 8 ) |
+			  		  		   ((nibbles[start0++] & 0xFL) << 4 ) |
+			  		  		   ((nibbles[start0++] & 0xFL)));
+		}
+	}
+	
+	public static void nibblesToLongs(byte[] nibbles, int start0, long[] longs, int start1)
+	{
+		nibblesToLongs(nibbles, start0, longs, start1, longs.length - start1);
+	}
+	
+	public static void nibblesToLongs(byte[] nibbles, long[] longs)
+	{
+		nibblesToLongs(nibbles, 0, longs, 0, longs.length);
+	}
+	
+	public static long[] nibblesToLongs(byte[] nibbles)
+	{
+		long[] longs = new long[nibbles.length >> 3];
+		nibblesToLongs(nibbles, longs);
+		return longs;
+	}
+	
 	public static void bytesToBits(byte[] bytes, int start0, boolean[] bits, int start1, int len)
 	{
 		int roof = len + start0;
@@ -925,7 +1115,7 @@ public interface Bits<Type extends Bits<Type>>
 		while(start0 < roof)
 		{
 			nibbles[start1++] = (byte) ((bytes[start0  ] & 0xFF) >>> 4); 
-			nibbles[start1++] = (byte) (bytes[start0++] & 0x0F); 
+			nibbles[start1++] = (byte)  (bytes[start0++] & 0x0F); 
 		}
 	}
 	
