@@ -1,11 +1,18 @@
 package claire.util.crypto.cipher.key;
 
-import claire.util.memory.Bits;
-import claire.util.standards._NAMESPACE;
+import java.io.IOException;
+import java.util.Arrays;
 
-public class KeyGOST extends ByteKey<KeyGOST> {
-	
-	private boolean hasS = false;
+import claire.util.io.Factory;
+import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IKey;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
+
+public class KeyGOST 
+       implements IKey<KeyGOST> {
 	
 	private static final byte[] DEFAULT = 
 	{
@@ -27,48 +34,126 @@ public class KeyGOST extends ByteKey<KeyGOST> {
         0x09, 0x02, 0x03, 0x0E, 0x06, 0x0B, 0x08, 0x0C
     };
 
-	public KeyGOST(byte[] key, int size) 
+	private boolean hasS = false;
+	
+	private int[] key;
+	
+	private byte[] sbox;
+	
+	public KeyGOST(int[] key) 
 	{
-		super(KeyGOST.class, key, size);
+		this.key = key;
 	}
 	
-	public KeyGOST(byte[] key)
+	public KeyGOST(int[] key, byte[] sbox)
 	{
-		super(KeyGOST.class, key);
+		this.key = key;
+		this.sbox = sbox;
+		this.hasS = true;
+	}	
+	
+	public int[] getKey()
+	{
+		return this.key;
 	}
 	
-	protected int getLength(byte[] bytes, int size)
-	{
-		if(size == 96) {
-			hasS = true;
-			return 96;
-		} else if(size == 32) 
-			return 32;
-		else 
-			throw new java.lang.IllegalArgumentException("AES keys are 128, 192, or 256 bits.");
-	}
-	
-	public void getSBOX(byte[] SBOX)
+	public byte[] getSBOX()
 	{
 		if(hasS) 
-			Bits.bytesToNibbles(this.getBytes(), 32, SBOX, 0, 64);
+			return sbox;
 		else
-			System.arraycopy(DEFAULT, 0, SBOX, 0, 128);
+			return DEFAULT;
 	}
 	
-	public void getKey(byte[] out)
+	public void erase()
 	{
-		System.arraycopy(this.getBytes(), 0, out, 0, 32);
+		Arrays.fill(key, 0);
+		Arrays.fill(sbox, (byte) 0);
+		hasS = false;
 	}
-
+	
 	public int NAMESPACE()
 	{
 		return _NAMESPACE.KEYGOST;
 	}
-
-	protected KeyGOST construct(byte[] bytes)
+	
+	public boolean sameAs(KeyGOST o)
 	{
-		return new KeyGOST(bytes);
+		if(hasS == o.hasS)
+			if(hasS)
+				if(!ArrayUtil.equals(sbox, o.sbox))
+					return false;
+				else;
+			else;
+		else
+			return false;
+		return ArrayUtil.equals(key, o.key);
+	}
+
+	public KeyGOST createDeepClone()
+	{
+		if(hasS)
+			return new KeyGOST(ArrayUtil.copy(key), ArrayUtil.copy(sbox));
+		else
+			return new KeyGOST(ArrayUtil.copy(key));
+	}
+
+	public void export(IOutgoingStream stream) throws IOException
+	{
+		stream.writeInts(key);
+		stream.writeBool(hasS);
+		if(hasS)			
+			stream.writeNibbles(sbox);
+	}
+
+	public void export(byte[] bytes, int offset)
+	{
+		Bits.intsToBytes(key, 0, bytes, offset, 8); offset += 32;
+		bytes[offset++] = (byte) (hasS ? 1 : 0);
+		if(hasS) 
+			Bits.nibblesToBytes(sbox, 0, bytes, offset, 128);
+	}
+
+	public int exportSize()
+	{
+		return 32 + (hasS ? 64 : 0);
+	}
+
+	public Factory<KeyGOST> factory()
+	{
+		return factory;
+	}
+	
+	private static final KeyGOSTFactory factory = new KeyGOSTFactory();
+
+	public static final class KeyGOSTFactory extends Factory<KeyGOST> {
+
+		protected KeyGOSTFactory() 
+		{
+			super(KeyGOST.class);
+		}
+
+		public KeyGOST resurrect(byte[] data, int start) throws InstantiationException
+		{
+			int[] key = new int[8];
+			Bits.bytesToInts(data, start, key, 0, 8); start += 32;
+			if(data[start++] == 1) {
+				byte[] sbox = new byte[128];
+				Bits.bytesToNibbles(data, start, sbox, 0, 64);
+				return new KeyGOST(key, sbox);
+			} else
+				return new KeyGOST(key);
+		}
+
+		public KeyGOST resurrect(IIncomingStream stream) throws InstantiationException, IOException
+		{
+			int[] key = stream.readInts(8);
+			if(stream.readBool())
+				return new KeyGOST(key, stream.readNibbles(128));
+			else
+				return new KeyGOST(key);
+		}
+		
 	}
 
 }

@@ -9,6 +9,7 @@ import java.util.Arrays;
 import claire.util.crypto.cipher.key.KeyAES;
 import claire.util.crypto.cipher.primitive.AES;
 import claire.util.crypto.hash.primitive.BEAR.$BEAR3;
+import claire.util.crypto.rng.RandUtils;
 import claire.util.display.ImageUtil;
 import claire.util.encoding.Base64;
 import claire.util.encoding.CString;
@@ -35,28 +36,19 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
-		int[] ints = new int[200];
-		KeyAES aes = new KeyAES(ints);
-		AES cip = new AES(aes);
-		byte[] bytez = new byte[16];
-		bytez[0] = 1;
-		cip.encryptBlock(bytez);
-		System.out.println(Hex.toHex(bytez));
+		byte[] b = new byte[16];
+		RandUtils.fillArr(b);
+		System.out.println(Hex.toHex(b));
+		byte[] n = Bits.bytesToNibbles(b);
+		System.out.println(Hex.toHex(n));
+		byte[] b2 = Bits.nibblesToBytes(n);
+		System.out.println(Hex.toHex(b2));
 		end();
 		/*
 		Test.runTests();
 		end();
 		//*/
-		byte[] bytes = Hex.fromHex("6afc812ab3ef31");
-		System.out.println(Hex.toHexString(bytes));
-		char[] b64 = Base64.fromBytes(bytes, 0, bytes.length);
-		System.out.println(b64);
-		bytes = Base64.toBytes(b64, 0, b64.length);
-		System.out.println(Hex.toHexString(bytes));
-		//end();
-		char c = 0;
-		while(c < 128)
-			System.out.print(c++);
+
 		
 		/*
 		int[][][] table = new int[16][16][16];

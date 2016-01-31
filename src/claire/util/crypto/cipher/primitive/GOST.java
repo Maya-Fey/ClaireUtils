@@ -1,18 +1,14 @@
 package claire.util.crypto.cipher.primitive;
 
-import java.util.Arrays;
-
 import claire.util.crypto.cipher.key.KeyGOST;
-import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
-import claire.util.standards.IRandom;
 import claire.util.standards.crypto.ISymmetric;
 
 public class GOST implements ISymmetric<KeyGOST> {
 
 	private KeyGOST key;
-	private byte[] SBOX = new byte[128];
-	private int[] KEY = new int[8];
+	private byte[] SBOX;
+	private int[] KEY;
 	
 	public KeyGOST getKey()
 	{
@@ -22,14 +18,15 @@ public class GOST implements ISymmetric<KeyGOST> {
 	public void setKey(KeyGOST t)
 	{
 		this.key = t;
-		t.getSBOX(this.SBOX);
-		Bits.bytesToInts(t.getBytes(), 0, KEY, 0, 8);
+		this.SBOX = t.getSBOX();
+		this.KEY = t.getKey();
 	}
 
-	public void destroyKey()
+	public void wipe()
 	{
-		Arrays.fill(KEY, 0);
-		Arrays.fill(SBOX, (byte) 0);
+		KEY = null;
+		SBOX = null;
+		key = null;
 	}
 	
 	public int plaintextSize()
@@ -202,18 +199,6 @@ public class GOST implements ISymmetric<KeyGOST> {
 		Bits.intToBytes(B, out, start1 + 4);
 	}
 
-	public KeyGOST newKey(IRandom rand)
-	{
-		byte[] bytes = new byte[32];
-		RandUtils.fillArr(bytes, rand);
-		return new KeyGOST(bytes);
-	}
-
-	public void genKey(IRandom rand)
-	{
-		setKey(newKey(rand));
-	}
-	
 	public void reset() {}
 
 }
