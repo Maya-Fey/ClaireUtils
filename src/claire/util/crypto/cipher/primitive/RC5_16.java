@@ -3,9 +3,7 @@ package claire.util.crypto.cipher.primitive;
 import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.KeyRC5;
-import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
-import claire.util.standards.IRandom;
 import claire.util.standards.crypto.ISymmetric;
 
 public class RC5_16 
@@ -17,17 +15,11 @@ public class RC5_16
 	private KeyRC5 key;
 	private short[] schedule;
 	
-	private final int rounds;
+	private int rounds;
 	
-	public RC5_16(int rounds)
+	public RC5_16(KeyRC5 key)
 	{
-		this.rounds = rounds;
-	}
-	
-	public RC5_16(KeyRC5 key, int rounds)
-	{
-		this.key = key;
-		this.rounds = rounds;
+		this.setKey(key);
 	}
 
 	public KeyRC5 getKey()
@@ -38,6 +30,7 @@ public class RC5_16
 	public void setKey(KeyRC5 t)
 	{
 		this.key = t;
+		this.rounds = t.getRounds();
 		short[] ints = Bits.bytesToShortsFull(key.getBytes());
 		schedule = new short[(this.rounds + 1) << 1];
 		schedule[0] = P;
@@ -59,9 +52,12 @@ public class RC5_16
 		}		
 	}
 
-	public void destroyKey()
+	public void wipe()
 	{
 		Arrays.fill(schedule, (short) 0);
+		schedule = null;
+		rounds = 0;
+		key = null;
 	}
 
 	public int plaintextSize()
@@ -144,18 +140,6 @@ public class RC5_16
         }
         
         Bits.shortsToBytes(new short[] { A, B }, 0, out, start1);
-	}
-
-	public KeyRC5 newKey(IRandom rand)
-	{
-		byte[] arr = new byte[128];
-		RandUtils.fillArr(arr, rand);
-		return new KeyRC5(arr);
-	}
-
-	public void genKey(IRandom rand)
-	{
-		this.setKey(newKey(rand));
 	}
 	
 	public void reset() {}

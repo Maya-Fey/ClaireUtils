@@ -256,16 +256,6 @@ public class RC2
 			bytes[i] = rand.nextByte();
 		return new KeyRC2(bytes);
 	}
-
-	public KeyRC2 newKey(IRandom rand)
-	{
-		return newKey(rand, key.keySize());
-	}
-
-	public void genKey(IRandom rand)
-	{
-		this.key = newKey(rand);
-	}
 	
 	public void reset() {}
 
