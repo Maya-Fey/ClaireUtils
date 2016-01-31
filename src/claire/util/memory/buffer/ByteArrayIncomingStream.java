@@ -127,4 +127,25 @@ public class ByteArrayIncomingStream
 		return array.length - pos;
 	}
 
+	public boolean readBool() throws IOException
+	{
+		return array[pos++] == 1;
+	}
+
+	public void readBools(boolean[] out, int off, int amt) throws IOException
+	{
+		while(amt-- > 0) 
+			out[off++] = array[pos++] == 1;
+	}
+
+	public void readNibbles(byte[] out, int off, int amt) throws IOException
+	{
+		while(amt > 1) {
+			byte b = array[pos++];
+			out[off++] = (byte) ((b & 0xFF) >>> 4);
+			out[off++] = (byte)  (b & 0x0F)       ;
+			amt -= 2;
+		}
+	}
+
 }

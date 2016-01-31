@@ -107,4 +107,23 @@ public class ByteArrayOutgoingStream
 		return new ByteArrayIncomingStream(this.array);
 	}
 
+	public void writeBool(boolean data) throws IOException
+	{
+		array[pos++] = (byte) (data ? 1 : 0);
+	}
+
+	public void writeBools(boolean[] bools, int off, int len) throws IOException
+	{
+		while(len-- > 0) 
+			array[pos++] = (byte) (bools[off++] ? 1 : 0);
+	}
+
+	public void writeNibbles(byte[] nibbles, int off, int len) throws IOException
+	{
+		while(len-- > 0) {
+			array[pos++] = (byte) (((nibbles[off++] & 0xF) << 4) |
+								    (nibbles[off++] & 0xF));
+		}
+	}
+
 }
