@@ -99,7 +99,5 @@ public class KeyRC5
 			return new KeyRC5(stream.readByteArr(), rounds);
 		}
 		
-		
-		
 	}
 }

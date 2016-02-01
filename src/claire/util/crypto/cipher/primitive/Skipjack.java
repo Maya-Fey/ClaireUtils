@@ -3,14 +3,12 @@ package claire.util.crypto.cipher.primitive;
 import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.KeySkipjack;
-import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
-import claire.util.standards.IRandom;
 import claire.util.standards.crypto.ISymmetric;
 
 public class Skipjack implements ISymmetric<KeySkipjack> {
 	
-	private static final byte[] PERMUTE = 
+	private static final byte[] SBOX = 
 		{
 		 	-93,  -41,    9, -125,   -8,   72,  -10,  -12,  
 		 	-77,   33,   21,  120, -103,  -79,  -81,   -7,  
@@ -49,11 +47,6 @@ public class Skipjack implements ISymmetric<KeySkipjack> {
 	private KeySkipjack key;
 	
 	private final byte[][] KEY = new byte[4][32];
-
-	public Skipjack()
-	{
-		this.genKey(RandUtils.dprng);
-	}
 	
 	public Skipjack(KeySkipjack key)
 	{
@@ -78,10 +71,11 @@ public class Skipjack implements ISymmetric<KeySkipjack> {
 		}
 	}
 
-	public void destroyKey()
+	public void wipe()
 	{
 		for(byte[] subkey : KEY)
 			Arrays.fill(subkey, (byte) 0);
+		this.key = null;
 	}
 
 	public int plaintextSize()
@@ -99,10 +93,10 @@ public class Skipjack implements ISymmetric<KeySkipjack> {
 		byte c1, c2, c3, c4, c5, c6;
 		c1 = (byte) state;
 		c2 = (byte) ((state >> 8) & 0xFF);
-		c3 = (byte) ((PERMUTE[(c2 ^ KEY[3][pos]) & 0xFF] ^ c1) & 0xFF);
-		c4 = (byte) ((PERMUTE[(c3 ^ KEY[2][pos]) & 0xFF] ^ c2) & 0xFF);
-		c5 = (byte) ((PERMUTE[(c4 ^ KEY[1][pos]) & 0xFF] ^ c3) & 0xFF);
-		c6 = (byte) ((PERMUTE[(c5 ^ KEY[0][pos]) & 0xFF] ^ c4) & 0xFF);
+		c3 = (byte) ((SBOX[(c2 ^ KEY[3][pos]) & 0xFF] ^ c1) & 0xFF);
+		c4 = (byte) ((SBOX[(c3 ^ KEY[2][pos]) & 0xFF] ^ c2) & 0xFF);
+		c5 = (byte) ((SBOX[(c4 ^ KEY[1][pos]) & 0xFF] ^ c3) & 0xFF);
+		c6 = (byte) ((SBOX[(c5 ^ KEY[0][pos]) & 0xFF] ^ c4) & 0xFF);
 		return Bits.shortFromBytes(new byte[] { c5, c6 }, 0);
 	}
 	
@@ -111,10 +105,10 @@ public class Skipjack implements ISymmetric<KeySkipjack> {
 		byte c1, c2, c3, c4, c5, c6;
 		c1 = (byte) ((state >> 8) & 0xFF);
 		c2 = (byte) state;
-		c3 = (byte) ((PERMUTE[(c2 ^ KEY[0][pos]) & 0xFF] ^ c1) & 0xFF);
-		c4 = (byte) ((PERMUTE[(c3 ^ KEY[1][pos]) & 0xFF] ^ c2) & 0xFF);
-		c5 = (byte) ((PERMUTE[(c4 ^ KEY[2][pos]) & 0xFF] ^ c3) & 0xFF);
-		c6 = (byte) ((PERMUTE[(c5 ^ KEY[3][pos]) & 0xFF] ^ c4) & 0xFF);
+		c3 = (byte) ((SBOX[(c2 ^ KEY[0][pos]) & 0xFF] ^ c1) & 0xFF);
+		c4 = (byte) ((SBOX[(c3 ^ KEY[1][pos]) & 0xFF] ^ c2) & 0xFF);
+		c5 = (byte) ((SBOX[(c4 ^ KEY[2][pos]) & 0xFF] ^ c3) & 0xFF);
+		c6 = (byte) ((SBOX[(c5 ^ KEY[3][pos]) & 0xFF] ^ c4) & 0xFF);
 		return Bits.shortFromBytes(new byte[] { c6, c5 }, 0);
 	}
 
@@ -336,18 +330,6 @@ public class Skipjack implements ISymmetric<KeySkipjack> {
         out[start1 + 5] = (byte)(w3);
         out[start1 + 6] = (byte)((w4 >> 8));
         out[start1 + 7] = (byte)(w4);
-	}
-
-	public KeySkipjack newKey(IRandom rand)
-	{
-		byte[] bytes = new byte[10];
-		RandUtils.fillArr(bytes, rand);
-		return new KeySkipjack(bytes);
-	}
-
-	public void genKey(IRandom rand)
-	{
-		this.setKey(newKey(rand));
 	}
 
 	public void reset() {}
