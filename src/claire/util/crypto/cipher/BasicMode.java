@@ -3,10 +3,10 @@ package claire.util.crypto.cipher;
 import claire.util.standards.crypto.ICipherMode;
 import claire.util.standards.crypto.IDecrypter;
 import claire.util.standards.crypto.IEncrypter;
+import claire.util.standards.crypto.IKey;
 import claire.util.standards.crypto.ISymmetric;
-import claire.util.standards.crypto.ISymmetricKey;
 
-public abstract class BasicMode<Key extends ISymmetricKey<Key>, 
+public abstract class BasicMode<Key extends IKey<Key>, 
 								Cipher extends ISymmetric<Key>,
 								Encrypter extends IEncrypter,
 								Decrypter extends IDecrypter>
@@ -68,9 +68,9 @@ public abstract class BasicMode<Key extends ISymmetricKey<Key>,
 		cipher.setKey(t);
 	}
 
-	public void destroyKey()
+	public void wipe()
 	{
-		cipher.destroyKey();
+		cipher.wipe();
 	}
 
 	public int plaintextSize()

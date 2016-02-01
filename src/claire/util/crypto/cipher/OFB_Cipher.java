@@ -1,9 +1,9 @@
 package claire.util.crypto.cipher;
 
+import claire.util.standards.crypto.IKey;
 import claire.util.standards.crypto.ISymmetric;
-import claire.util.standards.crypto.ISymmetricKey;
 
-public class OFB_Cipher<Key extends ISymmetricKey<Key>, Cipher extends ISymmetric<Key>> 
+public class OFB_Cipher<Key extends IKey<Key>, Cipher extends ISymmetric<Key>> 
 	   extends BasicMode<Key, Cipher, OFBEncrypter, OFBDecrypter> {
 
 	public OFB_Cipher(Cipher cipher) 
