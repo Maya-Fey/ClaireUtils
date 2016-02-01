@@ -40,6 +40,11 @@ public class RSAMicroPublicKey
 		return this.mod.getIntLen();
 	}
 	
+	public RSAMicroPublicKey createDeepClone()
+	{
+		return new RSAMicroPublicKey(mod.createDeepClone(), exp, len);
+	}
+	
 	public int messageSize()
 	{
 		return this.len << 2;

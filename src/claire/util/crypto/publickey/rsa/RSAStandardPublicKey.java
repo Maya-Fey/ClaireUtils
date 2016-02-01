@@ -40,6 +40,11 @@ public class RSAStandardPublicKey
 		return this.mod.getIntLen();
 	}
 	
+	public RSAStandardPublicKey createDeepClone()
+	{
+		return new RSAStandardPublicKey(mod.createDeepClone(), exp.createDeepClone(), len);
+	}
+	
 	public int messageSize()
 	{
 		return this.len << 2;

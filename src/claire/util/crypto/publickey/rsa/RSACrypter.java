@@ -54,12 +54,11 @@ public class RSACrypter
 		this.publk = pub;
 	}
 	
-	public void destroyKey()
+	public void wipe()
 	{
-		if(prvk != null)
-			prvk.erase();
-		if(publk != null)
-			publk.erase();
+		Arrays.fill(temp, (byte) 0);
+		Arrays.fill(buffer, 0);
+		Arrays.fill(uint.getArr(), 0);
 	}
 
 	public int messageSize()

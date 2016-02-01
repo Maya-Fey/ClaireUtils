@@ -7,6 +7,7 @@ import claire.util.io.Factory;
 import claire.util.math.MathHelper;
 import claire.util.math.UInt;
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
@@ -73,6 +74,16 @@ public class RSAFastPrivateKey
 		this.len = len;
 		this.primes = primes;
 		this.plen = exp.length;
+	}
+	
+	public RSAFastPrivateKey createDeepClone()
+	{
+		return new RSAFastPrivateKey(ArrayUtil.deepCopy(mul), 
+									 ArrayUtil.deepCopy(inv),
+									 ArrayUtil.deepCopy(exp),
+									 ArrayUtil.deepCopy(primes),
+									 mod.createDeepClone(),
+									 len);
 	}
 	
 	private void alloc()
