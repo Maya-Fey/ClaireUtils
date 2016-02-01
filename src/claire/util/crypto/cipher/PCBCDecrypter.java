@@ -51,4 +51,11 @@ public class PCBCDecrypter
 		ArrayUtil.empty(prev);
 	}
 
+	public void wipe()
+	{
+		ArrayUtil.empty(prev);
+		ArrayUtil.empty(temp);
+		this.dec = null;
+	}
+
 }

@@ -21,5 +21,10 @@ public class ECBEncrypter
 	}
 	
 	public void reset() {}
+
+	public void wipe()
+	{
+		enc = null;
+	}
 	
 }

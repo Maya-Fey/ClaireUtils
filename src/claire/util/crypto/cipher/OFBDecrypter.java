@@ -7,7 +7,7 @@ import claire.util.standards.crypto.ISymmetric;
 public class OFBDecrypter 
 	   implements IDecrypter {
 
-	private final ISymmetric<?> cipher;
+	private ISymmetric<?> cipher;
 	private final byte[] prev; 
 	
 	public OFBDecrypter(ISymmetric<?> cipher)
@@ -54,6 +54,12 @@ public class OFBDecrypter
 	public int ciphertextSize()
 	{
 		return cipher.ciphertextSize();
+	}
+
+	public void wipe()
+	{
+		cipher = null;
+		ArrayUtil.empty(prev);
 	}
 
 }

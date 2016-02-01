@@ -44,4 +44,10 @@ public class OFBEncrypter
 		ArrayUtil.empty(prev);
 	}
 
+	public void wipe()
+	{
+		ArrayUtil.empty(prev);
+		this.enc = null;
+	}
+
 }

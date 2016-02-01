@@ -50,5 +50,12 @@ public class PCBCEncrypter
 	{
 		ArrayUtil.empty(prev);
 	}
+	
+	public void wipe()
+	{
+		ArrayUtil.empty(prev);
+		ArrayUtil.empty(temp);
+		this.enc = null;
+	}
 
 }
