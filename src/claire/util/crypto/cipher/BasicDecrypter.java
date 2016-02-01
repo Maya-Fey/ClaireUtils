@@ -5,7 +5,7 @@ import claire.util.standards.crypto.IDecrypter;
 public abstract class BasicDecrypter
 				implements IDecrypter {
 	
-	protected final IDecrypter dec;
+	protected IDecrypter dec;
 	
 	protected BasicDecrypter(IDecrypter dec)
 	{

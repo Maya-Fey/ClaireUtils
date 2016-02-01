@@ -1,5 +1,7 @@
 package claire.util.crypto.cipher;
 
+import java.util.Arrays;
+
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.crypto.IDecrypter;
 import claire.util.standards.crypto.ISymmetric;
@@ -7,7 +9,8 @@ import claire.util.standards.crypto.ISymmetric;
 public class CFBDecrypter 
 	   implements IDecrypter {
 
-	private final ISymmetric<?> cipher;
+	private ISymmetric<?> cipher;
+	
 	private final byte[] prev, temp; 
 	
 	public CFBDecrypter(ISymmetric<?> cipher)
@@ -46,14 +49,21 @@ public class CFBDecrypter
 	
 	public void reset()
 	{
-		ArrayUtil.empty(prev);
+		Arrays.fill(prev, (byte) 0);
 	}
 	
+	public void wipe()
+	{
+		Arrays.fill(prev, (byte) 0);
+		Arrays.fill(temp, (byte) 0);
+		this.cipher = null;
+	}
+
 	public int plaintextSize()
 	{
 		return cipher.plaintextSize();
 	}
-	
+
 	public int ciphertextSize()
 	{
 		return cipher.ciphertextSize();

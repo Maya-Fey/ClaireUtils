@@ -1,5 +1,7 @@
 package claire.util.crypto.cipher;
 
+import java.util.Arrays;
+
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.crypto.ISymmetric;
 
@@ -40,9 +42,14 @@ public class CFBEncrypter
 		System.arraycopy(IV, start, prev, 0, enc.plaintextSize());
 	}
 	
-	public void reset()
+	public void wipe()
 	{
-		ArrayUtil.empty(prev);
+		Arrays.fill(prev, (byte) 0);
+		this.enc = null;
 	}
 
+	public void reset()
+	{
+		Arrays.fill(prev, (byte) 0); 
+	}
 }

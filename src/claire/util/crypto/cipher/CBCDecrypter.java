@@ -47,5 +47,12 @@ public class CBCDecrypter
 	{
 		Arrays.fill(prev, (byte) 0);
 	}
+	
+	public void wipe()
+	{
+		Arrays.fill(prev, (byte) 0);
+		Arrays.fill(temp, (byte) 0);
+		this.dec = null;
+	}
 
 }

@@ -5,7 +5,7 @@ import claire.util.standards.crypto.IEncrypter;
 public abstract class BasicEncrypter
 				implements IEncrypter {
 	
-	protected final IEncrypter enc;
+	protected IEncrypter enc;
 	
 	protected BasicEncrypter(IEncrypter enc)
 	{
