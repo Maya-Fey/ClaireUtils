@@ -612,6 +612,54 @@ public final class ArrayUtil {
 			return false;
 	}
 	
+	public static boolean equals(boolean[] b1, int s1, boolean[] b2, int s2, int len)
+	{
+		while(len-- > 0) 
+			if(b1[s1++ ] != b2[s2++])
+				return false;
+		return true;
+	}
+	
+	public static boolean equals(byte[] b1, int s1, byte[] b2, int s2, int len)
+	{
+		while(len-- > 0) 
+			if(b1[s1++ ] != b2[s2++])
+				return false;
+		return true;
+	}
+	
+	public static boolean equals(short[] b1, int s1, short[] b2, int s2, int len)
+	{
+		while(len-- > 0) 
+			if(b1[s1++ ] != b2[s2++])
+				return false;
+		return true;
+	}
+	
+	public static boolean equals(char[] b1, int s1, char[] b2, int s2, int len)
+	{
+		while(len-- > 0) 
+			if(b1[s1++ ] != b2[s2++])
+				return false;
+		return true;
+	}
+	
+	public static boolean equals(int[] b1, int s1, int[] b2, int s2, int len)
+	{
+		while(len-- > 0) 
+			if(b1[s1++ ] != b2[s2++])
+				return false;
+		return true;
+	}
+	
+	public static boolean equals(long[] b1, int s1, long[] b2, int s2, int len)
+	{
+		while(len-- > 0) 
+			if(b1[s1++ ] != b2[s2++])
+				return false;
+		return true;
+	}
+	
 	public static boolean equals(IUUID<?>[] arr1, IUUID<?>[] arr2)
 	{
 		if(arr1.length == arr2.length) {
