@@ -3,9 +3,7 @@ package claire.util.crypto.cipher.primitive;
 import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.KeySEED;
-import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
-import claire.util.standards.IRandom;
 import claire.util.standards.crypto.ISymmetric;
 
 public class SEED 
@@ -298,9 +296,8 @@ public class SEED
 	public void setKey(KeySEED t)
 	{
 		this.key = t;
-		byte[] raw = t.getBytes();
-		long[] in = Bits.bytesToLongs(raw);
-		int[] work = Bits.longsToInts(in);
+		int[] work = t.getInts();
+		long[] in = Bits.intsToLongs(work);
 		int j = 0;
 		for(int i = 0; i < 16;)
 		{
@@ -318,9 +315,10 @@ public class SEED
 		}
 	}
 
-	public void destroyKey()
+	public void wipe()
 	{
 		Arrays.fill(KEY, 0);
+		key = null;
 	}
 
 	public int plaintextSize()
@@ -439,18 +437,6 @@ public class SEED
 		
 		Bits.longToBytes(B, out, start1	 );
 		Bits.longToBytes(A, out, start1 + 8);
-	}
-
-	public KeySEED newKey(IRandom rand)
-	{
-		byte[] key = new byte[16];
-		RandUtils.fillArr(key, rand);
-		return new KeySEED(key);
-	}
-	
-	public void genKey(IRandom rand)
-	{
-		setKey(newKey(rand));
 	}
 
 	public void reset() {}

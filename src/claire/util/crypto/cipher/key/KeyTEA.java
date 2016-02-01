@@ -47,7 +47,7 @@ public class KeyTEA
 	
 	public int exportSize()
 	{
-		return ints.length * 4 + 4;
+		return ints.length * 4;
 	}
 
 	public int NAMESPACE()
