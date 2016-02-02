@@ -3,6 +3,7 @@ package claire.util.crypto.cipher.primitive;
 import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.KeyBlowfish;
+import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.standards.crypto.ISymmetric;
 
@@ -475,5 +476,17 @@ public class Blowfish implements ISymmetric<KeyBlowfish> {
 	}
 
 	public void reset() {}
+	
+	public static final int test()
+	{
+		final byte[] bytes1 = new byte[20];
+		final byte[] bytes2 = new byte[30];
+		RandUtils.fillArr(bytes1);
+		RandUtils.fillArr(bytes2);
+		KeyBlowfish a1 = new KeyBlowfish(bytes1);
+		KeyBlowfish a2 = new KeyBlowfish(bytes2);
+		Blowfish aes = new Blowfish(a1);
+		return ISymmetric.testSymmetric(aes, a2);
+	}
 
 }
