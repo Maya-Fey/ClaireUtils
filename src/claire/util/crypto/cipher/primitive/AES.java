@@ -3,6 +3,7 @@ package claire.util.crypto.cipher.primitive;
 import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.KeyAES;
+import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.standards.crypto.ISymmetric;
 
@@ -450,5 +451,17 @@ public class AES
 	}
 
 	public void reset() {}
+	
+	public static final int test()
+	{
+		int[] ints1 = new int[6];
+		int[] ints2 = new int[8];
+		RandUtils.fillArr(ints1);
+		RandUtils.fillArr(ints2);
+		KeyAES a1 = new KeyAES(ints1);
+		KeyAES a2 = new KeyAES(ints2);
+		AES aes = new AES(a1);
+		return ISymmetric.testSymmetric(aes, a2);
+	}
 
 }

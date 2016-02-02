@@ -26,14 +26,14 @@ public interface ISymmetric<Key extends IKey<?>>
 			}
 			symm.encryptBlock(b1);
 			symm.setKey(rep);
-			byte[] b2 = ArrayUtil.concat(b0);
+			byte[] b2 = ArrayUtil.copy(b0);
 			symm.encryptBlock(b2);
 			if(ArrayUtil.equals(b1, b2)) {
 				Log.err.println("Changing the key had no effect for class " + symm.getClass().getSimpleName());
 				e++;
 			}
 			symm.decryptBlock(b2);
-			if(!ArrayUtil.equals(b0, b1)) {
+			if(!ArrayUtil.equals(b0, b2)) {
 				Log.err.println("Encryption followed by decryption after key change does not yield the original value for class " + symm.getClass().getSimpleName());
 				e++;
 			}
@@ -55,7 +55,8 @@ public interface ISymmetric<Key extends IKey<?>>
 			return e;
 		} catch (Exception ex) {
 			Log.err.println("An unexpected " + ex.getClass().getSimpleName() + ": " + ex.getMessage() + " occured while testing the functionality of " + symm.getClass().getSimpleName());
-			return e + 11;
+			ex.printStackTrace();
+			return e + 1;
 		}
 	}
 	

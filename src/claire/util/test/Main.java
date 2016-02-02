@@ -36,13 +36,7 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
-		byte[] b = new byte[16];
-		RandUtils.fillArr(b);
-		System.out.println(Hex.toHex(b));
-		byte[] n = Bits.bytesToNibbles(b);
-		System.out.println(Hex.toHex(n));
-		byte[] b2 = Bits.nibblesToBytes(n);
-		System.out.println(Hex.toHex(b2));
+		Test.runTests();
 		end();
 		/*
 		Test.runTests();

@@ -42,17 +42,17 @@ public interface IPersistable<T> {
 			int e = 0;
 			Factory<T> f = t.factory();
 			byte[] bytes = new byte[t.exportSize() + 20];
-			t.export(bytes, 0);
+			t.export(bytes, 20);
 			T t2 = f.resurrect(bytes, 20);
 			if(!t.equals(t2)) {
 				Log.err.println("Persisting and resurrecting from raw bytes did not yield the same object for class " + t.getClass().getSimpleName());
 				e++;
 			}
-			boolean b = false;
+			boolean b = true;
 			try {
 				t.export(bytes, 21);
 			} catch (Exception ex) {
-				b = true;
+				b = false;
 			}
 			if(b) {
 				Log.err.println("Succeeded in persisting " + t.getClass().getSimpleName() + " with insufficient space, likely misreported required size");

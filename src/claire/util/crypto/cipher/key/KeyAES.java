@@ -3,9 +3,12 @@ package claire.util.crypto.cipher.key;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.io.IOUtils;
 import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IDeepClonable;
+import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
 import claire.util.standards.io.IIncomingStream;
@@ -100,6 +103,17 @@ public class KeyAES
 			return new KeyAES(stream.readIntArr());
 		}
 		
+	}
+	
+	public static final int test()
+	{
+		int[] ints = new int[6];
+		RandUtils.fillArr(ints);
+		KeyAES aes = new KeyAES(ints);
+		int i = 0;
+		i += IPersistable.test(aes);
+		i += IDeepClonable.test(aes);
+		return i;
 	}
 
 }
