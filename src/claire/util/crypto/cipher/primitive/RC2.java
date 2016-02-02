@@ -2,11 +2,9 @@ package claire.util.crypto.cipher.primitive;
 
 import java.util.Arrays;
 
-import claire.util.crypto.cipher.key.KeyCAST6;
 import claire.util.crypto.cipher.key.KeyRC2;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
-import claire.util.standards.IRandom;
 import claire.util.standards.crypto.ISymmetric;
 
 public class RC2 
@@ -50,15 +48,6 @@ public class RC2
 	private KeyRC2 key;
 	
 	private short[] keyData = new short[64];
-	
-	public RC2(int keysize)
-	{
-		if(keysize < 1)
-			throw new java.lang.IllegalArgumentException("RC2 requires at least 8 bits of keyspace to function");
-		if(keysize > 128)
-			throw new java.lang.IllegalArgumentException("RC2 cannot use over 1024-bit keys");
-		this.setKey(newKey(RandUtils.dprng, keysize));
-	}
 	
 	public RC2(KeyRC2 key)
 	{
@@ -248,14 +237,6 @@ public class RC2
 		out[start1++] = (byte) (i3 >>> 8);
 		out[start1++] = (byte)  i4;
 		out[start1  ] = (byte) (i4 >>> 8);
-	}
-	
-	private static KeyRC2 newKey(IRandom rand, int size)
-	{
-		byte[] bytes = new byte[size];
-		for(int i = 0; i < size; i++)
-			bytes[i] = rand.nextByte();
-		return new KeyRC2(bytes);
 	}
 	
 	public void reset() {}

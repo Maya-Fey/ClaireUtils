@@ -3,6 +3,7 @@ package claire.util.crypto.cipher.primitive;
 import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.KeyRC5;
+import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.standards.crypto.ISymmetric;
 
@@ -144,4 +145,16 @@ public class RC5_16
 	
 	public void reset() {}
 
+	public static final int test()
+	{
+		final byte[] bytes1 = new byte[13];
+		final byte[] bytes2 = new byte[33];
+		RandUtils.fillArr(bytes1);
+		RandUtils.fillArr(bytes2);
+		KeyRC5 a1 = new KeyRC5(bytes1, 6);
+		KeyRC5 a2 = new KeyRC5(bytes2, 12);
+		RC5_16 aes = new RC5_16(a1);
+		return ISymmetric.testSymmetric(aes, a2);
+	}
+	
 }
