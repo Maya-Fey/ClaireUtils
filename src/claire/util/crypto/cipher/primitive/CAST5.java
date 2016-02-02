@@ -5,7 +5,6 @@ import java.util.Arrays;
 import claire.util.crypto.cipher.key.KeyCAST5;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
-import claire.util.standards.IRandom;
 import claire.util.standards.crypto.ISymmetric;
 
 public class CAST5 
@@ -18,6 +17,11 @@ public class CAST5
 	private int R;
 
 	private KeyCAST5 key;
+	
+	public CAST5(KeyCAST5 key)
+	{
+		this.setKey(key);
+	}
 	
 	public KeyCAST5 getKey()
 	{
@@ -322,19 +326,19 @@ public class CAST5
 		Bits.intToBytes(cA, out, start1 + 0);
 		Bits.intToBytes(cB, out, start1 + 4);
 	}
-
-	public KeyCAST5 newKey(IRandom rand)
-	{
-		byte[] n = new byte[16];
-		RandUtils.fillArr(n, rand);
-		return new KeyCAST5(n);
-	}
-
-	public void genKey(IRandom rand)
-	{
-		this.setKey(newKey(rand));
-	}
 	
 	public void reset() {}
+	
+	public static final int test()
+	{
+		final byte[] bytes1 = new byte[8];
+		final byte[] bytes2 = new byte[12];
+		RandUtils.fillArr(bytes1);
+		RandUtils.fillArr(bytes2);
+		KeyCAST5 a1 = new KeyCAST5(bytes1);
+		KeyCAST5 a2 = new KeyCAST5(bytes2);
+		CAST5 aes = new CAST5(a1);
+		return ISymmetric.testSymmetric(aes, a2);
+	}
 
 }

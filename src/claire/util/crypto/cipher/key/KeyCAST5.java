@@ -1,12 +1,15 @@
 package claire.util.crypto.cipher.key;
 
+import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
+import claire.util.standards.IDeepClonable;
+import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 
 public class KeyCAST5 
 	   extends ByteKey<KeyCAST5> {
 
-	public KeyCAST5(byte[] bytes) 
+	public KeyCAST5(final byte[] bytes) 
 	{
 		super(bytes);
 	}
@@ -35,10 +38,22 @@ public class KeyCAST5
 			super(KeyCAST5.class);
 		}
 
-		protected KeyCAST5 construct(byte[] key)
+		protected KeyCAST5 construct(final byte[] key)
 		{
 			return new KeyCAST5(key);
 		}
 		
 	}
+	
+	public static final int test()
+	{
+		final byte[] ints = new byte[10];
+		RandUtils.fillArr(ints);
+		KeyCAST5 aes = new KeyCAST5(ints);
+		int i = 0;
+		i += IPersistable.test(aes);
+		i += IDeepClonable.test(aes);
+		return i;
+	}
+	
 }
