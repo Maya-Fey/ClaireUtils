@@ -3,10 +3,13 @@ package claire.util.crypto.cipher.key;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.io.IOUtils;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IDeepClonable;
+import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
 import claire.util.standards.io.IIncomingStream;
@@ -22,7 +25,7 @@ public class KeyCAST6
 	 * Note: good round choice is twelve
 	 */
 	
-	public KeyCAST6(byte[] bytes, int rounds)
+	public KeyCAST6(final byte[] bytes, final int rounds)
 	{
 		this.bytes = bytes;
 		this.rounds = rounds;
@@ -43,7 +46,7 @@ public class KeyCAST6
 		return this.rounds;
 	}
 	
-	public boolean sameAs(KeyCAST6 obj)
+	public boolean sameAs(final KeyCAST6 obj)
 	{
 		return ArrayUtil.equals(bytes, obj.bytes) && rounds == obj.rounds;
 	}
@@ -60,13 +63,13 @@ public class KeyCAST6
 		bytes = null;
 	}
 	
-	public void export(IOutgoingStream stream) throws IOException
+	public void export(final IOutgoingStream stream) throws IOException
 	{
 		stream.writeInt(rounds);
 		stream.writeByteArr(bytes);
 	}
 
-	public void export(byte[] bytes, int offset)
+	public void export(final byte[] bytes, int offset)
 	{
 		Bits.intToBytes(rounds, bytes, offset); offset += 4;
 		IOUtils.writeArr(this.bytes, bytes, offset);
@@ -91,19 +94,29 @@ public class KeyCAST6
 			super(KeyCAST6.class);
 		}
 
-		public KeyCAST6 resurrect(byte[] data, int start) throws InstantiationException
+		public KeyCAST6 resurrect(final byte[] data, int start) throws InstantiationException
 		{
-			int rounds = Bits.intFromBytes(data, start); start += 4;
+			final int rounds = Bits.intFromBytes(data, start); start += 4;
 			return new KeyCAST6(IOUtils.readByteArr(data, start), rounds);
 		}
 
-		public KeyCAST6 resurrect(IIncomingStream stream) throws InstantiationException, IOException
+		public KeyCAST6 resurrect(final IIncomingStream stream) throws InstantiationException, IOException
 		{
 			int rounds = stream.readInt();
 			return new KeyCAST6(stream.readByteArr(), rounds);
 		}
 		
-		
-		
 	}
+	
+	public static final int test()
+	{
+		final byte[] ints = new byte[32];
+		RandUtils.fillArr(ints);
+		KeyCAST6 aes = new KeyCAST6(ints, 12);
+		int i = 0;
+		i += IPersistable.test(aes);
+		i += IDeepClonable.test(aes);
+		return i;
+	}
+	
 }

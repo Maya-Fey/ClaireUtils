@@ -3,6 +3,7 @@ package claire.util.crypto.cipher.primitive;
 import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.KeyCAST6;
+import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.standards.crypto.ISymmetric;
 
@@ -38,6 +39,8 @@ public class CAST6
         int C = 19;
         int D = 17;
         
+        KMASK = new int[R << 2];
+        KROT = new int[R << 2];
         int[] TROT = new int[R * 16];
         int[] TMASK = new int[R * 16];
         int[] KEY = new int[8];
@@ -47,7 +50,7 @@ public class CAST6
         	TMASK[i] = A;
           	A += B;    
 
-          	 TROT[i] = C;
+          	TROT[i] = C;
           	C = (C + D) & 0x1f;           
         }
 		Bits.bytesToIntsFull(raw, 0, KEY, 0);
@@ -221,4 +224,16 @@ public class CAST6
 	
 	public void reset() {}
 
+	public static final int test()
+	{
+		final byte[] bytes1 = new byte[17];
+		final byte[] bytes2 = new byte[32];
+		RandUtils.fillArr(bytes1);
+		RandUtils.fillArr(bytes2);
+		KeyCAST6 a1 = new KeyCAST6(bytes1, 6);
+		KeyCAST6 a2 = new KeyCAST6(bytes2, 12);
+		CAST6 aes = new CAST6(a1);
+		return ISymmetric.testSymmetric(aes, a2);
+	}
+	
 }
