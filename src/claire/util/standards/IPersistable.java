@@ -41,16 +41,16 @@ public interface IPersistable<T> {
 		try {
 			int e = 0;
 			Factory<T> f = t.factory();
-			byte[] bytes = new byte[t.exportSize()];
+			byte[] bytes = new byte[t.exportSize() + 20];
 			t.export(bytes, 0);
-			T t2 = f.resurrect(bytes, 0);
+			T t2 = f.resurrect(bytes, 20);
 			if(!t.equals(t2)) {
 				Log.err.println("Persisting and resurrecting from raw bytes did not yield the same object for class " + t.getClass().getSimpleName());
 				e++;
 			}
 			boolean b = false;
 			try {
-				t.export(bytes, 1);
+				t.export(bytes, 21);
 			} catch (Exception ex) {
 				b = true;
 			}
