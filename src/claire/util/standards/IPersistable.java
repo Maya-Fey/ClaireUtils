@@ -72,6 +72,7 @@ public interface IPersistable<T> {
 			return e;
 		} catch (Exception e) {
 			Log.err.println("An unexpected " + e.getClass().getSimpleName() + ": " + e.getMessage() + " occured while testing the persistability of " + t.getClass().getSimpleName());
+			e.printStackTrace();
 			return 1;
 		}
 	}

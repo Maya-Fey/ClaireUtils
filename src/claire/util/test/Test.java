@@ -4,10 +4,12 @@ import claire.util.crypto.cipher.key.KeyAES;
 import claire.util.crypto.cipher.key.KeyBlowfish;
 import claire.util.crypto.cipher.key.KeyCAST5;
 import claire.util.crypto.cipher.key.KeyCAST6;
+import claire.util.crypto.cipher.key.KeyGOST;
 import claire.util.crypto.cipher.primitive.AES;
 import claire.util.crypto.cipher.primitive.Blowfish;
 import claire.util.crypto.cipher.primitive.CAST5;
 import claire.util.crypto.cipher.primitive.CAST6;
+import claire.util.crypto.cipher.primitive.GOST;
 import claire.util.logging.Log;
 
 public class Test {
@@ -28,6 +30,8 @@ public class Test {
 		reg += KeyCAST5.test();
 		Log.info.println("Testing KeyCAST6");
 		reg += KeyCAST6.test();
+		Log.info.println("Testing KeyGOST");
+		reg += KeyGOST.test();
 		Log.info.println("Testing primitive");
 		Log.info.println("Testing AES");
 		reg += AES.test();
@@ -37,6 +41,8 @@ public class Test {
 		reg += CAST5.test();
 		Log.info.println("Testing CAST6");
 		reg += CAST6.test();
+		Log.info.println("Testing GOST");
+		reg += GOST.test();
 		if(reg > 0)
 			Log.crit.println(reg + " regressions detected!");
 		else

@@ -3,9 +3,12 @@ package claire.util.crypto.cipher.key;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IDeepClonable;
+import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
 import claire.util.standards.io.IIncomingStream;
@@ -40,12 +43,12 @@ public class KeyGOST
 	
 	private byte[] sbox;
 	
-	public KeyGOST(int[] key) 
+	public KeyGOST(final int[] key) 
 	{
 		this.key = key;
 	}
 	
-	public KeyGOST(int[] key, byte[] sbox)
+	public KeyGOST(final int[] key, final byte[] sbox)
 	{
 		this.key = key;
 		this.sbox = sbox;
@@ -77,7 +80,7 @@ public class KeyGOST
 		return _NAMESPACE.KEYGOST;
 	}
 	
-	public boolean sameAs(KeyGOST o)
+	public boolean sameAs(final KeyGOST o)
 	{
 		if(hasS == o.hasS)
 			if(hasS)
@@ -98,7 +101,7 @@ public class KeyGOST
 			return new KeyGOST(ArrayUtil.copy(key));
 	}
 
-	public void export(IOutgoingStream stream) throws IOException
+	public void export(final IOutgoingStream stream) throws IOException
 	{
 		stream.writeInts(key);
 		stream.writeBool(hasS);
@@ -106,7 +109,7 @@ public class KeyGOST
 			stream.writeNibbles(sbox);
 	}
 
-	public void export(byte[] bytes, int offset)
+	public void export(final byte[] bytes, int offset)
 	{
 		Bits.intsToBytes(key, 0, bytes, offset, 8); offset += 32;
 		bytes[offset++] = (byte) (hasS ? 1 : 0);
@@ -116,7 +119,7 @@ public class KeyGOST
 
 	public int exportSize()
 	{
-		return 32 + (hasS ? 64 : 0);
+		return 33 + (hasS ? 64 : 0);
 	}
 
 	public Factory<KeyGOST> factory()
@@ -133,27 +136,44 @@ public class KeyGOST
 			super(KeyGOST.class);
 		}
 
-		public KeyGOST resurrect(byte[] data, int start) throws InstantiationException
+		public KeyGOST resurrect(final byte[] data, int start) throws InstantiationException
 		{
-			int[] key = new int[8];
+			final int[] key = new int[8];
 			Bits.bytesToInts(data, start, key, 0, 8); start += 32;
 			if(data[start++] == 1) {
-				byte[] sbox = new byte[128];
+				final byte[] sbox = new byte[128];
 				Bits.bytesToNibbles(data, start, sbox, 0, 64);
 				return new KeyGOST(key, sbox);
 			} else
 				return new KeyGOST(key);
 		}
 
-		public KeyGOST resurrect(IIncomingStream stream) throws InstantiationException, IOException
+		public KeyGOST resurrect(final IIncomingStream stream) throws InstantiationException, IOException
 		{
-			int[] key = stream.readInts(8);
+			final int[] key = stream.readInts(8);
 			if(stream.readBool())
 				return new KeyGOST(key, stream.readNibbles(128));
 			else
 				return new KeyGOST(key);
 		}
 		
+	}
+	
+	public static final int test()
+	{
+		final int[] ints = new int[8];
+		RandUtils.fillArr(ints);
+		KeyGOST aes = new KeyGOST(ints);
+		int i = 0;
+		i += IPersistable.test(aes);
+		i += IDeepClonable.test(aes);
+		RandUtils.fillArr(ints);
+		final byte[] bytes = new byte[64];
+		final byte[] nib = Bits.bytesToNibbles(bytes);
+		aes = new KeyGOST(ints, nib);
+		i += IPersistable.test(aes);
+		i += IDeepClonable.test(aes);
+		return i;
 	}
 
 }

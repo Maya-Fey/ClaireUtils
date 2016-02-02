@@ -1,6 +1,7 @@
 package claire.util.crypto.cipher.primitive;
 
 import claire.util.crypto.cipher.key.KeyGOST;
+import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.standards.crypto.ISymmetric;
 
@@ -10,6 +11,11 @@ public class GOST
 	private KeyGOST key;
 	private byte[] SBOX;
 	private int[] KEY;
+	
+	public GOST(KeyGOST key)
+	{
+		this.setKey(key);
+	}
 	
 	public KeyGOST getKey()
 	{
@@ -201,5 +207,20 @@ public class GOST
 	}
 
 	public void reset() {}
+	
+	public static final int test()
+	{
+		final int[] bytes1 = new int[8];
+		final int[] bytes2 = new int[8];
+		final byte[] nib0 = new byte[64];
+		RandUtils.fillArr(bytes1);
+		RandUtils.fillArr(bytes2);
+		RandUtils.fillArr(nib0);
+		byte[] nibs = Bits.bytesToNibbles(nib0);
+		KeyGOST a1 = new KeyGOST(bytes1);
+		KeyGOST a2 = new KeyGOST(bytes2, nibs);
+		GOST aes = new GOST(a1);
+		return ISymmetric.testSymmetric(aes, a2);
+	}
 
 }

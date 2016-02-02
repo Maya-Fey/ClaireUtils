@@ -120,9 +120,10 @@ public class ByteArrayOutgoingStream
 
 	public void writeNibbles(byte[] nibbles, int off, int len) throws IOException
 	{
-		while(len-- > 0) {
+		while(len > 0) {
 			array[pos++] = (byte) (((nibbles[off++] & 0xF) << 4) |
 								    (nibbles[off++] & 0xF));
+			len -= 2;
 		}
 	}
 
