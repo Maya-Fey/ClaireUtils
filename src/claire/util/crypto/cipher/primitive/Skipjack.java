@@ -7,7 +7,8 @@ import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.standards.crypto.ISymmetric;
 
-public class Skipjack implements ISymmetric<KeySkipjack> {
+public class Skipjack 
+	   implements ISymmetric<KeySkipjack> {
 	
 	private static final byte[] SBOX = 
 		{

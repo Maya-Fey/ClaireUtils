@@ -8,7 +8,8 @@ import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.crypto.ISymmetric;
 
-public class RC6 implements ISymmetric<KeyRC6> {
+public class RC6 
+	   implements ISymmetric<KeyRC6> {
 	
 	private static final int P = 0xb7e15163;
     private static final int Q = 0x9e3779b9;

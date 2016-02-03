@@ -12,7 +12,6 @@ public class _NAMESPACE {
 	/*
 	 * Gaps indicate unassigned spaces
 	 * 
-	 * 33 onwards
 	 */
 	
 	public static final int BIT8 = 0;
@@ -65,6 +64,6 @@ public class _NAMESPACE {
 	public static final int UINT = 54;
 	public static final int VUINT = 55;
 	public static final int VSINT = 56;
-	
+	public static final int KEYXTEA = 57;
 
 }

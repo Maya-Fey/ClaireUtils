@@ -5,7 +5,8 @@ import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.standards.crypto.ISymmetric;
 
-public class TEA implements ISymmetric<KeyTEA> {
+public class TEA 
+	   implements ISymmetric<KeyTEA> {
 	
 	protected KeyTEA key;
 	protected int[] schedule;
