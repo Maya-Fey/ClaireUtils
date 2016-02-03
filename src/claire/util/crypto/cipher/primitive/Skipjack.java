@@ -3,6 +3,7 @@ package claire.util.crypto.cipher.primitive;
 import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.KeySkipjack;
+import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.standards.crypto.ISymmetric;
 
@@ -333,5 +334,17 @@ public class Skipjack implements ISymmetric<KeySkipjack> {
 	}
 
 	public void reset() {}
+	
+	public static final int test()
+	{
+		final byte[] bytes1 = new byte[10];
+		final byte[] bytes2 = new byte[10];
+		RandUtils.fillArr(bytes1);
+		RandUtils.fillArr(bytes2);
+		KeySkipjack a1 = new KeySkipjack(bytes1);
+		KeySkipjack a2 = new KeySkipjack(bytes2);
+		Skipjack aes = new Skipjack(a1);
+		return ISymmetric.testSymmetric(aes, a2);
+	}
 	
 }
