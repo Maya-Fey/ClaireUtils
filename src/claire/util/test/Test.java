@@ -8,6 +8,7 @@ import claire.util.crypto.cipher.key.KeyGOST;
 import claire.util.crypto.cipher.key.KeyRC2;
 import claire.util.crypto.cipher.key.KeyRC5;
 import claire.util.crypto.cipher.key.KeyRC6;
+import claire.util.crypto.cipher.key.KeySEED;
 import claire.util.crypto.cipher.primitive.AES;
 import claire.util.crypto.cipher.primitive.Blowfish;
 import claire.util.crypto.cipher.primitive.CAST5;
@@ -18,6 +19,7 @@ import claire.util.crypto.cipher.primitive.RC5_16;
 import claire.util.crypto.cipher.primitive.RC5_32;
 import claire.util.crypto.cipher.primitive.RC5_64;
 import claire.util.crypto.cipher.primitive.RC6;
+import claire.util.crypto.cipher.primitive.SEED;
 import claire.util.logging.Log;
 
 public class Test {
@@ -46,6 +48,8 @@ public class Test {
 		reg += KeyRC5.test();
 		Log.info.println("Testing KeyRC6");
 		reg += KeyRC6.test();
+		Log.info.println("Testing KeySEED");
+		reg += KeySEED.test();
 		Log.info.println("Testing primitive");
 		Log.info.println("Testing AES");
 		reg += AES.test();
@@ -67,6 +71,8 @@ public class Test {
 		reg += RC5_64.test();
 		Log.info.println("Testing RC6");
 		reg += RC6.test();
+		Log.info.println("Testing SEED");
+		reg += SEED.test();
 		if(reg > 0)
 			Log.crit.println(reg + " regressions detected!");
 		else

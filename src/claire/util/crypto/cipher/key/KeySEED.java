@@ -3,9 +3,12 @@ package claire.util.crypto.cipher.key;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IDeepClonable;
+import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
 import claire.util.standards.io.IIncomingStream;
@@ -16,7 +19,7 @@ public class KeySEED
 	
 	private int[] ints;
 	
-	public KeySEED(int[] ints)
+	public KeySEED(final int[] ints)
 	{
 		this.ints = ints;
 	}
@@ -31,19 +34,19 @@ public class KeySEED
 		return new KeySEED(ArrayUtil.copy(ints));
 	}
 
-	public void export(IOutgoingStream stream) throws IOException
+	public void export(final IOutgoingStream stream) throws IOException
 	{
 		stream.writeInts(ints);
 	}
 
-	public void export(byte[] bytes, int offset)
+	public void export(final byte[] bytes, final int offset)
 	{
 		Bits.intsToBytes(ints, 0, bytes, offset, 4);
 	}
 	
 	public int exportSize()
 	{
-		return ints.length * 4;
+		return 16;
 	}
 
 	public int NAMESPACE()
@@ -51,7 +54,7 @@ public class KeySEED
 		return _NAMESPACE.KEYSEED;
 	}
 
-	public boolean sameAs(KeySEED obj)
+	public boolean sameAs(final KeySEED obj)
 	{
 		return ArrayUtil.equals(ints, obj.ints);
 	}
@@ -76,18 +79,29 @@ public class KeySEED
 			super(KeySEED.class);
 		}
 
-		public KeySEED resurrect(byte[] data, int start) throws InstantiationException
+		public KeySEED resurrect(final byte[] data, final int start) throws InstantiationException
 		{
-			int[] ints = new int[4];
+			final int[] ints = new int[4];
 			Bits.bytesToInts(data, start, ints, 0, 4);
 			return new KeySEED(ints);
 		}
 
-		public KeySEED resurrect(IIncomingStream stream) throws InstantiationException, IOException
+		public KeySEED resurrect(final IIncomingStream stream) throws InstantiationException, IOException
 		{
 			return new KeySEED(stream.readInts(4));
 		}
 		
+	}
+	
+	public static final int test()
+	{
+		final int[] ints = new int[4];
+		RandUtils.fillArr(ints);
+		KeySEED aes = new KeySEED(ints);
+		int i = 0;
+		i += IPersistable.test(aes);
+		i += IDeepClonable.test(aes);
+		return i;
 	}
 
 }
