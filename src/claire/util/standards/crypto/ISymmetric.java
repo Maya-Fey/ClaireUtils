@@ -25,17 +25,27 @@ public interface ISymmetric<Key extends IKey<?>>
 				e++;
 			}
 			symm.encryptBlock(b1);
+			IKey<?> orig = symm.getKey();
 			symm.setKey(rep);
 			byte[] b2 = ArrayUtil.copy(b0);
-			symm.encryptBlock(b2);
-			if(ArrayUtil.equals(b1, b2)) {
-				Log.err.println("Changing the key had no effect for class " + symm.getClass().getSimpleName());
-				e++;
-			}
-			symm.decryptBlock(b2);
-			if(!ArrayUtil.equals(b0, b2)) {
-				Log.err.println("Encryption followed by decryption after key change does not yield the original value for class " + symm.getClass().getSimpleName());
-				e++;
+			if(symm.ciphertextSize() == b0.length)
+			{
+				symm.encryptBlock(b2);
+				if(ArrayUtil.equals(b1, b2)) {
+					Log.err.println("Changing the key had no effect for class " + symm.getClass().getSimpleName());
+					e++;
+				}
+				symm.decryptBlock(b2);
+				if(!ArrayUtil.equals(b0, b2)) {
+					Log.err.println("Encryption followed by decryption after key change does not yield the original value for class " + symm.getClass().getSimpleName());
+					e++;
+				}
+			} else {
+				symm.setKey(orig);
+				if(b0.length != symm.ciphertextSize()) {
+					Log.err.println("Resetting key had inconsistent results for class " + symm.getClass().getSimpleName());
+					e++;
+				}
 			}
 			
 			boolean suc = true;

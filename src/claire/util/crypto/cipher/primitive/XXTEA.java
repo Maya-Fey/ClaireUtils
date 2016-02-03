@@ -1,20 +1,53 @@
 package claire.util.crypto.cipher.primitive;
 
+import claire.util.crypto.cipher.key.KeyXXTEA;
+import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
+import claire.util.standards.crypto.ISymmetric;
 
-public class XXTEA extends TEA {
+public class XXTEA 
+	   implements ISymmetric<KeyXXTEA> {
 	
-	private final int words;
+	protected static final int DELTA = 0x9e3779b9;
 	
+	protected KeyXXTEA key;
+	protected int[] schedule;
+	
+	private int words;
 	private int rounds;
 
-	public XXTEA(int words)
+	public XXTEA(KeyXXTEA key)
 	{
-		this.words = words;
-		this.addRounds(6);
+		this.setKey(key);
+	}
+	
+	public KeyXXTEA getKey()
+	{
+		return this.key;
+	}
+
+	public void setKey(KeyXXTEA t)
+	{
+		this.key = t;
+		schedule = t.getInts();
+		words = key.getWords();
+		rounds = 6 + (52 / words);
+	}
+
+	public void wipe()
+	{
+		key = null;
+		schedule = null;
+		words = 0;
+		rounds = 0;
 	}
 	
 	public int plaintextSize()
+	{
+		return this.words * 4;
+	}
+
+	public int ciphertextSize()
 	{
 		return this.words * 4;
 	}
@@ -24,12 +57,14 @@ public class XXTEA extends TEA {
 		this.rounds = rounds + (52 / words);
 	}
 
-	public void decryptBlock(byte[] block)
+	public void decryptBlock(byte[] block, int start)
 	{
 		int[] ints = new int[words];
-		Bits.bytesToInts(block, ints);
+		Bits.bytesToInts(block, start, ints, 0, words);
 		
-		int A = ints[0], B, sum = DELTA * rounds, j;
+		int A = ints[0], 
+			B, sum = DELTA * rounds, 
+			j;
 		
 		while(sum != 0)
 		{	
@@ -44,7 +79,7 @@ public class XXTEA extends TEA {
 			sum -= DELTA;
 		}
 		
-		Bits.intsToBytes(ints, block);
+		Bits.intsToBytes(ints, 0, block, start, words);
 	}
 
 	public void decryptBlock(byte[] block, int start0, byte[] out, int start1)
@@ -52,7 +87,9 @@ public class XXTEA extends TEA {
 		int[] ints = new int[words];
 		Bits.bytesToInts(block, start0, ints, 0, words);
 		
-		int A = ints[0], B, sum = DELTA * rounds, j;
+		int A = ints[0], 
+			B, 
+			sum = DELTA * rounds, j;
 		
 		while(sum != 0)
 		{	
@@ -70,10 +107,10 @@ public class XXTEA extends TEA {
 		Bits.intsToBytes(ints, 0, out, start1, words);
 	}
 
-	public void encryptBlock(byte[] block)
+	public void encryptBlock(byte[] block, int start)
 	{				
 		int[] ints = new int[words];
-		Bits.bytesToInts(block, ints);
+		Bits.bytesToInts(block, start, ints, 0, words);
 		
 		int A, B = ints[words - 1], sum = 0, j;
 		
@@ -90,7 +127,7 @@ public class XXTEA extends TEA {
 			B= ints[words - 1] += (((B >> 5 ^ A << 2) + (A >> 3 ^ B << 4)) ^ ((sum ^ A) + (schedule[(j & 3) ^ e] ^ B)));
 		}
 		
-		Bits.intsToBytes(ints, block);
+		Bits.intsToBytes(ints, 0, block, start, words);
 	}
 
 	public void encryptBlock(byte[] block, int start0, byte[] out, int start1)
@@ -115,4 +152,17 @@ public class XXTEA extends TEA {
 		Bits.intsToBytes(ints, 0, out, start1, words);
 	}
 
+	public void reset() {}
+	
+	public static final int test()
+	{
+		final int[] ints1 = new int[4];
+		final int[] ints2 = new int[4];
+		RandUtils.fillArr(ints1);
+		RandUtils.fillArr(ints2);
+		KeyXXTEA a1 = new KeyXXTEA(ints1, 4);
+		KeyXXTEA a2 = new KeyXXTEA(ints2, 6);
+		XXTEA aes = new XXTEA(a1);
+		return ISymmetric.testSymmetric(aes, a2);
+	}
 }
