@@ -3,6 +3,7 @@ package claire.util.crypto.cipher.primitive;
 import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.KeyRC6;
+import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.crypto.ISymmetric;
@@ -12,10 +13,16 @@ public class RC6 implements ISymmetric<KeyRC6> {
 	private static final int P = 0xb7e15163;
     private static final int Q = 0x9e3779b9;
     
-    private int[] KEY = new int[44];
+    private int[] KEY;
 	
     private int rounds;
+    private int start;
 	private KeyRC6 key;
+
+	public RC6(KeyRC6 a1) 
+	{
+		this.setKey(a1);
+	}
 
 	public KeyRC6 getKey()
 	{
@@ -26,7 +33,9 @@ public class RC6 implements ISymmetric<KeyRC6> {
 	{
 		this.key = t;
 		int[] work = ArrayUtil.copy(t.getInts());
+		rounds = t.getRounds();
 		int p = rounds * 2 + 4;
+		start = p - 1;
 		KEY = new int[p];
 		KEY[0] = P;
 		for(int i = 1; i < KEY.length; i++)
@@ -71,11 +80,11 @@ public class RC6 implements ISymmetric<KeyRC6> {
 			F,
 			T;
 			
-		int pos = 43;
+		int pos = this.start;
 		C -= KEY[pos--];
 		A -= KEY[pos--];
 		
-		for(int i = 0; i < 20; i++)
+		for(int i = 0; i < rounds; i++)
 		{
 			E = F = 0;
             
@@ -119,11 +128,11 @@ public class RC6 implements ISymmetric<KeyRC6> {
 			F,
 			T;
 			
-		int pos = 43;
+		int pos = this.start;
 		C -= KEY[pos--];
 		A -= KEY[pos--];
 		
-		for(int i = 0; i < 20; i++)
+		for(int i = 0; i < rounds; i++)
 		{
 			E = F = 0;
             
@@ -170,7 +179,7 @@ public class RC6 implements ISymmetric<KeyRC6> {
 		int pos = 0;
 		B += KEY[pos++];
 		D += KEY[pos++];
-		for(int i = 0; i < 20; i++)
+		for(int i = 0; i < rounds; i++)
 		{
 			E = F = 0;
             
@@ -217,7 +226,7 @@ public class RC6 implements ISymmetric<KeyRC6> {
 		int pos = 0;
 		B += KEY[pos++];
 		D += KEY[pos++];
-		for(int i = 0; i < 20; i++)
+		for(int i = 0; i < rounds; i++)
 		{
 			E = F = 0;
             
@@ -252,5 +261,17 @@ public class RC6 implements ISymmetric<KeyRC6> {
 	}
 
 	public void reset() {}
+	
+	public static final int test()
+	{
+		final int[] ints1 = new int[13];
+		final int[] ints2 = new int[33];
+		RandUtils.fillArr(ints1);
+		RandUtils.fillArr(ints2);
+		KeyRC6 a1 = new KeyRC6(ints1, 6);
+		KeyRC6 a2 = new KeyRC6(ints2, 12);
+		RC6 aes = new RC6(a1);
+		return ISymmetric.testSymmetric(aes, a2);
+	}
 	
 }

@@ -3,10 +3,13 @@ package claire.util.crypto.cipher.key;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.io.IOUtils;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IDeepClonable;
+import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
 import claire.util.standards.io.IIncomingStream;
@@ -18,7 +21,7 @@ public class KeyRC6
 	private int[] ints;
 	private int rounds;
 	
-	private KeyRC6(int[] ints, int rounds)
+	public KeyRC6(final int[] ints, final int rounds)
 	{
 		this.ints = ints;
 		this.rounds = rounds;
@@ -39,13 +42,13 @@ public class KeyRC6
 		return new KeyRC6(ArrayUtil.copy(ints), rounds);
 	}
 
-	public void export(IOutgoingStream stream) throws IOException
+	public void export(final IOutgoingStream stream) throws IOException
 	{
 		stream.writeInt(rounds);
 		stream.writeIntArr(ints);
 	}
 
-	public void export(byte[] bytes, int offset)
+	public void export(final byte[] bytes, int offset)
 	{
 		Bits.intToBytes(rounds, bytes, offset); offset += 4;
 		IOUtils.writeArr(ints, bytes, offset);
@@ -61,7 +64,7 @@ public class KeyRC6
 		return _NAMESPACE.KEYRC6;
 	}
 
-	public boolean sameAs(KeyRC6 obj)
+	public boolean sameAs(final KeyRC6 obj)
 	{
 		return ArrayUtil.equals(ints, obj.ints);
 	}
@@ -87,19 +90,29 @@ public class KeyRC6
 			super(KeyRC6.class);
 		}
 
-		public KeyRC6 resurrect(byte[] data, int start) throws InstantiationException
+		public KeyRC6 resurrect(final byte[] data, int start) throws InstantiationException
 		{
-			int[] ints = IOUtils.readIntArr(data, start);
-			start += ints.length * 4;
-			return new KeyRC6(ints, Bits.intFromBytes(data, start));
+			int r = Bits.intFromBytes(data, start); start += 4;
+			return new KeyRC6(IOUtils.readIntArr(data, start), r);
 		}
 
-		public KeyRC6 resurrect(IIncomingStream stream) throws InstantiationException, IOException
+		public KeyRC6 resurrect(final IIncomingStream stream) throws InstantiationException, IOException
 		{
 			int rounds = stream.readInt();
 			return new KeyRC6(stream.readIntArr(), rounds);
 		}
 		
+	}
+	
+	public static final int test()
+	{
+		final int[] ints = new int[16];
+		RandUtils.fillArr(ints);
+		KeyRC6 aes = new KeyRC6(ints, 12);
+		int i = 0;
+		i += IPersistable.test(aes);
+		i += IDeepClonable.test(aes);
+		return i;
 	}
 
 }
