@@ -2,7 +2,6 @@ package claire.util.crypto.cipher.primitive;
 
 import java.util.Arrays;
 
-import claire.util.crypto.cipher.key.KeyRC6;
 import claire.util.crypto.cipher.key.KeySEED;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;

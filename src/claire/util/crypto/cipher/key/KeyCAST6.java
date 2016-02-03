@@ -116,6 +116,7 @@ public class KeyCAST6
 		int i = 0;
 		i += IPersistable.test(aes);
 		i += IDeepClonable.test(aes);
+		i += IKey.testKey(aes);
 		return i;
 	}
 	

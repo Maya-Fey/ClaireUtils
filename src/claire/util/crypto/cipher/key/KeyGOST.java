@@ -173,6 +173,7 @@ public class KeyGOST
 		aes = new KeyGOST(ints, nib);
 		i += IPersistable.test(aes);
 		i += IDeepClonable.test(aes);
+		i += IKey.testKey(aes);
 		return i;
 	}
 

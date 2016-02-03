@@ -5,6 +5,7 @@ import claire.util.io.Factory;
 import claire.util.standards.IDeepClonable;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IKey;
 
 public class KeyRC2 
 	   extends ByteKey<KeyRC2> {
@@ -53,6 +54,7 @@ public class KeyRC2
 		int i = 0;
 		i += IPersistable.test(aes);
 		i += IDeepClonable.test(aes);
+		i += IKey.testKey(aes);
 		return i;
 	}
 	
