@@ -3,9 +3,12 @@ package claire.util.crypto.cipher.key;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IDeepClonable;
+import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
 import claire.util.standards.io.IIncomingStream;
@@ -20,7 +23,7 @@ public class KeyTEA
 	
 	private int[] ints;
 	
-	public KeyTEA(int[] ints)
+	public KeyTEA(final int[] ints)
 	{
 		this.ints = ints;
 	}
@@ -35,12 +38,12 @@ public class KeyTEA
 		return new KeyTEA(ArrayUtil.copy(ints));
 	}
 
-	public void export(IOutgoingStream stream) throws IOException
+	public void export(final IOutgoingStream stream) throws IOException
 	{
 		stream.writeInts(ints);
 	}
 
-	public void export(byte[] bytes, int offset)
+	public void export(final byte[] bytes, final int offset)
 	{
 		Bits.intsToBytes(ints, 0, bytes, offset, 4);
 	}
@@ -55,7 +58,7 @@ public class KeyTEA
 		return _NAMESPACE.KEYTEA;
 	}
 
-	public boolean sameAs(KeyTEA obj)
+	public boolean sameAs(final KeyTEA obj)
 	{
 		return ArrayUtil.equals(ints, obj.ints);
 	}
@@ -80,18 +83,30 @@ public class KeyTEA
 			super(KeyTEA.class);
 		}
 
-		public KeyTEA resurrect(byte[] data, int start) throws InstantiationException
+		public KeyTEA resurrect(final byte[] data, final int start) throws InstantiationException
 		{
 			int[] ints = new int[4];
 			Bits.bytesToInts(data, start, ints, 0, 4);
 			return new KeyTEA(ints);
 		}
 
-		public KeyTEA resurrect(IIncomingStream stream) throws InstantiationException, IOException
+		public KeyTEA resurrect(final IIncomingStream stream) throws InstantiationException, IOException
 		{
 			return new KeyTEA(stream.readInts(4));
 		}
 		
+	}
+	
+	public static final int test()
+	{
+		final int[] ints = new int[4];
+		RandUtils.fillArr(ints);
+		KeyTEA aes = new KeyTEA(ints);
+		int i = 0;
+		i += IPersistable.test(aes);
+		i += IDeepClonable.test(aes);
+		i += IKey.testKey(aes);
+		return i;
 	}
 
 }

@@ -10,6 +10,7 @@ import claire.util.crypto.cipher.key.KeyRC5;
 import claire.util.crypto.cipher.key.KeyRC6;
 import claire.util.crypto.cipher.key.KeySEED;
 import claire.util.crypto.cipher.key.KeySkipjack;
+import claire.util.crypto.cipher.key.KeyTEA;
 import claire.util.crypto.cipher.primitive.AES;
 import claire.util.crypto.cipher.primitive.Blowfish;
 import claire.util.crypto.cipher.primitive.CAST5;
@@ -22,6 +23,7 @@ import claire.util.crypto.cipher.primitive.RC5_64;
 import claire.util.crypto.cipher.primitive.RC6;
 import claire.util.crypto.cipher.primitive.SEED;
 import claire.util.crypto.cipher.primitive.Skipjack;
+import claire.util.crypto.cipher.primitive.TEA;
 import claire.util.logging.Log;
 
 public class Test {
@@ -54,6 +56,8 @@ public class Test {
 		reg += KeySEED.test();
 		Log.info.println("Testing claire.util.crypto.cipher.key.KeySkipjack");
 		reg += KeySkipjack.test();
+		Log.info.println("Testing claire.util.crypto.cipher.key.KeyTEA");
+		reg += KeyTEA.test();
 		Log.info.println("Testing primitive");
 		Log.info.println("Testing claire.util.crypto.cipher.primitive.AES");
 		reg += AES.test();
@@ -79,6 +83,8 @@ public class Test {
 		reg += SEED.test();
 		Log.info.println("Testing claire.util.crypto.cipher.primitive.Skipjack");
 		reg += Skipjack.test();
+		Log.info.println("Testing claire.util.crypto.cipher.primitive.TEA");
+		reg += TEA.test();
 		if(reg > 0)
 			Log.crit.println(reg + " regressions detected!");
 		else

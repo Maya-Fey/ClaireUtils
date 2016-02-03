@@ -1,6 +1,7 @@
 package claire.util.crypto.cipher.primitive;
 
 import claire.util.crypto.cipher.key.KeyTEA;
+import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.standards.crypto.ISymmetric;
 
@@ -12,6 +13,11 @@ public class TEA implements ISymmetric<KeyTEA> {
 	protected static final int DELTA = 0x9e3779b9;
 	
 	private static final int PRSUM = 0xc6ef3720;
+	
+	public TEA(KeyTEA key)
+	{
+		this.setKey(key);
+	}
 
 	public KeyTEA getKey()
 	{
@@ -133,5 +139,17 @@ public class TEA implements ISymmetric<KeyTEA> {
 	}	
 
 	public void reset() {}
+	
+	public static final int test()
+	{
+		final int[] ints1 = new int[4];
+		final int[] ints2 = new int[4];
+		RandUtils.fillArr(ints1);
+		RandUtils.fillArr(ints2);
+		KeyTEA a1 = new KeyTEA(ints1);
+		KeyTEA a2 = new KeyTEA(ints2);
+		TEA aes = new TEA(a1);
+		return ISymmetric.testSymmetric(aes, a2);
+	}
 	
 }
