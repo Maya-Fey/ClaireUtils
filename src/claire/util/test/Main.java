@@ -6,12 +6,8 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
 
-import claire.util.crypto.cipher.key.KeyAES;
-import claire.util.crypto.cipher.primitive.AES;
 import claire.util.crypto.hash.primitive.BEAR.$BEAR3;
-import claire.util.crypto.rng.RandUtils;
 import claire.util.display.ImageUtil;
-import claire.util.encoding.Base64;
 import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
 import claire.util.encoding.Hex;
@@ -24,6 +20,7 @@ public final class Main {
 	private static final void end()
 	{
 		System.out.println();
+		System.err.print((char) 0);
 		System.out.println();
 		throw new java.lang.NullPointerException();
 	}
@@ -37,6 +34,8 @@ public final class Main {
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
 		Test.runTests();
+		char[] test = "aabcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
+		System.out.println(EncodingUtil.repeatSlow(test));
 		end();
 		/*
 		Test.runTests();

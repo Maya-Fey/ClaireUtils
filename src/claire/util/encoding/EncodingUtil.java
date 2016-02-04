@@ -99,6 +99,30 @@ public class EncodingUtil {
 		return n;
 	}
 	
+	public static boolean repeatSlow(char[] chars)
+	{
+		for(int i = 0; i < chars.length; i++)
+		{
+			final char c = chars[i];
+			for(int j = i + 1; j < chars.length; j++)
+				if(chars[j] == c)
+					return true;
+		}
+		return false;
+	}
+
+	public static boolean repeatSlow(String chars)
+	{
+		for(int i = 0; i < chars.length(); i++)
+		{
+			final char c = chars.charAt(i);
+			for(int j = i + 1; j < chars.length(); j++)
+				if(chars.charAt(j) == c)
+					return true;
+		}
+		return false;
+	}
+	
 	public static boolean contains(char[] c1, char[] c2)
 	{
 		for(char c3 : c1) 

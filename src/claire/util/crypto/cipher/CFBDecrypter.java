@@ -2,7 +2,6 @@ package claire.util.crypto.cipher;
 
 import java.util.Arrays;
 
-import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.crypto.IDecrypter;
 import claire.util.standards.crypto.ISymmetric;
 
