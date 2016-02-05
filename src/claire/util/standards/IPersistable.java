@@ -6,6 +6,7 @@ import java.io.IOException;
 import claire.util.io.Factory;
 import claire.util.io.FileOutgoingStream;
 import claire.util.logging.Log;
+import claire.util.memory.Bits;
 import claire.util.memory.buffer.ByteArrayIncomingStream;
 import claire.util.memory.buffer.ByteArrayOutgoingStream;
 import claire.util.standards.io.IOutgoingStream;
@@ -75,6 +76,66 @@ public interface IPersistable<T> {
 			e.printStackTrace();
 			return 1;
 		}
+	}
+	
+	public static int persistByte(byte b, byte[] stream, int offset)
+	{
+		stream[offset++] = b;
+		return offset;
+	}
+	
+	public static int persistShort(short b, byte[] stream, int offset)
+	{
+		Bits.shortToBytes(b, stream, offset);
+		return offset + 2;
+	}
+	
+	public static int persistChar(char b, byte[] stream, int offset)
+	{
+		Bits.charToBytes(b, stream, offset);
+		return offset + 2;
+	}
+	
+	public static int persistInt(int b, byte[] stream, int offset)
+	{
+		Bits.intToBytes(b, stream, offset);
+		return offset + 4;
+	}
+	
+	public static int persistLong(long b, byte[] stream, int offset)
+	{
+		Bits.longToBytes(b, stream, offset);
+		return offset + 8;
+	}
+	
+	public static int persistBytes(byte[] bytes, byte[] stream, int offset)
+	{
+		System.arraycopy(bytes, 0, stream, offset, bytes.length);
+		return offset + bytes.length;
+	}
+	
+	public static int persistShorts(short[] shorts, byte[] stream, int offset)
+	{
+		Bits.shortsToBytes(shorts, 0, stream, offset, shorts.length);
+		return offset + (shorts.length * 2);
+	}
+	
+	public static int persistChars(char[] chars, byte[] stream, int offset)
+	{
+		Bits.charsToBytes(chars, 0, stream, offset, chars.length);
+		return offset + (chars.length * 2);
+	}
+	
+	public static int persistInts(int[] ints, byte[] stream, int offset)
+	{
+		Bits.intsToBytes(ints, 0, stream, offset, ints.length);
+		return offset + (ints.length * 4);
+	}
+	
+	public static int persistLongs(long[] longs, byte[] stream, int offset)
+	{
+		Bits.longsToBytes(longs, 0, stream, offset, longs.length);
+		return offset + (longs.length * 8);
 	}
 	
 }
