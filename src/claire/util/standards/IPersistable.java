@@ -138,4 +138,64 @@ public interface IPersistable<T> {
 		return offset + (longs.length * 8);
 	}
 	
+	public static byte readByte(byte[] bytes, int offset)
+	{
+		return bytes[offset];
+	}
+	
+	public static short readShort(byte[] bytes, int offset)
+	{
+		return Bits.shortFromBytes(bytes, offset);
+	}
+	
+	public static char readChar(byte[] bytes, int offset)
+	{
+		return Bits.charFromBytes(bytes, offset);
+	}
+	
+	public static int readInt(byte[] bytes, int offset)
+	{
+		return Bits.intFromBytes(bytes, offset);
+	}
+	
+	public static long readLong(byte[] bytes, int offset)
+	{
+		return Bits.longFromBytes(bytes, offset);
+	}
+	
+	public static byte[] readBytes(byte[] bytes, int offset, int len)
+	{
+		byte[] n = new byte[len];
+		System.arraycopy(bytes, offset, n, 0, len);
+		return n;
+	}
+	
+	public static short[] readShorts(byte[] bytes, int offset, int len)
+	{
+		short[] n = new short[len];
+		Bits.bytesToShorts(bytes, offset, n, 0, len);
+		return n;
+	}
+	
+	public static char[] readChars(byte[] bytes, int offset, int len)
+	{
+		char[] n = new char[len];
+		Bits.bytesToChars(bytes, offset, n, 0, len);
+		return n;
+	}
+	
+	public static int[] readInts(byte[] bytes, int offset, int len)
+	{
+		int[] n = new int[len];
+		Bits.bytesToInts(bytes, offset, n, 0, len);
+		return n;
+	}
+	
+	public static long[] readLongs(byte[] bytes, int offset, int len)
+	{
+		long[] n = new long[len];
+		Bits.bytesToLongs(bytes, offset, n, 0, len);
+		return n;
+	}
+	
 }
