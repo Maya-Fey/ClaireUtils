@@ -198,4 +198,35 @@ public interface IPersistable<T> {
 		return n;
 	}
 	
+	public static int readBytes(byte[] to, byte[] bytes, int offset)
+	{
+		System.arraycopy(bytes, offset, to, 0, to.length);
+		return offset + to.length;
+	}
+	
+	public static int readShorts(short[] to, byte[] bytes, int offset)
+	{
+		Bits.bytesToShorts(bytes, offset, to, 0, to.length);
+		return offset + (to.length * 2);
+	}
+	
+	public static int readChars(char[] to, byte[] bytes, int offset)
+	{
+		Bits.bytesToChars(bytes, offset, to, 0, to.length);
+		return offset + (to.length * 2);
+	}
+	
+	public static int readInts(int[] to, byte[] bytes, int offset)
+	{
+		Bits.bytesToInts(bytes, offset, to, 0, to.length);
+		return offset + (to.length * 4);
+	}
+	
+	public static int readLongs(long[] to, byte[] bytes, int offset)
+	{
+		Bits.bytesToLongs(bytes, offset, to, 0, to.length);
+		return offset + (to.length * 8);
+	}
+	
+	
 }
