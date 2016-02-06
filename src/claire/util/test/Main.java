@@ -43,7 +43,7 @@ public final class Main {
 
 		};
 	
-	public static final int[] permute = new int[]
+	public static final byte[] permute = new byte[]
 		{
 			57, 49, 41, 33, 25, 17, 9,  1, 
 			59, 51, 43, 35, 27, 19, 11, 3, 
