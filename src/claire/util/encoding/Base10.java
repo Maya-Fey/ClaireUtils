@@ -19,7 +19,7 @@ public final class Base10 {
 	 * it will probably require modifying 10+ equivalent bits of code. Here
 	 * is a code representation of how many fucks I give:
 	 * 
-	 * public static final double FUCKS_GIVEN = 0.0000;
+	 * public static final double FUCKS_GIVEN = 0.00000; //5 sf
 	 */
 
 	/**
