@@ -103,6 +103,74 @@ public interface Bits<Type extends Bits<Type>>
 			0x80000000
 		};
 	
+	public static final long[] BIT64_TABLE = new long[]
+			{
+				0x1L,
+				0x2L,
+				0x4L,
+				0x8L,
+				0x10L,
+				0x20L,
+				0x40L,
+				0x80L,
+				0x100L,
+				0x200L,
+				0x400L,
+				0x800L,
+				0x1000L,
+				0x2000L,
+				0x4000L,
+				0x8000L,
+				0x10000L,
+				0x20000L,
+				0x40000L,
+				0x80000L,
+				0x100000L,
+				0x200000L,
+				0x400000L,
+				0x800000L,
+				0x1000000L,
+				0x2000000L,
+				0x4000000L,
+				0x8000000L,
+				0x10000000L,
+				0x20000000L,
+				0x40000000L,
+				0x80000000L,
+				0x100000000L,
+				0x200000000L,
+				0x400000000L,
+				0x800000000L,
+				0x1000000000L,
+				0x2000000000L,
+				0x4000000000L,
+				0x8000000000L,
+				0x10000000000L,
+				0x20000000000L,
+				0x40000000000L,
+				0x80000000000L,
+				0x100000000000L,
+				0x200000000000L,
+				0x400000000000L,
+				0x800000000000L,
+				0x1000000000000L,
+				0x2000000000000L,
+				0x4000000000000L,
+				0x8000000000000L,
+				0x10000000000000L,
+				0x20000000000000L,
+				0x40000000000000L,
+				0x80000000000000L,
+				0x100000000000000L,
+				0x200000000000000L,
+				0x400000000000000L,
+				0x800000000000000L,
+				0x1000000000000000L,
+				0x2000000000000000L,
+				0x4000000000000000L,
+				0x8000000000000000L
+			};
+	
 	/**
 	 * Returns the capacity of the bit array.
 	 */
@@ -1651,6 +1719,16 @@ public interface Bits<Type extends Bits<Type>>
 		return bits;
 	}
 	
+	public static byte[] intToBytes(int data)
+	{
+		byte[] bytes = new byte[4];
+		bytes[0] = (byte)  data;
+		bytes[1] = (byte) (data >>> 8);
+		bytes[2] = (byte) (data >>> 16);
+		bytes[3] = (byte) (data >>> 24);
+		return bytes;
+	}
+	
 	public static void intToBytes(int data, byte[] bytes, int start)
 	{
 		bytes[start++] = (byte)  data;
@@ -1821,6 +1899,20 @@ public interface Bits<Type extends Bits<Type>>
 		boolean[] bits = new boolean[longs.length << 6];
 		longsToBits(longs, bits);
 		return bits;
+	}
+	
+	public static byte[] longToBytes(long data)
+	{
+		byte[] bytes = new byte[8];
+		bytes[0] = (byte)  data;
+		bytes[1] = (byte) (data >>> 8);
+		bytes[2] = (byte) (data >>> 16);
+		bytes[3] = (byte) (data >>> 24);
+		bytes[4] = (byte) (data >>> 32);
+		bytes[5] = (byte) (data >>> 40);
+		bytes[6] = (byte) (data >>> 48);
+		bytes[7] = (byte) (data >>> 56);
+		return bytes;
 	}
 	
 	public static void longToBytes(long data, byte[] bytes, int start)
