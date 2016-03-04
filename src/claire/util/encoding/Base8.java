@@ -7,7 +7,42 @@ public final class Base8 {
 			'0', '1', '2', '3', '4', '5', '6', '7'
 		};
 	
-	public static CString unsignedString(int i)
+	public static char[] unsignedString(int i, final char[] chars)
+	{
+		for(int j = 10; j >= 0; j--) 
+		{
+			chars[j] = DIGITS[i & 0x00000007];
+			i >>>= 3;	
+		}
+		int start = 0;
+		while(chars[start] == '0')
+			start++;
+		final char[] fin = new char[11 - start];
+		System.arraycopy(chars, start, fin, 0, fin.length);
+		return fin;
+	}
+	
+	public static char[] signedString(int i, final char[] chars)
+	{
+		if(i > -1) 
+			return unsignedString(i);
+		int first = 1;
+		i = -i;
+		for(int j = chars.length - 1; j >= 0; j--) 
+		{
+			chars[j] = DIGITS[i & 0x00000007];
+			i >>>= 3;	
+		}
+		int start = 0;
+		while(chars[start] == '0')
+			start++;
+		final char[] fin = new char[12 - start];
+		fin[0] = '-';
+		System.arraycopy(chars, start, fin, first, fin.length - 1);
+		return fin;
+	}
+	
+	public static char[] unsignedString(int i)
 	{
 		final char[] chars = new char[11];
 		for(int j = 10; j >= 0; j--) 
@@ -20,10 +55,10 @@ public final class Base8 {
 			start++;
 		final char[] fin = new char[11 - start];
 		System.arraycopy(chars, start, fin, 0, fin.length);
-		return new CString(fin);
+		return fin;
 	}
 	
-	public static CString signedString(int i)
+	public static char[] signedString(int i)
 	{
 		if(i > -1) 
 			return unsignedString(i);
@@ -41,7 +76,7 @@ public final class Base8 {
 		final char[] fin = new char[12 - start];
 		fin[0] = '-';
 		System.arraycopy(chars, start, fin, first, fin.length - 1);
-		return new CString(fin);
+		return fin;
 	}
 	
 	public static int toUInt(final CString i)

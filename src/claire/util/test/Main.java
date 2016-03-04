@@ -55,25 +55,206 @@ public final class Main {
 			62, 54, 46, 38, 30, 22, 14, 6, 
 		};
 	
+	public static final char[] chars = new char[] {
+		'!','Ð','#','$','%','&',
+		'\'',
+		'(',
+		'*',
+		'+',
+		',',
+		'-',
+		'½',
+		'/',
+		'0',
+		'1',
+		'2',
+		'3',
+		'4',
+		'5',
+		'6',
+		'7',
+		'8',
+		'9',
+		':',
+		';',
+		'<',
+		'=',
+		'>',
+		'?',
+		'@',
+		'A',
+		'B',
+		'C',
+		'D',
+		'E',
+		'F',
+		'G',
+		'H',
+		'I',
+		'J',
+		'K',
+		'L',
+		'M',
+		'N',
+		'O',
+		'P',
+		'Q',
+		'R',
+		'S',
+		'T',
+		'U',
+		'V',
+		'W',
+		'X',
+		'Y',
+		'Z',
+		'[',
+		'÷',
+		']',
+		'^',
+		'_',
+		'`',
+		'a',
+		'b',
+		'c',
+		'd',
+		'e',
+		'f',
+		'g',
+		'h',
+		'i',
+		'j',
+		'k',
+		'l',
+		'm',
+		'n',
+		'o',
+		'p',
+		'q',
+		'r',
+		's',
+		't',
+		'u',
+		'v',
+		'w',
+		'x',
+		'y',
+		'z',
+		'{',
+		'|',
+		'}',
+		'~',
+		'€',
+		'¾',
+		'ƒ',
+		'„',
+		'…',
+		'†',
+		'‡',
+		'ˆ',
+		'‰',
+		'Š',
+		'‹',
+		'Œ',
+		'¢',
+		'£',
+		'¥',
+		'¦',
+		'§',
+		'¨',
+		'©',
+		'ª',
+		'«',
+		'¬',
+		'­',
+		'®',
+		'¯',
+		'°',
+		'±',
+		'²',
+		'³',
+		'´',
+		'µ',
+		'¶',
+		'–','—',')'
+	};
+	
+	public static final byte[] test(char[] in)
+	{
+		int val = 0;
+		int bits = 0;
+		int pos = 0;
+		byte[] bytes = new byte[in.length];
+		for(char c : in)
+		{
+			byte byt = 0;
+			try {
+			while(true) 
+				if(c == chars[byt])
+					break;
+				else
+					byt++;
+			} catch(java.lang.ArrayIndexOutOfBoundsException e) {
+				System.out.println("Ignored char " + c);
+				continue;
+			}
+			val <<= 7;
+			val |= byt;
+			bits += 7;
+			while(bits >= 8) {
+				bytes[pos++] = (byte) (val & 0xFF);
+				bits -= 8;
+			}
+		}
+		return bytes;
+	}
+	
+	
+	
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
-		long l1 = 0xA78BA98A3F234BA3L;
-		long l2 = 0;
-		long l3 = 0;
-		for(int i = 0; i < 64; i++)
-			if((l1 & Bits.BIT64_TABLE[i]) != 0) {
-				System.out.println("Bit " + i + " is true, flipping bit " + permute[i]);
-				l2 |= Bits.BIT64_TABLE[permute[i]];
-			}
-		for(int i = 0; i < 64; i++) 
-			if((l2 & Bits.BIT64_TABLE[i]) != 0) {
-				l3 |= Bits.BIT64_TABLE[inv[i]];
-				System.out.println("Bit " + i + " is true, flipping bit " + inv[i]);
-			}
-		System.out.println(Hex.toHexString(Bits.longToBytes(l1)) + " : " + l1);
-		System.out.println(Hex.toHexString(Bits.longToBytes(l2)) + " : " + l2);
-		System.out.println(Hex.toHexString(Bits.longToBytes(l3)) + " : " + l3);
+		char[] chars = "l&:O/*Þ8_!'K)é06@¥((»%#&'¥axL%)O@>\\%,!,/¥xQ~!O¥<Ù®5|/>)Þ8<6@*Né0,!fK$ýN ï®®Ç£o¤?á^#¿e¶¤(Ñ§;mø _~!¬n« )ä®ùd|\\)%!<môñ§©ä«e. ®§#ômôïáé@}fñ¶á§á¬I/ïÙLÞß%{[\"{NÓ06{,;)§1`EOKNx ".toCharArray();
+		int[] ints = new int[256];
+		for(char c : chars)
+			ints[c & 0xFF]++;
+		int i = 0;
+		for(int b : ints)
+			if(b > 0)
+				System.out.println(((char) i++) + " was used " + b + " times.");
+			else 
+				i++;
+		int[] keks = new int[] {
+				15, 11, 19, 25, 30, 22, 10, 38, 
+				26, 29, 31, 33, 19, 29, 26, 15,
+				23, 37, 36, 38, 18,  8, 33, 30, 
+				24, 15, 11, 23, 26, 36, 16, 37,
+				29,  9, 18,  8,  9, 17, 12, 36, 
+				33, 23, 22, 24, 30, 38, 26,  8
+		};
+		Arrays.fill(ints, 0);
+		i = 0;
+		for(int k : keks) {
+			i += k;
+			i &= 255;
+			ints[i]++;
+		}
+			
+		System.out.println("<table>");
+		for(i = 0; i < 16; i++) {
+			System.out.println("<tr>");
+			for(int j = 0; j < 16; j++)
+				if(ints[(i * 16) + j] > 0)
+					System.out.println("<td bgcolor=\"red\">" + ints[(i * 16) + j] + "</td>");
+				else
+					System.out.println("<td>0</td>");
+			System.out.println("</tr>");
+		}
+		System.out.println("</table>");
+		//byte[] res = test(chars);
+		//System.out.println(Hex.toHex(res));
+		//for(byte b : res)
+		//	System.out.print((char) (b & 0xFF));
 		end();
 		/*
 		Test.runTests();
