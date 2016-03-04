@@ -8,7 +8,6 @@ import java.util.Arrays;
 
 import claire.util.crypto.hash.primitive.BEAR.$BEAR3;
 import claire.util.display.ImageUtil;
-import claire.util.encoding.Base8;
 import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
 import claire.util.encoding.Hex;
@@ -58,12 +57,7 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
-		for(int i = 0x7FFFFFF0; i < 0x800000FF || i > 0; i++) {
-			System.out.print(Base8.unsignedString(i));
-			System.out.println(" : " + Base8.toUInt(Base8.unsignedString(i)) + " : " + i);
-		}
-		end();
-		/*
+
 		Test.runTests();
 		end();
 		//*/

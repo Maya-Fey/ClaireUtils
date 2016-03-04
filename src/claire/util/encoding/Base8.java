@@ -396,7 +396,7 @@ public final class Base8 {
 			return j;
 	}
 	
-	public static int toULong(char[] text)
+	public static long toULong(char[] text)
 	{
 		int i = 1;
 		long j = text[0] - '0';
