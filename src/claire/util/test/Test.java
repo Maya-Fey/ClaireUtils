@@ -5,6 +5,7 @@ import claire.util.crypto.cipher.key.KeyBlowfish;
 import claire.util.crypto.cipher.key.KeyCAST5;
 import claire.util.crypto.cipher.key.KeyCAST6;
 import claire.util.crypto.cipher.key.KeyDES;
+import claire.util.crypto.cipher.key.KeyFEAL;
 import claire.util.crypto.cipher.key.KeyGOST;
 import claire.util.crypto.cipher.key.KeyRC2;
 import claire.util.crypto.cipher.key.KeyRC5;
@@ -69,6 +70,8 @@ public class Test {
 		reg += KeyXXTEA.test();
 		Log.info.println("Testing claire.util.crypto.cipher.key.KeyDES");
 		reg += KeyDES.test();
+		Log.info.println("Testing claire.util.crypto.cipher.key.KeyFEAL");
+		reg += KeyFEAL.test();
 		Log.info.println("Testing primitive");
 		Log.info.println("Testing claire.util.crypto.cipher.primitive.AES");
 		reg += AES.test();
