@@ -58,8 +58,9 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
-		for(int i = 0; i < 256; i++) {
-			System.out.println(Base8.unsignedString((byte) i));
+		for(int i = 0x7FFFFFF0; i < 0x800000FF || i > 0; i++) {
+			System.out.print(Base8.unsignedString(i));
+			System.out.println(" : " + Base8.toUInt(Base8.unsignedString(i)) + " : " + i);
 		}
 		end();
 		/*

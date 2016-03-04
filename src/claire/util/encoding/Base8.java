@@ -287,36 +287,124 @@ public final class Base8 {
 		return fin;
 	}
 	
-	public static int toUInt(final CString i)
+	public static int toByte(char[] text)
 	{
-		final char[] chars = i.array();
-		int f = 0;
-		for(char c : chars) {
-			f <<= 3;
-			f |= c - '0';
+		int i = 0;
+		boolean neg = false;
+		if(text[i] == '-') {
+			neg = true;
+			i++;
 		}
-		return f;
+		byte j = (byte) (text[i++] - '0');
+		while(i < text.length) {
+			j <<= 3;
+			j |= text[i++] - '0';
+		}
+		if(neg)
+			return -j;
+		else 
+			return j;
 	}
 	
-	public static int toInt(final CString i)
+	public static int toUByte(char[] text)
 	{
-		final char[] chars = i.array();
-		int pos, f = 0;
-		final boolean positive;
-		if(chars[0] == '-') {
-			pos = 1;
-			positive = false;
-		} else {
-			pos = 0;
-			positive = true;
+		int i = 1;
+		byte j = (byte) (text[0] - '0');
+		while(i < text.length) {
+			j <<= 3;
+			j |= text[i++] - '0';
 		}
-		for(; pos < chars.length; pos++) {
-			f <<= 3;
-			f -= chars[pos] - '0';
+		return j;
+	}
+	
+	public static int toShort(char[] text)
+	{
+		int i = 0;
+		boolean neg = false;
+		if(text[i] == '-') {
+			neg = true;
+			i++;
 		}
-		if(positive)
-			return -f;
-		return f;
+		short j = (short) (text[i++] - '0');
+		while(i < text.length) {
+			j <<= 3;
+			j |= text[i++] - '0';
+		}
+		if(neg)
+			return -j;
+		else 
+			return j;
+	}
+	
+	public static int toUShort(char[] text)
+	{
+		int i = 1;
+		short j = (short) (text[0] - '0');
+		while(i < text.length) {
+			j <<= 3;
+			j |= text[i++] - '0';
+		}
+		return j;
+	}
+	
+	public static int toInt(char[] text)
+	{
+		int i = 0;
+		boolean neg = false;
+		if(text[i] == '-') {
+			neg = true;
+			i++;
+		}
+		int j = text[i++] - '0';
+		while(i < text.length) {
+			j <<= 3;
+			j |= text[i++] - '0';
+		}
+		if(neg)
+			return -j;
+		else 
+			return j;
+	}
+	
+	public static int toUInt(char[] text)
+	{
+		int i = 1;
+		int j = text[0] - '0';
+		while(i < text.length) {
+			j <<= 3;
+			j |= text[i++] - '0';
+		}
+		return j;
+	}
+	
+	public static long toLong(char[] text)
+	{
+		int i = 0;
+		boolean neg = false;
+		if(text[i] == '-') {
+			neg = true;
+			i++;
+		}
+		int j = text[i++] - '0';
+		while(i < text.length) {
+			j <<= 3;
+			j |= text[i++] - '0';
+		}
+		if(neg)
+			return -j;
+		else 
+			return j;
+	}
+	
+	public static int toULong(char[] text)
+	{
+		int i = 1;
+		long j = text[0] - '0';
+		while(i < text.length) {
+			j <<= 3;
+			j |= text[i++] - '0';
+		}
+		return j;
 	}
 	
 	public static boolean isBase8(final char[] chars)
