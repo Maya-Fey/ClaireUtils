@@ -20,9 +20,8 @@ public final class Main {
 	@SuppressWarnings("all")
 	private static final void end()
 	{
-		System.out.println();
-		System.err.print((char) 0);
-		System.out.println();
+		System.out.flush();
+		System.err.flush();
 		throw new java.lang.NullPointerException();
 	}
 	
@@ -59,8 +58,9 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
-		for(int i = 506; i < 700; i++)
-			System.out.println(Base8.signedString(-i));
+		for(int i = 0; i < 256; i++) {
+			System.out.println(Base8.unsignedString((byte) i));
+		}
 		end();
 		/*
 		Test.runTests();
