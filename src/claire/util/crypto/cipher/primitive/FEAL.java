@@ -193,17 +193,17 @@ public class FEAL
 		int r = rounds;
 		int i = estart;
 		int j = schedule.length;
-		A[0] ^= schedule[--j];
-		A[1] ^= schedule[--j];
-		A[2] ^= schedule[--j];
-		A[3] ^= schedule[--j];
-		B[0] ^= schedule[--j];
-		B[1] ^= schedule[--j];
-		B[2] ^= schedule[--j];
-		B[3] ^= schedule[--j];
 		if((r & 1) == 1) {
 			System.arraycopy(block, start0 + 0, B, 0, 4);
 			System.arraycopy(block, start0 + 4, A, 0, 4);
+			A[3] ^= schedule[--j];
+			A[2] ^= schedule[--j];
+			A[1] ^= schedule[--j];
+			A[0] ^= schedule[--j];
+			B[3] ^= schedule[--j];
+			B[2] ^= schedule[--j];
+			B[1] ^= schedule[--j];
+			B[0] ^= schedule[--j];			
 			B[0] ^= A[0];
 			B[1] ^= A[1];
 			B[2] ^= A[2];
@@ -214,6 +214,14 @@ public class FEAL
 		} else {
 			System.arraycopy(block, start0 + 0, A, 0, 4);
 			System.arraycopy(block, start0 + 4, B, 0, 4);
+			B[3] ^= schedule[--j];
+			B[2] ^= schedule[--j];
+			B[1] ^= schedule[--j];
+			B[0] ^= schedule[--j];
+			A[3] ^= schedule[--j];
+			A[2] ^= schedule[--j];
+			A[1] ^= schedule[--j];
+			A[0] ^= schedule[--j];
 			B[0] ^= A[0];
 			B[1] ^= A[1];
 			B[2] ^= A[2];
@@ -283,8 +291,6 @@ public class FEAL
 		int r = rounds;
 		int i = 0;
 		int j = estart;
-		System.arraycopy(block, start0 + 0, A, 0, 4);
-		System.arraycopy(block, start0 + 4, B, 0, 4);
 		A[0] ^= schedule[j++];
 		A[1] ^= schedule[j++];
 		A[2] ^= schedule[j++];
@@ -293,6 +299,8 @@ public class FEAL
 		B[1] ^= schedule[j++];
 		B[2] ^= schedule[j++];
 		B[3] ^= schedule[j++];
+		System.arraycopy(block, start0 + 0, A, 0, 4);
+		System.arraycopy(block, start0 + 4, B, 0, 4);
 		B[0] ^= A[0];
 		B[1] ^= A[1];
 		B[2] ^= A[2];
@@ -307,14 +315,22 @@ public class FEAL
 		if(r == 1) {
 			System.arraycopy(B, 0, C, 0, 4);
 			FR(A, C, schedule[i++], schedule[i++]);
+			B[0] ^= A[0];
+			B[1] ^= A[1];
+			B[2] ^= A[2];
+			B[3] ^= A[3];
 			System.arraycopy(B, 0, out, start1 + 0, 4);
 			System.arraycopy(A, 0, out, start1 + 4, 4);
 		} else {
+			B[0] ^= A[0];
+			B[1] ^= A[1];
+			B[2] ^= A[2];
+			B[3] ^= A[3];
 			System.arraycopy(A, 0, out, start1 + 0, 4);
 			System.arraycopy(B, 0, out, start1 + 4, 4);
 		}
 		for(int k = start1; k < start1 + 8; k++)
-			block[k] ^= schedule[j++];
+			out[k] ^= schedule[j++];
 	}
 	
 	public void reset() {}
