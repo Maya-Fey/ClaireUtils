@@ -19,6 +19,7 @@ import claire.util.crypto.cipher.primitive.AES;
 import claire.util.crypto.cipher.primitive.Blowfish;
 import claire.util.crypto.cipher.primitive.CAST5;
 import claire.util.crypto.cipher.primitive.CAST6;
+import claire.util.crypto.cipher.primitive.FEAL;
 import claire.util.crypto.cipher.primitive.GOST;
 import claire.util.crypto.cipher.primitive.RC2;
 import claire.util.crypto.cipher.primitive.RC5_16;
@@ -103,6 +104,8 @@ public class Test {
 		reg += XTEA.test();
 		Log.info.println("Testing claire.util.crypto.cipher.primitive.XXTEA");
 		reg += XXTEA.test();
+		Log.info.println("Testing claire.util.crypto.cipher.primitive.FEAL");
+		reg += FEAL.test();
 		if(reg > 0)
 			Log.crit.println(reg + " regressions detected!");
 		else
