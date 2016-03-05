@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.KeyFEAL;
 import claire.util.crypto.rng.RandUtils;
-import claire.util.encoding.Hex;
 import claire.util.memory.Bits;
 import claire.util.standards.crypto.ISymmetric;
 
@@ -21,8 +20,6 @@ public class FEAL
 	protected KeyFEAL key;
 	private int rounds;
 	private int estart;
-	
-	protected static final int DELTA = 0x9e3779b9;
 	
 	public FEAL(KeyFEAL key)
 	{

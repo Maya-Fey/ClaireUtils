@@ -1,7 +1,6 @@
 package claire.util.standards.crypto;
 
 import claire.util.crypto.rng.RandUtils;
-import claire.util.encoding.Hex;
 import claire.util.logging.Log;
 import claire.util.memory.util.ArrayUtil;
 
