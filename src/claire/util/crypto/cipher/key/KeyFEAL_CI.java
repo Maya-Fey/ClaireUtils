@@ -17,18 +17,18 @@ import claire.util.standards.io.IOutgoingStream;
 public class KeyFEAL_CI 
 	   implements IKey<KeyFEAL_CI> {
 	
-	private short[] bytes;
+	private short[] shorts;
 	private int rounds;
 	
-	public KeyFEAL_CI(final short[] bytes, int rounds)
+	public KeyFEAL_CI(final short[] shorts, int rounds)
 	{
-		this.bytes = bytes;
+		this.shorts = shorts;
 		this.rounds = rounds;
 	}
 	
 	public short[] getShorts()
 	{
-		return this.bytes;
+		return this.shorts;
 	}
 	
 	public int getRounds()
@@ -38,24 +38,24 @@ public class KeyFEAL_CI
 	
 	public KeyFEAL_CI createDeepClone()
 	{
-		return new KeyFEAL_CI(ArrayUtil.copy(bytes), rounds);
+		return new KeyFEAL_CI(ArrayUtil.copy(shorts), rounds);
 	}
 
 	public void export(final IOutgoingStream stream) throws IOException
 	{
 		stream.writeInt(rounds);
-		stream.writeShorts(bytes);
+		stream.writeShorts(shorts);
 	}
 
 	public void export(final byte[] bytes, final int offset)
 	{
 		Bits.intToBytes(rounds, bytes, offset);
-		System.arraycopy(this.bytes, 0, bytes, offset + 4, 8);
+		Bits.shortsToBytes(shorts, 0, bytes, offset + 4, 8);
 	}
 	
 	public int exportSize()
 	{
-		return 12;
+		return 20;
 	}
 
 	public int NAMESPACE()
@@ -65,14 +65,14 @@ public class KeyFEAL_CI
 
 	public boolean sameAs(final KeyFEAL_CI obj)
 	{
-		return ArrayUtil.equals(bytes, obj.bytes) && this.rounds == obj.rounds;
+		return ArrayUtil.equals(shorts, obj.shorts) && this.rounds == obj.rounds;
 	}
 
 	public void erase()
 	{
-		Arrays.fill(bytes, (byte) 0);
+		Arrays.fill(shorts, (byte) 0);
 		this.rounds = 0;
-		this.bytes = null;
+		this.shorts = null;
 	}
 	
 	public Factory<KeyFEAL_CI> factory()
@@ -92,9 +92,9 @@ public class KeyFEAL_CI
 		public KeyFEAL_CI resurrect(final byte[] data, final int start) throws InstantiationException
 		{
 			int rounds = Bits.intFromBytes(data, start);
-			short[] bytes = new short[8];
-			System.arraycopy(data, start + 4, bytes, 0, 8);
-			return new KeyFEAL_CI(bytes, rounds);
+			short[] shorts = new short[8];
+			Bits.bytesToShorts(data, start + 4, shorts, 0, 8);
+			return new KeyFEAL_CI(shorts, rounds);
 		}
 
 		public KeyFEAL_CI resurrect(final IIncomingStream stream) throws InstantiationException, IOException
