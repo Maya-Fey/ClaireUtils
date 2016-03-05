@@ -18,8 +18,19 @@ public interface ISymmetric<Key extends IKey<?>>
 			byte[] b0 = new byte[symm.ciphertextSize()];
 			RandUtils.fillArr(b0);
 			byte[] b1 = ArrayUtil.copy(b0);
+			byte[] t = new byte[b1.length];
+			symm.encryptBlock(b1, 0, t, 0);
 			symm.encryptBlock(b1);
+			if(!ArrayUtil.equals(t, b1)) {
+				Log.err.println("Encryption and offsetted encryption yield different results for class " + symm.getClass().getSimpleName());
+				e++;
+			}
+			symm.decryptBlock(b1, 0, t, 0);
 			symm.decryptBlock(b1);
+			if(!ArrayUtil.equals(t, b1)) {
+				Log.err.println("Decryption and offsetted decryption yield different results for class " + symm.getClass().getSimpleName());
+				e++;
+			}
 			if(!ArrayUtil.equals(b0, b1)) {
 				Log.err.println("Encryption followed by decryption does not yield the original value for class " + symm.getClass().getSimpleName());
 				e++;
