@@ -17,13 +17,18 @@ import claire.util.standards.io.IOutgoingStream;
 public class KeyFEAL 
 	   implements IKey<KeyFEAL> {
 	
-	private int[] ints;
+	private byte[] bytes;
 	private int rounds;
 	
-	public KeyFEAL(final int[] ints, final int rounds)
+	public KeyFEAL(final byte[] bytes, int rounds)
 	{
-		this.ints = ints;
+		this.bytes = bytes;
 		this.rounds = rounds;
+	}
+	
+	public byte[] getBytes()
+	{
+		return this.bytes;
 	}
 	
 	public int getRounds()
@@ -31,26 +36,21 @@ public class KeyFEAL
 		return this.rounds;
 	}
 	
-	public int[] getInts()
-	{
-		return this.ints;
-	}
-	
 	public KeyFEAL createDeepClone()
 	{
-		return new KeyFEAL(ArrayUtil.copy(ints), rounds);
+		return new KeyFEAL(ArrayUtil.copy(bytes), rounds);
 	}
 
 	public void export(final IOutgoingStream stream) throws IOException
 	{
 		stream.writeInt(rounds);
-		stream.writeInts(ints);
+		stream.writeBytes(bytes);
 	}
 
-	public void export(final byte[] bytes, int offset)
+	public void export(final byte[] bytes, final int offset)
 	{
-		Bits.intToBytes(rounds, bytes, offset); offset += 4;
-		Bits.intsToBytes(ints, 0, bytes, offset, 2);
+		Bits.intToBytes(rounds, bytes, offset);
+		System.arraycopy(this.bytes, 0, bytes, offset + 4, 8);
 	}
 	
 	public int exportSize()
@@ -65,14 +65,14 @@ public class KeyFEAL
 
 	public boolean sameAs(final KeyFEAL obj)
 	{
-		return ArrayUtil.equals(ints, obj.ints) && rounds == obj.rounds;
+		return ArrayUtil.equals(bytes, obj.bytes) && this.rounds == obj.rounds;
 	}
 
 	public void erase()
 	{
-		Arrays.fill(ints, 0);
-		this.ints = null;
+		Arrays.fill(bytes, (byte) 0);
 		this.rounds = 0;
+		this.bytes = null;
 	}
 	
 	public Factory<KeyFEAL> factory()
@@ -89,28 +89,27 @@ public class KeyFEAL
 			super(KeyFEAL.class);
 		}
 
-		public KeyFEAL resurrect(final byte[] data, int start) throws InstantiationException
+		public KeyFEAL resurrect(final byte[] data, final int start) throws InstantiationException
 		{
-			int rounds = Bits.intFromBytes(data, start); 
-			start += 4;
-			int[] ints = new int[2];
-			Bits.bytesToInts(data, start, ints, 0, 2);
-			return new KeyFEAL(ints, rounds);
+			int rounds = Bits.intFromBytes(data, start);
+			byte[] bytes = new byte[8];
+			System.arraycopy(data, start + 4, bytes, 0, 8);
+			return new KeyFEAL(bytes, rounds);
 		}
 
 		public KeyFEAL resurrect(final IIncomingStream stream) throws InstantiationException, IOException
 		{
-			final int rounds = stream.readInt();
-			return new KeyFEAL(stream.readInts(2), rounds);
+			int rounds = stream.readInt();
+			return new KeyFEAL(stream.readBytes(8), rounds);
 		}
 		
 	}
 	
 	public static final int test()
 	{
-		final int[] ints = new int[2];
-		RandUtils.fillArr(ints);
-		KeyFEAL aes = new KeyFEAL(ints, 32);
+		final byte[] bytes = new byte[8];
+		RandUtils.fillArr(bytes);
+		KeyFEAL aes = new KeyFEAL(bytes, 5);
 		int i = 0;
 		i += IPersistable.test(aes);
 		i += IDeepClonable.test(aes);
