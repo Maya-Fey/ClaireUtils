@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.KeyFEAL;
 import claire.util.crypto.rng.RandUtils;
+import claire.util.encoding.Hex;
 import claire.util.memory.Bits;
 import claire.util.standards.crypto.ISymmetric;
 
@@ -291,6 +292,8 @@ public class FEAL
 		int r = rounds;
 		int i = 0;
 		int j = estart;
+		System.arraycopy(block, start0 + 0, A, 0, 4);
+		System.arraycopy(block, start0 + 4, B, 0, 4);
 		A[0] ^= schedule[j++];
 		A[1] ^= schedule[j++];
 		A[2] ^= schedule[j++];
@@ -299,8 +302,6 @@ public class FEAL
 		B[1] ^= schedule[j++];
 		B[2] ^= schedule[j++];
 		B[3] ^= schedule[j++];
-		System.arraycopy(block, start0 + 0, A, 0, 4);
-		System.arraycopy(block, start0 + 4, B, 0, 4);
 		B[0] ^= A[0];
 		B[1] ^= A[1];
 		B[2] ^= A[2];
