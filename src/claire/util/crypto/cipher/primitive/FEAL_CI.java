@@ -32,9 +32,14 @@ public class FEAL_CI
 		return this.key;
 	}
 
-	private static short S(short a, short b, short c, int r)
+	private static short S1(short a, short b, short c, int r)
 	{
 		return Bits.rotateLeft((short) (a + b + c), r);
+	}
+	
+	private static short S2(short a, short b, short c, int r)
+	{
+		return Bits.rotateRight((short) (a + b + c), r);
 	}
 	
 	private static void FK(short[] A, short[] B)
@@ -43,13 +48,13 @@ public class FEAL_CI
 		A[1] += A[0];
 		A[2] += A[3];
 		t = (short) (B[0] ^ A[2]);
-		A[1] = S(A[1], t, (short) 0xAB04, 3);
+		A[1] = S1(A[1], t, (short) 0xAB04, 3);
 		t = (short) (A[1] ^ B[1]);
-		A[2] = S(A[2], t, (short) 0x42D7, 7);
+		A[2] = S2(A[2], t, (short) 0x42D7, 7);
 		t = (short) (A[1] ^ B[2]);
-		A[0] = S(A[0], t, (short) 0xFFEA, 5);
+		A[0] = S2(A[0], t, (short) 0xFFEA, 5);
 		t = (short) (A[2] ^ B[3]);
-		A[3] = S(A[3], t, (short) 0x096F, 4);
+		A[3] = S1(A[3], t, (short) 0x096F, 4);
 	}
 	
 	private static void FR(short[] A, short[] B, short b1, short b2)
@@ -58,10 +63,10 @@ public class FEAL_CI
 		B[2] ^= b2;
 		B[1] += B[0];
 		B[2] += B[3];
-		B[1] = S(B[1], B[2], (short) (0xAB04 ^ B[0]), b1 & 7);
-		B[2] = S(B[2], B[1], (short) (0x42D7 ^ b1), B[3] & 7);
-		B[0] = S(B[0], B[1], (short) (0xFFEA ^ b2), B[0] & 7);
-		B[3] = S(B[3], B[2], (short) (0x096F ^ B[3]), b2 & 7);
+		B[1] = S1(B[1], B[2], (short) (0xAB04 ^ B[0]), b1 & 7);
+		B[2] = S2(B[2], B[1], (short) (0x42D7 ^ b1), B[3] & 7);
+		B[0] = S2(B[0], B[1], (short) (0xFFEA ^ b2), B[0] & 7);
+		B[3] = S1(B[3], B[2], (short) (0x096F ^ B[3]), b2 & 7);
 		short t = A[0];
 		A[0] = (short) (A[1] ^ B[0]);
 		A[1] = (short) (A[2] ^ B[1]);
@@ -75,10 +80,10 @@ public class FEAL_CI
 		B[2] ^= b2;
 		B[1] += B[0];
 		B[2] += B[3];
-		B[1] = S(B[1], B[2], (short) (0xAB04 ^ B[0]), b1 & 7);
-		B[2] = S(B[2], B[1], (short) (0x42D7 ^ b1), B[3] & 7);
-		B[0] = S(B[0], B[1], (short) (0xFFEA ^ b2), B[0] & 7);
-		B[3] = S(B[3], B[2], (short) (0x096F ^ B[3]), b2 & 7);
+		B[1] = S1(B[1], B[2], (short) (0xAB04 ^ B[0]), b1 & 7);
+		B[2] = S2(B[2], B[1], (short) (0x42D7 ^ b1), B[3] & 7);
+		B[0] = S2(B[0], B[1], (short) (0xFFEA ^ b2), B[0] & 7);
+		B[3] = S1(B[3], B[2], (short) (0x096F ^ B[3]), b2 & 7);
 		short t = A[3];
 		A[3] = (short) (A[2] ^ B[2]);
 		A[2] = (short) (A[1] ^ B[1]);
