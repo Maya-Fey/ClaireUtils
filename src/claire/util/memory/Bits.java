@@ -710,6 +710,102 @@ public interface Bits<Type extends Bits<Type>>
 		System.arraycopy(temp, 0, bits, 0, pos);
 	}
 	
+	public static void rotateLeft(boolean[] bits, int start, int len, int pos)
+	{
+		final boolean[] temp = new boolean[pos];
+		System.arraycopy(bits, start, temp, 0, pos);
+		System.arraycopy(bits, start + pos, bits, start, len - pos);
+		System.arraycopy(temp, 0, bits, start + len - pos, pos);
+	}
+	
+	public static void rotateLeft(byte[] bits, int start, int len, int pos)
+	{
+		final byte[] temp = new byte[pos];
+		System.arraycopy(bits, start, temp, 0, pos);
+		System.arraycopy(bits, start + pos, bits, start, len - pos);
+		System.arraycopy(temp, 0, bits, start + len - pos, pos);
+	}
+	
+	public static void rotateLeft(short[] bits, int start, int len, int pos)
+	{
+		final short[] temp = new short[pos];
+		System.arraycopy(bits, start, temp, 0, pos);
+		System.arraycopy(bits, start + pos, bits, start, len - pos);
+		System.arraycopy(temp, 0, bits, start + len - pos, pos);
+	}
+	
+	public static void rotateLeft(char[] bits, int start, int len, int pos)
+	{
+		final char[] temp = new char[pos];
+		System.arraycopy(bits, start, temp, 0, pos);
+		System.arraycopy(bits, start + pos, bits, start, len - pos);
+		System.arraycopy(temp, 0, bits, start + len - pos, pos);
+	}
+	
+	public static void rotateLeft(int[] bits, int start, int len, int pos)
+	{
+		final int[] temp = new int[pos];
+		System.arraycopy(bits, start, temp, 0, pos);
+		System.arraycopy(bits, start + pos, bits, start, len - pos);
+		System.arraycopy(temp, 0, bits, start + len - pos, pos);
+	}
+	
+	public static void rotateLeft(long[] bits, int start, int len, int pos)
+	{
+		final long[] temp = new long[pos];
+		System.arraycopy(bits, start, temp, 0, pos);
+		System.arraycopy(bits, start + pos, bits, start, len - pos);
+		System.arraycopy(temp, 0, bits, start + len - pos, pos);
+	}
+	
+	public static void rotateRight(boolean[] bits, int start, int len, int pos)
+	{
+		final boolean[] temp = new boolean[pos];
+		System.arraycopy(bits, start + pos, temp, 0, pos);
+		System.arraycopy(bits, start, bits, start + pos, len - pos);
+		System.arraycopy(temp, 0, bits, start + pos, pos);
+	}
+	
+	public static void rotateRight(byte[] bits, int start, int len, int pos)
+	{
+		final byte[] temp = new byte[pos];
+		System.arraycopy(bits, start + len - pos, temp, 0, pos);
+		System.arraycopy(bits, start, bits, start + pos, len - pos);
+		System.arraycopy(temp, 0, bits, start, pos);
+	}
+	
+	public static void rotateRight(short[] bits, int start, int len, int pos)
+	{
+		final short[] temp = new short[pos];
+		System.arraycopy(bits, start + len - pos, temp, 0, pos);
+		System.arraycopy(bits, start, bits, start + pos, len - pos);
+		System.arraycopy(temp, 0, bits, start, pos);
+	}
+	
+	public static void rotateRight(char[] bits, int start, int len, int pos)
+	{
+		final char[] temp = new char[pos];
+		System.arraycopy(bits, start + len - pos, temp, 0, pos);
+		System.arraycopy(bits, start, bits, start + pos, len - pos);
+		System.arraycopy(temp, 0, bits, start, pos);
+	}
+	
+	public static void rotateRight(int[] bits, int start, int len, int pos)
+	{
+		final int[] temp = new int[pos];
+		System.arraycopy(bits, start + len - pos, temp, 0, pos);
+		System.arraycopy(bits, start, bits, start + pos, len - pos);
+		System.arraycopy(temp, 0, bits, start, pos);
+	}
+	
+	public static void rotateRight(long[] bits, int start, int len, int pos)
+	{
+		final long[] temp = new long[pos];
+		System.arraycopy(bits, start + len - pos, temp, 0, pos);
+		System.arraycopy(bits, start, bits, start + pos, len - pos);
+		System.arraycopy(temp, 0, bits, start, pos);
+	}
+	
 	public static int countTrue(byte in)
 	{
 		return countTrue(in & 0xFF);

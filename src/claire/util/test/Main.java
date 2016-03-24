@@ -57,7 +57,6 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
-
 		Test.runTests();
 		end();
 		//*/
