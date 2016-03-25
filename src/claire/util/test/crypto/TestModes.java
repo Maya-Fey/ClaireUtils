@@ -1,12 +1,12 @@
 package claire.util.test.crypto;
 
-import claire.util.crypto.cipher.CBC_Cipher;
-import claire.util.crypto.cipher.CFB_Cipher;
-import claire.util.crypto.cipher.ECB_Cipher;
-import claire.util.crypto.cipher.OFB_Cipher;
-import claire.util.crypto.cipher.PCBC_Cipher;
-import claire.util.crypto.cipher.key.KeyRC6;
-import claire.util.crypto.cipher.primitive.RC6;
+import claire.util.crypto.cipher.key.block.KeyRC6;
+import claire.util.crypto.cipher.modes.CBC_Cipher;
+import claire.util.crypto.cipher.modes.CFB_Cipher;
+import claire.util.crypto.cipher.modes.ECB_Cipher;
+import claire.util.crypto.cipher.modes.OFB_Cipher;
+import claire.util.crypto.cipher.modes.PCBC_Cipher;
+import claire.util.crypto.cipher.primitive.block.RC6;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.crypto.rng.primitive.FastXorShift;
 import claire.util.encoding.Hex;
