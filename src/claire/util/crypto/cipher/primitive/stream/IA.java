@@ -92,6 +92,10 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 		}
 	}
 	
+	/**
+	 * Internal function. This generates the next integer and returns it.
+	 * Does not alter the integer in memory. 
+	 */
 	private int nextInt()
 	{
 		int x = M[i], y;
@@ -102,6 +106,10 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 		return x;
 	}
 	
+	/**
+	 * Internal function. This generates the next integer and loads it in
+	 * memory to produce bytes at a later time.
+	 */
 	private void genInt()
 	{
 		final int x = M[i], y;
@@ -160,6 +168,15 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 			this.rem = ia.rem;
 		}
 		
+		/**
+		 * Updates this state with the given IA object.
+		 * <br><br>
+		 * Expects:
+		 * <ul>
+		 * 	<li>A functional IA object</li>
+		 * </ul>
+		 * If the IA object has been wiped a NullPointerException will be thrown. 
+		 */
 		public void update(final IA ia)
 		{
 			System.arraycopy(ia.M, 0, ints, 0, 256);
