@@ -4,8 +4,23 @@ import claire.util.memory.Bits;
 
 public class PrimitiveAggregator {
 	
-	private final byte[] buffer = new byte[8];
-	int pos = 0;
+	private final byte[] buffer;
+	private int pos = 0;
+	
+	public PrimitiveAggregator()
+	{
+		this.buffer = new byte[8];
+	}
+	
+	public PrimitiveAggregator(byte[] buffer)
+	{
+		this.buffer = buffer;
+	}
+	
+	public byte[] getBuffer()
+	{
+		return this.buffer;
+	}
 	
 	public void addByte(byte b)
 	{
