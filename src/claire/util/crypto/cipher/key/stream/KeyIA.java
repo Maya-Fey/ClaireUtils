@@ -25,11 +25,33 @@ public class KeyIA implements IKey<KeyIA> {
 	
 	private int[] ints;
 	
+	/**
+	 * Creates a new IA key from an existing internal array.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * 	<li>An integer array containing exactly 256 integers.</li>
+	 * </ul>
+	 * If the array contains an amount other than 256 integers, the persistability of this class
+	 * will be compromised. If it contains less then 256, IA will not work when used with they key.
+	 */
 	public KeyIA(final int[] ints) 
 	{
 		this.ints = ints;
 	}
 	
+	/**
+	 * Creates a new IA key from a byte.<br>
+	 * WARNING: It is recommended that you produces a full 256-integer or 1024-byte key
+	 * first. This simply adds null padding after your bytes, which may have
+	 * adverse effects on the security of IA. USE AT YOUR OWN RISK.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * 	<li>An byte array of any size greater than zero.</li>
+	 * </ul>
+	 * An array of zero or a null value results in undefined behavior.
+	 */
 	public KeyIA(final byte[] bytes)
 	{
 		ints = new int[256];
