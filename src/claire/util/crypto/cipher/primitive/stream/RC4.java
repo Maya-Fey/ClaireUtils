@@ -9,6 +9,8 @@ import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IPersistable;
+import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IState;
 import claire.util.standards.crypto.IStreamCipher;
 import claire.util.standards.io.IIncomingStream;
@@ -188,6 +190,16 @@ public class RC4
 			Arrays.fill(S, (byte) 0);
 			S = null;
 			i = j = 0;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.RC4STATE;
+		}
+
+		public boolean sameAs(RC4State obj)
+		{
+			return (i == obj.i && j == obj.j) && ArrayUtil.equals(S, obj.S);
 		}
 		
 	}
