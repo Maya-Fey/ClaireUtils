@@ -4,12 +4,9 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.stream.KeyIA;
-import claire.util.crypto.cipher.key.stream.KeyRC4;
 import claire.util.crypto.cipher.primitive.stream.IA.StateIA;
-import claire.util.crypto.cipher.primitive.stream.RC4.RC4State;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
-import claire.util.io.IOUtils;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IPersistable;
@@ -28,7 +25,7 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 				prev = 0,
 				rem = 0;
 	
-	public IA(KeyIA key) 
+	public IA(final KeyIA key) 
 	{
 		this.setKey(key);
 	}
@@ -38,7 +35,7 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 		return this.key;
 	}
 
-	public void setKey(KeyIA t)
+	public void setKey(final KeyIA t)
 	{
 		this.key = t;
 		if(M == null)
@@ -67,13 +64,13 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 	{
 		if(rem == 0) 
 			genInt();
-		byte b = (byte) prev;
+		final byte b = (byte) prev;
 		prev >>>= 8;
 		rem--;
 		return b;
 	}
 
-	public void fill(byte[] arr, int start, int len)
+	public void fill(final byte[] arr, int start, int len)
 	{
 		while(rem-- > 0) {
 			arr[start++] = (byte) prev;
@@ -107,7 +104,7 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 	
 	private void genInt()
 	{
-		int x = M[i], y;
+		final int x = M[i], y;
 		M[i] = y = M[x & 0xFF] + b;
 		prev = b = M[(y >>> 8) & 0xFF] + x;
 		i++;
@@ -120,7 +117,7 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 		return new StateIA(this);
 	}
 
-	public void loadState(StateIA state)
+	public void loadState(final StateIA state)
 	{
 		this.i = state.i;
 		this.b = state.b;
@@ -129,7 +126,7 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 		System.arraycopy(state.ints, 0, M, 0, 256);
 	}
 
-	public void updateState(StateIA state)
+	public void updateState(final StateIA state)
 	{
 		state.update(this);
 	}
@@ -145,7 +142,7 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 					prev,
 					rem;
 		
-		public StateIA(int[] ints, int i, int b, int prev, int rem)
+		public StateIA(final int[] ints, final int i, final int b, final int prev, final int rem)
 		{
 			this.ints = ints;
 			this.i = i;
@@ -154,7 +151,7 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 			this.rem = rem;
 		}
 		
-		public StateIA(IA ia)
+		public StateIA(final IA ia)
 		{
 			this.ints = ArrayUtil.copy(ia.M);
 			this.i = ia.i;
@@ -163,7 +160,7 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 			this.rem = ia.rem;
 		}
 		
-		public void update(IA ia)
+		public void update(final IA ia)
 		{
 			System.arraycopy(ia.M, 0, ints, 0, 256);
 			this.i = ia.i;
@@ -172,7 +169,7 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 			this.rem = ia.rem;
 		}
 		
-		public void export(IOutgoingStream stream) throws IOException
+		public void export(final IOutgoingStream stream) throws IOException
 		{
 			stream.writeInts(ints);
 			stream.writeInt(i);
@@ -181,7 +178,7 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 			stream.writeInt(rem);
 		}
 
-		public void export(byte[] bytes, int offset)
+		public void export(final byte[] bytes, int offset)
 		{
 			Bits.intsToBytes(ints, 0, bytes, offset, 256); offset += 1024;
 			Bits.intToBytes(i, bytes, offset); offset += 4;
@@ -205,7 +202,7 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 			return _NAMESPACE.STATEIA;
 		}
 
-		public boolean sameAs(StateIA obj)
+		public boolean sameAs(final StateIA obj)
 		{
 			return ((this.i == obj.i && this.b == obj.b) && (this.prev == obj.prev && this.rem == obj.rem)) && ArrayUtil.equals(this.ints, obj.ints);
 		}
@@ -226,18 +223,18 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 			super(StateIA.class);
 		}
 
-		public StateIA resurrect(byte[] data, int start) throws InstantiationException
+		public StateIA resurrect(final byte[] data, int start) throws InstantiationException
 		{
-			int[] ints = new int[256];
+			final int[] ints = new int[256];
 			Bits.bytesToInts(data, start, ints, 0, 256); start += 1024;
-			int i = Bits.intFromBytes(data, start); start += 4;
-			int b = Bits.intFromBytes(data, start); start += 4;
-			int prev = Bits.intFromBytes(data, start); start += 4;
-			int rem = Bits.intFromBytes(data, start); 
+			final int i = Bits.intFromBytes(data, start); start += 4;
+			final int b = Bits.intFromBytes(data, start); start += 4;
+			final int prev = Bits.intFromBytes(data, start); start += 4;
+			final int rem = Bits.intFromBytes(data, start); 
 			return new StateIA(ints, i, b, prev, rem);
 		}
 
-		public StateIA resurrect(IIncomingStream stream) throws InstantiationException, IOException
+		public StateIA resurrect(final IIncomingStream stream) throws InstantiationException, IOException
 		{
 			return new StateIA(stream.readInts(256), stream.readInt(), stream.readInt(), stream.readInt(), stream.readInt());
 		}
@@ -245,9 +242,9 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 	
 	public static final int test()
 	{
-		int[] bytes = new int[256];
+		final int[] bytes = new int[256];
 		RandUtils.fillArr(bytes);
-		IA rc4 = new IA(new KeyIA(bytes));
+		final IA rc4 = new IA(new KeyIA(bytes));
 		int e = 0;
 		e += IStreamCipher.testCipher(rc4);
 		return e;
@@ -255,9 +252,9 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 	
 	public static final int testState()
 	{
-		int[] bytes = new int[256];
+		final int[] bytes = new int[256];
 		RandUtils.fillArr(bytes);
-		StateIA state = new StateIA(bytes, RandUtils.dprng.nextIntGood(256), RandUtils.dprng.nextInt(), RandUtils.dprng.nextInt(), RandUtils.dprng.nextInt());
+		final StateIA state = new StateIA(bytes, RandUtils.dprng.nextIntGood(256), RandUtils.dprng.nextInt(), RandUtils.dprng.nextInt(), RandUtils.dprng.nextInt());
 		return IPersistable.test(state);
 	}
 	
