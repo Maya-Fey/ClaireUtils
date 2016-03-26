@@ -25,12 +25,12 @@ public class KeyIA implements IKey<KeyIA> {
 	
 	private int[] ints;
 	
-	public KeyIA(int[] ints) 
+	public KeyIA(final int[] ints) 
 	{
 		this.ints = ints;
 	}
 	
-	public KeyIA(byte[] bytes)
+	public KeyIA(final byte[] bytes)
 	{
 		ints = new int[256];
 		if(bytes.length < 1024)
@@ -49,7 +49,7 @@ public class KeyIA implements IKey<KeyIA> {
 		return _NAMESPACE.KEYIA;
 	}
 
-	public boolean sameAs(KeyIA obj)
+	public boolean sameAs(final KeyIA obj)
 	{
 		return ArrayUtil.equals(this.ints, obj.ints);
 	}
@@ -60,12 +60,12 @@ public class KeyIA implements IKey<KeyIA> {
 		ints = null;
 	}
 
-	public void export(IOutgoingStream stream) throws IOException
+	public void export(final IOutgoingStream stream) throws IOException
 	{
 		stream.writeInts(ints);
 	}
 
-	public void export(byte[] bytes, int offset)
+	public void export(final byte[] bytes, final int offset)
 	{
 		Bits.intsToBytes(ints, 0, bytes, offset);
 	}
@@ -89,14 +89,14 @@ public class KeyIA implements IKey<KeyIA> {
 			super(KeyIA.class);
 		}
 
-		public KeyIA resurrect(byte[] data, int start) throws InstantiationException
+		public KeyIA resurrect(final byte[] data, final int start) throws InstantiationException
 		{
-			int[] ints = new int[256];
+			final int[] ints = new int[256];
 			Bits.bytesToInts(data, start, ints, 0, 256);
 			return new KeyIA(ints);
 		}
 
-		public KeyIA resurrect(IIncomingStream stream) throws InstantiationException, IOException
+		public KeyIA resurrect(final IIncomingStream stream) throws InstantiationException, IOException
 		{
 			return new KeyIA(stream.readInts(256));
 		}
@@ -106,7 +106,7 @@ public class KeyIA implements IKey<KeyIA> {
 	{
 		final int[] ints = new int[256];
 		RandUtils.fillArr(ints);
-		KeyIA aes = new KeyIA(ints);
+		final KeyIA aes = new KeyIA(ints);
 		int i = 0;
 		i += IPersistable.test(aes);
 		i += IDeepClonable.test(aes);
