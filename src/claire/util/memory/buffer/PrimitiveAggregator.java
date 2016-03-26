@@ -22,7 +22,7 @@ public class PrimitiveAggregator {
 	 * Constructs an aggregator with an array of you input.
 	 * The array MUST be at least 8 bytes in size.
 	 */
-	public PrimitiveAggregator(byte[] buffer)
+	public PrimitiveAggregator(final byte[] buffer)
 	{
 		this.buffer = buffer;
 	}
@@ -47,7 +47,7 @@ public class PrimitiveAggregator {
 	 * <br>
 	 * Returns: nothing 
 	 */
-	public void addByte(byte b)
+	public void addByte(final byte b)
 	{
 		buffer[pos++] = b;
 	}
@@ -73,7 +73,7 @@ public class PrimitiveAggregator {
 	 * <br><br>
 	 * Returns: nothing 
 	 */
-	public void addBytes(byte[] bytes)
+	public void addBytes(final byte[] bytes)
 	{
 		System.arraycopy(bytes, 0, buffer, pos, bytes.length);
 	}
@@ -96,7 +96,7 @@ public class PrimitiveAggregator {
 	 * <br><br>
 	 * Returns: nothing 
 	 */
-	public void addBytes(byte[] bytes, int start, int len)
+	public void addBytes(final byte[] bytes, final int start, final int len)
 	{
 		System.arraycopy(bytes, start, buffer, pos, len);
 	}
