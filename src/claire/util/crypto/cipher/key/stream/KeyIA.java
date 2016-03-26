@@ -60,6 +60,16 @@ public class KeyIA implements IKey<KeyIA> {
 		else
 			Bits.bytesToInts(bytes, 0, ints, 0, 256);
 	}
+	
+	/**
+	 * Returns the integer array held by this key. Should be used internally by IA only.
+	 * <br><Br>
+	 * Returns: An integer array of exactly 256 ints, <i>assuming</i> this key was constructed correctly.
+	 */
+	public int[] getInts()
+	{
+		return this.ints;
+	}
 
 	public KeyIA createDeepClone()
 	{
