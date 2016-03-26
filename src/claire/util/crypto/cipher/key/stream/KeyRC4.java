@@ -2,7 +2,6 @@ package claire.util.crypto.cipher.key.stream;
 
 import claire.util.crypto.cipher.key.ByteKey;
 import claire.util.crypto.cipher.key.ByteKeyFactory;
-import claire.util.crypto.cipher.key.block.KeyCAST6;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.memory.util.ArrayUtil;

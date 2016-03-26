@@ -34,6 +34,7 @@ import claire.util.crypto.cipher.primitive.block.Skipjack;
 import claire.util.crypto.cipher.primitive.block.TEA;
 import claire.util.crypto.cipher.primitive.block.XTEA;
 import claire.util.crypto.cipher.primitive.block.XXTEA;
+import claire.util.crypto.cipher.primitive.stream.RC4;
 import claire.util.logging.Log;
 
 public class Test {
@@ -118,6 +119,9 @@ public class Test {
 		reg += FEAL.test();
 		Log.info.println("Testing claire.util.crypto.cipher.primitive.block.FEAL_CI");
 		reg += FEAL_CI.test();
+		Log.info.println("Testing stream");
+		Log.info.println("Testing claire.util.crypto.cipher.primitive.stream.RC4");
+		reg += RC4.test();
 		if(reg > 0)
 			Log.crit.println(reg + " regressions detected!");
 		else

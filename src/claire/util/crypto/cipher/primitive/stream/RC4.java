@@ -3,6 +3,7 @@ package claire.util.crypto.cipher.primitive.stream;
 import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.stream.KeyRC4;
+import claire.util.crypto.rng.RandUtils;
 import claire.util.standards.crypto.IStreamCipher;
 
 public class RC4 
@@ -46,6 +47,7 @@ public class RC4
 	public void reset()
 	{
 		byte[] bytes = key.getBytes();
+		S[0] = 0;
 		for(int i = 1; i < 256; i++)
 			S[i] = (byte) i;
 		byte t = 0;
@@ -59,12 +61,14 @@ public class RC4
 			S[i] = S[j];
 			S[j] = t;
 		}
+		this.i = this.j = 0;
 	}
 
 	public void wipe()
 	{
 		key = null;
 		Arrays.fill(S, (byte) 0);
+		i = j = 0;
 	}
 
 	public byte nextByte()
@@ -96,6 +100,16 @@ public class RC4
 			t += S[i];
 			arr[start++] = S[t & 0xFF];
 		}
+	}
+	
+	public static final int test()
+	{
+		byte[] bytes = new byte[256];
+		RandUtils.fillArr(bytes);
+		RC4 rc4 = new RC4(new KeyRC4(bytes));
+		int e = 0;
+		e += IStreamCipher.testCipher(rc4);
+		return e;
 	}
 
 }
