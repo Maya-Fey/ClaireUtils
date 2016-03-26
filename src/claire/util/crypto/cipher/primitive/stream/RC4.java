@@ -238,4 +238,12 @@ public class RC4
 		return e;
 	}
 	
+	public static final int testState()
+	{
+		byte[] bytes = new byte[256];
+		RandUtils.fillArr(bytes);
+		RC4State state = new RC4State(bytes, RandUtils.dprng.nextIntGood(256), RandUtils.dprng.nextIntGood(256));
+		return IPersistable.test(state);
+	}
+	
 }

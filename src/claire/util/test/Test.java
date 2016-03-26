@@ -122,6 +122,8 @@ public class Test {
 		Log.info.println("Testing stream");
 		Log.info.println("Testing claire.util.crypto.cipher.primitive.stream.RC4");
 		reg += RC4.test();
+		Log.info.println("Testing claire.util.crypto.cipher.primitive.stream.RC4.RC4State");
+		reg += RC4.testState();
 		if(reg > 0)
 			Log.crit.println(reg + " regressions detected!");
 		else
