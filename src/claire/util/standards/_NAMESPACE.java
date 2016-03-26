@@ -67,5 +67,6 @@ public class _NAMESPACE {
 	public static final int KEYXTEA = 57;
 	public static final int KEYFEAL = 58;
 	public static final int KEYFEAL_CI = 59;
+	public static final int KEYRC4 = 60;
 
 }
