@@ -3,7 +3,7 @@ package claire.util.standards.crypto;
 import claire.util.logging.Log;
 import claire.util.memory.util.ArrayUtil;
 
-public interface IStreamCipher<Type extends IKey<?>>
+public interface IStreamCipher<Type extends IKey<?>, State extends IState<State>>
 	   extends ICrypto<Type> {
 	
 	void reset();
@@ -11,6 +11,10 @@ public interface IStreamCipher<Type extends IKey<?>>
 	
 	byte nextByte();
 	void fill(byte[] arr, int start, int len);
+	
+	State getState();
+	void loadState(State state);
+	void updateState(State state);
 	
 	default byte[] getBytes(int amt)
 	{
@@ -32,7 +36,7 @@ public interface IStreamCipher<Type extends IKey<?>>
 		}
 	}
 	
-	public static int testCipher(IStreamCipher<?> cip)
+	public static int testCipher(IStreamCipher<?, ?> cip)
 	{
 		int e = 0;
 		try {
