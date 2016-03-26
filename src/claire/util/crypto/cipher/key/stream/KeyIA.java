@@ -3,9 +3,12 @@ package claire.util.crypto.cipher.key.stream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IDeepClonable;
+import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
 import claire.util.standards.io.IIncomingStream;
@@ -97,6 +100,18 @@ public class KeyIA implements IKey<KeyIA> {
 		{
 			return new KeyIA(stream.readInts(256));
 		}
+	}
+	
+	public static final int test()
+	{
+		final int[] ints = new int[256];
+		RandUtils.fillArr(ints);
+		KeyIA aes = new KeyIA(ints);
+		int i = 0;
+		i += IPersistable.test(aes);
+		i += IDeepClonable.test(aes);
+		i += IKey.testKey(aes);
+		return i;
 	}
 
 }

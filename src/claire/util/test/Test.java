@@ -16,6 +16,7 @@ import claire.util.crypto.cipher.key.block.KeySkipjack;
 import claire.util.crypto.cipher.key.block.KeyTEA;
 import claire.util.crypto.cipher.key.block.KeyXTEA;
 import claire.util.crypto.cipher.key.block.KeyXXTEA;
+import claire.util.crypto.cipher.key.stream.KeyIA;
 import claire.util.crypto.cipher.key.stream.KeyRC4;
 import claire.util.crypto.cipher.key.stream.KeyRC4_DROP;
 import claire.util.crypto.cipher.primitive.block.AES;
@@ -86,6 +87,8 @@ public class Test {
 		reg += KeyRC4.test();
 		Log.info.println("Testing claire.util.crypto.cipher.key.stream.KeyRC4_DROP");
 		reg += KeyRC4_DROP.test();
+		Log.info.println("Testing claire.util.crypto.cipher.key.stream.KeyIA");
+		reg += KeyIA.test();
 		Log.info.println("Testing ../primitive");
 		Log.info.println("Testing block");
 		Log.info.println("Testing claire.util.crypto.cipher.primitive.block.AES");
