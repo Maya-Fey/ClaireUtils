@@ -69,5 +69,5 @@ public class _NAMESPACE {
 	public static final int KEYFEAL_CI = 59;
 	public static final int KEYRC4 = 60;
 	public static final int RC4STATE = 61;
-
+	public static final int KEYRC4_DROP = 62;
 }
