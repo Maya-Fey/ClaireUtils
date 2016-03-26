@@ -7,9 +7,14 @@ public interface IStreamCipher<Type extends IKey<?>>
 	void wipe();
 	
 	byte nextByte();
-	byte[] getBytes();
+	void fill(byte[] arr, int start, int len);
 	
-	void fill(byte[] arr);
+	default byte[] getBytes(int amt)
+	{
+		byte[] bytes = new byte[amt];
+		this.fill(bytes, 0, amt);
+		return bytes;
+	}
 	
 	default byte crypt(byte in)
 	{
