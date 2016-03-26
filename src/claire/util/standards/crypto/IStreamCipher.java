@@ -36,7 +36,7 @@ public interface IStreamCipher<Type extends IKey<?>, State extends IState<State>
 		}
 	}
 	
-	public static int testCipher(IStreamCipher<?, ?> cip)
+	public static <State extends IState<State>> int testCipher(IStreamCipher<?, State> cip)
 	{
 		int e = 0;
 		try {
@@ -55,6 +55,22 @@ public interface IStreamCipher<Type extends IKey<?>, State extends IState<State>
 			cip.fill(t2, 0, 10);
 			if(!ArrayUtil.equals(t1, t2)) {
 				Log.err.println("Filling array manuall and using function yielded different results.");
+				e++;
+			}
+			State save = cip.getState();
+			cip.fill(t1, 0, 10);
+			cip.loadState(save);
+			cip.fill(t2, 0, 10);
+			if(!ArrayUtil.equals(t1, t2)) {
+				Log.err.println("Saving and loading state did not work.");
+				e++;
+			}
+			cip.updateState(save);
+			cip.fill(t2, 0, 10);
+			cip.loadState(save);
+			cip.fill(t2, 0, 10);
+			if(ArrayUtil.equals(t1, t2)) {
+				Log.err.println("Updating state did not work.");
 				e++;
 			}
 			cip.reset();
