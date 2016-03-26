@@ -127,6 +127,10 @@ public class Test {
 		reg += RC4.test();
 		Log.info.println("Testing claire.util.crypto.cipher.primitive.stream.RC4.RC4State");
 		reg += RC4.testState();
+		Log.info.println("Testing claire.util.crypto.cipher.primitive.stream.RC4_DROP");
+		reg += RC4.test();
+		Log.info.println("Testing claire.util.crypto.cipher.primitive.stream.RC4_DROP.RC4_DROPState");
+		reg += RC4.testState();
 		if(reg > 0)
 			Log.crit.println(reg + " regressions detected!");
 		else

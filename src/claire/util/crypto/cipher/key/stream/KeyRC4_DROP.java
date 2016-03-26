@@ -27,6 +27,16 @@ public class KeyRC4_DROP
 		this.drop = drop;
 	}
 	
+	public byte[] getBytes()
+	{
+		return this.key;
+	}
+	
+	public int getDropAmount()
+	{
+		return this.drop;
+	}
+	
 	public KeyRC4_DROP createDeepClone()
 	{
 		return new KeyRC4_DROP(ArrayUtil.copy(this.key), this.drop);
