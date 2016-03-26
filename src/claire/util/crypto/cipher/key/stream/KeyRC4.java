@@ -2,9 +2,14 @@ package claire.util.crypto.cipher.key.stream;
 
 import claire.util.crypto.cipher.key.ByteKey;
 import claire.util.crypto.cipher.key.ByteKeyFactory;
+import claire.util.crypto.cipher.key.block.KeyCAST6;
+import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IDeepClonable;
+import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IKey;
 
 public class KeyRC4 
 	   extends ByteKey<KeyRC4>{
@@ -45,5 +50,17 @@ public class KeyRC4
 		}
 		
 	}	
+	
+	public static final int test()
+	{
+		final byte[] ints = new byte[167];
+		RandUtils.fillArr(ints);
+		KeyRC4 aes = new KeyRC4(ints);
+		int i = 0;
+		i += IPersistable.test(aes);
+		i += IDeepClonable.test(aes);
+		i += IKey.testKey(aes);
+		return i;
+	}
 
 }
