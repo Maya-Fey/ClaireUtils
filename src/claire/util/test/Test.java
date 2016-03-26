@@ -36,6 +36,7 @@ import claire.util.crypto.cipher.primitive.block.Skipjack;
 import claire.util.crypto.cipher.primitive.block.TEA;
 import claire.util.crypto.cipher.primitive.block.XTEA;
 import claire.util.crypto.cipher.primitive.block.XXTEA;
+import claire.util.crypto.cipher.primitive.stream.IA;
 import claire.util.crypto.cipher.primitive.stream.RC4;
 import claire.util.logging.Log;
 
@@ -134,6 +135,10 @@ public class Test {
 		reg += RC4.test();
 		Log.info.println("Testing claire.util.crypto.cipher.primitive.stream.RC4_DROP.RC4_DROPState");
 		reg += RC4.testState();
+		Log.info.println("Testing claire.util.crypto.cipher.primitive.stream.IA");
+		reg += IA.test();
+		Log.info.println("Testing claire.util.crypto.cipher.primitive.stream.IA.IAState");
+		reg += IA.testState();
 		if(reg > 0)
 			Log.crit.println(reg + " regressions detected!");
 		else

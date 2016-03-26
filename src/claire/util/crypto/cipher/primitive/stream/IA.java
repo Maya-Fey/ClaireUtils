@@ -4,11 +4,15 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.stream.KeyIA;
+import claire.util.crypto.cipher.key.stream.KeyRC4;
 import claire.util.crypto.cipher.primitive.stream.IA.StateIA;
+import claire.util.crypto.cipher.primitive.stream.RC4.RC4State;
+import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.io.IOUtils;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IState;
 import claire.util.standards.crypto.IStreamCipher;
@@ -45,6 +49,7 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 
 	public void reset()
 	{
+		i = b = prev = rem = 0;
 		if(M == null)
 			M = ArrayUtil.copy(key.getInts());
 		else
@@ -237,5 +242,24 @@ public class IA implements IStreamCipher<KeyIA, StateIA> {
 			return new StateIA(stream.readInts(256), stream.readInt(), stream.readInt(), stream.readInt(), stream.readInt());
 		}
 	}
+	
+	public static final int test()
+	{
+		int[] bytes = new int[256];
+		RandUtils.fillArr(bytes);
+		IA rc4 = new IA(new KeyIA(bytes));
+		int e = 0;
+		e += IStreamCipher.testCipher(rc4);
+		return e;
+	}
+	
+	public static final int testState()
+	{
+		int[] bytes = new int[256];
+		RandUtils.fillArr(bytes);
+		StateIA state = new StateIA(bytes, RandUtils.dprng.nextIntGood(256), RandUtils.dprng.nextInt(), RandUtils.dprng.nextInt(), RandUtils.dprng.nextInt());
+		return IPersistable.test(state);
+	}
+	
 	
 }
