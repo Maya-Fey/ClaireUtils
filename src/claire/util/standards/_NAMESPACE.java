@@ -73,5 +73,6 @@ public class _NAMESPACE {
 	public static final int RC4_DROPSTATE = 63;
 	public static final int KEYIA = 64;
 	public static final int STATEIA = 65;
+	public static final int KEYIBAA = 66;
 	
 }

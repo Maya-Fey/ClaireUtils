@@ -16,7 +16,8 @@ import claire.util.standards.crypto.IStreamCipher;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
-public class IA implements IStreamCipher<KeyIA, StateIA> {
+public class IA 
+	   implements IStreamCipher<KeyIA, StateIA> {
 
 	private KeyIA key;
 	private int[] M;

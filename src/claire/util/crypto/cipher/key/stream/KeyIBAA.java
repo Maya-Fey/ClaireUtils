@@ -14,11 +14,11 @@ import claire.util.standards.crypto.IKey;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
-public class KeyIA implements IKey<KeyIA> {
+public class KeyIBAA implements IKey<KeyIBAA> {
 	
 	/*
 	 * WARNING: THIS CODE MAY NOT CONFORM TO ANY STANDARDS THAT MAY EXIST
-	 * FOR THIS CIPHER. THIS CODE IS BASED UPON http://burtleburtle.net/bob/rand/isaac.html#IAcode.
+	 * FOR THIS CIPHER. THIS CODE IS BASED UPON http://burtleburtle.net/bob/rand/isaac.html#IBAAcode.
 	 * WHILE THE CODE ON THE CIPHER WAR CONCISE, THERE WAS NO MENTION WHATSOEVER
 	 * OF A KEY SCHEDULE. THIS CLASS USES EXCLUSIVELY "FILLED-IN" DETAILS.
 	 */
@@ -26,25 +26,25 @@ public class KeyIA implements IKey<KeyIA> {
 	private int[] ints;
 	
 	/**
-	 * Creates a new IA key from an existing internal array.
+	 * Creates a new IBAA key from an existing internal array.
 	 * <br><br>
 	 * Expects:
 	 * <ul>
 	 * 	<li>An integer array containing exactly 256 integers.</li>
 	 * </ul>
 	 * If the array contains an amount other than 256 integers, the persistability of this class
-	 * will be compromised. If it contains less then 256, IA will not work when used with they key.
+	 * will be compromised. If it contains less then 256, IBAA will not work when used with they key.
 	 */
-	public KeyIA(final int[] ints) 
+	public KeyIBAA(final int[] ints) 
 	{
 		this.ints = ints;
 	}
 	
 	/**
-	 * Creates a new IA key from a byte.<br>
+	 * Creates a new IBAA key from a byte.<br>
 	 * WARNING: It is recommended that you produces a full 256-integer or 1024-byte key
 	 * first. This simply adds null padding after your bytes, which may have
-	 * adverse effects on the security of IA. USE AT YOUR OWN RISK.
+	 * adverse effects on the security of IBAA. USE AT YOUR OWN RISK.
 	 * <br><br>
 	 * Expects:
 	 * <ul>
@@ -52,7 +52,7 @@ public class KeyIA implements IKey<KeyIA> {
 	 * </ul>
 	 * An array of zero or a null value results in undefined behavior.
 	 */
-	public KeyIA(final byte[] bytes)
+	public KeyIBAA(final byte[] bytes)
 	{
 		ints = new int[256];
 		if(bytes.length < 1024)
@@ -62,7 +62,7 @@ public class KeyIA implements IKey<KeyIA> {
 	}
 	
 	/**
-	 * Returns the integer array held by this key. Should be used internally by IA only.
+	 * Returns the integer array held by this key. Should be used internally by IBAA only.
 	 * <br><Br>
 	 * Returns: An integer array of exactly 256 ints, <i>assuming</i> this key was constructed correctly.
 	 */
@@ -71,17 +71,17 @@ public class KeyIA implements IKey<KeyIA> {
 		return this.ints;
 	}
 
-	public KeyIA createDeepClone()
+	public KeyIBAA createDeepClone()
 	{
-		return new KeyIA(ArrayUtil.copy(ints));
+		return new KeyIBAA(ArrayUtil.copy(ints));
 	}
 	
 	public int NAMESPACE()
 	{
-		return _NAMESPACE.KEYIA;
+		return _NAMESPACE.KEYIBAA;
 	}
 
-	public boolean sameAs(final KeyIA obj)
+	public boolean sameAs(final KeyIBAA obj)
 	{
 		return ArrayUtil.equals(this.ints, obj.ints);
 	}
@@ -107,30 +107,30 @@ public class KeyIA implements IKey<KeyIA> {
 		return 1024;
 	}
 
-	public Factory<KeyIA> factory()
+	public Factory<KeyIBAA> factory()
 	{
 		return factory;
 	}
 	
-	public static final KeyIAFactory factory = new KeyIAFactory();
+	public static final KeyIBAAFactory factory = new KeyIBAAFactory();
 	
-	protected static class KeyIAFactory extends Factory<KeyIA>
+	protected static class KeyIBAAFactory extends Factory<KeyIBAA>
 	{
-		public KeyIAFactory()
+		public KeyIBAAFactory()
 		{
-			super(KeyIA.class);
+			super(KeyIBAA.class);
 		}
 
-		public KeyIA resurrect(final byte[] data, final int start) throws InstantiationException
+		public KeyIBAA resurrect(final byte[] data, final int start) throws InstantiationException
 		{
 			final int[] ints = new int[256];
 			Bits.bytesToInts(data, start, ints, 0, 256);
-			return new KeyIA(ints);
+			return new KeyIBAA(ints);
 		}
 
-		public KeyIA resurrect(final IIncomingStream stream) throws InstantiationException, IOException
+		public KeyIBAA resurrect(final IIncomingStream stream) throws InstantiationException, IOException
 		{
-			return new KeyIA(stream.readInts(256));
+			return new KeyIBAA(stream.readInts(256));
 		}
 	}
 	
@@ -138,7 +138,7 @@ public class KeyIA implements IKey<KeyIA> {
 	{
 		final int[] ints = new int[256];
 		RandUtils.fillArr(ints);
-		final KeyIA aes = new KeyIA(ints);
+		final KeyIBAA aes = new KeyIBAA(ints);
 		int i = 0;
 		i += IPersistable.test(aes);
 		i += IDeepClonable.test(aes);
