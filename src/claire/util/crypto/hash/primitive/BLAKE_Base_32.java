@@ -195,5 +195,7 @@ abstract class BLAKE_Base_32
 		this.output(out, start);
 		reset();
 	}
+	
+	private static final 
 
 }
