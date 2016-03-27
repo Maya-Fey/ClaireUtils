@@ -27,7 +27,7 @@ public class IBAA
 				prev = 0,
 				rem = 0;
 	
-	public IBAA(KeyIBAA key) 
+	public IBAA(final KeyIBAA key) 
 	{
 		this.setKey(key);
 	}
@@ -37,7 +37,7 @@ public class IBAA
 		return this.key;
 	}
 
-	public void setKey(KeyIBAA t)
+	public void setKey(final KeyIBAA t)
 	{
 		this.key = t;
 		if(M == null)
@@ -101,9 +101,9 @@ public class IBAA
 	 */
 	private void genInt()
 	{
-		int x = M[i];
+		final int x = M[i];
 		a = Bits.rotateLeft(a, 19) + M[(i + 0x80) & 0xFF];
-		int y = M[i] = M[x & 0xFF] + a + b;
+		final int y = M[i] = M[x & 0xFF] + a + b;
 		prev = b = M[(y >>> 8) & 0xFF] + x;
 		i++;
 		i &= 255;
@@ -116,9 +116,9 @@ public class IBAA
 	 */
 	private int nextInt()
 	{
-		int x = M[i];
+		final int x = M[i];
 		a = Bits.rotateLeft(a, 19) + M[(i + 0x80) & 0xFF];
-		int y = M[i] = M[x & 0xFF] + a + b;
+		final int y = M[i] = M[x & 0xFF] + a + b;
 		b = M[(y >>> 8) & 0xFF] + x;
 		i++;
 		i &= 255;
