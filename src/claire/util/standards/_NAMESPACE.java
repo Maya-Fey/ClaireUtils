@@ -75,5 +75,6 @@ public class _NAMESPACE {
 	public static final int STATEIA = 65;
 	public static final int KEYIBAA = 66;
 	public static final int STATEIBAA = 66;
+	public static final int INTCOUNTER = 67;
 	
 }

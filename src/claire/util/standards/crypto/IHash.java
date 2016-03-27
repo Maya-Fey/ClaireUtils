@@ -1,12 +1,16 @@
 package claire.util.standards.crypto;
 
-public interface IHash {
+public interface IHash<State extends IState<State>> {
 	
 	void add(byte[] bytes, int start, int length);
 	
 	void finish(byte[] out, int start);
 	
 	int outputLength();
+	
+	State getState();
+	void loadState(State state);
+	void updateState(State state);
 	
 	default void add(byte[] bytes)
 	{
