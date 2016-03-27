@@ -20,5 +20,20 @@ public class HashFunction {
 		byte[] bytes = IOUtils.toBytes(file);
 		hash.add(bytes);
 	}
+	
+	public void addString(String string)
+	{
+		hash.add(string.getBytes());
+	}
+	
+	public void addBytes(byte[] bytes)
+	{
+		hash.add(bytes);
+	}
+	
+	public void addBytes(byte[] bytes, int start, int len)
+	{
+		hash.add(bytes, start, len);
+	}
 
 }
