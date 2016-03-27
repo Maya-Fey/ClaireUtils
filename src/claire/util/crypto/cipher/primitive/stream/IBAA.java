@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.stream.KeyIBAA;
-import claire.util.crypto.cipher.primitive.stream.IA.StateIA;
-import claire.util.crypto.cipher.primitive.stream.IA.StateIAFactory;
 import claire.util.crypto.cipher.primitive.stream.IBAA.StateIBAA;
+import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IState;
 import claire.util.standards.crypto.IStreamCipher;
@@ -269,6 +269,24 @@ public class IBAA
 		{
 			return new StateIBAA(stream.readInts(256), stream.readInt(), stream.readInt(), stream.readInt(), stream.readInt(), stream.readInt());
 		}
+	}
+	
+	public static final int test()
+	{
+		final int[] bytes = new int[256];
+		RandUtils.fillArr(bytes);
+		final IBAA rc4 = new IBAA(new KeyIBAA(bytes));
+		int e = 0;
+		e += IStreamCipher.testCipher(rc4);
+		return e;
+	}
+	
+	public static final int testState()
+	{
+		final int[] bytes = new int[256];
+		RandUtils.fillArr(bytes);
+		final StateIBAA state = new StateIBAA(bytes, RandUtils.dprng.nextIntGood(256), RandUtils.dprng.nextInt(), RandUtils.dprng.nextInt(), RandUtils.dprng.nextInt(), RandUtils.dprng.nextInt());
+		return IPersistable.test(state);
 	}
 
 }

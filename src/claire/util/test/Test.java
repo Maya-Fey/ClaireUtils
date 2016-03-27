@@ -38,6 +38,7 @@ import claire.util.crypto.cipher.primitive.block.TEA;
 import claire.util.crypto.cipher.primitive.block.XTEA;
 import claire.util.crypto.cipher.primitive.block.XXTEA;
 import claire.util.crypto.cipher.primitive.stream.IA;
+import claire.util.crypto.cipher.primitive.stream.IBAA;
 import claire.util.crypto.cipher.primitive.stream.RC4;
 import claire.util.logging.Log;
 
@@ -142,6 +143,10 @@ public class Test {
 		reg += IA.test();
 		Log.info.println("Testing claire.util.crypto.cipher.primitive.stream.IA.IAState");
 		reg += IA.testState();
+		Log.info.println("Testing claire.util.crypto.cipher.primitive.stream.IBAA");
+		reg += IBAA.test();
+		Log.info.println("Testing claire.util.crypto.cipher.primitive.stream.IBAA.IBAAState");
+		reg += IBAA.testState();
 		if(reg > 0)
 			Log.crit.println(reg + " regressions detected!");
 		else
