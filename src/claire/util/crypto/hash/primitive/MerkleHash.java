@@ -17,11 +17,11 @@ public abstract class MerkleHash<State extends MerkleState<State, Hash>, Hash ex
 	
 	protected final int size;
 	
-	private final int out;
-	
-	private final byte[] temp;
+	protected final byte[] temp;
 
-	private int pos = 0;
+	protected int pos = 0;
+	
+	private final int out;
 	
 	protected MerkleHash(int size, int out)
 	{
@@ -49,6 +49,7 @@ public abstract class MerkleHash<State extends MerkleState<State, Hash>, Hash ex
 	
 	public abstract void processNext(byte[] bytes, int offset);
 	public abstract void finalize(byte[] remaining, int pos, byte[] out, int start);
+	public abstract void loadCustom(State state);
 
 	public void finish(byte[] out, int start)
 	{
@@ -64,22 +65,36 @@ public abstract class MerkleHash<State extends MerkleState<State, Hash>, Hash ex
 		return this.out;
 	}
 	
-	public void persistTemp(IOutgoingStream os) throws IOException
+	public void loadState(State state)
 	{
-		os.writeInt(pos);
-		os.writeBytes(temp);
+		System.arraycopy(state.temp, 0, this.temp, 0, size);
+		this.pos = state.pos;
+		this.loadCustom(state);
 	}
 	
-	public void persistTemp(byte[] bytes, int offset)
-	{
-		Bits.intToBytes(pos, bytes, offset); offset += 4;
-		System.arraycopy(temp, 0, bytes, offset, size);
-	}
+	
 	
 	protected static abstract class MerkleState<State extends MerkleState<State, Hash>, Hash extends MerkleHash<State, Hash>> implements IState<State>
 	{
 		protected byte[] temp;
 		protected int pos;
+		
+		public MerkleState(Hash hash)
+		{
+			this.temp = ArrayUtil.copy(hash.temp);
+			this.pos = hash.pos;
+			this.addCustom(hash);
+		}
+		
+		public void update(Hash hash)
+		{
+			if(temp == null)
+				this.temp = ArrayUtil.copy(hash.temp);
+			else
+				System.arraycopy(hash.temp, 0, this.temp, 0, hash.size);
+			this.pos = hash.pos;
+			this.updateCustom(hash);
+		}
 		
 		protected abstract void persistCustom(IOutgoingStream os);
 		protected abstract void persistCustom(byte[] bytes, int start);
