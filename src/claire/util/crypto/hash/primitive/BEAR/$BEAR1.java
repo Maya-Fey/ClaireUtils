@@ -4,7 +4,6 @@ import claire.util.crypto.rng.RandUtils;
 import claire.util.crypto.rng.primitive.MersenneTwister;
 import claire.util.encoding.BitEncoder;
 import claire.util.memory.array.D2_1Array;
-import claire.util.standards.IRandom;
 
 /**
  * This function is mostly a toy hash, exhibits poor collision resistance.
@@ -44,7 +43,7 @@ public final class $BEAR1 {
 	
 	private boolean hasValue = false;
 	
-	private IRandom prng;
+	private MersenneTwister prng;
 	private final BearUtil util;
 	
 	{
@@ -99,7 +98,7 @@ public final class $BEAR1 {
 	 * 
 	 * @param rand
 	 */
-	public void setPRNG(IRandom rand)
+	public void setPRNG(MersenneTwister rand)
 	{
 		this.prng = rand;
 	}
@@ -195,8 +194,8 @@ public final class $BEAR1 {
 	@SuppressWarnings("unused")
 	private final void print()
 	{
-		System.out.println("Input: " + BitEncoder.toBase64(scratchpad[0]));
-		System.out.println("Mirror: " + BitEncoder.toBase64(scratchpad[1]));
+		System.out.println("Input: " + new String(BitEncoder.toBase64(scratchpad[0])));
+		System.out.println("Mirror: " + new String(BitEncoder.toBase64(scratchpad[1])));
 	}
 	
 	/**

@@ -11,11 +11,6 @@ public interface IRandom {
 	public int nextInt();
 	public long nextLong();
 	
-	/*
-	 * Seeding
-	 */
-	public void setSeed(long seed);
-	
 	default int nextIntFast(int max)
 	{
 		return (this.nextInt() >>> 1) % max;

@@ -129,8 +129,4 @@ public final class RNGTest {
 		return t2.toInt32();
 	}
 	
-	public static void isSignificant(int Z)
-	{
-		
-	}
 }

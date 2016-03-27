@@ -462,11 +462,4 @@ public final class BEAR3_RNG
 		return 0;
 	}
 
-	@Override
-	public void setSeed(long seed)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
 }

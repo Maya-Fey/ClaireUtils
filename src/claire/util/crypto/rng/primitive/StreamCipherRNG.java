@@ -42,8 +42,6 @@ public class StreamCipherRNG implements IRandom {
 		this.reqBytes(8);
 		return agg.getLong();
 	}
-
-	public void setSeed(long seed) {}
 	
 	private void reqBytes(int bytes)
 	{
