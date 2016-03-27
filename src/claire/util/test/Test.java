@@ -41,6 +41,7 @@ import claire.util.crypto.cipher.primitive.stream.IA;
 import claire.util.crypto.cipher.primitive.stream.IBAA;
 import claire.util.crypto.cipher.primitive.stream.RC4;
 import claire.util.logging.Log;
+import claire.util.math.counters.IntCounter;
 
 public class Test {
 	
@@ -147,6 +148,10 @@ public class Test {
 		reg += IBAA.test();
 		Log.info.println("Testing claire.util.crypto.cipher.primitive.stream.IBAA.IBAAState");
 		reg += IBAA.testState();
+		Log.info.println("Testing ../math");
+		Log.info.println("Testing counters");
+		Log.info.println("Testing claire.util.math.counters.IntCounter");
+		IntCounter.test();
 		if(reg > 0)
 			Log.crit.println(reg + " regressions detected!");
 		else

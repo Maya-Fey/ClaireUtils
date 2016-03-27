@@ -3,11 +3,14 @@ package claire.util.math.counters;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.io.IOUtils;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.CObject;
+import claire.util.standards.IDeepClonable;
+import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
@@ -114,6 +117,15 @@ public class IntCounter
 		}
 	}
 
-	
+	public static final int test()
+	{
+		final int[] ints = new int[256];
+		RandUtils.fillArr(ints);
+		final IntCounter aes = new IntCounter(ints);
+		int i = 0;
+		i += IPersistable.test(aes);
+		i += IDeepClonable.test(aes);
+		return i;
+	}
 
 }
