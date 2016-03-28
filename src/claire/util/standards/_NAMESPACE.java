@@ -80,5 +80,6 @@ public class _NAMESPACE {
 	public static final int LONGCOUNTER = 69;
 	public static final int BLAKE64STATE = 70;
 	public static final int BMW32STATE = 71;
+	public static final int BMW64STATE = 72;
 	
 }

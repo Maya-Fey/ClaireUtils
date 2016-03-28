@@ -1,11 +1,18 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.BMW_Base_64.BMW_64State;
+import claire.util.io.Factory;
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
-abstract class BMW_Base_64 
-	  	 extends MerkleHash {
+abstract class BMW_Base_64<Hash extends BMW_Base_64<Hash>> 
+	  	 extends MerkleHash<BMW_64State, Hash> {
 	
 	protected final long[] STATE = new long[16];
 	
@@ -50,6 +57,7 @@ abstract class BMW_Base_64
 	private void reset()
 	{
 		System.arraycopy(this.getIV(), 0, STATE, 0, 16);
+		counter = 0;
 	}
 	
 	private void compress(long[] IN)
@@ -242,6 +250,121 @@ abstract class BMW_Base_64
 		compress(BLOCK);
 		output(out, start);
 		reset();
+	}
+	
+	public BMW_64State getState()
+	{
+		return new BMW_64State(this);
+	}
+
+	public void updateState(BMW_64State state)
+	{
+		state.update(this);
+	}
+
+	public void loadCustom(BMW_64State state)
+	{
+		System.arraycopy(state.counters, 0, this.counters, 0, 2);
+		System.arraycopy(state.state, 0, this.STATE, 0, 8);
+	}
+	
+	public static final BMW_64StateFactory sfactory = new BMW_64StateFactory();
+	
+	protected static final class BMW_64State extends MerkleState<BMW_64State, BMW_Base_64<? extends BMW_Base_64<?>>>
+	{
+
+		protected long[] state;
+		protected long counter;
+		
+		public BMW_64State(BMW_Base_64<? extends BMW_Base_64<?>> hash) 
+		{
+			super(hash);
+		}
+		
+		public BMW_64State(byte[] bytes, int pos)
+		{
+			super(bytes, pos);
+		}
+
+		public Factory<BMW_64State> factory()
+		{
+			return sfactory;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.BMW64STATE;
+		}
+
+		protected void persistCustom(IOutgoingStream os) throws IOException
+		{
+			os.writeLongs(state);
+			os.writeLong(counter);
+		}
+
+		protected void persistCustom(byte[] bytes, int start)
+		{
+			Bits.longsToBytes(state, 0, bytes, start, 16); start += 128;
+			Bits.longToBytes(counter, bytes, start);
+		}
+
+		protected void addCustom(IIncomingStream is) throws IOException
+		{
+			state = is.readLongs(8);
+			counter = is.readLong();
+		}
+		
+		protected void addCustom(byte[] bytes, int start)
+		{
+			state = new long[8];
+			Bits.bytesToLongs(bytes, start, state, 0, 16); start += 128;
+			counter = Bits.longFromBytes(bytes, start);
+		}
+
+		protected void addCustom(BMW_Base_64<? extends BMW_Base_64<?>> hash)
+		{
+			state = ArrayUtil.copy(hash.STATE);
+			counter = hash.counter;
+		}
+
+		protected void updateCustom(BMW_Base_64<? extends BMW_Base_64<?>> hash)
+		{
+			System.arraycopy(this.state, 0, hash.STATE, 0, 16);
+			hash.counter = this.counter;
+		}
+
+		protected void eraseCustom()
+		{
+			Arrays.fill(state, 0);
+			state = null;
+			counter = 0;
+		}
+
+		protected boolean compareCustom(BMW_64State state)
+		{	
+			return this.counter == state.counter && ArrayUtil.equals(this.state, state.state);
+		}
+
+		protected int customSize()
+		{
+			return 136;
+		}
+		
+	}
+	
+	protected static final class BMW_64StateFactory extends MerkleStateFactory<BMW_64State, BMW_Base_64<? extends BMW_Base_64<?>>>
+	{
+
+		protected BMW_64StateFactory() 
+		{
+			super(BMW_64State.class, 128);
+		}
+
+		protected BMW_64State construct(byte[] bytes, int pos)
+		{
+			return new BMW_64State(bytes, pos);
+		}
+		
 	}
 
 }
