@@ -77,5 +77,6 @@ public class _NAMESPACE {
 	public static final int STATEIBAA = 66;
 	public static final int INTCOUNTER = 67;
 	public static final int BLAKE32STATE = 68;
+	public static final int LONGCOUNTER = 69;
 	
 }
