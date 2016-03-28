@@ -50,6 +50,7 @@ import claire.util.crypto.hash.primitive.BMW384;
 import claire.util.crypto.hash.primitive.BMW512;
 import claire.util.crypto.hash.primitive.CRC16;
 import claire.util.crypto.hash.primitive.CRC32;
+import claire.util.crypto.hash.primitive.CRC8;
 import claire.util.logging.Log;
 import claire.util.math.counters.IntCounter;
 import claire.util.math.counters.LongCounter;
@@ -176,6 +177,8 @@ public class Test {
 		reg += BMW384.test();
 		Log.info.println("Testing claire.util.crypto.hash.primitive.BMW512");
 		reg += BMW512.test();
+		Log.info.println("Testing claire.util.crypto.hash.primitive.CRC8");
+		reg += CRC8.test();
 		Log.info.println("Testing claire.util.crypto.hash.primitive.CRC16");
 		reg += CRC16.test();
 		Log.info.println("Testing claire.util.crypto.hash.primitive.CRC32");
