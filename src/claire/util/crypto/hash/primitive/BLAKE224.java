@@ -3,7 +3,7 @@ package claire.util.crypto.hash.primitive;
 import claire.util.memory.Bits;
 
 class BLAKE224 
-extends BLAKE_Base_32 {
+extends BLAKE_Base_32<BLAKE224> {
 	
 	private static final int[] IV = 
 	{
@@ -25,7 +25,5 @@ extends BLAKE_Base_32 {
 	{
 		Bits.BigEndian.intsToBytes(STATE, 0, out, start, 7);
 	}
-
-	
 
 }

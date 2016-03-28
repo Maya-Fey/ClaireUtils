@@ -3,7 +3,7 @@ package claire.util.crypto.hash.primitive;
 import claire.util.memory.Bits;
 
 class BLAKE256 
-extends BLAKE_Base_32 {
+extends BLAKE_Base_32<BLAKE256> {
 	
 	private static final int[] IV = 
 	{

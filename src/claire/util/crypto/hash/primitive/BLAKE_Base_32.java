@@ -202,13 +202,28 @@ abstract class BLAKE_Base_32<Hash extends BLAKE_Base_32<Hash>>
 		reset();
 	}
 	
+	public BLAKE_32State getState()
+	{
+		return new BLAKE_32State(this);
+	}
+
+	public void updateState(BLAKE_32State state)
+	{
+		state.update(this);
+	}
+
+	public void loadCustom(BLAKE_32State state)
+	{
+		System.arraycopy(state.counters, 0, this.counters, 0, 2);
+		System.arraycopy(state.state, 0, this.STATE, 0, 8);
+	}
+	
 	public static final BLAKE_32StateFactory sfactory = new BLAKE_32StateFactory();
 	
 	protected static final class BLAKE_32State extends MerkleState<BLAKE_32State, BLAKE_Base_32<? extends BLAKE_Base_32<?>>>
 	{
 
 		protected int[] state;
-		protected int[] work;
 		protected int[] counters;
 		
 		public BLAKE_32State(BLAKE_Base_32<? extends BLAKE_Base_32<?>> hash) 
@@ -234,28 +249,24 @@ abstract class BLAKE_Base_32<Hash extends BLAKE_Base_32<Hash>>
 		protected void persistCustom(IOutgoingStream os) throws IOException
 		{
 			os.writeInts(state);
-			os.writeInts(work);
 			os.writeInts(counters);
 		}
 
 		protected void persistCustom(byte[] bytes, int start)
 		{
 			Bits.intsToBytes(state, 0, bytes, start, 8); start += 32;
-			Bits.intsToBytes(work, 0, bytes, start, 16); start += 64;
 			Bits.intsToBytes(counters, 0, bytes, start, 2);
 		}
 
 		protected void addCustom(IIncomingStream is) throws IOException
 		{
 			state = is.readInts(8);
-			work = is.readInts(16);
 			counters = is.readInts(2);
 		}
 		
 		protected void addCustom(byte[] bytes, int start)
 		{
 			state = new int[8];
-			work = new int[16];
 			counters = new int[2];
 			Bits.bytesToInts(bytes, start, state, 0, 8); start += 32;
 			Bits.bytesToInts(bytes, start, work, 0, 16); start += 64;
@@ -265,35 +276,31 @@ abstract class BLAKE_Base_32<Hash extends BLAKE_Base_32<Hash>>
 		protected void addCustom(BLAKE_Base_32<? extends BLAKE_Base_32<?>> hash)
 		{
 			state = ArrayUtil.copy(hash.STATE);
-			work = ArrayUtil.copy(hash.WORK);
 			counters = ArrayUtil.copy(hash.counters);
 		}
 
 		protected void updateCustom(BLAKE_Base_32<? extends BLAKE_Base_32<?>> hash)
 		{
 			System.arraycopy(this.state, 0, hash.STATE, 0, 8);
-			System.arraycopy(this.work, 0, hash.WORK, 0, 16);
 			System.arraycopy(this.counters, 0, hash.counters, 0, 2);
 		}
 
 		protected void eraseCustom()
 		{
 			Arrays.fill(state, 0);
-			Arrays.fill(work, 0);
 			Arrays.fill(counters, 0);
 			state = null;
-			work = null;
 			counters = null;
 		}
 
 		protected boolean compareCustom(BLAKE_32State state)
 		{
-			return ArrayUtil.equals(counters, state.counters) && (ArrayUtil.equals(this.state, state.state) && ArrayUtil.equals(this.work, state.work));
+			return ArrayUtil.equals(counters, state.counters) && ArrayUtil.equals(this.state, state.state);
 		}
 
 		protected int customSize()
 		{
-			return 104;
+			return 40;
 		}
 		
 	}
