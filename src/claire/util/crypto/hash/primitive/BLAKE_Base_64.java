@@ -261,7 +261,7 @@ abstract class BLAKE_Base_64<Hash extends BLAKE_Base_64<Hash>>
 
 		protected void persistCustom(byte[] bytes, int start)
 		{
-			Bits.longsToBytes(state, 0, bytes, start, 8); start += 32;
+			Bits.longsToBytes(state, 0, bytes, start, 8); start += 64;
 			Bits.longsToBytes(counters, 0, bytes, start, 2);
 		}
 
@@ -275,7 +275,7 @@ abstract class BLAKE_Base_64<Hash extends BLAKE_Base_64<Hash>>
 		{
 			state = new long[8];
 			counters = new long[2];
-			Bits.bytesToLongs(bytes, start, state, 0, 8); start += 32;
+			Bits.bytesToLongs(bytes, start, state, 0, 8); start += 64;
 			Bits.bytesToLongs(bytes, start, counters, 0, 2);
 		}
 
@@ -316,7 +316,7 @@ abstract class BLAKE_Base_64<Hash extends BLAKE_Base_64<Hash>>
 
 		protected BLAKE_64StateFactory() 
 		{
-			super(BLAKE_64State.class, 64);
+			super(BLAKE_64State.class, 128);
 		}
 
 		protected BLAKE_64State construct(byte[] bytes, int pos)

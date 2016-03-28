@@ -37,7 +37,7 @@ public class BLAKE256
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public static final int test()
 	{
-		BLAKE224 blake = new BLAKE224();
+		BLAKE256 blake = new BLAKE256();
 		byte[] bytes = new byte[1000];
 		RandUtils.fillArr(bytes);
 		blake.add(bytes);
