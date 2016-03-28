@@ -1,12 +1,19 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.BLAKE_Base_32.BLAKE_32State;
+import claire.util.io.Factory;
 import claire.util.math.counters.IntCounter;
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
-abstract class BLAKE_Base_32 
-	     extends MerkleHash {
+abstract class BLAKE_Base_32<Hash extends BLAKE_Base_32<Hash>> 
+	     extends MerkleHash<BLAKE_32State, Hash> {
 	
 	private static final int[] PERMUTE = 
 	{
@@ -35,11 +42,10 @@ abstract class BLAKE_Base_32
 	};
 	
 	protected final int[] STATE = new int[8];
+	protected final int[] WORK = new int[16];
+	protected final int[] counters = new int[2];
 	
-	private final int[] WORK = new int[16];
-
-	private IntCounter counter = new IntCounter(2);
-	private final int[] counters = counter.getInts();
+	private final IntCounter counter = new IntCounter(counters);
 	
 	protected BLAKE_Base_32(int out)
 	{
@@ -196,6 +202,94 @@ abstract class BLAKE_Base_32
 		reset();
 	}
 	
-	private static final 
+	protected static final class BLAKE_32State extends MerkleState<BLAKE_32State, BLAKE_Base_32<? extends BLAKE_Base_32<?>>>
+	{
+
+		protected int[] state;
+		protected int[] work;
+		protected int[] counters;
+		
+		public BLAKE_32State(BLAKE_Base_32<? extends BLAKE_Base_32<?>> hash) 
+		{
+			super(hash);
+		}
+
+		public Factory<BLAKE_32State> factory()
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.BLAKE32STATE;
+		}
+
+		protected void persistCustom(IOutgoingStream os) throws IOException
+		{
+			os.writeInts(state);
+			os.writeInts(work);
+			os.writeInts(counters);
+		}
+
+		protected void persistCustom(byte[] bytes, int start)
+		{
+			Bits.intsToBytes(state, 0, bytes, start, 8); start += 32;
+			Bits.intsToBytes(work, 0, bytes, start, 16); start += 64;
+			Bits.intsToBytes(counters, 0, bytes, start, 2);
+		}
+
+		protected void addCustom(IIncomingStream is) throws IOException
+		{
+			state = is.readInts(8);
+			work = is.readInts(16);
+			counters = is.readInts(2);
+		}
+		
+		protected void addCustom(byte[] bytes, int start)
+		{
+			state = new int[8];
+			work = new int[16];
+			counters = new int[2];
+			Bits.bytesToInts(bytes, start, state, 0, 8); start += 32;
+			Bits.bytesToInts(bytes, start, work, 0, 16); start += 64;
+			Bits.bytesToInts(bytes, start, counters, 0, 2);
+		}
+
+		protected void addCustom(BLAKE_Base_32<? extends BLAKE_Base_32<?>> hash)
+		{
+			state = ArrayUtil.copy(hash.STATE);
+			work = ArrayUtil.copy(hash.WORK);
+			counters = ArrayUtil.copy(hash.counters);
+		}
+
+		protected void updateCustom(BLAKE_Base_32<? extends BLAKE_Base_32<?>> hash)
+		{
+			System.arraycopy(this.state, 0, hash.STATE, 0, 8);
+			System.arraycopy(this.work, 0, hash.WORK, 0, 16);
+			System.arraycopy(this.counters, 0, hash.counters, 0, 2);
+		}
+
+		protected void eraseCustom()
+		{
+			Arrays.fill(state, 0);
+			Arrays.fill(work, 0);
+			Arrays.fill(counters, 0);
+			state = null;
+			work = null;
+			counters = null;
+		}
+
+		protected boolean compareCustom(BLAKE_32State state)
+		{
+			return ArrayUtil.equals(counters, state.counters) && (ArrayUtil.equals(this.state, state.state) && ArrayUtil.equals(this.work, state.work));
+		}
+
+		protected int customSize()
+		{
+			return 104;
+		}
+		
+	}
 
 }

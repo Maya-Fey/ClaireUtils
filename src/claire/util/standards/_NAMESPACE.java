@@ -76,5 +76,6 @@ public class _NAMESPACE {
 	public static final int KEYIBAA = 66;
 	public static final int STATEIBAA = 66;
 	public static final int INTCOUNTER = 67;
+	public static final int BLAKE32STATE = 68;
 	
 }

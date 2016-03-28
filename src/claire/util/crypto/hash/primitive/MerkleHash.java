@@ -12,7 +12,7 @@ import claire.util.standards.crypto.IState;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
-public abstract class MerkleHash<State extends MerkleState<State, Hash>, Hash extends MerkleHash<State, Hash>> 
+public abstract class MerkleHash<State extends MerkleState<State, ?>, Hash extends MerkleHash<State, Hash>> 
 				implements IHash<State> {
 	
 	protected final int size;
@@ -72,7 +72,7 @@ public abstract class MerkleHash<State extends MerkleState<State, Hash>, Hash ex
 		this.loadCustom(state);
 	}
 	
-	protected static abstract class MerkleState<State extends MerkleState<State, Hash>, Hash extends MerkleHash<State, Hash>> implements IState<State>
+	protected static abstract class MerkleState<State extends MerkleState<State, ?>, Hash extends MerkleHash<State, ?>> implements IState<State>
 	{
 		protected byte[] temp;
 		protected int pos;
@@ -100,9 +100,9 @@ public abstract class MerkleHash<State extends MerkleState<State, Hash>, Hash ex
 			this.updateCustom(hash);
 		}
 		
-		protected abstract void persistCustom(IOutgoingStream os);
+		protected abstract void persistCustom(IOutgoingStream os) throws IOException;
 		protected abstract void persistCustom(byte[] bytes, int start);
-		protected abstract void addCustom(IIncomingStream os);
+		protected abstract void addCustom(IIncomingStream os) throws IOException;
 		protected abstract void addCustom(byte[] bytes, int start);
 		protected abstract void addCustom(Hash hash);
 		protected abstract void updateCustom(Hash hash);
