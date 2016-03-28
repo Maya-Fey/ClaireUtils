@@ -45,6 +45,7 @@ import claire.util.crypto.hash.primitive.BLAKE256;
 import claire.util.crypto.hash.primitive.BLAKE384;
 import claire.util.crypto.hash.primitive.BLAKE512;
 import claire.util.crypto.hash.primitive.BMW224;
+import claire.util.crypto.hash.primitive.BMW256;
 import claire.util.logging.Log;
 import claire.util.math.counters.IntCounter;
 import claire.util.math.counters.LongCounter;
@@ -165,6 +166,8 @@ public class Test {
 		reg += BLAKE512.test();
 		Log.info.println("Testing claire.util.crypto.hash.primitive.BMW224");
 		reg += BMW224.test();
+		Log.info.println("Testing claire.util.crypto.hash.primitive.BMW256");
+		reg += BMW256.test();
 		Log.info.println("Testing ../math");
 		Log.info.println("Testing counters");
 		Log.info.println("Testing claire.util.math.counters.IntCounter");
