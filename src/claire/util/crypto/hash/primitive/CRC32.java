@@ -3,17 +3,18 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 
 import claire.util.crypto.hash.primitive.CRC32.CRC32State;
-import claire.util.crypto.hash.primitive.CRC32.CRC32StateFactory;
+import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
+import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IHash;
 import claire.util.standards.crypto.IState;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
-final class CRC32 
-	  implements IHash {
+public final class CRC32 
+	  		 implements IHash<CRC32State> {
 
 	private static final int[] SBOX = {
             0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 
@@ -189,6 +190,24 @@ final class CRC32
 			return new CRC32State(stream.readInt());
 		}
 		
+	}
+	
+	/*
+	 * This isn't actually required, just convenient because IState<?>
+	 * doesn't cast to (T extends extends IPersistable<T> & IUUID<T>)
+	 * so rather than create a special method this was used.
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public static final int test()
+	{
+		CRC32 blake = new CRC32();
+		byte[] bytes = new byte[1000];
+		RandUtils.fillArr(bytes);
+		blake.add(bytes);
+		IState state = blake.getState();
+		int i = 0;
+		i += IPersistable.test(state);
+		return i;
 	}
 	
 
