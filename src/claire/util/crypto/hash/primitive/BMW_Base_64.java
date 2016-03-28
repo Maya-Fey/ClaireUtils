@@ -264,7 +264,7 @@ abstract class BMW_Base_64<Hash extends BMW_Base_64<Hash>>
 
 	public void loadCustom(BMW_64State state)
 	{
-		System.arraycopy(state.counters, 0, this.counters, 0, 2);
+		this.counter = state.counter;
 		System.arraycopy(state.state, 0, this.STATE, 0, 8);
 	}
 	
