@@ -81,5 +81,8 @@ public class _NAMESPACE {
 	public static final int BLAKE64STATE = 70;
 	public static final int BMW32STATE = 71;
 	public static final int BMW64STATE = 72;
+	public static final int CRC8STATE = 73;
+	public static final int CRC16STATE = 74;
+	public static final int CRC32STATE = 75;
 	
 }

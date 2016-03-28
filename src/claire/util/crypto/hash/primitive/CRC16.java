@@ -1,10 +1,18 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
+
+import claire.util.crypto.hash.primitive.CRC16.CRC16State;
+import claire.util.io.Factory;
 import claire.util.memory.Bits;
+import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IHash;
+import claire.util.standards.crypto.IState;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
 final class CRC16 
-	  implements IHash {
+	  implements IHash<CRC16State> {
 
 	private static final short[] SBOX =
 	{
@@ -60,6 +68,95 @@ final class CRC16
 	public int outputLength()
 	{
 		return 2;
+	}
+	
+	public CRC16State getState()
+	{
+		return new CRC16State(this);
+	}
+
+	public void loadState(CRC16State state)
+	{
+		this.STATE = state.state;
+	}
+	
+	public void updateState(CRC16State state)
+	{
+		state.state = this.STATE;
+	}
+	
+	public static final CRC16StateFactory sfactory = new CRC16StateFactory();
+	
+	protected static final class CRC16State implements IState<CRC16State>
+	{
+		
+		private short state;
+
+		public CRC16State(CRC16 crc)
+		{
+			this.state = crc.STATE;
+		}
+		
+		public CRC16State(short state)
+		{
+			this.state = state;
+		}
+		
+		public void export(IOutgoingStream stream) throws IOException
+		{
+			stream.writeShort(state);
+		}
+
+		public void export(byte[] bytes, int offset)
+		{
+			Bits.shortToBytes(state, bytes, offset);
+		}
+
+		public int exportSize()
+		{
+			return 2;
+		}
+
+		public Factory<CRC16State> factory()
+		{
+			return sfactory;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.CRC16STATE;
+		}
+
+		public boolean sameAs(CRC16State obj)
+		{
+			return this.state == obj.state;
+		}
+
+		public void erase()
+		{
+			this.state = 0;
+		}
+		
+	}
+	
+	protected static final class CRC16StateFactory extends Factory<CRC16State>
+	{
+
+		protected CRC16StateFactory() 
+		{
+			super(CRC16State.class);
+		}
+		
+		public CRC16State resurrect(byte[] data, int start) throws InstantiationException
+		{
+			return new CRC16State(Bits.shortFromBytes(data, start));
+		}
+
+		public CRC16State resurrect(IIncomingStream stream) throws InstantiationException, IOException
+		{
+			return new CRC16State(stream.readShort());
+		}
+		
 	}
 
 }
