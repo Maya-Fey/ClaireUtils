@@ -1,20 +1,27 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.BMW_Base_32.BMW_32State;
+import claire.util.io.Factory;
 import claire.util.math.counters.IntCounter;
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
-abstract class BMW_Base_32 
-	  	 extends MerkleHash {
+abstract class BMW_Base_32<Hash extends BMW_Base_32<Hash>>
+	  	 extends MerkleHash<BMW_32State, Hash> {
 	
 	protected final int[] STATE = new int[16];
+	protected final int[] counters = new int[2];
 	
 	private final int[] BLOCK = new int[16];
 	private final int[] WORK = new int[32];
 	
-	private final IntCounter counter = new IntCounter(2);
-	private final int[] counters = counter.getInts();
+	private final IntCounter counter = new IntCounter(counters);
 	
 	private static final int[] last = 
 	{
@@ -36,6 +43,7 @@ abstract class BMW_Base_32
 	private void reset()
 	{
 		System.arraycopy(this.getIV(), 0, STATE, 0, 16);
+		counter.reset();
 	}
 	
 	private void compress(int[] IN)
@@ -480,6 +488,123 @@ abstract class BMW_Base_32
 		compress(BLOCK);
 		output(out, start);
 		reset();
+	}
+	
+	public BMW_32State getState()
+	{
+		return new BMW_32State(this);
+	}
+
+	public void updateState(BMW_32State state)
+	{
+		state.update(this);
+	}
+
+	public void loadCustom(BMW_32State state)
+	{
+		System.arraycopy(state.counters, 0, this.counters, 0, 2);
+		System.arraycopy(state.state, 0, this.STATE, 0, 16);
+	}
+	
+	public static final BMW_32StateFactory sfactory = new BMW_32StateFactory();
+	
+	protected static final class BMW_32State extends MerkleState<BMW_32State, BMW_Base_32<? extends BMW_Base_32<?>>>
+	{
+
+		protected int[] state;
+		protected int[] counters;
+		
+		public BMW_32State(BMW_Base_32<? extends BMW_Base_32<?>> hash) 
+		{
+			super(hash);
+		}
+		
+		public BMW_32State(byte[] bytes, int pos)
+		{
+			super(bytes, pos);
+		}
+
+		public Factory<BMW_32State> factory()
+		{
+			return sfactory;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.BMW32STATE;
+		}
+
+		protected void persistCustom(IOutgoingStream os) throws IOException
+		{
+			os.writeInts(state);
+			os.writeInts(counters);
+		}
+
+		protected void persistCustom(byte[] bytes, int start)
+		{
+			Bits.intsToBytes(state, 0, bytes, start, 16); start += 64;
+			Bits.intsToBytes(counters, 0, bytes, start, 2);
+		}
+
+		protected void addCustom(IIncomingStream is) throws IOException
+		{
+			state = is.readInts(16);
+			counters = is.readInts(2);
+		}
+		
+		protected void addCustom(byte[] bytes, int start)
+		{
+			state = new int[16];
+			counters = new int[2];
+			Bits.bytesToInts(bytes, start, state, 0, 16); start += 64;
+			Bits.bytesToInts(bytes, start, counters, 0, 2);
+		}
+
+		protected void addCustom(BMW_Base_32<? extends BMW_Base_32<?>> hash)
+		{
+			state = ArrayUtil.copy(hash.STATE);
+			counters = ArrayUtil.copy(hash.counters);
+		}
+
+		protected void updateCustom(BMW_Base_32<? extends BMW_Base_32<?>> hash)
+		{
+			System.arraycopy(this.state, 0, hash.STATE, 0, 16);
+			System.arraycopy(this.counters, 0, hash.counters, 0, 2);
+		}
+
+		protected void eraseCustom()
+		{
+			Arrays.fill(state, 0);
+			Arrays.fill(counters, 0);
+			state = null;
+			counters = null;
+		}
+
+		protected boolean compareCustom(BMW_32State state)
+		{	
+			return ArrayUtil.equals(counters, state.counters) && ArrayUtil.equals(this.state, state.state);
+		}
+
+		protected int customSize()
+		{
+			return 72;
+		}
+		
+	}
+	
+	protected static final class BMW_32StateFactory extends MerkleStateFactory<BMW_32State, BMW_Base_32<? extends BMW_Base_32<?>>>
+	{
+
+		protected BMW_32StateFactory() 
+		{
+			super(BMW_32State.class, 64);
+		}
+
+		protected BMW_32State construct(byte[] bytes, int pos)
+		{
+			return new BMW_32State(bytes, pos);
+		}
+		
 	}
 
 }
