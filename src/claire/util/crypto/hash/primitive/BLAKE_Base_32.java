@@ -269,7 +269,6 @@ abstract class BLAKE_Base_32<Hash extends BLAKE_Base_32<Hash>>
 			state = new int[8];
 			counters = new int[2];
 			Bits.bytesToInts(bytes, start, state, 0, 8); start += 32;
-			Bits.bytesToInts(bytes, start, work, 0, 16); start += 64;
 			Bits.bytesToInts(bytes, start, counters, 0, 2);
 		}
 
@@ -294,7 +293,7 @@ abstract class BLAKE_Base_32<Hash extends BLAKE_Base_32<Hash>>
 		}
 
 		protected boolean compareCustom(BLAKE_32State state)
-		{
+		{	
 			return ArrayUtil.equals(counters, state.counters) && ArrayUtil.equals(this.state, state.state);
 		}
 

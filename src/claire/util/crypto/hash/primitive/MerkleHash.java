@@ -123,6 +123,7 @@ public abstract class MerkleHash<State extends MerkleState<State, ?>, Hash exten
 		{
 			Bits.intToBytes(pos, bytes, offset); offset += 4;
 			System.arraycopy(temp, 0, bytes, offset, temp.length); offset += temp.length;
+			this.persistCustom(bytes, offset);
 		}
 
 		public int exportSize()
@@ -170,7 +171,7 @@ public abstract class MerkleHash<State extends MerkleState<State, ?>, Hash exten
 		{
 			int pos = Bits.intFromBytes(bytes, start); start += 4;
 			byte[] temp = new byte[size];
-			System.arraycopy(bytes, start, temp, 0, size);
+			System.arraycopy(bytes, start, temp, 0, size); start += size;
 			State state = construct(temp, pos);
 			state.addCustom(bytes, start);
 			return state;
