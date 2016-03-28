@@ -1,12 +1,19 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.BLAKE_Base_64.BLAKE_64State;
+import claire.util.io.Factory;
 import claire.util.math.counters.LongCounter;
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
-abstract class BLAKE_Base_64 
-	     extends MerkleHash {
+abstract class BLAKE_Base_64<Hash extends BLAKE_Base_64<Hash>>  
+	     extends MerkleHash<BLAKE_64State, Hash> {
 	
 	private static final int[] PERMUTE = 
 	{
@@ -200,6 +207,123 @@ abstract class BLAKE_Base_64
 		processNext(remaining, 0, false);
 		this.output(out, start);
 		reset();
+	}
+	
+	public BLAKE_64State getState()
+	{
+		return new BLAKE_64State(this);
+	}
+
+	public void updateState(BLAKE_64State state)
+	{
+		state.update(this);
+	}
+
+	public void loadCustom(BLAKE_64State state)
+	{
+		System.arraycopy(state.counters, 0, this.counters, 0, 2);
+		System.arraycopy(state.state, 0, this.STATE, 0, 8);
+	}
+	
+	public static final BLAKE_64StateFactory sfactory = new BLAKE_64StateFactory();
+	
+	protected static final class BLAKE_64State extends MerkleState<BLAKE_64State, BLAKE_Base_64<? extends BLAKE_Base_64<?>>>
+	{
+
+		protected long[] state;
+		protected long[] counters;
+		
+		public BLAKE_64State(BLAKE_Base_64<? extends BLAKE_Base_64<?>> hash) 
+		{
+			super(hash);
+		}
+		
+		public BLAKE_64State(byte[] bytes, int pos)
+		{
+			super(bytes, pos);
+		}
+
+		public Factory<BLAKE_64State> factory()
+		{
+			return sfactory;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.BLAKE64STATE;
+		}
+
+		protected void persistCustom(IOutgoingStream os) throws IOException
+		{
+			os.writeLongs(state);
+			os.writeLongs(counters);
+		}
+
+		protected void persistCustom(byte[] bytes, int start)
+		{
+			Bits.longsToBytes(state, 0, bytes, start, 8); start += 32;
+			Bits.longsToBytes(counters, 0, bytes, start, 2);
+		}
+
+		protected void addCustom(IIncomingStream is) throws IOException
+		{
+			state = is.readLongs(8);
+			counters = is.readLongs(2);
+		}
+		
+		protected void addCustom(byte[] bytes, int start)
+		{
+			state = new long[8];
+			counters = new long[2];
+			Bits.bytesToLongs(bytes, start, state, 0, 8); start += 32;
+			Bits.bytesToLongs(bytes, start, counters, 0, 2);
+		}
+
+		protected void addCustom(BLAKE_Base_64<? extends BLAKE_Base_64<?>> hash)
+		{
+			state = ArrayUtil.copy(hash.STATE);
+			counters = ArrayUtil.copy(hash.counters);
+		}
+
+		protected void updateCustom(BLAKE_Base_64<? extends BLAKE_Base_64<?>> hash)
+		{
+			System.arraycopy(this.state, 0, hash.STATE, 0, 8);
+			System.arraycopy(this.counters, 0, hash.counters, 0, 2);
+		}
+
+		protected void eraseCustom()
+		{
+			Arrays.fill(state, 0);
+			Arrays.fill(counters, 0);
+			state = null;
+			counters = null;
+		}
+
+		protected boolean compareCustom(BLAKE_64State state)
+		{	
+			return ArrayUtil.equals(counters, state.counters) && ArrayUtil.equals(this.state, state.state);
+		}
+
+		protected int customSize()
+		{
+			return 80;
+		}
+		
+	}
+	
+	protected static final class BLAKE_64StateFactory extends MerkleStateFactory<BLAKE_64State, BLAKE_Base_64<? extends BLAKE_Base_64<?>>>
+	{
+
+		protected BLAKE_64StateFactory() 
+		{
+			super(BLAKE_64State.class, 64);
+		}
+
+		protected BLAKE_64State construct(byte[] bytes, int pos)
+		{
+			return new BLAKE_64State(bytes, pos);
+		}
+		
 	}
 
 }
