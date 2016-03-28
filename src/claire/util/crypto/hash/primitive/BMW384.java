@@ -1,9 +1,12 @@
 package claire.util.crypto.hash.primitive;
 
+import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
+import claire.util.standards.IPersistable;
+import claire.util.standards.crypto.IState;
 
 public class BMW384 
-	   extends BMW_Base_64 {
+	   extends BMW_Base_64<BMW384> {
 	
 	private static final long[] IV = 
 	{
@@ -32,4 +35,22 @@ public class BMW384
 		Bits.longsToBytes(STATE, 10, out, start, 6);
 	}
 
+	/*
+	 * This isn't actually required, just convenient because IState<?>
+	 * doesn't cast to (T extends extends IPersistable<T> & IUUID<T>)
+	 * so rather than create a special method this was used.
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public static final int test()
+	{
+		BMW384 blake = new BMW384();
+		byte[] bytes = new byte[1000];
+		RandUtils.fillArr(bytes);
+		blake.add(bytes);
+		IState state = blake.getState();
+		int i = 0;
+		i += IPersistable.test(state);
+		return i;
+	}
+	
 }

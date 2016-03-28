@@ -310,13 +310,13 @@ abstract class BMW_Base_64<Hash extends BMW_Base_64<Hash>>
 
 		protected void addCustom(IIncomingStream is) throws IOException
 		{
-			state = is.readLongs(8);
+			state = is.readLongs(16);
 			counter = is.readLong();
 		}
 		
 		protected void addCustom(byte[] bytes, int start)
 		{
-			state = new long[8];
+			state = new long[16];
 			Bits.bytesToLongs(bytes, start, state, 0, 16); start += 128;
 			counter = Bits.longFromBytes(bytes, start);
 		}
