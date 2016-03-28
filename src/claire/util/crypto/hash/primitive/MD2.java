@@ -5,9 +5,12 @@ import java.util.Arrays;
 
 import claire.util.crypto.hash.primitive.MD2.MD2State;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
+import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IState;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -219,5 +222,24 @@ public class MD2
 		}
 		
 	}
+	
+	/*
+	 * This isn't actually required, just convenient because IState<?>
+	 * doesn't cast to (T extends extends IPersistable<T> & IUUID<T>)
+	 * so rather than create a special method this was used.
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public static final int test()
+	{
+		MD2 blake = new MD2();
+		byte[] bytes = new byte[1000];
+		RandUtils.fillArr(bytes);
+		blake.add(bytes);
+		IState state = blake.getState();
+		int i = 0;
+		i += IPersistable.test(state);
+		return i;
+	}
+	
 	
 }
