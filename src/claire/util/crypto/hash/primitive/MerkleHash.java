@@ -144,12 +144,12 @@ public abstract class MerkleHash<State extends MerkleState<State, ?>, Hash exten
 		
 	}
 	
-	protected static abstract class MerkleStateFactory<State extends MerkleState<State, Hash>, Hash extends MerkleHash<State, Hash>>
-							  extends Factory<MerkleState<State, Hash>>
+	protected static abstract class MerkleStateFactory<State extends MerkleState<State, Hash>, Hash extends MerkleHash<State, ?>>
+							  extends Factory<State>
 	{
 		protected final int size;
 		
-		protected MerkleStateFactory(Class<MerkleState<State, Hash>> class_, int size)
+		protected MerkleStateFactory(Class<State> class_, int size)
 		{
 			super(class_);
 			this.size = size;

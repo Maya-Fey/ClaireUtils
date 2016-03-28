@@ -202,6 +202,8 @@ abstract class BLAKE_Base_32<Hash extends BLAKE_Base_32<Hash>>
 		reset();
 	}
 	
+	public static final BLAKE_32StateFactory sfactory = new BLAKE_32StateFactory();
+	
 	protected static final class BLAKE_32State extends MerkleState<BLAKE_32State, BLAKE_Base_32<? extends BLAKE_Base_32<?>>>
 	{
 
@@ -213,11 +215,15 @@ abstract class BLAKE_Base_32<Hash extends BLAKE_Base_32<Hash>>
 		{
 			super(hash);
 		}
+		
+		public BLAKE_32State(byte[] bytes, int pos)
+		{
+			super(bytes, pos);
+		}
 
 		public Factory<BLAKE_32State> factory()
 		{
-			// TODO Auto-generated method stub
-			return null;
+			return sfactory;
 		}
 
 		public int NAMESPACE()
@@ -288,6 +294,21 @@ abstract class BLAKE_Base_32<Hash extends BLAKE_Base_32<Hash>>
 		protected int customSize()
 		{
 			return 104;
+		}
+		
+	}
+	
+	protected static final class BLAKE_32StateFactory extends MerkleStateFactory<BLAKE_32State, BLAKE_Base_32<? extends BLAKE_Base_32<?>>>
+	{
+
+		protected BLAKE_32StateFactory() 
+		{
+			super(BLAKE_32State.class, 64);
+		}
+
+		protected BLAKE_32State construct(byte[] bytes, int pos)
+		{
+			return new BLAKE_32State(bytes, pos);
 		}
 		
 	}
