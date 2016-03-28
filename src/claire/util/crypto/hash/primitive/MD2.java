@@ -1,9 +1,18 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.MD2.MD2State;
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
+import claire.util.io.Factory;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
+
 public class MD2 
-	   extends MerkleHash {
+	   extends MerkleHash<MD2State, MD2> {
 	
 	public MD2() {
 		super(16, 16);
@@ -44,8 +53,8 @@ public class MD2
        -37, -103, -115,   51, - 97,   17, -125,   20 
     };
 	
-	private final byte[] checksum = new byte[16];
-	private final byte[] state = new byte[48];
+	protected final byte[] checksum = new byte[16];
+	protected final byte[] state = new byte[48];
 	
 	private void reset()
 	{
@@ -87,6 +96,112 @@ public class MD2
 		processNext(out, start);
 		System.arraycopy(state, 0, out, start, 16);
 		reset();
+	}
+	
+	public MD2State getState()
+	{
+		return new MD2State(this);
+	}
+
+	public void updateState(MD2State state)
+	{
+		state.update(this);
+	}
+
+	public void loadCustom(MD2State state)
+	{
+		System.arraycopy(state.state, 0, this.state, 0, 48);
+		System.arraycopy(state.checksum, 0, this.checksum, 0, 16);
+	}
+	
+	protected static final class MD2State extends MerkleState<MD2State, MD2>
+	{
+		protected byte[] state;
+		protected byte[] checksum;
+		
+		public MD2State(byte[] bytes, int pos) 
+		{
+			super(bytes, pos);
+		}
+		
+		public MD2State(MD2 md2)
+		{
+			super(md2);
+		}
+
+		public Factory<MD2State> factory()
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.MD2STATE;
+		}
+
+		protected void persistCustom(IOutgoingStream os) throws IOException
+		{
+			os.writeBytes(state);
+			os.writeBytes(checksum);
+		}
+
+		protected void persistCustom(byte[] bytes, int start)
+		{
+			System.arraycopy(state, 0, bytes, start, 48); start += 48;
+			System.arraycopy(checksum, 0, bytes, start, 16);
+		}
+
+		protected void addCustom(IIncomingStream os) throws IOException
+		{
+			state = os.readBytes(48);
+			checksum = os.readBytes(16);
+		}
+
+		protected void addCustom(byte[] bytes, int start)
+		{
+			state = new byte[48];
+			checksum = new byte[16];
+			System.arraycopy(bytes, start, state, 0, 48); start += 48;
+			System.arraycopy(bytes, start, checksum, 0, 16);
+		}
+
+		protected void addCustom(MD2 hash)
+		{
+			state = ArrayUtil.copy(hash.state);
+			checksum = ArrayUtil.copy(hash.checksum);
+		}
+
+		protected void updateCustom(MD2 hash)
+		{
+			if(state == null)
+				state = ArrayUtil.copy(hash.state);
+			else
+				System.arraycopy(hash.state, 0, this.state, 0, 48);
+			if(checksum == null)
+				checksum = ArrayUtil.copy(hash.checksum);
+			else
+				System.arraycopy(hash.checksum, 0, this.checksum, 0, 16);
+		}
+
+		protected void eraseCustom()
+		{
+			Arrays.fill(state, (byte) 0);
+			Arrays.fill(checksum, (byte) 0);
+			state = null;
+			checksum = null;
+		}
+
+		protected boolean compareCustom(MD2State state)
+		{
+			return ArrayUtil.equals(this.state, state.state) && ArrayUtil.equals(this.checksum, state.checksum);
+		}
+
+		protected int customSize()
+		{
+			return 64;
+		}
+		
 	}
 	
 }
