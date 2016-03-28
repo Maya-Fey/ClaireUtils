@@ -2,41 +2,21 @@ package claire.util.crypto.hash.primitive;
 
 import claire.util.standards.crypto.IHash;
 
-public class CRC implements IHash {
+public class CRC  {
 	
-	private final IHash crc;
-	
-	public CRC(int len)
+	public IHash<?> getCRC(int len)
 	{
 		switch(len)
 		{
 			case 8:
-				crc = new CRC8();
-				break;
+				return new CRC8();
 			case 16:
-				crc = new CRC16();
-				break;
+				return new CRC16();
 			case 32:
-				crc = new CRC32();
-				break;
+				return new CRC32();
 			default: 
 				throw new java.lang.IllegalArgumentException();
 		}
-	}
-
-	public void add(byte[] bytes, int start, int length)
-	{
-		crc.add(bytes, start, length);
-	}
-
-	public void finish(byte[] out, int start)
-	{
-		crc.finish(out, start);
-	}
-
-	public int outputLength()
-	{
-		return crc.outputLength();
 	}
 
 }
