@@ -3,11 +3,14 @@ package claire.util.math.counters;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.io.IOUtils;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.CObject;
+import claire.util.standards.IDeepClonable;
+import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
@@ -113,5 +116,16 @@ public class LongCounter
 			return new LongCounter(stream.readLongArr());
 		}
 
+	}
+	
+	public static final int test()
+	{
+		final long[] ints = new long[256];
+		RandUtils.fillArr(ints);
+		final LongCounter aes = new LongCounter(ints);
+		int i = 0;
+		i += IPersistable.test(aes);
+		i += IDeepClonable.test(aes);
+		return i;
 	}
 }

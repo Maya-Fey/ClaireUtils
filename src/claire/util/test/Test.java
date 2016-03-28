@@ -42,6 +42,7 @@ import claire.util.crypto.cipher.primitive.stream.IBAA;
 import claire.util.crypto.cipher.primitive.stream.RC4;
 import claire.util.logging.Log;
 import claire.util.math.counters.IntCounter;
+import claire.util.math.counters.LongCounter;
 
 public class Test {
 	
@@ -152,6 +153,8 @@ public class Test {
 		Log.info.println("Testing counters");
 		Log.info.println("Testing claire.util.math.counters.IntCounter");
 		IntCounter.test();
+		Log.info.println("Testing claire.util.math.counters.LongCounter");
+		LongCounter.test();
 		if(reg > 0)
 			Log.crit.println(reg + " regressions detected!");
 		else
