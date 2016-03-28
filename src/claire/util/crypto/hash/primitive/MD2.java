@@ -114,6 +114,8 @@ public class MD2
 		System.arraycopy(state.checksum, 0, this.checksum, 0, 16);
 	}
 	
+	public static final MD2StateFactory sfactory = new MD2StateFactory();
+	
 	protected static final class MD2State extends MerkleState<MD2State, MD2>
 	{
 		protected byte[] state;
@@ -131,8 +133,7 @@ public class MD2
 
 		public Factory<MD2State> factory()
 		{
-			// TODO Auto-generated method stub
-			return null;
+			return sfactory;
 		}
 
 		public int NAMESPACE()
@@ -200,6 +201,21 @@ public class MD2
 		protected int customSize()
 		{
 			return 64;
+		}
+		
+	}
+	
+	protected static final class MD2StateFactory extends MerkleStateFactory<MD2State, MD2>
+	{
+
+		protected MD2StateFactory() 
+		{
+			super(MD2State.class, 16);
+		}
+
+		protected MD2State construct(byte[] bytes, int pos)
+		{
+			return new MD2State(bytes, pos);
 		}
 		
 	}
