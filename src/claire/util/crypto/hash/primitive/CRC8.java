@@ -1,6 +1,16 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
+
+import claire.util.crypto.hash.primitive.CRC8.CRC8State;
+import claire.util.crypto.hash.primitive.CRC8.CRC8StateFactory;
+import claire.util.io.Factory;
+import claire.util.memory.Bits;
+import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IHash;
+import claire.util.standards.crypto.IState;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
 final class CRC8
 	  implements IHash {
@@ -59,6 +69,95 @@ final class CRC8
 	public int outputLength()
 	{
 		return 1;
+	}
+	
+	public CRC8State getState()
+	{
+		return new CRC8State(this);
+	}
+
+	public void loadState(CRC8State state)
+	{
+		this.STATE = state.state;
+	}
+	
+	public void updateState(CRC8State state)
+	{
+		state.state = this.STATE;
+	}
+	
+	public static final CRC8StateFactory sfactory = new CRC8StateFactory();
+	
+	protected static final class CRC8State implements IState<CRC8State>
+	{
+		
+		private byte state;
+
+		public CRC8State(CRC8 crc)
+		{
+			this.state = crc.STATE;
+		}
+		
+		public CRC8State(byte state)
+		{
+			this.state = state;
+		}
+		
+		public void export(IOutgoingStream stream) throws IOException
+		{
+			stream.writeByte(state);
+		}
+
+		public void export(byte[] bytes, int offset)
+		{
+			bytes[offset] = this.state;
+		}
+
+		public int exportSize()
+		{
+			return 1;
+		}
+
+		public Factory<CRC8State> factory()
+		{
+			return sfactory;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.CRC8STATE;
+		}
+
+		public boolean sameAs(CRC8State obj)
+		{
+			return this.state == obj.state;
+		}
+
+		public void erase()
+		{
+			this.state = 0;
+		}
+		
+	}
+	
+	protected static final class CRC8StateFactory extends Factory<CRC8State>
+	{
+
+		protected CRC8StateFactory() 
+		{
+			super(CRC8State.class);
+		}
+		
+		public CRC8State resurrect(byte[] data, int start) throws InstantiationException
+		{
+			return new CRC8State(data[start]);
+		}
+
+		public CRC8State resurrect(IIncomingStream stream) throws InstantiationException, IOException
+		{
+			return new CRC8State(stream.readByte());
+		}
+		
 	}
 
 }
