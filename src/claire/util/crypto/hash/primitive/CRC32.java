@@ -1,7 +1,16 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
+
+import claire.util.crypto.hash.primitive.CRC32.CRC32State;
+import claire.util.crypto.hash.primitive.CRC32.CRC32StateFactory;
+import claire.util.io.Factory;
 import claire.util.memory.Bits;
+import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IHash;
+import claire.util.standards.crypto.IState;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
 final class CRC32 
 	  implements IHash {
@@ -92,5 +101,95 @@ final class CRC32
 	{
 		return 4;
 	}
+	
+	public CRC32State getState()
+	{
+		return new CRC32State(this);
+	}
+
+	public void loadState(CRC32State state)
+	{
+		this.STATE = state.state;
+	}
+	
+	public void updateState(CRC32State state)
+	{
+		state.state = this.STATE;
+	}
+	
+	public static final CRC32StateFactory sfactory = new CRC32StateFactory();
+	
+	protected static final class CRC32State implements IState<CRC32State>
+	{
+		
+		private int state;
+
+		public CRC32State(CRC32 crc)
+		{
+			this.state = crc.STATE;
+		}
+		
+		public CRC32State(int state)
+		{
+			this.state = state;
+		}
+		
+		public void export(IOutgoingStream stream) throws IOException
+		{
+			stream.writeInt(state);
+		}
+
+		public void export(byte[] bytes, int offset)
+		{
+			Bits.intToBytes(state, bytes, offset);
+		}
+
+		public int exportSize()
+		{
+			return 4;
+		}
+
+		public Factory<CRC32State> factory()
+		{
+			return sfactory;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.CRC32STATE;
+		}
+
+		public boolean sameAs(CRC32State obj)
+		{
+			return this.state == obj.state;
+		}
+
+		public void erase()
+		{
+			this.state = 0;
+		}
+		
+	}
+	
+	protected static final class CRC32StateFactory extends Factory<CRC32State>
+	{
+
+		protected CRC32StateFactory() 
+		{
+			super(CRC32State.class);
+		}
+		
+		public CRC32State resurrect(byte[] data, int start) throws InstantiationException
+		{
+			return new CRC32State(Bits.intFromBytes(data, start));
+		}
+
+		public CRC32State resurrect(IIncomingStream stream) throws InstantiationException, IOException
+		{
+			return new CRC32State(stream.readInt());
+		}
+		
+	}
+	
 
 }
