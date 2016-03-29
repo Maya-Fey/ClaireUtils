@@ -1,11 +1,22 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
+import claire.util.crypto.hash.primitive.SHA1.SHA1State;
+import claire.util.crypto.rng.RandUtils;
+import claire.util.io.Factory;
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IPersistable;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IState;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
 public class SHA1 
-	   extends MerkleHash {
+	   extends MerkleHash<SHA1State, SHA1> {
 	
 	private static final int A1 = 0x5a827999;
     private static final int A2 = 0x6ed9eba1;
@@ -142,6 +153,139 @@ public class SHA1
 		reset();
 	}
 	
-	
+	public SHA1State getState()
+	{
+		return new SHA1State(this);
+	}
 
+	public void updateState(SHA1State state)
+	{
+		state.update(this);
+	}
+
+	public void loadCustom(SHA1State state)
+	{
+		System.arraycopy(state.state, 0, this.STATE, 0, 5);
+		this.total = state.total;
+	}
+	
+	public static final SHA1StateFactory sfactory = new SHA1StateFactory();
+	
+	protected static final class SHA1State extends MerkleState<SHA1State, SHA1>
+	{
+		protected int[] state;
+		protected long total;
+		
+		public SHA1State(SHA1 md5)
+		{
+			super(md5);
+		}
+		
+		public SHA1State(byte[] bytes, int pos)
+		{
+			super(bytes, pos);
+		}
+
+		public Factory<SHA1State> factory()
+		{
+			return sfactory;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.SHA1STATE;
+		}
+
+		protected void persistCustom(IOutgoingStream os) throws IOException
+		{
+			os.writeInts(state);
+			os.writeLong(total);
+		}
+
+		protected void persistCustom(byte[] bytes, int start)
+		{
+			Bits.intsToBytes(state, 0, bytes, start, 5); start += 20;
+			Bits.longToBytes(total, bytes, start);
+		}
+
+		protected void addCustom(IIncomingStream os) throws IOException
+		{
+			state = os.readInts(5);
+			total = os.readLong();
+		}
+
+		protected void addCustom(byte[] bytes, int start)
+		{
+			state = new int[5];
+			Bits.bytesToInts(bytes, start, state, 0, 5); start += 20;
+			total = Bits.longFromBytes(bytes, start);
+		}
+
+		protected void addCustom(SHA1 hash)
+		{
+			state = ArrayUtil.copy(hash.STATE);
+			total = hash.total;
+		}
+
+		protected void updateCustom(SHA1 hash)
+		{
+			if(state == null)
+				state = ArrayUtil.copy(hash.STATE);
+			else
+				System.arraycopy(hash.STATE, 0, state, 0, 5);
+			this.total = hash.total;
+		}
+
+		protected void eraseCustom()
+		{
+			Arrays.fill(state, 0);
+			state = null;
+			total = 0;
+		}
+
+		protected boolean compareCustom(SHA1State state)
+		{
+			return ArrayUtil.equals(state.state, this.state) && this.total == state.total;
+		}
+		
+		protected int customSize()
+		{
+			return 28;
+		}
+		
+	}
+	
+	protected static final class SHA1StateFactory extends MerkleStateFactory<SHA1State, SHA1>
+	{
+
+		protected SHA1StateFactory()
+		{
+			super(SHA1State.class, 64);
+		}
+
+		protected SHA1State construct(byte[] bytes, int pos)
+		{
+			return new SHA1State(bytes, pos);
+		}
+		
+	}
+	
+	/*
+	 * This isn't actually required, just convenient because IState<?>
+	 * doesn't cast to (T extends extends IPersistable<T> & IUUID<T>)
+	 * so rather than create a special method this was used.
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public static final int test()
+	{
+		SHA1 blake = new SHA1();
+		byte[] bytes = new byte[1000];
+		RandUtils.fillArr(bytes);
+		blake.add(bytes);
+		IState state = blake.getState();
+		int i = 0;
+		i += IPersistable.test(state);
+		return i;
+	}
+	
 }
