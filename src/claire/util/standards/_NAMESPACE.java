@@ -90,5 +90,9 @@ public class _NAMESPACE {
 	public static final int SHA1STATE = 79;
 	public static final int SHA2_32STATE = 80;
 	public static final int SHA2_64STATE = 81;
-	
+	public static final int RIPEMD128STATE = 82;
+	public static final int RIPEMD160STATE = 83;
+	public static final int RIPEMD256STATE = 84;
+	public static final int RIPEMD320STATE = 85;
+
 }

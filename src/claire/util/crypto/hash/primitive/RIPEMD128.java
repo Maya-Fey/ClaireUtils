@@ -1,11 +1,19 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
+import claire.util.crypto.hash.primitive.RIPEMD128.RIPEMD128State;
+import claire.util.io.Factory;
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
 final class RIPEMD128 
-	  extends MerkleHash {
+	  extends MerkleHash<RIPEMD128State, RIPEMD128> {
 	
 	private static final int[] PERMUTE = 
 		{
@@ -38,9 +46,9 @@ final class RIPEMD128
 	private static final int M5 = 0x5c4dd124;
 	private static final int M6 = 0x50a28be6;
 	
-	private final int[] STATE = new int[4];
+	protected final int[] STATE = new int[4];
 	
-	private long length = 0;
+	protected long length = 0;
 
 	public RIPEMD128() 
 	{
@@ -171,5 +179,122 @@ final class RIPEMD128
 		Bits.intsToBytes(STATE, 0, out, start);
 		reset();
 	}
+	
+	public RIPEMD128State getState()
+	{
+		return new RIPEMD128State(this);
+	}
 
+	public void updateState(RIPEMD128State state)
+	{
+		state.update(this);
+	}
+
+	public void loadCustom(RIPEMD128State state)
+	{
+		System.arraycopy(state.state, 0, STATE, 0, 4);
+		length = state.length;
+	}
+	
+	public static final RIPEMD128StateFactory sfactory = new RIPEMD128StateFactory();
+	
+	protected static final class RIPEMD128State extends MerkleState<RIPEMD128State, RIPEMD128>
+	{
+		protected int[] state;
+		protected long length;
+		
+		public RIPEMD128State(byte[] bytes, int pos) 
+		{
+			super(bytes, pos);
+		}
+		
+		public RIPEMD128State(RIPEMD128 rmd) 
+		{
+			super(rmd);
+		}
+
+		public Factory<RIPEMD128State> factory()
+		{
+			return sfactory;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.RIPEMD128STATE;
+		}
+
+		protected void persistCustom(IOutgoingStream os) throws IOException
+		{
+			os.writeInts(state);
+			os.writeLong(length);
+		}
+
+		protected void persistCustom(byte[] bytes, int start)
+		{
+			Bits.intsToBytes(state, 0, bytes, start, 4); start += 16;
+			Bits.longToBytes(length, bytes, start);
+		}
+
+		protected void addCustom(IIncomingStream os) throws IOException
+		{
+			state = os.readInts(4);
+			length = os.readLong();
+		}
+
+		protected void addCustom(byte[] bytes, int start)
+		{
+			state = new int[4];
+			Bits.bytesToInts(bytes, start, state, 0, 4); start += 16;
+			length = Bits.longFromBytes(bytes, start);
+		}
+
+		protected void addCustom(RIPEMD128 hash)
+		{
+			state = ArrayUtil.copy(hash.STATE);
+			length = hash.length;
+		}
+
+		protected void updateCustom(RIPEMD128 hash)
+		{
+			if(state == null)
+				state = ArrayUtil.copy(hash.STATE);
+			else
+				System.arraycopy(hash.STATE, 0, state, 0, 4);
+			length = hash.length;
+		}
+
+		protected void eraseCustom()
+		{
+			Arrays.fill(state, 0);
+			state = null;
+			length = 0;
+		}
+
+		protected boolean compareCustom(RIPEMD128State state)
+		{
+			return state.length == this.length && ArrayUtil.equals(state.state, this.state);
+		}
+
+		protected int customSize()
+		{
+			return 24;
+		}
+		
+	}
+	
+	protected static final class RIPEMD128StateFactory extends MerkleStateFactory<RIPEMD128State, RIPEMD128>
+	{
+
+		protected RIPEMD128StateFactory() 
+		{
+			super(RIPEMD128State.class, 64);
+		}
+
+		protected RIPEMD128State construct(byte[] bytes, int pos)
+		{
+			return new RIPEMD128State(bytes, pos);
+		}
+		
+	}
+	
 }
