@@ -1,11 +1,19 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.MD4.MD4State;
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
+import claire.util.io.Factory;
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
 public class MD4 
-	   extends MerkleHash {
+	   extends MerkleHash<MD4State, MD4> {
 	
 	public MD4() {
 		super(64, 16);
@@ -19,14 +27,16 @@ public class MD4
 	     0x10325476
 	};
 	
-	private final int[] STATE = new int[4];
+	protected final int[] STATE = new int[4];
+	
+	protected long count;
+
 	private final int[] SCRATCHPAD = new int[16];
 	
-	private long count;
-
 	private void reset()
 	{
 		System.arraycopy(CONSTANTS, 0, STATE, 0, 4);
+		count = 0;
 	}
 	
 	public void processNext(byte[] bytes, int pos) 
@@ -129,6 +139,107 @@ public class MD4
 		count = 0;
 		Bits.intsToBytes(STATE, 0, out, start);
 		reset();
+	}
+	
+	public MD4State getState()
+	{
+		return new MD4State(this);
+	}
+
+	public void updateState(MD4State state)
+	{
+		state.update(this);
+	}
+
+	public void loadCustom(MD4State state)
+	{
+		System.arraycopy(state.state, 0, this.STATE, 0, 4);
+		this.count = state.count;
+	}
+	
+	protected static final class MD4State extends MerkleState<MD4State, MD4>
+	{
+		protected int[] state;
+		protected long count;
+		
+		public MD4State(MD4 md4)
+		{
+			super(md4);
+		}
+		
+		public MD4State(byte[] bytes, int pos)
+		{
+			super(bytes, pos);
+		}
+
+		public Factory<MD4State> factory()
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.MD4STATE;
+		}
+
+		protected void persistCustom(IOutgoingStream os) throws IOException
+		{
+			os.writeInts(state);
+			os.writeLong(count);
+		}
+
+		protected void persistCustom(byte[] bytes, int start)
+		{
+			Bits.intsToBytes(state, 0, bytes, start, 4); start += 16;
+			Bits.longToBytes(count, bytes, start);
+		}
+
+		protected void addCustom(IIncomingStream os) throws IOException
+		{
+			state = os.readInts(4);
+			count = os.readLong();
+		}
+
+		protected void addCustom(byte[] bytes, int start)
+		{
+			state = new int[4];
+			Bits.bytesToInts(bytes, start, state, 0, 4); start += 16;
+			count = Bits.longFromBytes(bytes, start);
+		}
+
+		protected void addCustom(MD4 hash)
+		{
+			state = ArrayUtil.copy(hash.STATE);
+			count = hash.count;
+		}
+
+		protected void updateCustom(MD4 hash)
+		{
+			if(state == null)
+				state = ArrayUtil.copy(hash.STATE);
+			else
+				System.arraycopy(hash.STATE, 0, state, 0, 4);
+			this.count = hash.count;
+		}
+
+		protected void eraseCustom()
+		{
+			Arrays.fill(state, 0);
+			state = null;
+			count = 0;
+		}
+
+		protected boolean compareCustom(MD4State state)
+		{
+			return ArrayUtil.equals(state.state, this.state) && this.count == state.count;
+		}
+		
+		protected int customSize()
+		{
+			return 24;
+		}
+		
 	}
     
 }

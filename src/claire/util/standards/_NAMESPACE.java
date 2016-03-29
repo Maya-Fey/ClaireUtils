@@ -85,4 +85,7 @@ public class _NAMESPACE {
 	public static final int CRC16STATE = 74;
 	public static final int CRC32STATE = 75;
 	public static final int MD2STATE = 76;
+	public static final int MD4STATE = 77;
+	public static final int MD5STATE = 78;
+	
 }
