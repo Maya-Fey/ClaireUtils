@@ -89,5 +89,6 @@ public class _NAMESPACE {
 	public static final int MD5STATE = 78;
 	public static final int SHA1STATE = 79;
 	public static final int SHA2_32STATE = 80;
+	public static final int SHA2_64STATE = 81;
 	
 }

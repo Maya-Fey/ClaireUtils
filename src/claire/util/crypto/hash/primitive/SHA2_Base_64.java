@@ -1,12 +1,19 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.SHA2_Base_64.SHA2_64State;
+import claire.util.io.Factory;
 import claire.util.math.counters.LongCounter;
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
-abstract class SHA2_Base_64 
-		 extends MerkleHash {
+abstract class SHA2_Base_64<Hash extends SHA2_Base_64<Hash>> 
+		 extends MerkleHash<SHA2_64State, Hash> {
 	
 	private static final long[] MIX = 
 		{
@@ -158,6 +165,123 @@ abstract class SHA2_Base_64
 		} finally {
 			reset();
 		}
+	}
+	
+	public SHA2_64State getState()
+	{
+		return new SHA2_64State(this);
+	}
+
+	public void updateState(SHA2_64State state)
+	{
+		state.update(this);
+	}
+
+	public void loadCustom(SHA2_64State state)
+	{
+		System.arraycopy(state.counters, 0, this.counters, 0, 2);
+		System.arraycopy(state.state, 0, this.STATE, 0, 8);
+	}
+	
+	public static final SHA2_64StateFactory sfactory = new SHA2_64StateFactory();
+	
+	protected static final class SHA2_64State extends MerkleState<SHA2_64State, SHA2_Base_64<? extends SHA2_Base_64<?>>>
+	{
+
+		protected long[] state;
+		protected long[] counters;
+		
+		public SHA2_64State(SHA2_Base_64<? extends SHA2_Base_64<?>> hash) 
+		{
+			super(hash);
+		}
+		
+		public SHA2_64State(byte[] bytes, int pos)
+		{
+			super(bytes, pos);
+		}
+
+		public Factory<SHA2_64State> factory()
+		{
+			return sfactory;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.SHA2_64STATE;
+		}
+
+		protected void persistCustom(IOutgoingStream os) throws IOException
+		{
+			os.writeLongs(state);
+			os.writeLongs(counters);
+		}
+
+		protected void persistCustom(byte[] bytes, int start)
+		{
+			Bits.longsToBytes(state, 0, bytes, start, 8); start += 64;
+			Bits.longsToBytes(counters, 0, bytes, start, 2);
+		}
+
+		protected void addCustom(IIncomingStream is) throws IOException
+		{
+			state = is.readLongs(8);
+			counters = is.readLongs(2);
+		}
+		
+		protected void addCustom(byte[] bytes, int start)
+		{
+			state = new long[8];
+			counters = new long[2];
+			Bits.bytesToLongs(bytes, start, state, 0, 8); start += 64;
+			Bits.bytesToLongs(bytes, start, counters, 0, 2);
+		}
+
+		protected void addCustom(SHA2_Base_64<? extends SHA2_Base_64<?>> hash)
+		{
+			state = ArrayUtil.copy(hash.STATE);
+			counters = ArrayUtil.copy(hash.counters);
+		}
+
+		protected void updateCustom(SHA2_Base_64<? extends SHA2_Base_64<?>> hash)
+		{
+			System.arraycopy(this.state, 0, hash.STATE, 0, 8);
+			System.arraycopy(this.counters, 0, hash.counters, 0, 2);
+		}
+
+		protected void eraseCustom()
+		{
+			Arrays.fill(state, 0);
+			Arrays.fill(counters, 0);
+			state = null;
+			counters = null;
+		}
+
+		protected boolean compareCustom(SHA2_64State state)
+		{	
+			return ArrayUtil.equals(counters, state.counters) && ArrayUtil.equals(this.state, state.state);
+		}
+
+		protected int customSize()
+		{
+			return 80;
+		}
+		
+	}
+	
+	protected static final class SHA2_64StateFactory extends MerkleStateFactory<SHA2_64State, SHA2_Base_64<? extends SHA2_Base_64<?>>>
+	{
+
+		protected SHA2_64StateFactory() 
+		{
+			super(SHA2_64State.class, 128);
+		}
+
+		protected SHA2_64State construct(byte[] bytes, int pos)
+		{
+			return new SHA2_64State(bytes, pos);
+		}
+		
 	}
 
 }
