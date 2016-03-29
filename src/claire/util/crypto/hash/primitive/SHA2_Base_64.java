@@ -2,6 +2,7 @@ package claire.util.crypto.hash.primitive;
 
 import java.util.Arrays;
 
+import claire.util.math.counters.LongCounter;
 import claire.util.memory.Bits;
 
 abstract class SHA2_Base_64 
@@ -31,10 +32,11 @@ abstract class SHA2_Base_64
 			0x4cc5d4becb3e42b6L, 0x597f299cfc657e2aL, 0x5fcb6fab3ad6faecL, 0x6c44198c4a475817L
 		};
 	
-	protected long c1 = 0, c2 = 0;
-	
+	protected final long[] counters = new long[2];	
 	protected final long[] STATE = new long[8];
 
+	private final LongCounter counter = new LongCounter(counters);
+	
 	public SHA2_Base_64(int out) 
 	{
 		super(128, out);
@@ -73,20 +75,10 @@ abstract class SHA2_Base_64
 	{
 	    return Bits.rotateRight(A, 19) ^ Bits.rotateLeft(A, 3) ^ (A >>> 6);
 	}
-	
-	protected void updateLength(int amt)
-	{
-		c1 += amt;
-		if(c1 >= 0x1FFFFFFFFFFFFFFFL)
-		{
-			c1 &= 0x1FFFFFFFFFFFFFFFL;
-			c2++;
-		}
-	}
 
 	public void processNext(byte[] bytes, int offset)
 	{
-		updateLength(128);
+		counter.add(128);
 		long[] IN = new long[80];
 		Bits.BigEndian.bytesToLongs(bytes, offset, IN, 0, 16);
 		for(int i = 16; i < 80; i++)
@@ -154,19 +146,16 @@ abstract class SHA2_Base_64
 			byte[] bytes = new byte[128];
 			System.arraycopy(remaining, 0, bytes, 0, pos);
 			bytes[pos] = (byte) 0x80;
-			updateLength(pos);
+			counter.add(pos);
 			if(pos >= 112) {
 				processNext(bytes, 0);
-				updateLength(-128);
+				counter.add(-128);
 				Arrays.fill(bytes, (byte) 0);
 			}
-			Bits.BigEndian.longToBytes(c2, bytes, 112);
-			Bits.BigEndian.longToBytes(c1 << 3, bytes, 120);
+			Bits.BigEndian.longsToBytes(counters, 0, bytes, 112, 2);
 			processNext(bytes, 0);
 			complete(out, start);
 		} finally {
-			c1 = 0;
-			c2 = 0;
 			reset();
 		}
 	}
