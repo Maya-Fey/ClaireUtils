@@ -1,9 +1,18 @@
 package claire.util.crypto.hash.primitive;
 
-import claire.util.memory.Bits;
+import java.io.IOException;
+import java.util.Arrays;
 
-abstract class SHA2_Base_32 
-	     extends MerkleHash {
+import claire.util.crypto.hash.primitive.SHA2_Base_32.SHA2_32State;
+import claire.util.io.Factory;
+import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
+
+abstract class SHA2_Base_32<Hash extends SHA2_Base_32<Hash>> 
+	     extends MerkleHash<SHA2_32State, Hash> {
 	
 	private static final int[] MIX =
 		{
@@ -138,6 +147,121 @@ abstract class SHA2_Base_32
 		} finally {
 			reset();
 		}
+	}
+	
+	public SHA2_32State getState()
+	{
+		return new SHA2_32State(this);
+	}
+
+	public void updateState(SHA2_32State state)
+	{
+		state.update(this);
+	}
+
+	public void loadCustom(SHA2_32State state)
+	{
+		this.length = state.length;
+		System.arraycopy(state.state, 0, this.STATE, 0, 8);
+	}
+	
+	public static final SHA2_32StateFactory sfactory = new SHA2_32StateFactory();
+	
+	protected static final class SHA2_32State extends MerkleState<SHA2_32State, SHA2_Base_32<? extends SHA2_Base_32<?>>>
+	{
+
+		protected int[] state;
+		protected long length;
+		
+		public SHA2_32State(SHA2_Base_32<? extends SHA2_Base_32<?>> hash) 
+		{
+			super(hash);
+		}
+		
+		public SHA2_32State(byte[] bytes, int pos)
+		{
+			super(bytes, pos);
+		}
+
+		public Factory<SHA2_32State> factory()
+		{
+			return sfactory;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.SHA2_32STATE;
+		}
+
+		protected void persistCustom(IOutgoingStream os) throws IOException
+		{
+			os.writeInts(state);
+			os.writeLong(length);
+		}
+
+		protected void persistCustom(byte[] bytes, int start)
+		{
+			Bits.intsToBytes(state, 0, bytes, start, 8); start += 32;
+			Bits.longToBytes(length, bytes, start);
+		}
+
+		protected void addCustom(IIncomingStream is) throws IOException
+		{
+			state = is.readInts(8);
+			length = is.readLong();
+		}
+		
+		protected void addCustom(byte[] bytes, int start)
+		{
+			state = new int[8];
+			Bits.bytesToInts(bytes, start, state, 0, 8); start += 32;
+			length = Bits.longFromBytes(bytes, start);
+		}
+
+		protected void addCustom(SHA2_Base_32<? extends SHA2_Base_32<?>> hash)
+		{
+			state = ArrayUtil.copy(hash.STATE);
+			this.length = hash.length;
+		}
+
+		protected void updateCustom(SHA2_Base_32<? extends SHA2_Base_32<?>> hash)
+		{
+			System.arraycopy(this.state, 0, hash.STATE, 0, 8);
+			hash.length = this.length;
+		}
+
+		protected void eraseCustom()
+		{
+			Arrays.fill(state, 0);
+			state = null;
+			length = 0;
+		}
+
+		protected boolean compareCustom(SHA2_32State state)
+		{	
+			return this.length == state.length && ArrayUtil.equals(this.state, state.state);
+		}
+
+		protected int customSize()
+		{
+			return 40;
+		}
+		
+	}
+	
+	protected static final class SHA2_32StateFactory extends MerkleStateFactory<SHA2_32State, SHA2_Base_32<? extends SHA2_Base_32<?>>>
+	{
+
+		protected SHA2_32StateFactory() 
+		{
+			super(SHA2_32State.class, 64);
+		}
+
+		protected SHA2_32State construct(byte[] bytes, int pos)
+		{
+			return new SHA2_32State(bytes, pos);
+		}
+		
 	}
 	
 }
