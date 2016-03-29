@@ -1,9 +1,12 @@
 package claire.util.crypto.hash.primitive;
 
+import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
+import claire.util.standards.IPersistable;
+import claire.util.standards.crypto.IState;
 
-final class SHA2_384 
-	  extends SHA2_Base_64 {
+public final class SHA2_384 
+	  		 extends SHA2_Base_64<SHA2_384> {
 	
 	public SHA2_384() 
 	{
@@ -25,6 +28,24 @@ final class SHA2_384
 	protected void complete(byte[] out, int start)
 	{
 		Bits.BigEndian.longsToBytes(STATE, 0, out, start, 6);
+	}
+	
+	/*
+	 * This isn't actually required, just convenient because IState<?>
+	 * doesn't cast to (T extends extends IPersistable<T> & IUUID<T>)
+	 * so rather than create a special method this was used.
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public static final int test()
+	{
+		SHA2_384 blake = new SHA2_384();
+		byte[] bytes = new byte[1000];
+		RandUtils.fillArr(bytes);
+		blake.add(bytes);
+		IState state = blake.getState();
+		int i = 0;
+		i += IPersistable.test(state);
+		return i;
 	}
 
 }

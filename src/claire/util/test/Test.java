@@ -57,6 +57,7 @@ import claire.util.crypto.hash.primitive.MD5;
 import claire.util.crypto.hash.primitive.SHA1;
 import claire.util.crypto.hash.primitive.SHA2_224;
 import claire.util.crypto.hash.primitive.SHA2_256;
+import claire.util.crypto.hash.primitive.SHA2_384;
 import claire.util.logging.Log;
 import claire.util.math.counters.IntCounter;
 import claire.util.math.counters.LongCounter;
@@ -201,6 +202,8 @@ public class Test {
 		reg += SHA2_224.test();
 		Log.info.println("Testing claire.util.crypto.hash.primitive.SHA2_256");
 		reg += SHA2_256.test();
+		Log.info.println("Testing claire.util.crypto.hash.primitive.SHA2_384");
+		reg += SHA2_384.test();
 		Log.info.println("Testing ../math");
 		Log.info.println("Testing counters");
 		Log.info.println("Testing claire.util.math.counters.IntCounter");
