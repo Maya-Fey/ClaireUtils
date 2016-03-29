@@ -157,6 +157,8 @@ public class MD4
 		this.count = state.count;
 	}
 	
+	public static final MD4StateFactory sfactory = new MD4StateFactory();
+	
 	protected static final class MD4State extends MerkleState<MD4State, MD4>
 	{
 		protected int[] state;
@@ -174,8 +176,7 @@ public class MD4
 
 		public Factory<MD4State> factory()
 		{
-			// TODO Auto-generated method stub
-			return null;
+			return sfactory;
 		}
 
 		public int NAMESPACE()
@@ -238,6 +239,21 @@ public class MD4
 		protected int customSize()
 		{
 			return 24;
+		}
+		
+	}
+	
+	protected static final class MD4StateFactory extends MerkleStateFactory<MD4State, MD4>
+	{
+
+		protected MD4StateFactory()
+		{
+			super(MD4State.class, 64);
+		}
+
+		protected MD4State construct(byte[] bytes, int pos)
+		{
+			return new MD4State(bytes, pos);
 		}
 		
 	}
