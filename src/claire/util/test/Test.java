@@ -52,6 +52,7 @@ import claire.util.crypto.hash.primitive.CRC16;
 import claire.util.crypto.hash.primitive.CRC32;
 import claire.util.crypto.hash.primitive.CRC8;
 import claire.util.crypto.hash.primitive.JH224;
+import claire.util.crypto.hash.primitive.JH256;
 import claire.util.crypto.hash.primitive.MD2;
 import claire.util.crypto.hash.primitive.MD4;
 import claire.util.crypto.hash.primitive.MD5;
@@ -222,6 +223,8 @@ public class Test {
 		reg += RIPEMD320.test();
 		Log.info.println("Testing claire.util.crypto.hash.primitive.JH224");
 		reg += JH224.test();
+		Log.info.println("Testing claire.util.crypto.hash.primitive.JH256");
+		reg += JH256.test();
 		Log.info.println("Testing ../math");
 		Log.info.println("Testing counters");
 		Log.info.println("Testing claire.util.math.counters.IntCounter");
