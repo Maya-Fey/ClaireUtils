@@ -324,6 +324,8 @@ public class WhirlpoolBase<Hash extends WhirlpoolBase<Hash>>
 		{
 			state = new long[8];
 			counters = new long[4];
+			Bits.bytesToLongs(bytes, start, state, 0, 8); start += 64;
+			Bits.bytesToLongs(bytes, start, counters, 0, 4);
 		}
 
 		protected void addCustom(WhirlpoolBase<? extends WhirlpoolBase<?>> hash)

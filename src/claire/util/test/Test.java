@@ -69,6 +69,7 @@ import claire.util.crypto.hash.primitive.SHA2_384;
 import claire.util.crypto.hash.primitive.SHA2_512;
 import claire.util.crypto.hash.primitive.Tiger1;
 import claire.util.crypto.hash.primitive.Tiger2;
+import claire.util.crypto.hash.primitive.Whirlpool;
 import claire.util.logging.Log;
 import claire.util.math.counters.IntCounter;
 import claire.util.math.counters.LongCounter;
@@ -237,6 +238,8 @@ public class Test {
 		reg += Tiger1.test();
 		Log.info.println("Testing claire.util.crypto.hash.primitive.Tiger2");
 		reg += Tiger2.test();
+		Log.info.println("Testing claire.util.crypto.hash.primitive.Whirlpool");
+		reg += Whirlpool.test();
 		Log.info.println("Testing ../math");
 		Log.info.println("Testing counters");
 		Log.info.println("Testing claire.util.math.counters.IntCounter");
