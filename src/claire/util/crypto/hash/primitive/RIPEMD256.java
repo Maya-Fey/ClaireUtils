@@ -1,11 +1,22 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
+import claire.util.crypto.hash.primitive.RIPEMD256.RIPEMD256State;
+import claire.util.crypto.rng.RandUtils;
+import claire.util.io.Factory;
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IPersistable;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IState;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
-final class RIPEMD256 
-	  extends MerkleHash {
+public final class RIPEMD256 
+	  		 extends MerkleHash<RIPEMD256State, RIPEMD256> {
 	
 		private static final int[] PERMUTE = 
 		{
@@ -194,6 +205,141 @@ final class RIPEMD256
 		processNext(bytes, 0);
 		Bits.intsToBytes(STATE, 0, out, start);
 		reset();
+	}
+	
+	public RIPEMD256State getState()
+	{
+		return new RIPEMD256State(this);
+	}
+
+	public void updateState(RIPEMD256State state)
+	{
+		state.update(this);
+	}
+
+	public void loadCustom(RIPEMD256State state)
+	{
+		System.arraycopy(state.state, 0, STATE, 0, 8);
+		length = state.length;
+	}
+	
+	public static final RIPEMD256StateFactory sfactory = new RIPEMD256StateFactory();
+	
+	protected static final class RIPEMD256State extends MerkleState<RIPEMD256State, RIPEMD256>
+	{
+		protected int[] state;
+		protected long length;
+		
+		public RIPEMD256State(byte[] bytes, int pos) 
+		{
+			super(bytes, pos);
+		}
+		
+		public RIPEMD256State(RIPEMD256 rmd) 
+		{
+			super(rmd);
+		}
+
+		public Factory<RIPEMD256State> factory()
+		{
+			return sfactory;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.RIPEMD256STATE;
+		}
+
+		protected void persistCustom(IOutgoingStream os) throws IOException
+		{
+			os.writeInts(state);
+			os.writeLong(length);
+		}
+
+		protected void persistCustom(byte[] bytes, int start)
+		{
+			Bits.intsToBytes(state, 0, bytes, start, 8); start += 32;
+			Bits.longToBytes(length, bytes, start);
+		}
+
+		protected void addCustom(IIncomingStream os) throws IOException
+		{
+			state = os.readInts(8);
+			length = os.readLong();
+		}
+
+		protected void addCustom(byte[] bytes, int start)
+		{
+			state = new int[8];
+			Bits.bytesToInts(bytes, start, state, 0, 8); start += 32;
+			length = Bits.longFromBytes(bytes, start);
+		}
+
+		protected void addCustom(RIPEMD256 hash)
+		{
+			state = ArrayUtil.copy(hash.STATE);
+			length = hash.length;
+		}
+
+		protected void updateCustom(RIPEMD256 hash)
+		{
+			if(state == null)
+				state = ArrayUtil.copy(hash.STATE);
+			else
+				System.arraycopy(hash.STATE, 0, state, 0, 8);
+			length = hash.length;
+		}
+
+		protected void eraseCustom()
+		{
+			Arrays.fill(state, 0);
+			state = null;
+			length = 0;
+		}
+
+		protected boolean compareCustom(RIPEMD256State state)
+		{
+			return state.length == this.length && ArrayUtil.equals(state.state, this.state);
+		}
+
+		protected int customSize()
+		{
+			return 40;
+		}
+		
+	}
+	
+	protected static final class RIPEMD256StateFactory extends MerkleStateFactory<RIPEMD256State, RIPEMD256>
+	{
+
+		protected RIPEMD256StateFactory() 
+		{
+			super(RIPEMD256State.class, 64);
+		}
+
+		protected RIPEMD256State construct(byte[] bytes, int pos)
+		{
+			return new RIPEMD256State(bytes, pos);
+		}
+		
+	}
+	
+	/*
+	 * This isn't actually required, just convenient because IState<?>
+	 * doesn't cast to (T extends extends IPersistable<T> & IUUID<T>)
+	 * so rather than create a special method this was used.
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public static final int test()
+	{
+		RIPEMD256 blake = new RIPEMD256();
+		byte[] bytes = new byte[1000];
+		RandUtils.fillArr(bytes);
+		blake.add(bytes);
+		IState state = blake.getState();
+		int i = 0;
+		i += IPersistable.test(state);
+		return i;
 	}
 
 }
