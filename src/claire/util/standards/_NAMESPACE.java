@@ -95,5 +95,6 @@ public class _NAMESPACE {
 	public static final int RIPEMD256STATE = 84;
 	public static final int RIPEMD320STATE = 85;
 	public static final int JHSTATE = 85;
+	public static final int TIGERSTATE = 86;
 	
 }

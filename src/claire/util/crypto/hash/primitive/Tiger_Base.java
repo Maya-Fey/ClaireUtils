@@ -1,11 +1,17 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.Tiger_Base.TigerState;
+import claire.util.io.Factory;
 import claire.util.memory.Bits;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
-class Tiger_Base 
-extends MerkleHash {
+class Tiger_Base<Hash extends Tiger_Base<Hash>>
+extends MerkleHash<TigerState, Hash> {
 	
 	private static final long[][] SCUBE = 
 	{
@@ -410,6 +416,117 @@ extends MerkleHash {
 		Bits.longToBytes(R2, out, start + 8);
 		Bits.longToBytes(R3, out, start + 16);
 		reset();
+	}
+	
+	public TigerState getState()
+	{
+		return new TigerState(this);
+	}
+
+	public void updateState(TigerState state)
+	{
+		state.update(this);
+	}
+
+	public void loadCustom(TigerState state)
+	{
+		total = state.total;
+		R1 = state.R1;
+		R2 = state.R2;
+		R3 = state.R3;
+	}
+	
+	protected static final class TigerState extends MerkleState<TigerState, Tiger_Base<? extends Tiger_Base<?>>> 
+	{
+		protected long total,
+					   R1,
+					   R2,
+					   R3;
+		
+		public TigerState(byte[] bytes, int pos) 
+		{
+			super(bytes, pos);
+		}
+	
+		public TigerState(Tiger_Base<?> tig) 
+		{
+			super(tig);
+		}
+
+		public Factory<TigerState> factory()
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.TIGERSTATE;
+		}
+
+		protected void persistCustom(IOutgoingStream os) throws IOException
+		{
+			os.writeLong(total);
+			os.writeLong(R1);
+			os.writeLong(R2);
+			os.writeLong(R3);
+		}
+
+		protected void persistCustom(byte[] bytes, int start)
+		{
+			Bits.longToBytes(total, bytes, start); start += 8;
+			Bits.longToBytes(R1, bytes, start); start += 8;
+			Bits.longToBytes(R2, bytes, start); start += 8;
+			Bits.longToBytes(R3, bytes, start); 
+		}
+
+		protected void addCustom(IIncomingStream os) throws IOException
+		{
+			total = os.readLong();
+			R1 = os.readLong();
+			R2 = os.readLong();
+			R3 = os.readLong();
+		}
+
+		protected void addCustom(byte[] bytes, int start)
+		{
+			total = Bits.longFromBytes(bytes, start); start += 8;
+			R1 = Bits.longFromBytes(bytes, start); start += 8;
+			R2 = Bits.longFromBytes(bytes, start); start += 8;
+			R3 = Bits.longFromBytes(bytes, start); 
+		}
+
+		protected void addCustom(Tiger_Base<? extends Tiger_Base<?>> hash)
+		{
+			total = hash.total;
+			R1 = hash.R1;
+			R2 = hash.R2;
+			R3 = hash.R3;
+		}
+
+		protected void updateCustom(Tiger_Base<? extends Tiger_Base<?>> hash)
+		{
+			total = hash.total;
+			R1 = hash.R1;
+			R2 = hash.R2;
+			R3 = hash.R3;
+		}
+
+		protected void eraseCustom()
+		{
+			total = R1 = R2 = R3 = 0;
+		}
+
+		protected boolean compareCustom(TigerState state)
+		{
+			return (total == state.total && R1 == state.R1) && (R2 == state.R2 && R3 == state.R3);
+		}
+
+		protected int customSize()
+		{
+			return 32;
+		}
+
 	}
 
 }
