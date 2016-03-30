@@ -1,31 +1,11 @@
 package claire.util.crypto.hash.primitive;
 
-import claire.util.standards.crypto.IHash;
-
 public class Whirlpool 
-	   extends WhirlpoolBase.WhirlPoolConstants 
-	   implements IHash {
-	
-	private final WhirlpoolBase base;
-	
+	   extends WhirlpoolBase {
+
 	public Whirlpool()
 	{
 		this.base = new WhirlpoolBase(this);
-	}
-	
-	public void add(byte[] bytes, int start, int length)
-	{
-		base.add(bytes, start, length);
-	}
-
-	public void finish(byte[] out, int start)
-	{
-		base.finish(out, start);
-	}
-
-	public int outputLength()
-	{
-		return base.outputLength();
 	}
 
 	private static final long[][] SCUBE = 

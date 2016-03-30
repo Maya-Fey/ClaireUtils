@@ -13,10 +13,10 @@ public class WhirlpoolBase
 	private final long[] STATE;
 	LongCounter counter = new LongCounter(4);
 
-	protected WhirlpoolBase(WhirlPoolConstants con) {
+	protected WhirlpoolBase(long[][] SCUBE, long[] RC) {
 		super(64, 64);
-		this.SCUBE = con.getSCUBE();
-		this.RC = con.getRC();
+		this.SCUBE = SCUBE;
+		this.RC = RC;
 		STATE = new long[8];
 	}
 	
@@ -252,12 +252,6 @@ public class WhirlpoolBase
 		processNext(bytes, 0, false);
 		Bits.longsToBytes(STATE, 0, out, start);
 		this.reset();
-	}
-	
-	abstract static class WhirlPoolConstants
-	{
-		abstract long[][] getSCUBE();
-		abstract long[] getRC();
 	}
 
 }
