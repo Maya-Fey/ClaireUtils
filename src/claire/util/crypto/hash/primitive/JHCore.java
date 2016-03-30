@@ -388,7 +388,7 @@ abstract class JHCore<Hash extends JHCore<Hash>>
 	public void loadCustom(JHState state)
 	{
 		System.arraycopy(state.counters, 0, this.counters, 0, 2);
-		System.arraycopy(state.state, 0, this.STATE, 0, 8);
+		System.arraycopy(state.state, 0, this.STATE, 0, 16);
 	}
 	
 	public static final JHStateFactory sfactory = new JHStateFactory();
@@ -427,21 +427,21 @@ abstract class JHCore<Hash extends JHCore<Hash>>
 
 		protected void persistCustom(byte[] bytes, int start)
 		{
-			Bits.longsToBytes(state, 0, bytes, start, 8); start += 64;
+			Bits.longsToBytes(state, 0, bytes, start, 16); start += 128;
 			Bits.longsToBytes(counters, 0, bytes, start, 2);
 		}
 
 		protected void addCustom(IIncomingStream is) throws IOException
 		{
-			state = is.readLongs(8);
+			state = is.readLongs(16);
 			counters = is.readLongs(2);
 		}
 		
 		protected void addCustom(byte[] bytes, int start)
 		{
-			state = new long[8];
+			state = new long[16];
 			counters = new long[2];
-			Bits.bytesToLongs(bytes, start, state, 0, 8); start += 64;
+			Bits.bytesToLongs(bytes, start, state, 0, 16); start += 128;
 			Bits.bytesToLongs(bytes, start, counters, 0, 2);
 		}
 
@@ -453,7 +453,7 @@ abstract class JHCore<Hash extends JHCore<Hash>>
 
 		protected void updateCustom(JHCore<? extends JHCore<?>> hash)
 		{
-			System.arraycopy(this.state, 0, hash.STATE, 0, 8);
+			System.arraycopy(this.state, 0, hash.STATE, 0, 16);
 			System.arraycopy(this.counters, 0, hash.counters, 0, 2);
 		}
 
@@ -472,7 +472,7 @@ abstract class JHCore<Hash extends JHCore<Hash>>
 
 		protected int customSize()
 		{
-			return 80;
+			return 144;
 		}
 		
 	}
