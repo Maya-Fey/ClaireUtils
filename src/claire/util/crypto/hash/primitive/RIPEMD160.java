@@ -364,7 +364,7 @@ public final class RIPEMD160
 
 		protected void addCustom(byte[] bytes, int start)
 		{
-			state = new int[4];
+			state = new int[5];
 			Bits.bytesToInts(bytes, start, state, 0, 5); start += 20;
 			length = Bits.longFromBytes(bytes, start);
 		}
