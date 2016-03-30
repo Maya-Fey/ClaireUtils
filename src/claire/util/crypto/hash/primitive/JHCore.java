@@ -1,12 +1,19 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.JHCore.JHState;
+import claire.util.io.Factory;
 import claire.util.math.counters.LongCounter;
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
-abstract class JHCore
-		 extends MerkleHash {
+abstract class JHCore<Hash extends JHCore<Hash>>
+		 extends MerkleHash<JHState, Hash> {
 	
 	private static final long[] K = 
 	{
@@ -366,6 +373,123 @@ abstract class JHCore
 		processNext(remaining, 0);
 		output(out, start);
 		reset();
+	}
+	
+	public JHState getState()
+	{
+		return new JHState(this);
+	}
+
+	public void updateState(JHState state)
+	{
+		state.update(this);
+	}
+
+	public void loadCustom(JHState state)
+	{
+		System.arraycopy(state.counters, 0, this.counters, 0, 2);
+		System.arraycopy(state.state, 0, this.STATE, 0, 8);
+	}
+	
+	public static final JHStateFactory sfactory = new JHStateFactory();
+	
+	protected static final class JHState extends MerkleState<JHState, JHCore<? extends JHCore<?>>>
+	{
+
+		protected long[] state;
+		protected long[] counters;
+		
+		public JHState(JHCore<? extends JHCore<?>> hash) 
+		{
+			super(hash);
+		}
+		
+		public JHState(byte[] bytes, int pos)
+		{
+			super(bytes, pos);
+		}
+
+		public Factory<JHState> factory()
+		{
+			return sfactory;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.JHSTATE;
+		}
+
+		protected void persistCustom(IOutgoingStream os) throws IOException
+		{
+			os.writeLongs(state);
+			os.writeLongs(counters);
+		}
+
+		protected void persistCustom(byte[] bytes, int start)
+		{
+			Bits.longsToBytes(state, 0, bytes, start, 8); start += 64;
+			Bits.longsToBytes(counters, 0, bytes, start, 2);
+		}
+
+		protected void addCustom(IIncomingStream is) throws IOException
+		{
+			state = is.readLongs(8);
+			counters = is.readLongs(2);
+		}
+		
+		protected void addCustom(byte[] bytes, int start)
+		{
+			state = new long[8];
+			counters = new long[2];
+			Bits.bytesToLongs(bytes, start, state, 0, 8); start += 64;
+			Bits.bytesToLongs(bytes, start, counters, 0, 2);
+		}
+
+		protected void addCustom(JHCore<? extends JHCore<?>> hash)
+		{
+			state = ArrayUtil.copy(hash.STATE);
+			counters = ArrayUtil.copy(hash.counters);
+		}
+
+		protected void updateCustom(JHCore<? extends JHCore<?>> hash)
+		{
+			System.arraycopy(this.state, 0, hash.STATE, 0, 8);
+			System.arraycopy(this.counters, 0, hash.counters, 0, 2);
+		}
+
+		protected void eraseCustom()
+		{
+			Arrays.fill(state, 0);
+			Arrays.fill(counters, 0);
+			state = null;
+			counters = null;
+		}
+
+		protected boolean compareCustom(JHState state)
+		{	
+			return ArrayUtil.equals(counters, state.counters) && ArrayUtil.equals(this.state, state.state);
+		}
+
+		protected int customSize()
+		{
+			return 80;
+		}
+		
+	}
+	
+	protected static final class JHStateFactory extends MerkleStateFactory<JHState, JHCore<? extends JHCore<?>>>
+	{
+
+		protected JHStateFactory() 
+		{
+			super(JHState.class, 64);
+		}
+
+		protected JHState construct(byte[] bytes, int pos)
+		{
+			return new JHState(bytes, pos);
+		}
+		
 	}
 
 }
