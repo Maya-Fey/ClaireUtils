@@ -1,7 +1,11 @@
 package claire.util.crypto.hash.primitive;
 
+import claire.util.crypto.rng.RandUtils;
+import claire.util.standards.IPersistable;
+import claire.util.standards.crypto.IState;
+
 public class Whirlpool_T 
-	   extends WhirlpoolBase {
+	   extends WhirlpoolBase<Whirlpool_T> {
 
 	public Whirlpool_T()
 	{
@@ -1066,14 +1070,22 @@ public class Whirlpool_T
 		0x33835aad07bf2dcaL
 	};
 	
-	long[][] getSCUBE()
+	/*
+	 * This isn't actually required, just convenient because IState<?>
+	 * doesn't cast to (T extends extends IPersistable<T> & IUUID<T>)
+	 * so rather than create a special method this was used.
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public static final int test()
 	{
-	return SCUBE;
-	}
-
-	long[] getRC()
-	{
-	return RC;
+		Whirlpool_T blake = new Whirlpool_T();
+		byte[] bytes = new byte[1000];
+		RandUtils.fillArr(bytes);
+		blake.add(bytes);
+		IState state = blake.getState();
+		int i = 0;
+		i += IPersistable.test(state);
+		return i;
 	}
 	
 }
