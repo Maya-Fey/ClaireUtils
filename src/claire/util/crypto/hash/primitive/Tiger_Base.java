@@ -436,6 +436,8 @@ extends MerkleHash<TigerState, Hash> {
 		R3 = state.R3;
 	}
 	
+	public static final TigerStateFactory sfactory = new TigerStateFactory();
+	
 	protected static final class TigerState extends MerkleState<TigerState, Tiger_Base<? extends Tiger_Base<?>>> 
 	{
 		protected long total,
@@ -455,8 +457,7 @@ extends MerkleHash<TigerState, Hash> {
 
 		public Factory<TigerState> factory()
 		{
-			// TODO Auto-generated method stub
-			return null;
+			return sfactory;
 		}
 
 		public int NAMESPACE()
@@ -527,6 +528,21 @@ extends MerkleHash<TigerState, Hash> {
 			return 32;
 		}
 
+	}
+	
+	protected static final class TigerStateFactory extends MerkleStateFactory<TigerState, Tiger_Base<? extends Tiger_Base<?>>>
+	{
+
+		protected TigerStateFactory() 
+		{
+			super(TigerState.class, 64);
+		}
+
+		protected TigerState construct(byte[] bytes, int pos)
+		{
+			return new TigerState(bytes, pos);
+		}
+		
 	}
 
 }
