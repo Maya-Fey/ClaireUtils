@@ -1,23 +1,32 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.WhirlpoolBase.WhirlpoolState;
+import claire.util.io.Factory;
 import claire.util.math.counters.LongCounter;
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
-public class WhirlpoolBase 
-	   extends MerkleHash {
+public class WhirlpoolBase<Hash extends WhirlpoolBase<Hash>> 
+	   extends MerkleHash<WhirlpoolState, Hash> {
 	
 	private final long[][] SCUBE;
 	private final long[] RC;
-	private final long[] STATE;
-	LongCounter counter = new LongCounter(4);
+	private final long[] IN = new long[8];
+	
+	protected final long[] STATE = new long[8];
+	protected final long[] counters = new long[4];
+	LongCounter counter = new LongCounter(counters);
 
 	protected WhirlpoolBase(long[][] SCUBE, long[] RC) {
 		super(64, 64);
 		this.SCUBE = SCUBE;
 		this.RC = RC;
-		STATE = new long[8];
 	}
 	
 	private void reset()
@@ -30,9 +39,6 @@ public class WhirlpoolBase
 	{
 		processNext(bytes, offset, true);
 	}
-	
-	//Avoid memory allocation + GC overhead
-	private final long[] IN = new long[8];
 	
 	public void processNext(byte[] bytes, int offset, boolean add)
 	{
@@ -244,14 +250,132 @@ public class WhirlpoolBase
 			processNext(bytes, 0, false);
 			Arrays.fill(bytes, (byte) 0);
 		}
-		long[] count = counter.getLongs();
-		Bits.BigEndian.longToBytes(count[3], bytes, 32);
-		Bits.BigEndian.longToBytes(count[2], bytes, 40);
-		Bits.BigEndian.longToBytes(count[1], bytes, 48);
-		Bits.BigEndian.longToBytes(count[0], bytes, 56);
+		Bits.BigEndian.longToBytes(counters[3], bytes, 32);
+		Bits.BigEndian.longToBytes(counters[2], bytes, 40);
+		Bits.BigEndian.longToBytes(counters[1], bytes, 48);
+		Bits.BigEndian.longToBytes(counters[0], bytes, 56);
 		processNext(bytes, 0, false);
 		Bits.longsToBytes(STATE, 0, out, start);
 		this.reset();
 	}
+	
+	public WhirlpoolState getState()
+	{
+		return new WhirlpoolState(this);
+	}
 
+	public void updateState(WhirlpoolState state)
+	{
+		state.update(this);
+	}
+
+	public void loadCustom(WhirlpoolState state)
+	{
+		System.arraycopy(state.state, 0, this.STATE, 0, 8);
+		System.arraycopy(state.counters, 0, this.counters, 0, 4);
+	}
+	
+	public static final WhirlpoolStateFactory sfactory = new WhirlpoolStateFactory();
+	
+	protected static final class WhirlpoolState extends MerkleState<WhirlpoolState, WhirlpoolBase<? extends WhirlpoolBase<?>>>
+	{
+		protected long[] state;
+		protected long[] counters;
+		
+		public WhirlpoolState(byte[] bytes, int pos) 
+		{
+			super(bytes, pos);
+		}
+		
+		public WhirlpoolState(WhirlpoolBase<?> wp) 
+		{
+			super(wp);
+		}
+
+		public Factory<WhirlpoolState> factory()
+		{
+			return sfactory;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.WHIRLPOOLSTATE;
+		}
+
+		protected void persistCustom(IOutgoingStream os) throws IOException
+		{
+			os.writeLongs(state);
+			os.writeLongs(counters);
+		}
+
+		protected void persistCustom(byte[] bytes, int start)
+		{
+			Bits.longsToBytes(state, 0, bytes, start, 8); start += 64;
+			Bits.longsToBytes(counters, 0, bytes, start, 4);
+		}
+
+		protected void addCustom(IIncomingStream os) throws IOException
+		{
+			this.state = os.readLongs(8);
+			this.counters = os.readLongs(4);
+		}
+
+		protected void addCustom(byte[] bytes, int start)
+		{
+			state = new long[8];
+			counters = new long[4];
+		}
+
+		protected void addCustom(WhirlpoolBase<? extends WhirlpoolBase<?>> hash)
+		{
+			state = ArrayUtil.copy(hash.STATE);
+			counters = ArrayUtil.copy(hash.counters);
+		}
+
+		protected void updateCustom(WhirlpoolBase<? extends WhirlpoolBase<?>> hash)
+		{
+			if(state == null)
+				state = ArrayUtil.copy(hash.STATE);
+			else
+				System.arraycopy(hash.STATE, 0, state, 0, 8);
+			if(counters == null)
+				counters = ArrayUtil.copy(hash.counters);
+			else
+				System.arraycopy(hash.counters, 0, counters, 0, 8);
+		}
+
+		protected void eraseCustom()
+		{
+			Arrays.fill(state, 0);
+			Arrays.fill(counters, 0);
+			state = counters = null;
+		}
+
+		protected boolean compareCustom(WhirlpoolState state)
+		{
+			return ArrayUtil.equals(state.state, this.state) && ArrayUtil.equals(state.counters, counters);
+		}
+
+		protected int customSize()
+		{
+			return 96;
+		}
+		
+	}
+	
+	protected static final class WhirlpoolStateFactory extends MerkleStateFactory<WhirlpoolState, WhirlpoolBase<? extends WhirlpoolBase<?>>>
+	{
+
+		protected WhirlpoolStateFactory() 
+		{
+			super(WhirlpoolState.class, 64);
+		}
+		
+		public WhirlpoolState construct(byte[] bytes, int start)
+		{
+			return new WhirlpoolState(bytes, start);
+		}
+		
+	}
+	
 }
