@@ -43,7 +43,7 @@ public class JH256
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public static final int test()
 	{
-		JH224 blake = new JH224();
+		JH256 blake = new JH256();
 		byte[] bytes = new byte[1000];
 		RandUtils.fillArr(bytes);
 		blake.add(bytes);
