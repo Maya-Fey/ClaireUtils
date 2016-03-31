@@ -253,6 +253,8 @@ public class Test {
 		reg += Grostl224.test();
 		Log.info.println("Testing claire.util.crypto.hash.primitive.Grostl256");
 		reg += Grostl256.test();
+		Log.info.println("Testing claire.util.crypto.hash.primitive.Grostl384");
+		reg += Grostl384.test();
 		Log.info.println("Testing ../math");
 		Log.info.println("Testing counters");
 		Log.info.println("Testing claire.util.math.counters.IntCounter");
