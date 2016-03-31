@@ -1,17 +1,24 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.Grostl_Base_32.Grostl32State;
+import claire.util.io.Factory;
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
-abstract class Grostl_Base_32 
-		 extends GrostlCore {
+abstract class Grostl_Base_32<Hash extends Grostl_Base_32<Hash>> 
+		 extends GrostlCore<Grostl32State, Hash> {
 	
 	protected final long[] A = new long[8],
 					       B = new long[8],
 					       C = new long[8];
 	
-	private long total;
+	protected long total;
 
 	public Grostl_Base_32(int out) 
 	{
@@ -363,6 +370,149 @@ abstract class Grostl_Base_32
 		P1();
 		output(out, start);
 		reset();
+	}
+	
+	public Grostl32State getState()
+	{
+		return new Grostl32State(this);
+	}
+
+	public void updateState(Grostl32State state)
+	{
+		state.update(this);
+	}
+
+	public void loadCustom(Grostl32State state)
+	{
+		System.arraycopy(state.A, 0, this.A, 0, 8);
+		System.arraycopy(state.B, 0, this.B, 0, 8);
+		System.arraycopy(state.C, 0, this.C, 0, 8);
+	}
+	
+	public static final Grostl32StateFactory sfactory = new Grostl32StateFactory();
+	
+	protected static final class Grostl32State extends MerkleState<Grostl32State, Grostl_Base_32<? extends Grostl_Base_32<?>>>
+	{
+		protected long[] A,
+						 B,
+						 C;
+		
+		protected long total;
+		
+		public Grostl32State(byte[] bytes, int pos) 
+		{
+			super(bytes, pos);
+		}
+		
+		public Grostl32State(Grostl_Base_32<?> stl) 
+		{
+			super(stl);
+		}
+
+		public Factory<Grostl32State> factory()
+		{
+			return sfactory;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.GROSTL32STATE;
+		}
+
+		protected void persistCustom(IOutgoingStream os) throws IOException
+		{
+			os.writeLongs(A);
+			os.writeLongs(B);
+			os.writeLongs(C);
+			os.writeLong(total);
+		}
+
+		protected void persistCustom(byte[] bytes, int start)
+		{
+			Bits.longsToBytes(A, 0, bytes, start, 8); start += 64;
+			Bits.longsToBytes(B, 0, bytes, start, 8); start += 64;
+			Bits.longsToBytes(C, 0, bytes, start, 8); start += 64;
+			Bits.longToBytes(total, bytes, start);
+		}
+
+		protected void addCustom(IIncomingStream os) throws IOException
+		{
+			A = os.readLongs(8);
+			B = os.readLongs(8);
+			C = os.readLongs(8);
+			total = os.readLong();
+		}
+
+		protected void addCustom(byte[] bytes, int start)
+		{
+			A = new long[8];
+			B = new long[8];
+			C = new long[8];
+			Bits.bytesToLongs(bytes, start, A, 0, 8); start += 64;
+			Bits.bytesToLongs(bytes, start, B, 0, 8); start += 64;
+			Bits.bytesToLongs(bytes, start, C, 0, 8); start += 64;
+			total = Bits.longFromBytes(bytes, start);
+		}
+
+		protected void addCustom(Grostl_Base_32<? extends Grostl_Base_32<?>> hash)
+		{
+			A = ArrayUtil.copy(hash.A);
+			B = ArrayUtil.copy(hash.B);
+			C = ArrayUtil.copy(hash.C);
+			total = hash.total;
+		}
+
+		protected void updateCustom(Grostl_Base_32<? extends Grostl_Base_32<?>> hash)
+		{
+			if(A == null)
+				A = ArrayUtil.copy(hash.A);
+			else
+				System.arraycopy(hash.A, 0, A, 0, 8);
+			if(B == null)
+				B = ArrayUtil.copy(hash.B);
+			else
+				System.arraycopy(hash.B, 0, B, 0, 8);
+			if(C == null)
+				C = ArrayUtil.copy(hash.C);
+			else
+				System.arraycopy(hash.C, 0, C, 0, 8);
+			total = hash.total;
+		}
+
+		protected void eraseCustom()
+		{
+			total = 0;
+			Arrays.fill(A, 0);
+			Arrays.fill(B, 0);
+			Arrays.fill(C, 0);
+			A = B = C = null;
+		}
+
+		protected boolean compareCustom(Grostl32State state)
+		{
+			return (state.total == total && ArrayUtil.equals(A, state.A)) && (ArrayUtil.equals(B, state.B) && ArrayUtil.equals(C, state.C));
+		}
+
+		protected int customSize()
+		{
+			return 200;
+		}
+		
+	}
+	
+	protected static final class Grostl32StateFactory extends MerkleStateFactory<Grostl32State, Grostl_Base_32<? extends Grostl_Base_32<?>>>
+	{
+
+		protected Grostl32StateFactory() 
+		{
+			super(Grostl32State.class, 64);
+		}
+
+		protected Grostl32State construct(byte[] bytes, int pos)
+		{
+			return new Grostl32State(bytes, pos);
+		}
+		
 	}
 
 }

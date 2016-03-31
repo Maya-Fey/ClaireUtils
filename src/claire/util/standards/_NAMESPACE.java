@@ -97,5 +97,7 @@ public class _NAMESPACE {
 	public static final int JHSTATE = 85;
 	public static final int TIGERSTATE = 86;
 	public static final int WHIRLPOOLSTATE = 87;
+	public static final int GROSTL32STATE = 88;
+	public static final int GROSTL64STATE = 89;
 	
 }

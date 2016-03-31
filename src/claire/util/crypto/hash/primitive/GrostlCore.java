@@ -1,8 +1,10 @@
 package claire.util.crypto.hash.primitive;
 
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.memory.Bits;
 
-abstract class GrostlCore extends MerkleHash {
+abstract class GrostlCore<State extends MerkleState<State, ?>, Hash extends GrostlCore<State, Hash>>
+		 extends MerkleHash<State, Hash> {
 	
 	protected static final long[][] PCUBE = 
 	{
