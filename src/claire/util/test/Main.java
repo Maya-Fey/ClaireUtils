@@ -19,8 +19,14 @@ public final class Main {
 	@SuppressWarnings("all")
 	private static final void end()
 	{
-		System.out.flush();
+		System.out.print((char) 0);
+		System.err.print((char) 0);
 		System.err.flush();
+		System.out.flush();
+		System.out.print((char) 0);
+		System.err.print((char) 0);
+		System.err.flush();
+		System.out.flush();
 		throw new java.lang.NullPointerException();
 	}
 	

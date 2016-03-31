@@ -5,10 +5,13 @@ import java.util.Arrays;
 
 import claire.util.crypto.hash.primitive.HAVAL.HAVALState;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
+import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IState;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -811,13 +814,31 @@ public class HAVAL
 	{
 		public HAVALStateFactory()
 		{
-			super(HAVALState.class, 64);
+			super(HAVALState.class, 128);
 		}
 		
 		public HAVALState construct(byte[] bytes, int pos)
 		{
 			return new HAVALState(bytes, pos);
 		}
+	}
+	
+	/*
+	 * This isn't actually required, just convenient because IState<?>
+	 * doesn't cast to (T extends extends IPersistable<T> & IUUID<T>)
+	 * so rather than create a special method this was used.
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public static final int test()
+	{
+		HAVAL blake = new HAVAL(8, 5);
+		byte[] bytes = new byte[1000];
+		RandUtils.fillArr(bytes);
+		blake.add(bytes);
+		IState state = blake.getState();
+		int i = 0;
+		i += IPersistable.test(state);
+		return i;
 	}
 	
 }
