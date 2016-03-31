@@ -1,11 +1,19 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.HAVAL.HAVALState;
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
+import claire.util.io.Factory;
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
 public class HAVAL 
-	   extends MerkleHash {
+	   extends MerkleHash<HAVALState, HAVAL> {
 	
 	private static final int[][] KCUBE = 
 	{
@@ -81,10 +89,10 @@ public class HAVAL
 
 	private final int out, rounds;
 	
-	private final int[] STATE = new int[8];
 	private final int[] IN = new int[32];
 	
-	private long counter = 0;
+	protected final int[] STATE = new int[8];
+	protected long counter = 0;
 	
 	public HAVAL(int out, int passes) {
 		super(128, evalOut(out) << 2);
@@ -696,6 +704,120 @@ public class HAVAL
 		processNext(bytes, 0, false);
 		out(out, start);
 		reset();
+	}
+	
+	public HAVALState getState()
+	{
+		return new HAVALState(this);
+	}
+
+	public void updateState(HAVALState state)
+	{
+		state.update(this);
+	}
+
+	public void loadCustom(HAVALState state)
+	{
+		System.arraycopy(state.state, 0, STATE, 0, 8);
+		counter = state.counter;
+	}
+	
+	public static final HAVALStateFactory sfactory = new HAVALStateFactory();
+	
+	protected static final class HAVALState extends MerkleState<HAVALState, HAVAL>
+	{
+		protected int[] state;
+		protected long counter;
+		
+		public HAVALState(byte[] bytes, int start)
+		{
+			super(bytes, start);
+		}
+		
+		public HAVALState(HAVAL hl)
+		{
+			super(hl);
+		}
+
+		public Factory<HAVALState> factory()
+		{
+			return sfactory;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.HAVALSTATE;
+		}
+
+		protected void persistCustom(IOutgoingStream os) throws IOException
+		{
+			os.writeInts(state);
+			os.writeLong(counter);
+		}
+
+		protected void persistCustom(byte[] bytes, int start)
+		{
+			Bits.intsToBytes(state, 0, bytes, start, 8); start += 32;
+			Bits.longToBytes(counter, bytes, start);
+		}
+
+		protected void addCustom(IIncomingStream os) throws IOException
+		{
+			state = os.readInts(8);
+			counter = os.readLong();
+		}
+
+		protected void addCustom(byte[] bytes, int start)
+		{
+			state = new int[8];
+			Bits.bytesToInts(bytes, start, state, 0, 8); start += 32;
+			counter = Bits.longFromBytes(bytes, start);
+		}
+
+		protected void addCustom(HAVAL hash)
+		{
+			state = ArrayUtil.copy(hash.STATE);
+			counter = hash.counter;
+		}
+
+		protected void updateCustom(HAVAL hash)
+		{
+			if(state == null)
+				state = ArrayUtil.copy(hash.STATE);
+			else
+				System.arraycopy(hash.STATE, 0, state, 0, 8);
+			counter = hash.counter;
+		}
+
+		protected void eraseCustom()
+		{
+			Arrays.fill(state, 0);
+			state = null;
+			counter = 0;
+		}
+
+		protected boolean compareCustom(HAVALState state)
+		{
+			return counter == state.counter && ArrayUtil.equals(state.state, this.state);
+		}
+
+		protected int customSize()
+		{
+			return 40;
+		}
+	}
+	
+	protected static final class HAVALStateFactory extends MerkleStateFactory<HAVALState, HAVAL>
+	{
+		public HAVALStateFactory()
+		{
+			super(HAVALState.class, 64);
+		}
+		
+		public HAVALState construct(byte[] bytes, int pos)
+		{
+			return new HAVALState(bytes, pos);
+		}
 	}
 	
 }

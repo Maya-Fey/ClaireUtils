@@ -99,5 +99,6 @@ public class _NAMESPACE {
 	public static final int WHIRLPOOLSTATE = 87;
 	public static final int GROSTL32STATE = 88;
 	public static final int GROSTL64STATE = 89;
+	public static final int HAVALSTATE = 90;
 	
 }
