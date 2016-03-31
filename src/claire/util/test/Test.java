@@ -72,6 +72,7 @@ import claire.util.crypto.hash.primitive.SHA2_224;
 import claire.util.crypto.hash.primitive.SHA2_256;
 import claire.util.crypto.hash.primitive.SHA2_384;
 import claire.util.crypto.hash.primitive.SHA2_512;
+import claire.util.crypto.hash.primitive.SHAvite224;
 import claire.util.crypto.hash.primitive.Tiger1;
 import claire.util.crypto.hash.primitive.Tiger2;
 import claire.util.crypto.hash.primitive.Whirlpool;
@@ -261,6 +262,8 @@ public class Test {
 		reg += Grostl512.test();
 		Log.info.println("Testing claire.util.crypto.hash.primitive.HAVAL");
 		reg += HAVAL.test();
+		Log.info.println("Testing claire.util.crypto.hash.primitive.SHAvite224");
+		reg += SHAvite224.test();
 		Log.info.println("Testing ../math");
 		Log.info.println("Testing counters");
 		Log.info.println("Testing claire.util.math.counters.IntCounter");
