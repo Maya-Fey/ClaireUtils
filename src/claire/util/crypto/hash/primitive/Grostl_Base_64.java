@@ -1,11 +1,18 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.Grostl_Base_64.Grostl64State;
+import claire.util.io.Factory;
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
-abstract class Grostl_Base_64 
-		 extends GrostlCore {
+abstract class Grostl_Base_64<Hash extends Grostl_Base_64<Hash>> 
+		 extends GrostlCore<Grostl64State, Hash> {
 	
 	protected final long[] A = new long[16],
 		       			   B = new long[16],
@@ -396,5 +403,149 @@ abstract class Grostl_Base_64
 		output(out, start);
 		reset();
 	}
+	
+	public Grostl64State getState()
+	{
+		return new Grostl64State(this);
+	}
+
+	public void updateState(Grostl64State state)
+	{
+		state.update(this);
+	}
+
+	public void loadCustom(Grostl64State state)
+	{
+		System.arraycopy(state.A, 0, this.A, 0, 16);
+		System.arraycopy(state.B, 0, this.B, 0, 16);
+		System.arraycopy(state.C, 0, this.C, 0, 16);
+	}
+	
+	public static final Grostl64StateFactory sfactory = new Grostl64StateFactory();
+	
+	protected static final class Grostl64State extends MerkleState<Grostl64State, Grostl_Base_64<? extends Grostl_Base_64<?>>>
+	{
+		protected long[] A,
+						 B,
+						 C;
+		
+		protected long total;
+		
+		public Grostl64State(byte[] bytes, int pos) 
+		{
+			super(bytes, pos);
+		}
+		
+		public Grostl64State(Grostl_Base_64<?> stl) 
+		{
+			super(stl);
+		}
+
+		public Factory<Grostl64State> factory()
+		{
+			return sfactory;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.GROSTL64STATE;
+		}
+
+		protected void persistCustom(IOutgoingStream os) throws IOException
+		{
+			os.writeLongs(A);
+			os.writeLongs(B);
+			os.writeLongs(C);
+			os.writeLong(total);
+		}
+
+		protected void persistCustom(byte[] bytes, int start)
+		{
+			Bits.longsToBytes(A, 0, bytes, start, 16); start += 128;
+			Bits.longsToBytes(B, 0, bytes, start, 16); start += 128;
+			Bits.longsToBytes(C, 0, bytes, start, 16); start += 128;
+			Bits.longToBytes(total, bytes, start);
+		}
+
+		protected void addCustom(IIncomingStream os) throws IOException
+		{
+			A = os.readLongs(16);
+			B = os.readLongs(16);
+			C = os.readLongs(16);
+			total = os.readLong();
+		}
+
+		protected void addCustom(byte[] bytes, int start)
+		{
+			A = new long[16];
+			B = new long[16];
+			C = new long[16];
+			Bits.bytesToLongs(bytes, start, A, 0, 16); start += 128;
+			Bits.bytesToLongs(bytes, start, B, 0, 16); start += 128;
+			Bits.bytesToLongs(bytes, start, C, 0, 16); start += 128;
+			total = Bits.longFromBytes(bytes, start);
+		}
+
+		protected void addCustom(Grostl_Base_64<? extends Grostl_Base_64<?>> hash)
+		{
+			A = ArrayUtil.copy(hash.A);
+			B = ArrayUtil.copy(hash.B);
+			C = ArrayUtil.copy(hash.C);
+			total = hash.total;
+		}
+
+		protected void updateCustom(Grostl_Base_64<? extends Grostl_Base_64<?>> hash)
+		{
+			if(A == null)
+				A = ArrayUtil.copy(hash.A);
+			else
+				System.arraycopy(hash.A, 0, A, 0, 16);
+			if(B == null)
+				B = ArrayUtil.copy(hash.B);
+			else
+				System.arraycopy(hash.B, 0, B, 0, 16);
+			if(C == null)
+				C = ArrayUtil.copy(hash.C);
+			else
+				System.arraycopy(hash.C, 0, C, 0, 16);
+			total = hash.total;
+		}
+
+		protected void eraseCustom()
+		{
+			total = 0;
+			Arrays.fill(A, 0);
+			Arrays.fill(B, 0);
+			Arrays.fill(C, 0);
+			A = B = C = null;
+		}
+
+		protected boolean compareCustom(Grostl64State state)
+		{
+			return (state.total == total && ArrayUtil.equals(A, state.A)) && (ArrayUtil.equals(B, state.B) && ArrayUtil.equals(C, state.C));
+		}
+
+		protected int customSize()
+		{
+			return 392;
+		}
+		
+	}
+	
+	protected static final class Grostl64StateFactory extends MerkleStateFactory<Grostl64State, Grostl_Base_64<? extends Grostl_Base_64<?>>>
+	{
+
+		protected Grostl64StateFactory() 
+		{
+			super(Grostl64State.class, 128);
+		}
+
+		protected Grostl64State construct(byte[] bytes, int pos)
+		{
+			return new Grostl64State(bytes, pos);
+		}
+		
+	}
+
 
 }
