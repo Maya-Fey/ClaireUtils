@@ -1,5 +1,9 @@
 package claire.util.standards.crypto;
 
+import claire.util.crypto.rng.RandUtils;
+import claire.util.logging.Log;
+import claire.util.memory.util.ArrayUtil;
+
 public interface IHash<State extends IState<State>> {
 	
 	void add(byte[] bytes, int start, int length);
@@ -11,6 +15,8 @@ public interface IHash<State extends IState<State>> {
 	State getState();
 	void loadState(State state);
 	void updateState(State state);
+	
+	void reset();
 	
 	default void add(byte[] bytes)
 	{
@@ -58,6 +64,60 @@ public interface IHash<State extends IState<State>> {
 		byte[] out = new byte[this.outputLength()];
 		hash(in, 0, out, 0);
 		return out;
+	}
+	
+	public static <State extends IState<State>>int test(IHash<State> hash)
+	{
+		int e = 0;
+		try {
+			byte[] bytes = new byte[500];
+			byte[] h1 = new byte[hash.outputLength()];
+			byte[] h2 = new byte[hash.outputLength()];
+			RandUtils.fillArr(bytes);
+			hash.add(bytes);
+			hash.finish(h1, 0);
+			hash.add(bytes);
+			hash.finish(h2, 0);
+			if(!ArrayUtil.equals(h1, h2)) {
+				Log.err.println("Finish did not properly reset the hash.");
+				e++;
+			}
+			hash.add(bytes);
+			hash.reset();
+			hash.add(bytes);
+			hash.finish(h2, 0);
+			if(!ArrayUtil.equals(h1, h2)) {
+				Log.err.println("Reset did not properly reset the hash.");
+				e++;
+			}
+			hash.add(bytes);
+			State state = hash.getState();
+			hash.add(bytes);
+			hash.finish(h1, 0);
+			hash.loadState(state);
+			hash.add(bytes);
+			hash.finish(h2, 0);
+			if(!ArrayUtil.equals(h1, h2)) {
+				Log.err.println("State does not properly load");
+				e++;
+			}
+			hash.add(bytes); hash.add(bytes);
+			hash.updateState(state);
+			hash.add(bytes);
+			hash.finish(h1, 0);
+			hash.loadState(state);
+			hash.add(bytes);
+			hash.finish(h2, 0);
+			if(!ArrayUtil.equals(h1, h2)) {
+				Log.err.println("State does not properly update");
+				e++;
+			}
+		} catch(Exception ex) {
+			Log.err.println("An unexpected " + ex.getClass().getSimpleName() + ": " + ex.getMessage() + " occured while testing  " + hash.getClass().getSimpleName());
+			ex.printStackTrace();
+			return e + 1;
+		}
+		return e;
 	}
 	
 }
