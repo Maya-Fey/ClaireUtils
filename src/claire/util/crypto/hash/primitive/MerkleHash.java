@@ -59,6 +59,11 @@ public abstract class MerkleHash<State extends MerkleState<State, ?>, Hash exten
 			pos = 0;
 		}
 	}
+	
+	public void reset()
+	{
+		pos = 0;
+	}
 
 	public int outputLength()
 	{
