@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.standards.IPersistable;
+import claire.util.standards.crypto.IHash;
 import claire.util.standards.crypto.IState;
 
 public class BLAKE512 
@@ -40,11 +41,12 @@ public class BLAKE512
 	public static final int test()
 	{
 		BLAKE512 blake = new BLAKE512();
+		int i = 0;
+		i += IHash.test(blake);
 		byte[] bytes = new byte[1000];
 		RandUtils.fillArr(bytes);
 		blake.add(bytes);
 		IState state = blake.getState();
-		int i = 0;
 		i += IPersistable.test(state);
 		return i;
 	}

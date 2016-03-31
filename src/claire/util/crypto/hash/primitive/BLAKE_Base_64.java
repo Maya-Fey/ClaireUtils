@@ -63,8 +63,9 @@ abstract class BLAKE_Base_64<Hash extends BLAKE_Base_64<Hash>>
 	protected abstract long[] getIV();
 	protected abstract void output(byte[] out, int start);
 	
-	private void reset()
+	public void reset()
 	{
+		super.reset();
 		System.arraycopy(this.getIV(), 0, STATE, 0, 8);
 		counter.reset();
 	}
