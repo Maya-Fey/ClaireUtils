@@ -42,6 +42,7 @@ abstract class BMW_Base_32<Hash extends BMW_Base_32<Hash>>
 	
 	public void reset()
 	{
+		super.reset();
 		System.arraycopy(this.getIV(), 0, STATE, 0, 16);
 		counter.reset();
 	}
