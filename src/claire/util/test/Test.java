@@ -54,6 +54,7 @@ import claire.util.crypto.hash.primitive.CRC8;
 import claire.util.crypto.hash.primitive.Grostl224;
 import claire.util.crypto.hash.primitive.Grostl256;
 import claire.util.crypto.hash.primitive.Grostl384;
+import claire.util.crypto.hash.primitive.Grostl512;
 import claire.util.crypto.hash.primitive.JH224;
 import claire.util.crypto.hash.primitive.JH256;
 import claire.util.crypto.hash.primitive.JH384;
@@ -255,6 +256,8 @@ public class Test {
 		reg += Grostl256.test();
 		Log.info.println("Testing claire.util.crypto.hash.primitive.Grostl384");
 		reg += Grostl384.test();
+		Log.info.println("Testing claire.util.crypto.hash.primitive.Grostl512");
+		reg += Grostl512.test();
 		Log.info.println("Testing ../math");
 		Log.info.println("Testing counters");
 		Log.info.println("Testing claire.util.math.counters.IntCounter");
