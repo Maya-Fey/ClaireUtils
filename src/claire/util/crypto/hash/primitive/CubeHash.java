@@ -1,24 +1,33 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.CubeHash.CubeHashState;
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
+import claire.util.io.Factory;
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
 public final class CubeHash 
-	  	     extends MerkleHash {
+	  	     extends MerkleHash<CubeHashState, CubeHash> {
 	
 	private final int[] IV;
 	
 	private int[] SCRATCH;
 	
 	private final int round,
-				      close,
-				      block;
+				      close;
 	
 	private final boolean sRound,
 						  sClose;
 
 	protected final int[] STATE = new int[32];
+	
+	protected int block;
 
 	public CubeHash(int init, int block, int out, int rounds, int close) 
 	{
@@ -410,16 +419,6 @@ public final class CubeHash
 	{
 		System.arraycopy(IV, 0, STATE, 0, 32);
 	}
-
-	protected void process()
-	{
-		
-	}
-	
-	protected void last()
-	{
-		
-	}
 	
 	public void processNext(byte[] bytes, int offset)
 	{
@@ -443,6 +442,117 @@ public final class CubeHash
 			singleRound(STATE, SCRATCH);
 		Bits.intsToSBytes(STATE, 0, out, start, this.outputLength());
 		this.reset();
+	}
+	
+	public CubeHashState getState()
+	{
+		return new CubeHashState(this);
+	}
+	
+	public void updateState(CubeHashState state)
+	{
+		state.update(this);
+	}
+
+	public void loadCustom(CubeHashState state)
+	{
+		System.arraycopy(state.state, 0, STATE, 0, 32);
+	}
+	
+	protected static final class CubeHashState extends MerkleState<CubeHashState, CubeHash>
+	{
+		protected final int block;
+		
+		protected int[] state;
+		
+		protected CubeHashStateFactory factory;
+		
+		public CubeHashState(byte[] bytes, int start, int block)
+		{
+			super(bytes, start);
+			this.block = block;
+			this.factory = new CubeHashStateFactory(block);
+		}
+		
+		public CubeHashState(CubeHash ch)
+		{
+			super(ch);
+			this.block = ch.block;
+			this.factory = new CubeHashStateFactory(block);
+		}
+
+		public Factory<CubeHashState> factory()
+		{
+			return factory;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.CUBEHASHSTATE;
+		}
+
+		protected void persistCustom(IOutgoingStream os) throws IOException
+		{
+			os.writeInts(state);
+		}
+
+		protected void persistCustom(byte[] bytes, int start)
+		{
+			Bits.intsToBytes(state, 0, bytes, start, 32);
+		}
+
+		protected void addCustom(IIncomingStream os) throws IOException
+		{
+			state = os.readInts(32);
+		}
+
+		protected void addCustom(byte[] bytes, int start)
+		{
+			state = new int[32];
+			Bits.bytesToInts(bytes, start, state, 0, 32);
+		}
+
+		protected void addCustom(CubeHash hash)
+		{
+			state = ArrayUtil.copy(hash.STATE);
+		}
+
+		protected void updateCustom(CubeHash hash)
+		{
+			if(state == null)
+				state = ArrayUtil.copy(hash.STATE);
+			else
+				System.arraycopy(hash.STATE, 0, state, 0, 32);
+		}
+
+		protected void eraseCustom()
+		{
+			Arrays.fill(state, 0);
+			state = null;
+		}
+
+		protected boolean compareCustom(CubeHashState state)
+		{
+			return ArrayUtil.equals(state.state, this.state);
+		}
+
+		protected int customSize()
+		{
+			return 128;
+		}
+	}
+	
+	protected static final class CubeHashStateFactory extends MerkleStateFactory<CubeHashState, CubeHash>
+	{
+		public CubeHashStateFactory(int block)
+		{
+			super(CubeHashState.class, block);
+		}
+		
+		public CubeHashState construct(byte[] bytes, int pos)
+		{
+			return new CubeHashState(bytes, pos, this.size);
+		}
 	}
 
 }
