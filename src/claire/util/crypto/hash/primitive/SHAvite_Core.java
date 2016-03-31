@@ -1,7 +1,9 @@
 package claire.util.crypto.hash.primitive;
 
-abstract class SHAvite_Core
- 	     extends MerkleHash {
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
+
+abstract class SHAvite_Core<State extends MerkleState<State, ?>, Hash extends SHAvite_Core<State, Hash>>
+ 	     extends MerkleHash<State, Hash> {
 
 	protected SHAvite_Core(int size, int out) 
 	{

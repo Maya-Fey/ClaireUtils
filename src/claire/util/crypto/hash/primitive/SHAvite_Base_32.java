@@ -1,12 +1,19 @@
 package claire.util.crypto.hash.primitive;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.SHAvite_Base_32.SHAvite32State;
+import claire.util.io.Factory;
 import claire.util.math.counters.IntCounter;
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
+import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
-abstract class SHAvite_Base_32 
-	     extends SHAvite_Core {
+abstract class SHAvite_Base_32<Hash extends SHAvite_Base_32<Hash>> 
+	     extends SHAvite_Core<SHAvite32State, Hash> {
 	
 	protected final int[] STATE = new int[8];
 	
@@ -432,5 +439,122 @@ abstract class SHAvite_Base_32
 		output(out, start);
 		reset();
 	}
+	
+	public SHAvite32State getState()
+	{
+		return new SHAvite32State(this);
+	}
+	
+	public void updateState(SHAvite32State state)
+	{
+		state.update(this);
+	}
+
+	public void loadCustom(SHAvite32State state)
+	{
+		System.arraycopy(state.state, 0, STATE, 0, 32);
+	}
+	
+public static final SHAvite32StateFactory sfactory = new SHAvite32StateFactory();
+	
+	protected static final class SHAvite32State extends MerkleState<SHAvite32State, SHAvite_Base_32<? extends SHAvite_Base_32<?>>>
+	{
+
+		protected int[] state;
+		protected int[] counters;
+		
+		public SHAvite32State(SHAvite_Base_32<? extends SHAvite_Base_32<?>> hash) 
+		{
+			super(hash);
+		}
+		
+		public SHAvite32State(byte[] bytes, int pos)
+		{
+			super(bytes, pos);
+		}
+
+		public Factory<SHAvite32State> factory()
+		{
+			return sfactory;
+		}
+
+		public int NAMESPACE()
+		{
+			return _NAMESPACE.SHAVITE32STATE;
+		}
+
+		protected void persistCustom(IOutgoingStream os) throws IOException
+		{
+			os.writeInts(state);
+			os.writeInts(counters);
+		}
+
+		protected void persistCustom(byte[] bytes, int start)
+		{
+			Bits.intsToBytes(state, 0, bytes, start, 8); start += 32;
+			Bits.intsToBytes(counters, 0, bytes, start, 2);
+		}
+
+		protected void addCustom(IIncomingStream is) throws IOException
+		{
+			state = is.readInts(8);
+			counters = is.readInts(2);
+		}
+		
+		protected void addCustom(byte[] bytes, int start)
+		{
+			state = new int[8];
+			counters = new int[2];
+			Bits.bytesToInts(bytes, start, state, 0, 8); start += 32;
+			Bits.bytesToInts(bytes, start, counters, 0, 2);
+		}
+
+		protected void addCustom(SHAvite_Base_32<? extends SHAvite_Base_32<?>> hash)
+		{
+			state = ArrayUtil.copy(hash.STATE);
+			counters = ArrayUtil.copy(hash.counters);
+		}
+
+		protected void updateCustom(SHAvite_Base_32<? extends SHAvite_Base_32<?>> hash)
+		{
+			System.arraycopy(this.state, 0, hash.STATE, 0, 8);
+			System.arraycopy(this.counters, 0, hash.counters, 0, 2);
+		}
+
+		protected void eraseCustom()
+		{
+			Arrays.fill(state, 0);
+			Arrays.fill(counters, 0);
+			state = null;
+			counters = null;
+		}
+
+		protected boolean compareCustom(SHAvite32State state)
+		{	
+			return ArrayUtil.equals(counters, state.counters) && ArrayUtil.equals(this.state, state.state);
+		}
+
+		protected int customSize()
+		{
+			return 40;
+		}
+		
+	}
+	
+	protected static final class SHAvite32StateFactory extends MerkleStateFactory<SHAvite32State, SHAvite_Base_32<? extends SHAvite_Base_32<?>>>
+	{
+
+		protected SHAvite32StateFactory() 
+		{
+			super(SHAvite32State.class, 64);
+		}
+
+		protected SHAvite32State construct(byte[] bytes, int pos)
+		{
+			return new SHAvite32State(bytes, pos);
+		}
+		
+	}
+	
 
 }
