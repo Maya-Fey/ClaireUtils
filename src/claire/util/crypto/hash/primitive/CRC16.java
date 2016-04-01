@@ -66,6 +66,11 @@ public final class CRC16
 		Bits.BigEndian.shortToBytes((short) STATE, out, start);
 		STATE = 0;
 	}
+	
+	public void reset()
+	{
+		STATE = 0;
+	}
 
 	public int outputLength()
 	{
