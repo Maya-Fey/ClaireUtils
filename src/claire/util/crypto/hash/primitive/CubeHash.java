@@ -5,10 +5,14 @@ import java.util.Arrays;
 
 import claire.util.crypto.hash.primitive.CubeHash.CubeHashState;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
+import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IHash;
+import claire.util.standards.crypto.IState;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -27,7 +31,7 @@ public final class CubeHash
 
 	protected final int[] STATE = new int[32];
 	
-	protected int block;
+	protected final int block;
 
 	public CubeHash(int init, int block, int out, int rounds, int close) 
 	{
@@ -41,6 +45,7 @@ public final class CubeHash
 		this.sRound = (rounds & 1) == 1;
 		this.sClose = (close & 1) == 1;
 		genIV(IV, SCRATCH, out, block, rounds, init);
+		System.arraycopy(IV, 0, STATE, 0, 32);
 	}
 	
 	protected static final void genIV(int[] IV, int[] scratch, int out, int size, int rounds, final int init)
@@ -415,8 +420,9 @@ public final class CubeHash
 		STATE[15] = T;
 	}
 
-	protected void reset()
+	public void reset()
 	{
+		super.reset();
 		System.arraycopy(IV, 0, STATE, 0, 32);
 	}
 	
@@ -555,4 +561,23 @@ public final class CubeHash
 		}
 	}
 
+	/*
+	 * This isn't actually required, just convenient because IState<?>
+	 * doesn't cast to (T extends extends IPersistable<T> & IUUID<T>)
+	 * so rather than create a special method this was used.
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public static final int test()
+	{
+		CubeHash blake = new CubeHash(10, 8, 128, 8, 60);
+		int i = 0;
+		i += IHash.test(blake);
+		byte[] bytes = new byte[1000];
+		RandUtils.fillArr(bytes);
+		blake.add(bytes);
+		IState state = blake.getState();
+		i += IPersistable.test(state);
+		return i;
+	}
+	
 }

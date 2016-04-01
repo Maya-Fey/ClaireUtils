@@ -51,6 +51,7 @@ import claire.util.crypto.hash.primitive.BMW512;
 import claire.util.crypto.hash.primitive.CRC16;
 import claire.util.crypto.hash.primitive.CRC32;
 import claire.util.crypto.hash.primitive.CRC8;
+import claire.util.crypto.hash.primitive.CubeHash;
 import claire.util.crypto.hash.primitive.Grostl224;
 import claire.util.crypto.hash.primitive.Grostl256;
 import claire.util.crypto.hash.primitive.Grostl384;
@@ -267,6 +268,8 @@ public class Test {
 		reg += SHAvite224.test();
 		Log.info.println("Testing claire.util.crypto.hash.primitive.SHAvite256");
 		reg += SHAvite256.test();
+		Log.info.println("Testing claire.util.crypto.hash.primitive.CubeHash");
+		reg += CubeHash.test();
 		Log.info.println("Testing ../math");
 		Log.info.println("Testing counters");
 		Log.info.println("Testing claire.util.math.counters.IntCounter");
