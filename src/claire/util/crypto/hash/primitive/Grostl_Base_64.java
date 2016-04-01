@@ -26,8 +26,9 @@ abstract class Grostl_Base_64<Hash extends Grostl_Base_64<Hash>>
 		reset();
 	}
 	
-	private void reset()
+	public void reset()
 	{
+		super.reset();
 		total = 0;
 		Arrays.fill(A, 0);
 		A[15] = this.outputLength() << 3;
@@ -419,6 +420,7 @@ abstract class Grostl_Base_64<Hash extends Grostl_Base_64<Hash>>
 		System.arraycopy(state.A, 0, this.A, 0, 16);
 		System.arraycopy(state.B, 0, this.B, 0, 16);
 		System.arraycopy(state.C, 0, this.C, 0, 16);
+		this.total = state.total;
 	}
 	
 	public static final Grostl64StateFactory sfactory = new Grostl64StateFactory();
