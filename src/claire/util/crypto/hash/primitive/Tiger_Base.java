@@ -294,8 +294,9 @@ extends MerkleHash<TigerState, Hash> {
 		reset();
 	}
 	
-	private void reset()
+	public void reset()
 	{
+		super.reset();
 		total = 0;
 		R1 = 0x0123456789ABCDEFL;
         R2 = 0xFEDCBA9876543210L;
