@@ -65,6 +65,11 @@ public final class CRC8
 		out[start] = STATE;
 		STATE = 0x00;
 	}
+	
+	public void reset()
+	{
+		STATE = 0x00;
+	}
 
 	public int outputLength()
 	{
