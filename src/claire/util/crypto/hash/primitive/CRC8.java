@@ -174,11 +174,12 @@ public final class CRC8
 	public static final int test()
 	{
 		CRC8 blake = new CRC8();
+		int i = 0;
+		i += IHash.test(blake);
 		byte[] bytes = new byte[1000];
 		RandUtils.fillArr(bytes);
 		blake.add(bytes);
 		IState state = blake.getState();
-		int i = 0;
 		i += IPersistable.test(state);
 		return i;
 	}

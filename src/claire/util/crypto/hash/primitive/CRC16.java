@@ -175,11 +175,12 @@ public final class CRC16
 	public static final int test()
 	{
 		CRC16 blake = new CRC16();
+		int i = 0;
+		i += IHash.test(blake);
 		byte[] bytes = new byte[1000];
 		RandUtils.fillArr(bytes);
 		blake.add(bytes);
 		IState state = blake.getState();
-		int i = 0;
 		i += IPersistable.test(state);
 		return i;
 	}

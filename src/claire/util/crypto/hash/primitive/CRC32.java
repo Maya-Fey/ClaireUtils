@@ -100,7 +100,7 @@ public final class CRC32
 	
 	public void reset()
 	{
-		STATE = 0;
+		STATE = 0xFFFFFFFF;
 	}
 
 	public int outputLength()
@@ -206,11 +206,12 @@ public final class CRC32
 	public static final int test()
 	{
 		CRC32 blake = new CRC32();
+		int i = 0;
+		i += IHash.test(blake);
 		byte[] bytes = new byte[1000];
 		RandUtils.fillArr(bytes);
 		blake.add(bytes);
 		IState state = blake.getState();
-		int i = 0;
 		i += IPersistable.test(state);
 		return i;
 	}
