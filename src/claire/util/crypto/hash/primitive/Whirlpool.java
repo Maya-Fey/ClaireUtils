@@ -2,6 +2,7 @@ package claire.util.crypto.hash.primitive;
 
 import claire.util.crypto.rng.RandUtils;
 import claire.util.standards.IPersistable;
+import claire.util.standards.crypto.IHash;
 import claire.util.standards.crypto.IState;
 
 public class Whirlpool 
@@ -1088,11 +1089,12 @@ public class Whirlpool
 	public static final int test()
 	{
 		Whirlpool blake = new Whirlpool();
+		int i = 0;
+		i += IHash.test(blake);
 		byte[] bytes = new byte[1000];
 		RandUtils.fillArr(bytes);
 		blake.add(bytes);
 		IState state = blake.getState();
-		int i = 0;
 		i += IPersistable.test(state);
 		return i;
 	}

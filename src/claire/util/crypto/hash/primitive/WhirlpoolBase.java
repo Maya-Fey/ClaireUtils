@@ -29,8 +29,9 @@ public class WhirlpoolBase<Hash extends WhirlpoolBase<Hash>>
 		this.RC = RC;
 	}
 	
-	private void reset()
+	public void reset()
 	{
+		super.reset();
 		Arrays.fill(STATE, 0L);
 		counter.reset();
 	}
@@ -343,7 +344,7 @@ public class WhirlpoolBase<Hash extends WhirlpoolBase<Hash>>
 			if(counters == null)
 				counters = ArrayUtil.copy(hash.counters);
 			else
-				System.arraycopy(hash.counters, 0, counters, 0, 8);
+				System.arraycopy(hash.counters, 0, counters, 0, 4);
 		}
 
 		protected void eraseCustom()
