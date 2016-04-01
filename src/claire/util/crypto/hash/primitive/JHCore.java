@@ -117,8 +117,9 @@ abstract class JHCore<Hash extends JHCore<Hash>>
 	protected abstract long[] getIV();
 	protected abstract void output(byte[] out, int start);
 	
-	private void reset()
+	public void reset()
 	{
+		super.reset();
 		System.arraycopy(getIV(), 0, STATE, 0, 16);
 		counter.reset();
 	}
