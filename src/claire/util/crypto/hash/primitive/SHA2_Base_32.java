@@ -37,7 +37,6 @@ abstract class SHA2_Base_32<Hash extends SHA2_Base_32<Hash>>
 	protected final int[] STATE = new int[8];
 	protected long length;
 	
-	protected abstract void reset();
 	protected abstract void complete(byte[] bytes, int pos, byte[] out, int start);
 
 	protected SHA2_Base_32(int out) 
