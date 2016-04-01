@@ -30,8 +30,9 @@ abstract class SHAvite_Base_32<Hash extends SHAvite_Base_32<Hash>>
 	protected abstract int[] getIV();
 	protected abstract void output(byte[] out, int start);
 	
-	private void reset()
+	public void reset()
 	{
+		super.reset();
 		counter.reset();
 		System.arraycopy(this.getIV(), 0, STATE, 0, 8);
 	}
@@ -430,7 +431,7 @@ abstract class SHAvite_Base_32<Hash extends SHAvite_Base_32<Hash>>
 			c1 = c2 = 0;
 			Arrays.fill(remaining, (byte) 0);
 		}
-		System.out.println(c1 + " " + c2 + " " + pos);
+		//System.out.println(c1 + " " + c2 + " " + pos);
 		Bits.intToBytes(counters[1], remaining, 54);
 		Bits.intToBytes(counters[0], remaining, 58);
 		remaining[62] = (byte) (this.outputLength() << 3);
@@ -452,7 +453,8 @@ abstract class SHAvite_Base_32<Hash extends SHAvite_Base_32<Hash>>
 
 	public void loadCustom(SHAvite32State state)
 	{
-		System.arraycopy(state.state, 0, STATE, 0, 32);
+		System.arraycopy(state.state, 0, STATE, 0, 8);
+		System.arraycopy(state.counters, 0, counters, 0, 2);
 	}
 	
 public static final SHAvite32StateFactory sfactory = new SHAvite32StateFactory();

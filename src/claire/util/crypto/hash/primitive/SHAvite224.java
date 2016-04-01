@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.standards.IPersistable;
+import claire.util.standards.crypto.IHash;
 import claire.util.standards.crypto.IState;
 
 public class SHAvite224 
@@ -38,11 +39,12 @@ public class SHAvite224
 	public static final int test()
 	{
 		SHAvite224 blake = new SHAvite224();
+		int i = 0;
+		i += IHash.test(blake);
 		byte[] bytes = new byte[1000];
 		RandUtils.fillArr(bytes);
 		blake.add(bytes);
 		IState state = blake.getState();
-		int i = 0;
 		i += IPersistable.test(state);
 		return i;
 	}
