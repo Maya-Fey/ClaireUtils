@@ -54,8 +54,9 @@ abstract class BMW_Base_64<Hash extends BMW_Base_64<Hash>>
 	protected abstract long[] getIV();
 	protected abstract void output(byte[] out, int start);
 	
-	private void reset()
+	public void reset()
 	{
+		super.reset();
 		System.arraycopy(this.getIV(), 0, STATE, 0, 16);
 		counter = 0;
 	}
@@ -265,7 +266,7 @@ abstract class BMW_Base_64<Hash extends BMW_Base_64<Hash>>
 	public void loadCustom(BMW_64State state)
 	{
 		this.counter = state.counter;
-		System.arraycopy(state.state, 0, this.STATE, 0, 8);
+		System.arraycopy(state.state, 0, this.STATE, 0, 16);
 	}
 	
 	public static final BMW_64StateFactory sfactory = new BMW_64StateFactory();
