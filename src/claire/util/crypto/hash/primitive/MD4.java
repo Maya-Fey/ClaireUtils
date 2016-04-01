@@ -11,6 +11,7 @@ import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IHash;
 import claire.util.standards.crypto.IState;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
@@ -36,8 +37,9 @@ public class MD4
 
 	private final int[] SCRATCHPAD = new int[16];
 	
-	private void reset()
+	public void reset()
 	{
+		super.reset();
 		System.arraycopy(CONSTANTS, 0, STATE, 0, 4);
 		count = 0;
 	}
@@ -270,11 +272,12 @@ public class MD4
 	public static final int test()
 	{
 		MD4 blake = new MD4();
+		int i = 0;
+		i += IHash.test(blake);
 		byte[] bytes = new byte[1000];
 		RandUtils.fillArr(bytes);
 		blake.add(bytes);
 		IState state = blake.getState();
-		int i = 0;
 		i += IPersistable.test(state);
 		return i;
 	}
