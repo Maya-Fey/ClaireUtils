@@ -97,6 +97,11 @@ public final class CRC32
 		Bits.BigEndian.intToBytes(STATE ^ 0xFFFFFFFF, out, start);
 		STATE = 0xFFFFFFFF;
 	}
+	
+	public void reset()
+	{
+		STATE = 0;
+	}
 
 	public int outputLength()
 	{
