@@ -42,7 +42,7 @@ abstract class SHA2_Base_64<Hash extends SHA2_Base_64<Hash>>
 	protected final long[] counters = new long[2];	
 	protected final long[] STATE = new long[8];
 
-	private final LongCounter counter = new LongCounter(counters);
+	protected final LongCounter counter = new LongCounter(counters);
 	
 	public SHA2_Base_64(int out) 
 	{
@@ -50,7 +50,6 @@ abstract class SHA2_Base_64<Hash extends SHA2_Base_64<Hash>>
 		reset();
 	}
 	
-	protected abstract void reset();
 	protected abstract void complete(byte[] out, int start);
 	
 	private static long F1(long A, long B, long C)

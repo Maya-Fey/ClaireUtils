@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.standards.IPersistable;
+import claire.util.standards.crypto.IHash;
 import claire.util.standards.crypto.IState;
 
 public final class SHA2_512 
@@ -12,8 +13,10 @@ public final class SHA2_512
 		super(64);
 	}
 
-	protected void reset()
+	public void reset()
 	{
+		super.reset();
+		counter.reset();
 		STATE[0] = 0x6a09e667f3bcc908L;
         STATE[1] = 0xbb67ae8584caa73bL;
         STATE[2] = 0x3c6ef372fe94f82bL;
@@ -38,11 +41,12 @@ public final class SHA2_512
 	public static final int test()
 	{
 		SHA2_512 blake = new SHA2_512();
+		int i = 0;
+		i += IHash.test(blake);
 		byte[] bytes = new byte[1000];
 		RandUtils.fillArr(bytes);
 		blake.add(bytes);
 		IState state = blake.getState();
-		int i = 0;
 		i += IPersistable.test(state);
 		return i;
 	}
