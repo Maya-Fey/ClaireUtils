@@ -11,6 +11,7 @@ import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IHash;
 import claire.util.standards.crypto.IState;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
@@ -59,8 +60,9 @@ public final class RIPEMD128
 		reset();
 	}
 	
-	private void reset()
+	public void reset()
 	{
+		super.reset();
 		length = 0;
 		STATE[0] = 0x67452301;
 		STATE[1] = 0xefcdab89;
@@ -309,11 +311,12 @@ public final class RIPEMD128
 	public static final int test()
 	{
 		RIPEMD128 blake = new RIPEMD128();
+		int i = 0;
+		i += IHash.test(blake);
 		byte[] bytes = new byte[1000];
 		RandUtils.fillArr(bytes);
 		blake.add(bytes);
 		IState state = blake.getState();
-		int i = 0;
 		i += IPersistable.test(state);
 		return i;
 	}
