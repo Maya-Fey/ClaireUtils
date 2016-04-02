@@ -2,19 +2,16 @@ package claire.util.standards.crypto;
 
 import claire.util.logging.Log;
 import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IStateMachine;
 
 public interface IStreamCipher<Type extends IKey<?>, State extends IState<State>>
-	   extends ICrypto<Type> {
+	   extends ICrypto<Type>,
+	   		   IStateMachine<State> {
 	
-	void reset();
 	void wipe();
 	
 	byte nextByte();
 	void fill(byte[] arr, int start, int len);
-	
-	State getState();
-	void loadState(State state);
-	void updateState(State state);
 	
 	default byte[] getBytes(int amt)
 	{
