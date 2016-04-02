@@ -3,20 +3,16 @@ package claire.util.standards.crypto;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.logging.Log;
 import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IStateMachine;
 
-public interface IHash<State extends IState<State>> {
+public interface IHash<State extends IState<State>> 
+	   extends IStateMachine<State> {
 	
 	void add(byte[] bytes, int start, int length);
 	
 	void finish(byte[] out, int start);
 	
 	int outputLength();
-	
-	State getState();
-	void loadState(State state);
-	void updateState(State state);
-	
-	void reset();
 	
 	default void add(byte[] bytes)
 	{
