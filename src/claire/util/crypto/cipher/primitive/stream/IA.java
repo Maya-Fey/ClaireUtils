@@ -97,7 +97,7 @@ public class IA
 	 * Internal function. This generates the next integer and returns it.
 	 * Does not alter the integer in memory. 
 	 */
-	private int nextInt()
+	public int nextInt()
 	{
 		int x = M[i], y;
 		M[i] = y = M[x & 0xFF] + b;
