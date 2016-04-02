@@ -13,7 +13,7 @@ import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
 public abstract class MerkleHash<State extends MerkleState<State, ?>, Hash extends MerkleHash<State, Hash>> 
-				implements IHash<State> {
+				implements IHash<Hash, State> {
 	
 	protected final int size;
 	
