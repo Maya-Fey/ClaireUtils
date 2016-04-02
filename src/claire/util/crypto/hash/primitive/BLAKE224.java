@@ -1,5 +1,6 @@
 package claire.util.crypto.hash.primitive;
 
+import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.standards.IPersistable;
@@ -47,6 +48,23 @@ public class BLAKE224
 		IState state = blake.getState();
 		i += IPersistable.test(state);
 		return i;
+	}
+
+	public HashFactory<BLAKE224> factory()
+	{
+		return factory;
+	}
+	
+	public static final BLAKE224Factory factory = new BLAKE224Factory();
+	
+	public static final class BLAKE224Factory extends HashFactory<BLAKE224>
+	{
+
+		public BLAKE224 build(String params)
+		{
+			return new BLAKE224();
+		}
+		
 	}
 	
 }
