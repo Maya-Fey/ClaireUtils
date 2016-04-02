@@ -1,11 +1,12 @@
 package claire.util.standards.crypto;
 
+import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.logging.Log;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IStateMachine;
 
-public interface IHash<State extends IState<State>> 
+public interface IHash<Hash extends IHash<Hash, State>, State extends IState<State>> 
 	   extends IStateMachine<State> {
 	
 	void add(byte[] bytes, int start, int length);
@@ -13,6 +14,8 @@ public interface IHash<State extends IState<State>>
 	void finish(byte[] out, int start);
 	
 	int outputLength();
+	
+	HashFactory<Hash> factory();
 	
 	default void add(byte[] bytes)
 	{
@@ -62,7 +65,7 @@ public interface IHash<State extends IState<State>>
 		return out;
 	}
 	
-	public static <State extends IState<State>>int test(IHash<State> hash)
+	public static <State extends IState<State>>int test(IHash<?, State> hash)
 	{
 		int e = 0;
 		try {
