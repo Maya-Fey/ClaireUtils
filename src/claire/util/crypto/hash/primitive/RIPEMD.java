@@ -4,7 +4,7 @@ import claire.util.standards.crypto.IHash;
 
 public class RIPEMD {
 
-	public IHash<?> getRIPEMD(int length) 
+	public IHash<?, ?> getRIPEMD(int length) 
 	{
 		switch(length)
 		{

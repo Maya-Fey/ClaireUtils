@@ -4,7 +4,7 @@ import claire.util.standards.crypto.IHash;
 
 public class CRC  {
 	
-	public IHash<?> getCRC(int len)
+	public IHash<?, ?> getCRC(int len)
 	{
 		switch(len)
 		{

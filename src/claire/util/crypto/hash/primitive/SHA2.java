@@ -4,7 +4,7 @@ import claire.util.standards.crypto.IHash;
 
 public final class SHA2 {
 	
-	public static IHash<?> getSHA2(int length) 
+	public static IHash<?, ?> getSHA2(int length) 
 	{
 		switch(length)
 		{
