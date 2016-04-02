@@ -1,5 +1,6 @@
 package claire.util.crypto.hash.primitive;
 
+import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.standards.IPersistable;
@@ -49,6 +50,23 @@ public class BMW256
 		IState state = blake.getState();
 		i += IPersistable.test(state);
 		return i;
+	}
+	
+	public HashFactory<BMW256> factory()
+	{
+		return factory;
+	}
+	
+	public static final BMW256Factory factory = new BMW256Factory();
+	
+	public static final class BMW256Factory extends HashFactory<BMW256>
+	{
+
+		public BMW256 build(String params)
+		{
+			return new BMW256();
+		}
+		
 	}
 
 }

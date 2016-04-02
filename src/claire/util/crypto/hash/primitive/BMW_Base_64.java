@@ -34,7 +34,8 @@ abstract class BMW_Base_64<Hash extends BMW_Base_64<Hash>>
 		0xaaaaaaaaaaaaaaaeL, 0xaaaaaaaaaaaaaaafL
 	};
 	
-	private static final long[] KEY = {
+	private static final long[] KEY = 
+	{
 		16L * 0x0555555555555555L, 17L * 0x0555555555555555L,
 		18L * 0x0555555555555555L, 19L * 0x0555555555555555L,
 		20L * 0x0555555555555555L, 21L * 0x0555555555555555L,
