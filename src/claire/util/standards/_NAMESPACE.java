@@ -102,5 +102,6 @@ public class _NAMESPACE {
 	public static final int HAVALSTATE = 90;
 	public static final int CUBEHASHSTATE = 91;
 	public static final int SHAVITE32STATE = 92;
+	public static final int KEYISAAC = 93;
 	
 }

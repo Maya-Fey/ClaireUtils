@@ -38,8 +38,7 @@ public class IARNG implements IRandom {
 
 	public long nextLong()
 	{
-		this.reqBytes(8);
-		return agg.getLong();
+		return ((cipher.nextInt() & 0xFFFFFFFFL) << 32) | cipher.nextInt();
 	}
 	
 	private void reqBytes(int bytes)
