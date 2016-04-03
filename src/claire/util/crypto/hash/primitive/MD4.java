@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.MD4.MD4State;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.crypto.rng.RandUtils;
@@ -282,5 +283,21 @@ public class MD4
 		return i;
 	}
 	
+	public HashFactory<MD4> factory()
+	{
+		return factory;
+	}
+	
+	public static final MD4Factory factory = new MD4Factory();
+	
+	public static final class MD4Factory extends HashFactory<MD4>
+	{
+
+		public MD4 build(char[] params, char sep)
+		{
+			return new MD4();
+		}
+		
+	}
     
 }

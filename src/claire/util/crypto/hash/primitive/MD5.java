@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.MD5.MD5State;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.crypto.rng.RandUtils;
@@ -283,6 +284,23 @@ public class MD5
 		IState state = blake.getState();
 		i += IPersistable.test(state);
 		return i;
+	}
+	
+	public HashFactory<MD5> factory()
+	{
+		return factory;
+	}
+	
+	public static final MD5Factory factory = new MD5Factory();
+	
+	public static final class MD5Factory extends HashFactory<MD5>
+	{
+
+		public MD5 build(char[] params, char sep)
+		{
+			return new MD5();
+		}
+		
 	}
 
 }

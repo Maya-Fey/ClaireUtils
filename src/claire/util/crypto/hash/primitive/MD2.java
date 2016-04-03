@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.MD2.MD2State;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.crypto.rng.RandUtils;
@@ -242,6 +243,23 @@ public class MD2
 		IState state = blake.getState();
 		i += IPersistable.test(state);
 		return i;
+	}
+	
+	public HashFactory<MD2> factory()
+	{
+		return factory;
+	}
+	
+	public static final MD2Factory factory = new MD2Factory();
+	
+	public static final class MD2Factory extends HashFactory<MD2>
+	{
+
+		public MD2 build(char[] params, char sep)
+		{
+			return new MD2();
+		}
+		
 	}
 	
 	
