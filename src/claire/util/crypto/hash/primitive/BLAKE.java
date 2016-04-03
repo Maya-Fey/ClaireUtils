@@ -22,7 +22,7 @@ public class BLAKE {
 		}
 	}
 	
-	public HashFactory<BLAKECore<?, ?>> factory()
+	public static HashFactory<BLAKECore<?, ?>> factory()
 	{
 		return factory;
 	}
