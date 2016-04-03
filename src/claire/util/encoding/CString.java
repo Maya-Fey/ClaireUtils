@@ -225,6 +225,35 @@ public class CString
 		return builder.build();
 	}
 	
+	public CString removeBefore(int pos)
+	{
+		char[] n = new char[chars.length - pos];
+		System.arraycopy(chars, pos, n, 0, n.length);
+		return new CString(n);
+	}
+	
+	public CString removeAfter(int pos)
+	{
+		char[] n = new char[pos];
+		System.arraycopy(chars, 0, n, 0, pos);
+		return new CString(n);
+	}
+	
+	public CString removeMiddle(int pos, int len)
+	{
+		char[] n = new char[chars.length - len];
+		System.arraycopy(chars, 0, n, 0, pos - 1);
+		System.arraycopy(chars, pos + len, n, pos - 1, chars.length - (pos + len));
+		return new CString(n);
+	}
+	
+	public CString slice(int pos, int len)
+	{
+		char[] n = new char[len];
+		System.arraycopy(chars, pos, n, 0, len);
+		return new CString(n);
+	}
+	
 	public boolean contains(char c)
 	{
 		for(char ch : chars)
@@ -444,14 +473,12 @@ public class CString
 	
 	public void erase()
 	{
-		Arrays.fill(chars, '☺');
+		Arrays.fill(chars, (char) 0);
 	}
 	
 	public void print()
 	{
-		for(char c : chars)
-			System.out.print(c);
-		System.out.println();
+		System.out.println(chars);
 	}
 	
 	public final byte[] toBytes()
