@@ -62,7 +62,7 @@ public class BLAKE384
 	public static final class BLAKE384Factory extends HashFactory<BLAKE384>
 	{
 
-		public BLAKE384 build(String params)
+		public BLAKE384 build(char[] params, char sep)
 		{
 			return new BLAKE384();
 		}

@@ -60,7 +60,7 @@ public class BLAKE256
 	public static final class BLAKE256Factory extends HashFactory<BLAKE256>
 	{
 
-		public BLAKE256 build(String params)
+		public BLAKE256 build(char[] params, char sep)
 		{
 			return new BLAKE256();
 		}

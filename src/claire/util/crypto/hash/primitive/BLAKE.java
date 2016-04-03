@@ -32,9 +32,9 @@ public class BLAKE {
 	public static final class BLAKEFactory extends HashFactory<BLAKECore<?, ?>>
 	{
 
-		public BLAKECore<?, ?> build(String params)
+		public BLAKECore<?, ?> build(char[] params, char sep)
 		{
-			switch(params)
+			switch(new String(params))
 			{
 				case "224":
 					return new BLAKE224();

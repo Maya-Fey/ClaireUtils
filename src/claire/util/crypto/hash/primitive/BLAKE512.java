@@ -62,7 +62,7 @@ public class BLAKE512
 	public static final class BLAKE512Factory extends HashFactory<BLAKE512>
 	{
 
-		public BLAKE512 build(String params)
+		public BLAKE512 build(char[] params, char sep)
 		{
 			return new BLAKE512();
 		}
