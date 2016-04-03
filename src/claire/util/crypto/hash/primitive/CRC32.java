@@ -2,6 +2,7 @@ package claire.util.crypto.hash.primitive;
 
 import java.io.IOException;
 
+import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.CRC32.CRC32State;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
@@ -14,7 +15,7 @@ import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
 public final class CRC32 
-	  		 implements IHash<CRC32State> {
+	  		 implements IHash<CRC32, CRC32State> {
 
 	private static final int[] SBOX = {
             0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 
@@ -216,5 +217,21 @@ public final class CRC32
 		return i;
 	}
 	
+	public HashFactory<CRC32> factory()
+	{
+		return factory;
+	}
+	
+	public static final CRC32Factory factory = new CRC32Factory();
+	
+	public static final class CRC32Factory extends HashFactory<CRC32>
+	{
+
+		public CRC32 build(String params)
+		{
+			return new CRC32();
+		}
+		
+	}
 
 }

@@ -2,6 +2,7 @@ package claire.util.crypto.hash.primitive;
 
 import java.io.IOException;
 
+import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.CRC8.CRC8State;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
@@ -13,7 +14,7 @@ import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
 public final class CRC8
-	   implements IHash<CRC8State> {
+	   implements IHash<CRC8, CRC8State> {
 	
 	private static final byte[] SBOX =
 	{
@@ -184,4 +185,21 @@ public final class CRC8
 		return i;
 	}
 
+	public HashFactory<CRC8> factory()
+	{
+		return factory;
+	}
+	
+	public static final CRC8Factory factory = new CRC8Factory();
+	
+	public static final class CRC8Factory extends HashFactory<CRC8>
+	{
+
+		public CRC8 build(String params)
+		{
+			return new CRC8();
+		}
+		
+	}
+	
 }

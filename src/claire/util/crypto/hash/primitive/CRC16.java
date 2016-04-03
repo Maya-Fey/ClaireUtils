@@ -2,6 +2,7 @@ package claire.util.crypto.hash.primitive;
 
 import java.io.IOException;
 
+import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.CRC16.CRC16State;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
@@ -14,7 +15,7 @@ import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
 public final class CRC16 
-	  	     implements IHash<CRC16State> {
+	  	     implements IHash<CRC16, CRC16State> {
 
 	private static final short[] SBOX =
 	{
@@ -183,6 +184,23 @@ public final class CRC16
 		IState state = blake.getState();
 		i += IPersistable.test(state);
 		return i;
+	}
+	
+	public HashFactory<CRC16> factory()
+	{
+		return factory;
+	}
+	
+	public static final CRC16Factory factory = new CRC16Factory();
+	
+	public static final class CRC16Factory extends HashFactory<CRC16>
+	{
+
+		public CRC16 build(String params)
+		{
+			return new CRC16();
+		}
+		
 	}
 	
 }
