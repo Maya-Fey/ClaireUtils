@@ -66,7 +66,7 @@ public class BMW384
 	public static final class BMW384Factory extends HashFactory<BMW384>
 	{
 
-		public BMW384 build(String params)
+		public BMW384 build(char[] params, char sep)
 		{
 			return new BMW384();
 		}

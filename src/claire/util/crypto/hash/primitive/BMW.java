@@ -32,9 +32,9 @@ public final class BMW {
 	public static final class BMWFactory extends HashFactory<MerkleHash<?, ?>>
 	{
 
-		public MerkleHash<?, ?> build(String params)
+		public MerkleHash<?, ?> build(char[] params, char sep)
 		{
-			switch(params)
+			switch(new String(params))
 			{
 				case "224":
 					return new BMW224();

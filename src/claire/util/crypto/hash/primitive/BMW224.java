@@ -62,7 +62,7 @@ public class BMW224
 	public static final class BMW224Factory extends HashFactory<BMW224>
 	{
 
-		public BMW224 build(String params)
+		public BMW224 build(char[] params, char sep)
 		{
 			return new BMW224();
 		}
