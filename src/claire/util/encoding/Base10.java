@@ -12,14 +12,7 @@ public final class Base10 {
 	 * short, int, and long which could easily halve the size of this class
 	 * if removed, and the no-memory version of from*(), and the distinction
 	 * between signed and unsigned. It would be wise to use the outline bar 
-	 * to traverse this class.
-	 * 
-	 * I am aware this is considered poor 'code climate' or whatever, and if
-	 * somebody seriously wants to modify these basic functions in the future 
-	 * it will probably require modifying 10+ equivalent bits of code. Here
-	 * is a code representation of how many fucks I give:
-	 * 
-	 * public static final double FUCKS_GIVEN = 0.00000; //5 sf
+	 * to traverse this class
 	 */
 
 	/**
@@ -42,23 +35,50 @@ public final class Base10 {
 	 */
 	public static byte stringToByte(final char[] chars)
 	{
+		return stringToByte(chars, 0, chars.length);
+	}
+	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 8 bits.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * <li>An integer pointing to the position of the first numeral char</li>
+	 * <li>An integer showing how many digits the number is</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the array contains non-numerals, the behavior of this
+	 * method is undefined</li>
+	 * <li>If the array represents an integer greater then 127 or
+	 * less then -128, then the behavior of this method is undefined</li>
+	 * </ul>
+	 * Returns: a byte with the value that the character string
+	 * represented.
+	 */
+	public static byte stringToByte(final char[] chars, int start, int len)
+	{
 		byte acc = 0;
 		boolean negative = false;
 		if(chars.length > 0)
 		{
-			int pos = 0;
-			if(chars[pos] == '-')
+			if(chars[start] == '-')
 			{
 				negative = true;
-				pos++;
+				start++;
+				len--;
 			}
-			while(chars[pos] == '0')
-				pos++;
-			while(pos < chars.length)
+			while(chars[start] == '0') {
+				start++;
+				len--;
+			}
+			while(len-- > 0)
 			{
 				acc *= 10;
-				acc -= (chars[pos] - 48);
-				pos++;
+				acc -= (chars[start] - 48);
+				start++;
 			}
 		}
 		return (byte) (negative ? acc : -acc);
@@ -85,23 +105,51 @@ public final class Base10 {
 	 */
 	public static short stringToShort(final char[] chars)
 	{
+		return stringToShort(chars, 0, chars.length);
+	}
+	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 16 bits.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * <li>An integer pointing to the position of the first numeral char</li>
+	 * <li>An integer showing how many digits the number is</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the array contains non-numerals, the behavior of this
+	 * method is undefined</li>
+	 * <li>If the array represents an integer greater then 32767 or
+	 * less then -32768, then the behavior of this method is undefined
+	 * </li>
+	 * </ul>
+	 * Returns: a short with the value that the character string
+	 * represented.
+	 */
+	public static short stringToShort(final char[] chars, int start, int len)
+	{
 		short acc = 0;
 		boolean negative = false;
 		if(chars.length > 0)
 		{
-			int pos = 0;
-			if(chars[pos] == '-')
+			if(chars[start] == '-')
 			{
 				negative = true;
-				pos++;
+				start++;
+				len--;
 			}
-			while(chars[pos] == '0')
-				pos++;
-			while(pos < chars.length)
+			while(chars[start] == '0') {
+				start++;
+				len--;
+			}
+			while(len-- > 0)
 			{
 				acc *= 10;
-				acc -= (chars[pos] - 48);
-				pos++;
+				acc -= (chars[start] - 48);
+				start++;
 			}
 		}
 		return (short) (negative ? acc : -acc);
@@ -128,28 +176,56 @@ public final class Base10 {
 	 */
 	public static int stringToInt(final char[] chars)
 	{
+		return stringToInt(chars, 0, chars.length);
+	}
+	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 32 bits.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * <li>An integer pointing to the position of the first numeral char</li>
+	 * <li>An integer showing how many digits the number is</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the array contains non-numerals, the behavior of this
+	 * method is undefined</li>
+	 * <li>If the array represents an integer greater then 2147483647 
+	 * or less then -2147483648, then the behavior of this method is 
+	 * undefined</li>
+	 * </ul>
+	 * Returns: a int with the value that the character string
+	 * represented.
+	 */
+	public static int stringToInt(final char[] chars, int start, int len)
+	{
 		int acc = 0;
 		boolean negative = false;
 		if(chars.length > 0)
 		{
-			int pos = 0;
-			if(chars[pos] == '-')
+			if(chars[start] == '-')
 			{
 				negative = true;
-				pos++;
+				start++;
+				len--;
 			}
-			while(chars[pos] == '0')
-				pos++;
-			while(pos < chars.length)
+			while(chars[start] == '0') {
+				start++;
+				len--;
+			}
+			while(len-- > 0)
 			{
 				acc *= 10;
-				acc -= (chars[pos] - 48);
-				pos++;
+				acc -= (chars[start] - 48);
+				start++;
 			}
 		}
 		return negative ? acc : -acc;
 	}
-
+	
 	/**
 	 * Converts a string of human-readable chars into a machine
 	 * integer of 64 bits.
@@ -171,23 +247,51 @@ public final class Base10 {
 	 */
 	public static long stringToLong(final char[] chars)
 	{
+		return stringToLong(chars, 0, chars.length);
+	}
+
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 64 bits.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * <li>An integer pointing to the position of the first numeral char</li>
+	 * <li>An integer showing how many digits the number is</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the array contains non-numerals, the behavior of this
+	 * method is undefined</li>
+	 * <li>If the array represents an integer greater then Long.MAX_VALUE 
+	 * or less then Long.MIN_VALUE, then the behavior of this method is 
+	 * undefined</li>
+	 * </ul>
+	 * Returns: a long with the value that the character string
+	 * represented.
+	 */
+	public static long stringToLong(final char[] chars, int start, int len)
+	{
 		long acc = 0;
 		boolean negative = false;
 		if(chars.length > 0)
 		{
-			int pos = 0;
-			if(chars[pos] == '-')
+			if(chars[start] == '-')
 			{
 				negative = true;
-				pos++;
+				start++;
+				len--;
 			}
-			while(chars[pos] == '0')
-				pos++;
-			while(pos < chars.length)
+			while(chars[start] == '0') {
+				start++;
+				len--;
+			}
+			while(len-- > 0)
 			{
 				acc *= 10;
-				acc -= (chars[pos] - 48);
-				pos++;
+				acc -= (chars[start] - 48);
+				start++;
 			}
 		}
 		return negative ? acc : -acc;
