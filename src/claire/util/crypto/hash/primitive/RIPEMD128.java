@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.crypto.hash.primitive.RIPEMD128.RIPEMD128State;
 import claire.util.crypto.rng.RandUtils;
@@ -319,6 +320,23 @@ public final class RIPEMD128
 		IState state = blake.getState();
 		i += IPersistable.test(state);
 		return i;
+	}
+	
+	public HashFactory<RIPEMD128> factory()
+	{
+		return factory;
+	}
+	
+	public static final RIPEMD128Factory factory = new RIPEMD128Factory();
+	
+	public static final class RIPEMD128Factory extends HashFactory<RIPEMD128>
+	{
+
+		public RIPEMD128 build(char[] params, char sep)
+		{
+			return new RIPEMD128();
+		}
+		
 	}
 	
 }
