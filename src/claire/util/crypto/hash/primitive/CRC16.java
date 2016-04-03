@@ -196,7 +196,7 @@ public final class CRC16
 	public static final class CRC16Factory extends HashFactory<CRC16>
 	{
 
-		public CRC16 build(String params)
+		public CRC16 build(char[] params, char sep)
 		{
 			return new CRC16();
 		}

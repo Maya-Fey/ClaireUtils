@@ -195,7 +195,7 @@ public final class CRC8
 	public static final class CRC8Factory extends HashFactory<CRC8>
 	{
 
-		public CRC8 build(String params)
+		public CRC8 build(char[] params, char sep)
 		{
 			return new CRC8();
 		}

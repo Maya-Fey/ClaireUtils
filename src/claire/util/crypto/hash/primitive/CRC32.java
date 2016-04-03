@@ -227,7 +227,7 @@ public final class CRC32
 	public static final class CRC32Factory extends HashFactory<CRC32>
 	{
 
-		public CRC32 build(String params)
+		public CRC32 build(char[] params, char sep)
 		{
 			return new CRC32();
 		}
