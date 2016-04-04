@@ -64,15 +64,23 @@ public final class Base10 {
 		boolean negative = false;
 		if(chars.length > 0)
 		{
-			if(chars[start] == '-')
+			char z = chars[start];
+			if(z == '-')
 			{
 				negative = true;
 				start++;
 				len--;
-			}
-			while(chars[start] == '0') {
-				start++;
-				len--;
+			} else if(z == '0') {
+				if(len == 1) 
+					return 0;
+				else {
+					start++;
+					len--;
+				}
+				while(chars[start] == '0') {
+					start++;
+					len--;
+				}
 			}
 			while(len-- > 0)
 			{
@@ -135,15 +143,23 @@ public final class Base10 {
 		boolean negative = false;
 		if(chars.length > 0)
 		{
-			if(chars[start] == '-')
+			char z = chars[start];
+			if(z == '-')
 			{
 				negative = true;
 				start++;
 				len--;
-			}
-			while(chars[start] == '0') {
-				start++;
-				len--;
+			} else if(z == '0') {
+				if(len == 1) 
+					return 0;
+				else {
+					start++;
+					len--;
+				}
+				while(chars[start] == '0') {
+					start++;
+					len--;
+				}
 			}
 			while(len-- > 0)
 			{
@@ -206,15 +222,23 @@ public final class Base10 {
 		boolean negative = false;
 		if(chars.length > 0)
 		{
-			if(chars[start] == '-')
+			char z = chars[start];
+			if(z == '-')
 			{
 				negative = true;
 				start++;
 				len--;
-			}
-			while(chars[start] == '0') {
-				start++;
-				len--;
+			} else if(z == '0') {
+				if(len == 1) 
+					return 0;
+				else {
+					start++;
+					len--;
+				}
+				while(chars[start] == '0') {
+					start++;
+					len--;
+				}
 			}
 			while(len-- > 0)
 			{
@@ -277,15 +301,23 @@ public final class Base10 {
 		boolean negative = false;
 		if(chars.length > 0)
 		{
-			if(chars[start] == '-')
+			char z = chars[start];
+			if(z == '-')
 			{
 				negative = true;
 				start++;
 				len--;
-			}
-			while(chars[start] == '0') {
-				start++;
-				len--;
+			} else if(z == '0') {
+				if(len == 1) 
+					return 0;
+				else {
+					start++;
+					len--;
+				}
+				while(chars[start] == '0') {
+					start++;
+					len--;
+				}
 			}
 			while(len-- > 0)
 			{
@@ -322,13 +354,17 @@ public final class Base10 {
 		if(chars.length() > 0)
 		{
 			int pos = 0;
-			if(chars.charAt(pos) == '-')
-			{
+			char z = chars.charAt(0);
+			if(z == '-') {
 				negative = true;
 				pos++;
-			}
-			while(chars.charAt(pos) == '0')
+			} else if(z == '0') {
+				if(chars.length() == 1)
+					return 0;
 				pos++;
+				while(chars.charAt(pos) == '0')
+					pos++;
+			}
 			while(pos < chars.length())
 			{
 				acc *= 10;
@@ -365,13 +401,17 @@ public final class Base10 {
 		if(chars.length() > 0)
 		{
 			int pos = 0;
-			if(chars.charAt(pos) == '-')
-			{
+			char z = chars.charAt(0);
+			if(z == '-') {
 				negative = true;
 				pos++;
-			}
-			while(chars.charAt(pos) == '0')
+			} else if(z == '0') {
+				if(chars.length() == 1)
+					return 0;
 				pos++;
+				while(chars.charAt(pos) == '0')
+					pos++;
+			}
 			while(pos < chars.length())
 			{
 				acc *= 10;
@@ -408,13 +448,17 @@ public final class Base10 {
 		if(chars.length() > 0)
 		{
 			int pos = 0;
-			if(chars.charAt(pos) == '-')
-			{
+			char z = chars.charAt(0);
+			if(z == '-') {
 				negative = true;
 				pos++;
-			}
-			while(chars.charAt(pos) == '0')
+			} else if(z == '0') {
+				if(chars.length() == 1)
+					return 0;
 				pos++;
+				while(chars.charAt(pos) == '0')
+					pos++;
+			}
 			while(pos < chars.length())
 			{
 				acc *= 10;
@@ -451,13 +495,17 @@ public final class Base10 {
 		if(chars.length() > 0)
 		{
 			int pos = 0;
-			if(chars.charAt(pos) == '-')
-			{
+			char z = chars.charAt(0);
+			if(z == '-') {
 				negative = true;
 				pos++;
-			}
-			while(chars.charAt(pos) == '0')
+			} else if(z == '0') {
+				if(chars.length() == 1)
+					return 0;
 				pos++;
+				while(chars.charAt(pos) == '0')
+					pos++;
+			}
 			while(pos < chars.length())
 			{
 				acc *= 10;

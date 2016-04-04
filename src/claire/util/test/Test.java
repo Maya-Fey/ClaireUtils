@@ -80,6 +80,7 @@ import claire.util.crypto.hash.primitive.Tiger2;
 import claire.util.crypto.hash.primitive.Whirlpool;
 import claire.util.crypto.hash.primitive.Whirlpool_0;
 import claire.util.crypto.hash.primitive.Whirlpool_T;
+import claire.util.encoding.Base10;
 import claire.util.logging.Log;
 import claire.util.math.counters.IntCounter;
 import claire.util.math.counters.LongCounter;
@@ -270,6 +271,9 @@ public class Test {
 		reg += SHAvite256.test();
 		Log.info.println("Testing claire.util.crypto.hash.primitive.CubeHash");
 		reg += CubeHash.test();
+		Log.info.println("Testing ../encoding");
+		Log.info.println("Testing claire.util.encoding.Base10");
+		reg += Base10.test();
 		Log.info.println("Testing ../math");
 		Log.info.println("Testing counters");
 		Log.info.println("Testing claire.util.math.counters.IntCounter");
