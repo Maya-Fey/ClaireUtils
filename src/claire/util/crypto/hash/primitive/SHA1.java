@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.crypto.hash.primitive.SHA1.SHA1State;
 import claire.util.crypto.rng.RandUtils;
@@ -289,6 +290,23 @@ public class SHA1
 		IState state = blake.getState();
 		i += IPersistable.test(state);
 		return i;
+	}
+	
+	public HashFactory<SHA1> factory()
+	{
+		return factory;
+	}
+	
+	public static final SHA1Factory factory = new SHA1Factory();
+	
+	public static final class SHA1Factory extends HashFactory<SHA1>
+	{
+
+		public SHA1 build(char[] params, char sep)
+		{
+			return new SHA1();
+		}
+		
 	}
 	
 }
