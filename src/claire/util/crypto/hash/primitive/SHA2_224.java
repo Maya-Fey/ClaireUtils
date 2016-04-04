@@ -2,6 +2,7 @@ package claire.util.crypto.hash.primitive;
 
 import java.util.Arrays;
 
+import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.standards.IPersistable;
@@ -63,6 +64,23 @@ public final class SHA2_224
 		IState state = blake.getState();
 		i += IPersistable.test(state);
 		return i;
+	}
+	
+	public HashFactory<SHA2_224> factory()
+	{
+		return factory;
+	}
+	
+	public static final SHA2_224Factory factory = new SHA2_224Factory();
+	
+	public static final class SHA2_224Factory extends HashFactory<SHA2_224>
+	{
+
+		public SHA2_224 build(char[] params, char sep)
+		{
+			return new SHA2_224();
+		}
+		
 	}
 	
 
