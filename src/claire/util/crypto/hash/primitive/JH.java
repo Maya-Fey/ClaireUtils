@@ -4,7 +4,7 @@ import claire.util.standards.crypto.IHash;
 
 public class JH {
 
-	public IHash<?, ?> getBlake(int size) 
+	public IHash<?, ?> getJH(int size) 
 	{
 		switch(size)
 		{
