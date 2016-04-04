@@ -543,21 +543,52 @@ public final class Base10 {
 	 */
 	public static byte stringCheckByte(final char[] chars, final Pointer<Integer> error)
 	{
+		return stringCheckByte(chars, 0, chars.length, error);
+	}
+	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 8 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * <li>An integer pointing to the position of the first numeral char</li>
+	 * <li>An integer showing how many digits the number is</li>
+	 * <li>An integer pointer for passing error codes with the value of
+	 * zero.</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the pointer points too a nonzero error code, and the method
+	 * returns no errors, the error code will remain identical.</li>
+	 * <li>If the string contains non-numeral chars, then the value
+	 * of zero will be returned and the error code will be set too one.</li>
+	 * <li>If the string represents and integer that cannot fit in 8 bits,
+	 * then zero will be returned and the error code will be set to 
+	 * two.</li>
+	 * </ul>
+	 * Returns: a byte with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
+	 */
+	public static byte stringCheckByte(final char[] chars, int start, int len, final Pointer<Integer> error)
+	{
 		if(chars.length > 0)
 		{
 			int acc = 0;
 			boolean negative = false;
-			int pos = 0;
-			if(chars[pos] == '-')
+			if(chars[start] == '-')
 			{
 				negative = true;
-				pos++;
+				start++;
 			}
-			while(chars[pos] == '0')
-				pos++;
-			while(pos < chars.length)
+			while(chars[start] == '0')
+				start++;
+			while(len-- > 0)
 			{
-				final char c = chars[pos];
+				final char c = chars[start];
 				if(c < '0' || c > '9') {
 					error.set(1);
 					return 0;
@@ -568,7 +599,7 @@ public final class Base10 {
 					error.set(2);
 					return 0;
 				}
-				pos++;
+				start++;
 			}
 			if(acc == -128 && !negative) {
 				error.set(2);
@@ -606,21 +637,52 @@ public final class Base10 {
 	 */
 	public static short stringCheckShort(final char[] chars, final Pointer<Integer> error)
 	{
+		return stringCheckShort(chars, 0, chars.length, error);
+	}
+	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 16 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * <li>An integer pointing to the position of the first numeral char</li>
+	 * <li>An integer showing how many digits the number is</li>
+	 * <li>An integer pointer for passing error codes with the value of
+	 * zero.</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the pointer points too a nonzero error code, and the method
+	 * returns no errors, the error code will remain identical.</li>
+	 * <li>If the string contains non-numeral chars, then the value
+	 * of zero will be returned and the error code will be set too one.</li>
+	 * <li>If the string represents and integer that cannot fit in 16 bits,
+	 * then zero will be returned and the error code will be set to 
+	 * two.</li>
+	 * </ul>
+	 * Returns: a short with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
+	 */
+	public static short stringCheckShort(final char[] chars, int start, int len, final Pointer<Integer> error)
+	{
 		if(chars.length > 0)
 		{
 			short acc = 0;
 			boolean negative = false;
-			int pos = 0;
-			if(chars[pos] == '-')
+			if(chars[start] == '-')
 			{
 				negative = true;
-				pos++;
+				start++;
 			}
-			while(chars[pos] == '0')
-				pos++;
-			while(pos < chars.length)
+			while(chars[start] == '0')
+				start++;
+			while(len-- > 0)
 			{
-				final char c = chars[pos];
+				final char c = chars[start];
 				if(c < '0' || c > '9') {
 					error.set(1);
 					return 0;
@@ -631,7 +693,7 @@ public final class Base10 {
 					error.set(2);
 					return 0;
 				}
-				pos++;
+				start++;
 			}
 			if(acc == -32768 && !negative) {
 				error.set(2);
@@ -641,7 +703,7 @@ public final class Base10 {
 		} else
 			return 0;
 	}
-	
+
 	/**
 	 * Converts a string of human-readable chars into a machine
 	 * integer of 32 bits, adds an error code to a pointer should 
@@ -669,21 +731,52 @@ public final class Base10 {
 	 */
 	public static int stringCheckInt(final char[] chars, final Pointer<Integer> error)
 	{
+		return stringCheckInt(chars, 0, chars.length, error);
+	}
+	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 32 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * <li>An integer pointing to the position of the first numeral char</li>
+	 * <li>An integer showing how many digits the number is</li>
+	 * <li>An integer pointer for passing error codes with the value of
+	 * zero.</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the pointer points too a nonzero error code, and the method
+	 * returns no errors, the error code will remain identical.</li>
+	 * <li>If the string contains non-numeral chars, then the value
+	 * of zero will be returned and the error code will be set too one.</li>
+	 * <li>If the string represents and integer that cannot fit in 32 bits,
+	 * then zero will be returned and the error code will be set to 
+	 * two.</li>
+	 * </ul>
+	 * Returns: a int with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
+	 */
+	public static int stringCheckInt(final char[] chars, int start, int len, final Pointer<Integer> error)
+	{
 		if(chars.length > 0)
 		{
 			int acc = 0;
 			boolean negative = false;
-			int pos = 0;
-			if(chars[pos] == '-')
+			if(chars[start] == '-')
 			{
 				negative = true;
-				pos++;
+				start++;
 			}
-			while(chars[pos] == '0')
-				pos++;
-			while(pos < chars.length)
+			while(chars[start] == '0')
+				start++;
+			while(len-- > 0)
 			{
-				final char c = chars[pos];
+				final char c = chars[start];
 				if(c < '0' || c > '9') {
 					error.set(1);
 					return 0;
@@ -694,7 +787,7 @@ public final class Base10 {
 					error.set(2);
 					return 0;
 				}
-				pos++;
+				start++;
 			}
 			if(acc == 0x80000000 && !negative) {
 				error.set(2);
@@ -732,21 +825,52 @@ public final class Base10 {
 	 */
 	public static long stringCheckLong(final char[] chars, final Pointer<Integer> error)
 	{
+		return stringCheckLong(chars, 0, chars.length, error);
+	}
+	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 64 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * <li>An integer pointing to the position of the first numeral char</li>
+	 * <li>An integer showing how many digits the number is</li>
+	 * <li>An integer pointer for passing error codes with the value of
+	 * zero.</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the pointer points too a nonzero error code, and the method
+	 * returns no errors, the error code will remain identical.</li>
+	 * <li>If the string contains non-numeral chars, then the value
+	 * of zero will be returned and the error code will be set too one.</li>
+	 * <li>If the string represents and integer that cannot fit in 64 bits,
+	 * then zero will be returned and the error code will be set to 
+	 * two.</li>
+	 * </ul>
+	 * Returns: a long with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
+	 */
+	public static long stringCheckLong(final char[] chars, int start, int len, final Pointer<Integer> error)
+	{
 		if(chars.length > 0)
 		{
 			long acc = 0;
 			boolean negative = false;
-			int pos = 0;
-			if(chars[pos] == '-')
+			if(chars[start] == '-')
 			{
 				negative = true;
-				pos++;
+				start++;
 			}
-			while(chars[pos] == '0')
-				pos++;
-			while(pos < chars.length)
+			while(chars[start] == '0')
+				start++;
+			while(len-- > 0)
 			{
-				final char c = chars[pos];
+				final char c = chars[start];
 				if(c < '0' || c > '9') {
 					error.set(1);
 					return 0;
@@ -757,7 +881,7 @@ public final class Base10 {
 					error.set(2);
 					return 0;
 				}
-				pos++;
+				start++;
 			}
 			if(acc == 0x8000000000000000L && !negative) {
 				error.set(2);

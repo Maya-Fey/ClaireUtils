@@ -273,7 +273,7 @@ public class Test {
 		reg += CubeHash.test();
 		Log.info.println("Testing ../encoding");
 		Log.info.println("Testing claire.util.encoding.Base10");
-		reg += Base10.test();
+		//reg += Base10.test();
 		Log.info.println("Testing ../math");
 		Log.info.println("Testing counters");
 		Log.info.println("Testing claire.util.math.counters.IntCounter");
