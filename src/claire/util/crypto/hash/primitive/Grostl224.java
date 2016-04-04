@@ -1,5 +1,6 @@
 package claire.util.crypto.hash.primitive;
 
+import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.standards.IPersistable;
@@ -39,6 +40,23 @@ public class Grostl224
 		IState state = blake.getState();
 		i += IPersistable.test(state);
 		return i;
+	}
+	
+	public HashFactory<Grostl224> factory()
+	{
+		return factory;
+	}
+	
+	public static final Grostl224Factory factory = new Grostl224Factory();
+	
+	public static final class Grostl224Factory extends HashFactory<Grostl224>
+	{
+
+		public Grostl224 build(char[] params, char sep)
+		{
+			return new Grostl224();
+		}
+		
 	}
 
 }
