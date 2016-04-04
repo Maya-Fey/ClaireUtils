@@ -29,6 +29,8 @@ public final class Base10 {
 	 * method is undefined</li>
 	 * <li>If the array represents an integer greater then 127 or
 	 * less then -128, then the behavior of this method is undefined</li>
+	 * <li>If the string is of a length greater then one and contains nothing
+	 * but zeroes, an ArrayIndexOutOfBounds exception will be thrown</li>
 	 * </ul>
 	 * Returns: a byte with the value that the character string
 	 * represented.
@@ -54,6 +56,8 @@ public final class Base10 {
 	 * method is undefined</li>
 	 * <li>If the array represents an integer greater then 127 or
 	 * less then -128, then the behavior of this method is undefined</li>
+	 * <li>If the string is of a length greater then one and contains nothing
+	 * but zeroes, an ArrayIndexOutOfBounds exception will be thrown</li>
 	 * </ul>
 	 * Returns: a byte with the value that the character string
 	 * represented.
@@ -107,6 +111,8 @@ public final class Base10 {
 	 * <li>If the array represents an integer greater then 32767 or
 	 * less then -32768, then the behavior of this method is undefined
 	 * </li>
+	 * <li>If the string is of a length greater then one and contains nothing
+	 * but zeroes, an ArrayIndexOutOfBounds exception will be thrown</li>
 	 * </ul>
 	 * Returns: a short with the value that the character string
 	 * represented.
@@ -133,6 +139,8 @@ public final class Base10 {
 	 * <li>If the array represents an integer greater then 32767 or
 	 * less then -32768, then the behavior of this method is undefined
 	 * </li>
+	 * <li>If the string is of a length greater then one and contains nothing
+	 * but zeroes, an ArrayIndexOutOfBounds exception will be thrown</li>
 	 * </ul>
 	 * Returns: a short with the value that the character string
 	 * represented.
@@ -186,6 +194,8 @@ public final class Base10 {
 	 * <li>If the array represents an integer greater then 2147483647 
 	 * or less then -2147483648, then the behavior of this method is 
 	 * undefined</li>
+	 * <li>If the string is of a length greater then one and contains nothing
+	 * but zeroes, an ArrayIndexOutOfBounds exception will be thrown</li>
 	 * </ul>
 	 * Returns: a int with the value that the character string
 	 * represented.
@@ -212,6 +222,8 @@ public final class Base10 {
 	 * <li>If the array represents an integer greater then 2147483647 
 	 * or less then -2147483648, then the behavior of this method is 
 	 * undefined</li>
+	 * <li>If the string is of a length greater then one and contains nothing
+	 * but zeroes, an ArrayIndexOutOfBounds exception will be thrown</li>
 	 * </ul>
 	 * Returns: a int with the value that the character string
 	 * represented.
@@ -265,6 +277,8 @@ public final class Base10 {
 	 * <li>If the array represents an integer greater then Long.MAX_VALUE 
 	 * or less then Long.MIN_VALUE, then the behavior of this method is 
 	 * undefined</li>
+	 * <li>If the string is of a length greater then one and contains nothing
+	 * but zeroes, an ArrayIndexOutOfBounds exception will be thrown</li>
 	 * </ul>
 	 * Returns: a long with the value that the character string
 	 * represented.
@@ -291,6 +305,8 @@ public final class Base10 {
 	 * <li>If the array represents an integer greater then Long.MAX_VALUE 
 	 * or less then Long.MIN_VALUE, then the behavior of this method is 
 	 * undefined</li>
+	 * <li>If the string is of a length greater then one and contains nothing
+	 * but zeroes, an ArrayIndexOutOfBounds exception will be thrown</li>
 	 * </ul>
 	 * Returns: a long with the value that the character string
 	 * represented.
@@ -343,6 +359,8 @@ public final class Base10 {
 	 * method is undefined</li>
 	 * <li>If the string represents an integer greater then 127 or
 	 * less then -128, then the behavior of this method is undefined</li>
+	 * <li>If the string is of a length greater then one and contains nothing
+	 * but zeroes, an ArrayIndexOutOfBounds exception will be thrown</li>
 	 * </ul>
 	 * Returns: a byte with the value that the character string
 	 * represented.
@@ -390,6 +408,8 @@ public final class Base10 {
 	 * <li>If the string represents an integer greater then 32767 or
 	 * less then -32768, then the behavior of this method is undefined
 	 * </li>
+	 * <li>If the string is of a length greater then one and contains nothing
+	 * but zeroes, an ArrayIndexOutOfBounds exception will be thrown</li>
 	 * </ul>
 	 * Returns: a short with the value that the character string
 	 * represented.
@@ -437,6 +457,8 @@ public final class Base10 {
 	 * <li>If the string represents an integer greater then 2147483647 
 	 * or less then -2147483648, then the behavior of this method is 
 	 * undefined</li>
+	 * <li>If the string is of a length greater then one and contains nothing
+	 * but zeroes, an ArrayIndexOutOfBounds exception will be thrown</li>
 	 * </ul>
 	 * Returns: a int with the value that the character string
 	 * represented.
@@ -484,6 +506,8 @@ public final class Base10 {
 	 * <li>If the string represents an integer greater then Long.MAX_VALUE 
 	 * or less then Long.MIN_VALUE, then the behavior of this method is 
 	 * undefined</li>
+	 * <li>If the string is of a length greater then one and contains nothing
+	 * but zeroes, an ArrayIndexOutOfBounds exception will be thrown</li>
 	 * </ul>
 	 * Returns: a long with the value that the character string
 	 * represented.
@@ -583,9 +607,12 @@ public final class Base10 {
 			{
 				negative = true;
 				start++;
+				len--;
 			}
-			while(chars[start] == '0')
+			while(len > 0 && chars[start] == '0') {
 				start++;
+				len--;
+			}
 			while(len-- > 0)
 			{
 				final char c = chars[start];
@@ -677,9 +704,12 @@ public final class Base10 {
 			{
 				negative = true;
 				start++;
+				len--;
 			}
-			while(chars[start] == '0')
+			while(len > 0 && chars[start] == '0') {
 				start++;
+				len--;
+			}
 			while(len-- > 0)
 			{
 				final char c = chars[start];
@@ -771,9 +801,12 @@ public final class Base10 {
 			{
 				negative = true;
 				start++;
+				len--;
 			}
-			while(chars[start] == '0')
+			while(len > 0 && chars[start] == '0') {
 				start++;
+				len--;
+			}
 			while(len-- > 0)
 			{
 				final char c = chars[start];
@@ -865,9 +898,12 @@ public final class Base10 {
 			{
 				negative = true;
 				start++;
+				len--;
 			}
-			while(chars[start] == '0')
+			while(len > 0 && chars[start] == '0') {
 				start++;
+				len--;
+			}
 			while(len-- > 0)
 			{
 				final char c = chars[start];
