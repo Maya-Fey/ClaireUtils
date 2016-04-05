@@ -1,12 +1,15 @@
 package claire.util.encoding;
 
 import claire.util.memory.util.ArrayUtil;
-import claire.util.standards.CObject;
+import claire.util.standards.IDeepClonable;
+import claire.util.standards.IReferrable;
 import claire.util.standards.IUUID;
 import claire.util.standards._NAMESPACE;
 
 public class PartialString 
-	   implements IUUID<PartialString> {
+	   implements IUUID<PartialString>,
+	   			  IDeepClonable<PartialString>,
+	   			  IReferrable<PartialString> {
 
 	private int off, len;
 	
@@ -90,6 +93,11 @@ public class PartialString
 		} else
 			return false;
 		return true;
+	}
+
+	public PartialString createDeepClone()
+	{
+		return new PartialString(chars, off, len);
 	}
 	
 }
