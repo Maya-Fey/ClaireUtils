@@ -60,6 +60,13 @@ public class UTF16 {
 		fromUTF64(chars, 0, utf, 0, utf.length);
 	}
 	
+	public static char[] fromUTF64(long[] utf, int start, int len)
+	{
+		char[] chars = new char[len];
+		fromUTF64(chars, 0, utf, start, chars.length);
+		return chars;
+	}
+	
 	public static char[] fromUTF64(long[] utf)
 	{
 		char[] chars = new char[utf.length];
@@ -116,6 +123,13 @@ public class UTF16 {
 	public static void fromUTF32(char[] chars, int[] utf)
 	{
 		fromUTF32(chars, 0, utf, 0, utf.length);
+	}
+	
+	public static char[] fromUTF32(int[] utf, int start, int len)
+	{
+		char[] chars = new char[len];
+		fromUTF32(chars, 0, utf, start, len);
+		return chars;
 	}
 	
 	public static char[] fromUTF32(int[] utf)
@@ -193,6 +207,13 @@ public class UTF16 {
 		toUTF32(utf, 0, chars, 0, chars.length);
 	}
 	
+	public static int[] toUTF32(char[] utf, int start, int len)
+	{
+		int[] chars = new int[len];
+		toUTF32(utf, 0, chars, start, len);
+		return chars;
+	}
+	
 	public static int[] toUTF32(char[] utf)
 	{
 		int[] chars = new int[utf.length];
@@ -236,6 +257,13 @@ public class UTF16 {
 	public static void toUTF64(char[] utf, long[] chars)
 	{
 		toUTF64(utf, 0, chars, 0, chars.length);
+	}
+	
+	public static long[] toUTF64(char[] utf, int start, int len)
+	{
+		long[] chars = new long[len];
+		toUTF64(utf, 0, chars, start, len);
+		return chars;
 	}
 	
 	public static long[] toUTF64(char[] utf)
