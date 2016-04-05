@@ -1,5 +1,6 @@
 package claire.util.crypto.hash.primitive;
 
+import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.standards.IPersistable;
 import claire.util.standards.crypto.IHash;
@@ -1097,6 +1098,23 @@ public class Whirlpool
 		IState state = blake.getState();
 		i += IPersistable.test(state);
 		return i;
+	}
+	
+	public HashFactory<Whirlpool> factory()
+	{
+		return factory;
+	}
+	
+	public static final WhirlpoolFactory factory = new WhirlpoolFactory();
+	
+	public static final class WhirlpoolFactory extends HashFactory<Whirlpool>
+	{
+
+		public Whirlpool build(char[] params, char sep)
+		{
+			return new Whirlpool();
+		}
+		
 	}
 	
 }

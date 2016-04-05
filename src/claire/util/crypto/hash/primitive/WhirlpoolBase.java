@@ -12,8 +12,8 @@ import claire.util.standards._NAMESPACE;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
-public class WhirlpoolBase<Hash extends WhirlpoolBase<Hash>> 
-	   extends MerkleHash<WhirlpoolState, Hash> {
+public abstract class WhirlpoolBase<Hash extends WhirlpoolBase<Hash>> 
+	   		    extends MerkleHash<WhirlpoolState, Hash> {
 	
 	private final long[][] SCUBE;
 	private final long[] RC;
