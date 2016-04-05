@@ -1,5 +1,6 @@
 package claire.util.crypto.hash.primitive;
 
+import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.standards.IPersistable;
 import claire.util.standards.crypto.IHash;
@@ -30,6 +31,23 @@ public class Tiger1
 		IState state = blake.getState();
 		i += IPersistable.test(state);
 		return i;
+	}
+	
+	public HashFactory<Tiger1> factory()
+	{
+		return factory;
+	}
+	
+	public static final Tiger1Factory factory = new Tiger1Factory();
+	
+	public static final class Tiger1Factory extends HashFactory<Tiger1>
+	{
+
+		public Tiger1 build(char[] params, char sep)
+		{
+			return new Tiger1();
+		}
+		
 	}
 
 }

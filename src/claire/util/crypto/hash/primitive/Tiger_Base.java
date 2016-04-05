@@ -10,8 +10,8 @@ import claire.util.standards._NAMESPACE;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
-class Tiger_Base<Hash extends Tiger_Base<Hash>>
-extends MerkleHash<TigerState, Hash> {
+abstract class Tiger_Base<Hash extends Tiger_Base<Hash>>
+		 extends MerkleHash<TigerState, Hash> {
 	
 	private static final long[][] SCUBE = 
 	{
