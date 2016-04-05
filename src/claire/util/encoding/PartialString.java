@@ -42,6 +42,19 @@ public class PartialString
 	{
 		return ArrayUtil.subArr(chars, off, len);
 	}
+	
+	public String toString()
+	{
+		return new String(chars, len, off);
+	}
+	
+	public void print()
+	{
+		int i = off;
+		int j = len;
+		while(j-- > 0)
+			System.out.print(chars[i++]);
+	}
 
 	public int NAMESPACE()
 	{
