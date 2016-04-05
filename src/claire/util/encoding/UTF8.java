@@ -119,6 +119,21 @@ public final class UTF8 {
 		fromUTF32(ints, 0, bytes, 0, ints.length);
 	}
 	
+	public static byte[] fromUTF32(int[] ints, int start, int slen)
+	{
+		int len = 0;
+		while(slen-- > 0) {
+			len++;
+			int c = ints[start++];
+			for(int i = 0; i < MASKS.length; i++)
+			if((c & MASKS[i]) != c)
+				len++;
+		}
+		byte[] bytes = new byte[len];
+		fromUTF32(ints, 0, bytes, 0, ints.length);
+		return bytes;
+	}
+	
 	public static byte[] fromUTF32(int[] ints)
 	{
 		int len = 0;
@@ -229,6 +244,21 @@ public final class UTF8 {
 		fromUTF16(chars, 0, bytes, 0, chars.length);
 	}
 	
+	public static byte[] fromUTF16(char[] chars, int start, int slen)
+	{
+		int len = 0;
+		while(slen-- > 0) {
+			len++;
+			char c = chars[start++];
+			for(int i = 0; i < MASKS.length; i++)
+			if((c & MASKS[i]) != c)
+				len++;
+		}
+		byte[] bytes = new byte[len];
+		fromUTF16(chars, 0, bytes, 0, chars.length);
+		return bytes;
+	}
+	
 	public static byte[] fromUTF16(char[] chars)
 	{
 		int len = 0;
@@ -305,6 +335,19 @@ public final class UTF8 {
 	public static void toASCII(byte[] utf8, byte[] ascii)
 	{
 		toASCII(utf8, 0, ascii, 0, ascii.length);
+	}
+	
+	public static byte[] toASCII(byte[] utf8, int start, int slen)
+	{
+		int len = 0;
+		while(slen-- > 0) {
+			byte b = utf8[start++];
+			if((b & 0xC0) != 0x80)
+				len++;
+		}
+		byte[] bytes = new byte[len];
+		toASCII(utf8, 0, bytes, 0, len);
+		return bytes;
 	}
 	
 	public static byte[] toASCII(byte[] utf8)
@@ -437,6 +480,19 @@ public final class UTF8 {
 		toUTF16(bytes, 0, chars, 0, chars.length);
 	}
 	
+	public static char[] toUTF16(byte[] bytes, int start, int slen)
+	{
+		int len = 0;
+		while(slen-- > 0) {
+			byte b = bytes[start++];
+			if((b & 0xC0) != 0x80)
+				len++;
+		}
+		char[] chars = new char[len];
+		toUTF16(bytes, 0, chars, 0, len);
+		return chars;
+	}
+	
 	public static char[] toUTF16(byte[] bytes)
 	{
 		int len = 0;
@@ -548,6 +604,19 @@ public final class UTF8 {
 		toUTF32(bytes, 0, ints, 0, ints.length);
 	}
 	
+	public static int[] toUTF32(byte[] bytes, int start, int slen)
+	{
+		int len = 0;
+		while(slen-- > 0) {
+			byte b = bytes[start++];
+			if((b & 0xC0) != 0x80)
+				len++;
+		}
+		int[] ints = new int[len];
+		toUTF32(bytes, 0, ints, 0, len);
+		return ints;
+	}
+		
 	public static int[] toUTF32(byte[] bytes)
 	{
 		int len = 0;
