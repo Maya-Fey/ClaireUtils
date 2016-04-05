@@ -8,9 +8,9 @@ import claire.util.standards.crypto.IHash;
 
 public class HashFunction {
 	
-	private final IHash hash;
+	private final IHash<?, ?> hash;
 	
-	public HashFunction(IHash hash)
+	public HashFunction(IHash<?, ?> hash)
 	{
 		this.hash = hash;
 	}

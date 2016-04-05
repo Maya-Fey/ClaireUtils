@@ -2,7 +2,8 @@ package claire.util.memory.util;
 
 import claire.util.standards.IIterator;
 
-public class CIterator<T> implements IIterator<T>{
+public class CIterator<T> 
+	   implements IIterator<T>{
 	
 	T[] elements;
 	
