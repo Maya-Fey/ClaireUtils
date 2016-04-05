@@ -50,4 +50,46 @@ public class PartialString
 		return chars == obj.chars && (off == obj.off && len == obj.len); 
 	}
 	
+	public boolean equals(String s)
+	{
+		if(s.length() == len) {
+			int i = 0;
+			int j = off;
+			int k = len;
+			while(k-- > 0)
+				if(chars[j++] != s.charAt(i++))
+					return false;
+		} else
+			return false;
+		return true;
+	}
+	
+	public boolean equals(char[] arr)
+	{
+		if(arr.length == len) {
+			int i = 0;
+			int j = off;
+			int k = len;
+			while(k-- > 0)
+				if(chars[j++] != arr[i++])
+					return false;
+		} else
+			return false;
+		return true;
+	}
+	
+	public boolean equals(char[] arr, int start, int length)
+	{
+		if(length == len) {
+			int i = start;
+			int j = off;
+			int k = len;
+			while(k-- > 0)
+				if(chars[j++] !=  arr[i++])
+					return false;
+		} else
+			return false;
+		return true;
+	}
+	
 }
