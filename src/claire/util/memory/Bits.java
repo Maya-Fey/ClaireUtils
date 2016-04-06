@@ -1679,6 +1679,13 @@ public interface Bits<Type extends Bits<Type>>
 		bytesToBits(bytes, 0, bits, 0, bytes.length);
 	}
 	
+	public static boolean[] bytesToBits(byte[] bytes, int start, int len)
+	{
+		boolean[] bits = new boolean[len << 3];
+		bytesToBits(bytes, start, bits, 0, len);
+		return bits;
+	}
+	
 	public static boolean[] bytesToBits(byte[] bytes)
 	{
 		boolean[] bits = new boolean[bytes.length << 3];
@@ -1704,6 +1711,13 @@ public interface Bits<Type extends Bits<Type>>
 	public static void bytesToNibbles(byte[] bytes, byte[] nibbles)
 	{
 		bytesToNibbles(bytes, 0, nibbles, 0, bytes.length);
+	}
+	
+	public static byte[] bytesToNibbles(byte[] bytes, int start, int len)
+	{
+		byte[] nibbles = new byte[len << 1];
+		bytesToNibbles(bytes, start, nibbles, 0, len);
+		return nibbles;
 	}
 	
 	public static byte[] bytesToNibbles(byte[] bytes)
@@ -1753,6 +1767,13 @@ public interface Bits<Type extends Bits<Type>>
 		bytesToShorts(bytes, 0, shorts, 0, shorts.length);
 	}
 	
+	public static short[] bytesToShorts(byte[] bytes, int start, int len)
+	{
+		short[] shorts = new short[len >> 1];
+		bytesToShorts(bytes, start, shorts, 0, len);
+		return shorts;
+	}
+	
 	public static short[] bytesToShorts(byte[] bytes)
 	{
 		short[] shorts = new short[bytes.length >> 1];
@@ -1778,6 +1799,13 @@ public interface Bits<Type extends Bits<Type>>
 	public static void bytesToChars(byte[] bytes, char[] chars)
 	{
 		bytesToChars(bytes, 0, chars, 0, chars.length);
+	}
+	
+	public static char[] bytesToChars(byte[] bytes, int start, int len)
+	{
+		char[] chars = new char[len >> 1];
+		bytesToChars(bytes, start, chars, 0, len);
+		return chars;
 	}
 	
 	public static char[] bytesToChars(byte[] bytes)
@@ -1838,6 +1866,13 @@ public interface Bits<Type extends Bits<Type>>
 		bytesToInts(bytes, 0, ints, 0, ints.length);
 	}
 	
+	public static int[] bytesToInts(byte[] bytes, int start, int len)
+	{
+		int[] ints = new int[len >> 2];
+		bytesToInts(bytes, start, ints, 0, len);
+		return ints;
+	}
+	
 	public static int[] bytesToInts(byte[] bytes)
 	{
 		int[] ints = new int[bytes.length >> 2];
@@ -1889,6 +1924,13 @@ public interface Bits<Type extends Bits<Type>>
 	public static void bytesToLongs(byte[] bytes, long[] longs)
 	{
 		bytesToLongs(bytes, 0, longs, 0, longs.length);
+	}
+	
+	public static long[] bytesToLongs(byte[] bytes, int start, int len)
+	{
+		long[] longs = new long[len >> 3];
+		bytesToLongs(bytes, start, longs, 0, len);
+		return longs;
 	}
 	
 	public static long[] bytesToLongs(byte[] bytes)
