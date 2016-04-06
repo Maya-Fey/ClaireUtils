@@ -125,6 +125,25 @@ public final class CTFS {
 		fromUTF16(utf, 0, bytes, 0, utf.length);
 	}
 	
+	public static byte[] fromUTF16(char[] utf, int start, int slen)
+	{
+		int len = 0;
+		while(slen-- > 0)
+		{
+			char c = utf[start++];
+			if(c > 0x7F)
+				if(c > 0x3FFF)
+					len += 3;
+				else
+					len += 2;
+			else
+				len++;
+		}
+		byte[] bytes = new byte[len];
+		fromUTF16(utf, 0, bytes, 0, utf.length);
+		return bytes;
+	}
+	
 	public static byte[] fromUTF16(char[] utf)
 	{
 		int len = 0;
@@ -242,6 +261,24 @@ public final class CTFS {
 	public static void fromUTF32(int[] utf, byte[] bytes)
 	{
 		fromUTF32(utf, 0, bytes, 0, utf.length);
+	}
+	
+	public static byte[] fromUTF32(int[] utf, int start, int slen)
+	{
+		int len = 0;
+		while(slen-- > 0)
+		{
+			int c = utf[start++];
+			len++;
+			for(int i = 0; i < MASKS.length; i++)
+				if((c & MASKS[i]) != c)
+					len++;
+				else 
+					break;
+		}
+		byte[] bytes = new byte[len];
+		fromUTF32(utf, 0, bytes, 0, utf.length);
+		return bytes;
 	}
 	
 	public static byte[] fromUTF32(int[] utf)
@@ -364,6 +401,24 @@ public final class CTFS {
 		fromUTF64(utf, 0, bytes, 0, utf.length);
 	}
 	
+	public static byte[] fromUTF64(long[] utf, int start, int slen)
+	{
+		int len = 0;
+		while(slen-- > 0)
+		{
+			long c = utf[start++];
+			len++;
+			for(int i = 0; i < MASKS.length; i++)
+				if((c & MASKS[i]) != c)
+					len++;
+				else 
+					break;
+		}
+		byte[] bytes = new byte[len];
+		fromUTF64(utf, 0, bytes, 0, utf.length);
+		return bytes;
+	}
+	
 	public static byte[] fromUTF64(long[] utf)
 	{
 		int len = 0;
@@ -444,6 +499,17 @@ public final class CTFS {
 	public static void toUTF64(byte[] ctfl, long[] utf)
 	{
 		toUTF64(ctfl, 0, utf, 0, utf.length);
+	}
+	
+	public static long[] toUTF64(byte[] ctfl, int start, int slen)
+	{
+		int len = 0;
+		while(slen-- > 0)
+			if(ctfl[start++] >= 0)
+				len++;
+		long[] longs = new long[len];
+		toUTF64(ctfl, 0, longs, 0, len);
+		return longs;
 	}
 	
 	public static long[] toUTF64(byte[] ctfl)
@@ -546,6 +612,17 @@ public final class CTFS {
 		toUTF32(ctfl, 0, utf, 0, utf.length);
 	}
 	
+	public static int[] toUTF32(byte[] ctfl, int start, int slen)
+	{
+		int len = 0;
+		while(slen-- > 0)
+			if(ctfl[start++] >= 0)
+				len++;
+		int[] ints = new int[len];
+		toUTF32(ctfl, 0, ints, 0, len);
+		return ints;
+	}
+	
 	public static int[] toUTF32(byte[] ctfl)
 	{
 		int len = 0;
@@ -644,6 +721,17 @@ public final class CTFS {
 	public static void toUTF16(byte[] ctfl, char[] utf)
 	{
 		toUTF16(ctfl, 0, utf, 0, utf.length);
+	}
+	
+	public static char[] toUTF16(byte[] ctfl, int start, int slen)
+	{
+		int len = 0;
+		while(slen-- > 0)
+			if(ctfl[start++] >= 0)
+				len++;
+		char[] chars = new char[len];
+		toUTF16(ctfl, 0, chars, 0, len);
+		return chars;
 	}
 	
 	public static char[] toUTF16(byte[] ctfl)
