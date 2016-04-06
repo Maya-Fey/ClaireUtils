@@ -1446,6 +1446,13 @@ public interface Bits<Type extends Bits<Type>>
 		nibblesToBits(nibbles, 0, bits, 0, nibbles.length);
 	}
 	
+	public static boolean[] nibblesToBits(byte[] nibbles, int start, int len)
+	{
+		boolean[] bits = new boolean[len << 2];
+		nibblesToBits(nibbles, start, bits, 0, len);
+		return bits;
+	}
+	
 	public static boolean[] nibblesToBits(byte[] nibbles)
 	{
 		boolean[] bits = new boolean[nibbles.length << 2];
@@ -1471,6 +1478,13 @@ public interface Bits<Type extends Bits<Type>>
 	public static void nibblesToBytes(byte[] nibbles, byte[] bytes)
 	{
 		nibblesToBytes(nibbles, 0, bytes, 0, nibbles.length);
+	}
+	
+	public static byte[] nibblesToBytes(byte[] nibbles, int start, int len)
+	{
+		byte[] bytes = new byte[len >>> 1];
+		nibblesToBytes(nibbles, start, bytes, 0, len);
+		return bytes;
 	}
 	
 	public static byte[] nibblesToBytes(byte[] nibbles)
@@ -1502,6 +1516,13 @@ public interface Bits<Type extends Bits<Type>>
 		nibblesToShorts(nibbles, 0, shorts, 0, shorts.length);
 	}
 	
+	public static short[] nibblesToShorts(byte[] nibbles, int start, int len)
+	{
+		short[] shorts = new short[len >>> 2];
+		nibblesToShorts(nibbles, start, shorts, 0, len);
+		return shorts;
+	}
+	
 	public static short[] nibblesToShorts(byte[] nibbles)
 	{
 		short[] shorts = new short[nibbles.length >>> 2];
@@ -1529,6 +1550,13 @@ public interface Bits<Type extends Bits<Type>>
 	public static void nibblesToChars(byte[] nibbles, char[] chars)
 	{
 		nibblesToChars(nibbles, 0, chars, 0, chars.length);
+	}
+	
+	public static char[] nibblesToChars(byte[] nibbles, int start, int len)
+	{
+		char[] chars = new char[len >> 1];
+		nibblesToChars(nibbles, start, chars, 0, len);
+		return chars;
 	}
 	
 	public static char[] nibblesToChars(byte[] nibbles)
@@ -1562,6 +1590,13 @@ public interface Bits<Type extends Bits<Type>>
 	public static void nibblesToInts(byte[] nibbles, int[] ints)
 	{
 		nibblesToInts(nibbles, 0, ints, 0, ints.length);
+	}
+	
+	public static int[] nibblesToInts(byte[] nibbles, int start, int len)
+	{
+		int[] ints = new int[len >> 2];
+		nibblesToInts(nibbles, start, ints, 0, len);
+		return ints;
 	}
 	
 	public static int[] nibblesToInts(byte[] nibbles)
@@ -1603,6 +1638,13 @@ public interface Bits<Type extends Bits<Type>>
 	public static void nibblesToLongs(byte[] nibbles, long[] longs)
 	{
 		nibblesToLongs(nibbles, 0, longs, 0, longs.length);
+	}
+	
+	public static long[] nibblesToLongs(byte[] nibbles, int start, int len)
+	{
+		long[] longs = new long[len >> 3];
+		nibblesToLongs(nibbles, start, longs, 0, len);
+		return longs;
 	}
 	
 	public static long[] nibblesToLongs(byte[] nibbles)
