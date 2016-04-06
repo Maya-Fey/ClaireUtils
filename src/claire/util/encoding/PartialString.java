@@ -55,6 +55,36 @@ public class PartialString
 		while(j-- > 0)
 			System.out.print(chars[i++]);
 	}
+	
+	public byte[] toBytesCTFS()
+	{
+		return CTFS.fromUTF16(chars, off, len);
+	}
+	
+	public void toBytesCTFS(byte[] bytes)
+	{
+		CTFS.fromUTF16(chars, off, bytes, 0, len);
+	}
+	
+	public void toBytesCTFS(byte[] bytes, int start)
+	{
+		CTFS.fromUTF16(chars, off, bytes, start, len);
+	}
+	
+	public byte[] toBytesCTFL()
+	{
+		return CTFL.fromUTF16(chars, off, len);
+	}
+	
+	public void toBytesCTFL(byte[] bytes)
+	{
+		CTFL.fromUTF16(chars, off, bytes, 0, len);
+	}
+	
+	public void toBytesCTFL(byte[] bytes, int start)
+	{
+		CTFL.fromUTF16(chars, off, bytes, start, len);
+	}
 
 	public int NAMESPACE()
 	{
