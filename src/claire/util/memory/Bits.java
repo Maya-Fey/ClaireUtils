@@ -1244,6 +1244,13 @@ public interface Bits<Type extends Bits<Type>>
 		bitsToByte(bits, 0, bytes, 0, (bits.length >> 3) + ((bits.length % 8 > 0) ? 1 : 0));
 	}
 	
+	public static byte[] bitsToByte(boolean[] bits, int start, int len)
+	{
+		byte[] bytes = new byte[(len >> 3) + (len % 8 > 0 ? 1 : 0)];
+		bitsToByte(bits, start, bytes, 0, len);
+		return bytes;
+	}
+	
 	public static byte[] bitsToByte(boolean[] bits)
 	{
 		byte[] bytes = new byte[(bits.length >> 3) + (bits.length % 8 > 0 ? 1 : 0)];
@@ -1285,6 +1292,13 @@ public interface Bits<Type extends Bits<Type>>
 		return shorts;
 	}
 	
+	public static short[] bitsToShort(boolean[] bits, int start, int len)
+	{
+		short[] shorts = new short[(len >> 4) + (len % 16 > 0 ? 1 : 0)];
+		bitsToShort(bits, start, shorts, 0, len);
+		return shorts;
+	}
+	
 	public static void bitsToChar(boolean[] bits, int start0, char[] chars, int start1, int len)
 	{
 		int charroof = start1 + len, roof;
@@ -1310,6 +1324,13 @@ public interface Bits<Type extends Bits<Type>>
 	public static void bitsToChar(boolean[] bits, char[] chars)
 	{
 		bitsToChar(bits, 0, chars, 0, (bits.length >> 4) + ((bits.length % 16 > 0) ? 1 : 0));
+	}
+	
+	public static char[] bitsToChar(boolean[] bits, int start, int len)
+	{
+		char[] chars = new char[(len>> 4) + (len % 16 > 0 ? 1 : 0)];
+		bitsToChar(bits, start, chars, 0, len);
+		return chars;
 	}
 	
 	public static char[] bitsToChar(boolean[] bits)
@@ -1346,6 +1367,13 @@ public interface Bits<Type extends Bits<Type>>
 		bitsToInt(bits, 0, ints, 0, (bits.length >> 5) + ((bits.length % 32 > 0) ? 1 : 0));
 	}
 	
+	public static int[] bitsToInt(boolean[] bits, int start, int len)
+	{
+		int[] ints = new int[(len >> 5) + (len % 32 > 0 ? 1 : 0)];
+		bitsToInt(bits, start, ints, 0, len);
+		return ints;
+	}
+	
 	public static int[] bitsToInt(boolean[] bits)
 	{
 		int[] ints = new int[(bits.length >> 5) + (bits.length % 32 > 0 ? 1 : 0)];
@@ -1378,6 +1406,13 @@ public interface Bits<Type extends Bits<Type>>
 	public static void bitsToLong(boolean[] bits, long[] longs)
 	{
 		bitsToLong(bits, 0, longs, 0, (bits.length >> 6) + ((bits.length % 64 > 0) ? 1 : 0));
+	}
+	
+	public static long[] bitsToLong(boolean[] bits, int start, int len)
+	{
+		long[] longs = new long[(len >> 6) + (len % 64 > 0 ? 1 : 0)];
+		bitsToLong(bits, start, longs, 0, len);
+		return longs;
 	}
 	
 	public static long[] bitsToLong(boolean[] bits)
