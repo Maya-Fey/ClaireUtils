@@ -2149,6 +2149,13 @@ public interface Bits<Type extends Bits<Type>>
 		charsToBits(chars, 0, bits, 0, chars.length);
 	}
 	
+	public static boolean[] charsToBits(char[] chars, int start, int len)
+	{
+		boolean[] bits = new boolean[len << 4];
+		charsToBits(chars, start, bits, 0, len);
+		return bits;
+	}
+	
 	public static boolean[] charsToBits(char[] chars)
 	{
 		boolean[] bits = new boolean[chars.length << 4];
@@ -2184,6 +2191,13 @@ public interface Bits<Type extends Bits<Type>>
 		charsToBytes(chars, 0, bytes, 0);
 	}
 	
+	public static byte[] charsToBytes(char[] chars, int start, int len)
+	{
+		byte[] bytes = new byte[len << 1];
+		charsToBytes(chars, start, bytes, 0, len);
+		return bytes;
+	}
+	
 	public static byte[] charsToBytes(char[] chars)
 	{
 		byte[] bytes = new byte[chars.length << 1];
@@ -2208,6 +2222,13 @@ public interface Bits<Type extends Bits<Type>>
 	public static void charsToShorts(char[] chars, short[] shorts)
 	{
 		charsToShorts(chars, 0, shorts, 0);
+	}
+	
+	public static short[] charsToShorts(char[] chars, int start, int len)
+	{
+		short[] shorts = new short[len];
+		charsToShorts(chars, start, shorts, 0, len);
+		return shorts;
 	}
 	
 	public static short[] charsToShorts(char[] chars)
@@ -2237,6 +2258,13 @@ public interface Bits<Type extends Bits<Type>>
 		charsToInts(chars, 0, ints, 0);
 	}
 	
+	public static int[] charsToInts(char[] chars, int start, int len)
+	{
+		int[] ints = new int[len >> 1];
+		charsToInts(chars, start, ints, 0, len);
+		return ints;
+	}
+	
 	public static int[] charsToInts(char[] chars)
 	{
 		int[] ints = new int[chars.length >> 1];
@@ -2264,6 +2292,13 @@ public interface Bits<Type extends Bits<Type>>
 	public static void charsToLongs(char[] chars, long[] longs)
 	{
 		charsToLongs(chars, 0, longs, 0);
+	}
+	
+	public static long[] charsToLongs(char[] chars, int start, int len)
+	{
+		long[] longs = new long[len >> 2];
+		charsToLongs(chars, start, longs, 0, len);
+		return longs;
 	}
 	
 	public static long[] charsToLongs(char[] chars)
