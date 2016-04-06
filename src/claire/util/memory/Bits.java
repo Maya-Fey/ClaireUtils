@@ -1965,6 +1965,13 @@ public interface Bits<Type extends Bits<Type>>
 		shortsToBits(shorts, 0, bits, 0, shorts.length);
 	}
 	
+	public static boolean[] shortsToBits(short[] shorts, int start, int len)
+	{
+		boolean[] bits = new boolean[len << 4];
+		shortsToBits(shorts, start, bits, 0, len);
+		return bits;
+	}
+	
 	public static boolean[] shortsToBits(short[] shorts)
 	{
 		boolean[] bits = new boolean[shorts.length << 4];
@@ -2000,6 +2007,13 @@ public interface Bits<Type extends Bits<Type>>
 		shortsToBytes(shorts, 0, bytes, 0);
 	}
 	
+	public static byte[] shortsToBytes(short[] shorts, int start, int len)
+	{
+		byte[] bytes = new byte[len << 1];
+		shortsToBytes(shorts, start, bytes, 0, len);
+		return bytes;
+	}
+	
 	public static byte[] shortsToBytes(short[] shorts)
 	{
 		byte[] bytes = new byte[shorts.length << 1];
@@ -2024,6 +2038,13 @@ public interface Bits<Type extends Bits<Type>>
 	public static void shortsToChars(short[] shorts, char[] chars)
 	{
 		shortsToChars(shorts, 0, chars, 0);
+	}
+	
+	public static char[] shortsToChars(short[] shorts, int start, int len)
+	{
+		char[] chars = new char[len];
+		shortsToChars(shorts, start, chars, 0, len);
+		return chars;
 	}
 	
 	public static char[] shortsToChars(short[] shorts)
@@ -2053,6 +2074,13 @@ public interface Bits<Type extends Bits<Type>>
 		shortsToInts(shorts, 0, ints, 0);
 	}
 	
+	public static int[] shortsToInts(short[] shorts, int start, int len)
+	{
+		int[] ints = new int[len >> 1];
+		shortsToInts(shorts, start, ints, 0, len);
+		return ints;
+	}
+	
 	public static int[] shortsToInts(short[] shorts)
 	{
 		int[] ints = new int[shorts.length >> 1];
@@ -2080,6 +2108,13 @@ public interface Bits<Type extends Bits<Type>>
 	public static void shortsToLongs(short[] shorts, long[] longs)
 	{
 		shortsToLongs(shorts, 0, longs, 0);
+	}
+	
+	public static long[] shortsToLongs(short[] shorts, int start, int len)
+	{
+		long[] longs = new long[len >> 2];
+		shortsToLongs(shorts, start, longs, 0, len);
+		return longs;
 	}
 	
 	public static long[] shortsToLongs(short[] shorts)
