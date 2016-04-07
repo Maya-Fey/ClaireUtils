@@ -1182,13 +1182,327 @@ public final class Base10 {
 	
 	/**
 	 * Converts a string of human-readable chars into a machine
+	 * integer of 8 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the string contains non-numeral chars, an exception will be thrown</li>
+	 * <li>If the string represents and integer that cannot fit in 8 bits,
+	 * an exception will be thrown</li>
+	 * </ul>
+	 * Returns: a byte with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
+	 */
+	public static byte stringExcepByte(final char[] chars)
+	{
+		return stringExcepByte(chars, 0, chars.length);
+	}
+	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 8 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * <li>An integer pointing to the position of the first numeral char</li>
+	 * <li>An integer showing how many digits the number is</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the string contains non-numeral chars, an exception will be thrown</li>
+	 * <li>If the string represents and integer that cannot fit in 8 bits,
+	 * an exception will be thrown</li>
+	 * </ul>
+	 * Returns: a byte with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
+	 */
+	public static byte stringExcepByte(final char[] chars, int start, int len)
+	{
+		if(chars.length > 0)
+		{
+			int acc = 0;
+			boolean negative = false;
+			if(chars[start] == '-')
+			{
+				negative = true;
+				start++;
+				len--;
+			}
+			while(len > 0 && chars[start] == '0') {
+				start++;
+				len--;
+			}
+			while(len-- > 0)
+			{
+				final char c = chars[start];
+				if(c < '0' || c > '9') 
+					throw new java.lang.NumberFormatException("String contained characters that were not numerals.");
+				acc *= 10;
+				acc -= (c - 48);
+				if(acc < -128) 
+					throw new java.lang.NumberFormatException("String represented a number that could not fit in 8 bits");
+				start++;
+			}
+			if(acc == -128 && !negative) 
+				throw new java.lang.NumberFormatException("String represented a number that could not fit in 8 bits");
+			return (byte) (negative ? acc : -acc);
+		} else
+			return 0;
+	}
+	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 16 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the string contains non-numeral chars, an exception will be thrown</li>
+	 * <li>If the string represents and integer that cannot fit in 8 bits,
+	 * an exception will be thrown</li>
+	 * </ul>
+	 * Returns: a short with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
+	 */
+	public static short stringExcepShort(final char[] chars)
+	{
+		return stringExcepShort(chars, 0, chars.length);
+	}
+	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 16 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * <li>An integer pointing to the position of the first numeral char</li>
+	 * <li>An integer showing how many digits the number is</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the string contains non-numeral chars, an exception will be thrown</li>
+	 * <li>If the string represents and integer that cannot fit in 8 bits,
+	 * an exception will be thrown</li>
+	 * </ul>
+	 * Returns: a short with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
+	 */
+	public static short stringExcepShort(final char[] chars, int start, int len)
+	{
+		if(chars.length > 0)
+		{
+			short acc = 0;
+			boolean negative = false;
+			if(chars[start] == '-')
+			{
+				negative = true;
+				start++;
+				len--;
+			}
+			while(len > 0 && chars[start] == '0') {
+				start++;
+				len--;
+			}
+			while(len-- > 0)
+			{
+				final char c = chars[start];
+				if(c < '0' || c > '9') 
+					throw new java.lang.NumberFormatException("String contained characters that were not numerals.");
+				acc *= 10;
+				acc -= (c - 48);
+				if(acc >= 0) 
+					throw new java.lang.NumberFormatException("String represented a number that could not fit in16 bits");
+				start++;
+			}
+			if(acc == -32768 && !negative) 
+				throw new java.lang.NumberFormatException("String represented a number that could not fit in 16 bits");
+			return (short) (negative ? acc : -acc);
+		} else
+			return 0;
+	}
+
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 32 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the string contains non-numeral chars, an exception will be thrown</li>
+	 * <li>If the string represents and integer that cannot fit in 8 bits,
+	 * an exception will be thrown</li>
+	 * </ul>
+	 * Returns: a int with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
+	 */
+	public static int stringExcepInt(final char[] chars)
+	{
+		return stringExcepInt(chars, 0, chars.length);
+	}
+	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 32 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * <li>An integer pointing to the position of the first numeral char</li>
+	 * <li>An integer showing how many digits the number is</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the string contains non-numeral chars, an exception will be thrown</li>
+	 * <li>If the string represents and integer that cannot fit in 8 bits,
+	 * an exception will be thrown</li>
+	 * </ul>
+	 * Returns: a int with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
+	 */
+	public static int stringExcepInt(final char[] chars, int start, int len)
+	{
+		if(chars.length > 0)
+		{
+			int acc = 0;
+			boolean negative = false;
+			if(chars[start] == '-')
+			{
+				negative = true;
+				start++;
+				len--;
+			}
+			while(len > 0 && chars[start] == '0') {
+				start++;
+				len--;
+			}
+			while(len-- > 0)
+			{
+				final char c = chars[start];
+				if(c < '0' || c > '9') 
+					throw new java.lang.NumberFormatException("String contained characters that were not numerals.");
+				acc *= 10;
+				acc -= (c - 48);
+				if(acc >= 0) 
+					throw new java.lang.NumberFormatException("String represented a number that could not fit in 32 bits");
+				start++;
+			}
+			if(acc == 0x80000000 && !negative) 
+				throw new java.lang.NumberFormatException("String represented a number that could not fit in 32 bits");
+			return negative ? acc : -acc;
+		} else
+			return 0;
+	}
+	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 64 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the string contains non-numeral chars, an exception will be thrown</li>
+	 * <li>If the string represents and integer that cannot fit in 8 bits,
+	 * an exception will be thrown</li>
+	 * </ul>
+	 * Returns: a long with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
+	 */
+	public static long stringExcepLong(final char[] chars)
+	{
+		return stringExcepLong(chars, 0, chars.length);
+	}
+	
+	/**
+	 * Converts a string of human-readable chars into a machine
+	 * integer of 64 bits, adds an error code to a pointer should 
+	 * anything go wrong during the conversion.
+	 * <br><br>
+	 * Expects: 
+	 * <ul>
+	 * <li>An array of chars representing an integer</li>
+	 * <li>An integer pointing to the position of the first numeral char</li>
+	 * <li>An integer showing how many digits the number is</li>
+	 * </ul>
+	 * Exceptions:
+	 * <ul>
+	 * <li>If the string contains non-numeral chars, an exception will be thrown</li>
+	 * <li>If the string represents and integer that cannot fit in 8 bits,
+	 * an exception will be thrown</li>
+	 * </ul>
+	 * Returns: a long with the value that the character string
+	 * represented. If the method returns successfully an error
+	 * code of zero will remain in the pointer.
+	 */
+	public static long stringExcepLong(final char[] chars, int start, int len)
+	{
+		if(chars.length > 0)
+		{
+			long acc = 0;
+			boolean negative = false;
+			if(chars[start] == '-')
+			{
+				negative = true;
+				start++;
+				len--;
+			}
+			while(len > 0 && chars[start] == '0') {
+				start++;
+				len--;
+			}
+			while(len-- > 0)
+			{
+				final char c = chars[start];
+				if(c < '0' || c > '9') 
+					throw new java.lang.NumberFormatException("String contained characters that were not numerals.");
+				acc *= 10;
+				acc -= (c - 48);
+				if(acc >= 0) 
+					throw new java.lang.NumberFormatException("String represented a number that could not fit in 64 bits");
+				start++;
+			}
+			if(acc == 0x8000000000000000L && !negative) 
+				throw new java.lang.NumberFormatException("String represented a number that could not fit in 64 bits");
+			return negative ? acc : -acc;
+		} else
+			return 0;
+	}
+	
+	/**
+	 * Converts a string of human-readable chars into a machine
 	 * integer of 8 bits, and throws an exception in the event of error.
 	 * <br><br>
 	 * Expects: 
 	 * <ul>
 	 * <li>An string representing an integer</li>
-	 * <li>An integer pointer for passing error codes with the value of
-	 * zero.</li>
 	 * </ul>
 	 * Exceptions:
 	 * <ul>
@@ -1239,8 +1553,6 @@ public final class Base10 {
 	 * Expects: 
 	 * <ul>
 	 * <li>An string representing an integer</li>
-	 * <li>An integer pointer for passing error codes with the value of
-	 * zero.</li>
 	 * </ul>
 	 * Exceptions:
 	 * <ul>
@@ -1274,11 +1586,11 @@ public final class Base10 {
 				acc *= 10;
 				acc -= (c - 48);
 				if(acc >= 0) 
-					throw new java.lang.NumberFormatException("String represented a number that could not fit in 8 bits");
+					throw new java.lang.NumberFormatException("String represented a number that could not fit in 16 bits");
 				pos++;
 			}
 			if(acc == -32768 && !negative) 
-				throw new java.lang.NumberFormatException("String represented a number that could not fit in 8 bits");
+				throw new java.lang.NumberFormatException("String represented a number that could not fit in 16 bits");
 			return (short) (negative ? acc : -acc);
 		} else
 			return 0;
@@ -1291,8 +1603,6 @@ public final class Base10 {
 	 * Expects: 
 	 * <ul>
 	 * <li>An string representing an integer</li>
-	 * <li>An integer pointer for passing error codes with the value of
-	 * zero.</li>
 	 * </ul>
 	 * Exceptions:
 	 * <ul>
@@ -1326,11 +1636,11 @@ public final class Base10 {
 				acc *= 10;
 				acc -= (c - 48);
 				if(acc >= 0) 
-					throw new java.lang.NumberFormatException("String represented a number that could not fit in 8 bits");
+					throw new java.lang.NumberFormatException("String represented a number that could not fit in 32 bits");
 				pos++;
 			}
 			if(acc == 0x80000000 && !negative) 
-				throw new java.lang.NumberFormatException("String represented a number that could not fit in 8 bits");
+				throw new java.lang.NumberFormatException("String represented a number that could not fit in 32 bits");
 			return negative ? acc : -acc;
 		} else
 			return 0;
@@ -1343,8 +1653,6 @@ public final class Base10 {
 	 * Expects: 
 	 * <ul>
 	 * <li>An string representing an integer</li>
-	 * <li>An integer pointer for passing error codes with the value of
-	 * zero.</li>
 	 * </ul>
 	 * Exceptions:
 	  * <ul>
@@ -1378,11 +1686,11 @@ public final class Base10 {
 				acc *= 10;
 				acc -= (c - 48);
 				if(acc >= 0) 
-					throw new java.lang.NumberFormatException("String represented a number that could not fit in 8 bits");
+					throw new java.lang.NumberFormatException("String represented a number that could not fit in 64 bits");
 				pos++;
 			}
 			if(acc == 0x8000000000000000L && !negative) 
-				throw new java.lang.NumberFormatException("String represented a number that could not fit in 8 bits");
+				throw new java.lang.NumberFormatException("String represented a number that could not fit in 64 bits");
 			return negative ? acc : -acc;
 		} else
 			return 0;
