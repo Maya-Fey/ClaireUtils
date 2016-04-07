@@ -327,90 +327,22 @@ public class CString
 	
 	public byte toByte()
 	{
-		byte acc = 0;
-		boolean negative = false;
-		if(chars.length > 0)
-		{
-			int pos = 0;
-			if(chars[pos] == '-')
-			{
-				negative = true;
-				pos++;
-			}
-			while(pos < chars.length)
-			{
-				acc *= 10;
-				acc -= (chars[pos] - 48);
-				pos++;
-			}
-		}
-		return (byte) ((negative) ? acc : -acc);
+		return Base10.stringExcepByte(chars);
 	}
 	
 	public short toShort()
 	{
-		short acc = 0;
-		boolean negative = false;
-		if(chars.length > 0)
-		{
-			int pos = 0;
-			if(chars[pos] == '-')
-			{
-				negative = true;
-				pos++;
-			}
-			while(pos < chars.length)
-			{
-				acc *= 10;
-				acc -= (chars[pos] - 48);
-				pos++;
-			}
-		}
-		return (short) ((negative) ? acc : -acc);
+		return Base10.stringExcepShort(chars);
 	}
 	
 	public int toInt()
 	{
-		int acc = 0;
-		boolean negative = false;
-		if(chars.length > 0)
-		{
-			int pos = 0;
-			if(chars[pos] == '-')
-			{
-				negative = true;
-				pos++;
-			}
-			while(pos < chars.length)
-			{
-				acc *= 10;
-				acc -= (chars[pos] - 48);
-				pos++;
-			}
-		}
-		return (negative) ? acc : -acc;
+		return Base10.stringExcepInt(chars);
 	}
 	
 	public long toLong()
 	{
-		long acc = 0;
-		boolean negative = false;
-		if(chars.length > 0)
-		{
-			int pos = 0;
-			if(chars[pos] == '-')
-			{
-				negative = true;
-				pos++;
-			}
-			while(pos < chars.length)
-			{
-				acc *= 10;
-				acc -= (chars[pos] - 48);
-				pos++;
-			}
-		}
-		return (negative) ? acc : -acc;
+		return Base10.stringExcepLong(chars);
 	}
 
 	public CString createDeepClone()
