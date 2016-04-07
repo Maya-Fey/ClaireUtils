@@ -57,6 +57,32 @@ public class PartialString
 			System.out.print(chars[i++]);
 	}
 	
+	public byte[] toBytes()
+	{
+		return this.toBytesUTF16();
+	}
+	
+	public byte[] toBytes(String encoding)
+	{
+		switch(encoding)
+		{
+			case "CTF-S":
+				return this.toBytesCTFS();
+			case "CTF-L":
+				return this.toBytesCTFL();
+			case "ASCII":
+				return this.toBytesASCII();
+			case "UTF-8":
+				return this.toBytesUTF8();
+			case "UTF-16":
+				return this.toBytesUTF16();
+			case "UTF-32":
+				return this.toBytesUTF32();
+			default:
+				throw new java.lang.NullPointerException("Unsupported encoding: " + encoding);
+		}
+	}
+	
 	public byte[] toBytesCTFS()
 	{
 		return CTFS.fromUTF16(chars, off, len);
