@@ -539,27 +539,39 @@ public class CString
 	
 	public byte[] toBytesASCII()
 	{
-		int len = 0;
-		for(char c : chars)
-			if(c < 128)
-				len++;
-		byte[] bytes = new byte[len];
-		this.toBytesASCII(bytes);
+		byte[] bytes = new byte[chars.length];
+		int len = chars.length,
+			    i = 0;
+		while(len-- > 0)
+			if(chars[i] < 128)
+				bytes[i] = (byte) chars[i++];
+			else
+				bytes[i++] = (byte) '?';
 		return bytes;
 	}
 	
 	public void toBytesASCII(byte[] bytes)
 	{
-		for(int i = 0; i < bytes.length; i++)
+		int len = chars.length,
+		    i = 0;
+		while(len-- > 0)
 			if(chars[i] < 128)
-				bytes[i] = (byte) chars[i];
+				bytes[i] = (byte) chars[i++];
+			else
+				bytes[i++] = (byte) '?';
 	}
 	
 	public void toBytesASCII(byte[] bytes, int start)
 	{
-		for(int i = start; i < bytes.length; i++)
-			if(chars[i - start] < 128)
-				bytes[i] = (byte) chars[i];
+		int len = chars.length,
+			    i = 0;
+			while(len-- > 0)
+				if(chars[i] < 128)
+					bytes[start++] = (byte) chars[i++];
+				else {
+					bytes[start++] = (byte) '?';
+					i++;
+				}
 	}
 	
 	public byte[] toBytesUTF16()
