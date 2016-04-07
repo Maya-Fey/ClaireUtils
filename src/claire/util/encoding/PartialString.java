@@ -57,6 +57,26 @@ public class PartialString
 			System.out.print(chars[i++]);
 	}
 	
+	public byte toByte()
+	{
+		return Base10.stringExcepByte(chars, off, len);
+	}
+	
+	public short toShort()
+	{
+		return Base10.stringExcepShort(chars, off, len);
+	}
+	
+	public int toInt()
+	{
+		return Base10.stringExcepInt(chars, off, len);
+	}
+	
+	public long toLong()
+	{
+		return Base10.stringExcepLong(chars, off, len);
+	}
+	
 	public byte[] toBytes()
 	{
 		return this.toBytesUTF16();
