@@ -57,6 +57,28 @@ public class PartialString
 			System.out.print(chars[i++]);
 	}
 	
+	public void replaceWith(char c, char r)
+	{
+		int i = off;
+		int j = len;
+		while(j-- > 0)
+			if(chars[i] == c)
+				chars[i++] = r;
+			else
+				i++;
+	}
+	
+	public int count(char c)
+	{
+		int i = off;
+		int j = len;
+		int k = 0;
+		while(j-- > 0)
+			if(chars[i] == c)
+				k++;
+		return k;
+	}
+	
 	public byte toByte()
 	{
 		return Base10.stringExcepByte(chars, off, len);
