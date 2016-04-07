@@ -1,5 +1,6 @@
 package claire.util.encoding;
 
+import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IDeepClonable;
 import claire.util.standards.IReferrable;
@@ -84,6 +85,105 @@ public class PartialString
 	public void toBytesCTFL(byte[] bytes, int start)
 	{
 		CTFL.fromUTF16(chars, off, bytes, start, len);
+	}
+	
+	public byte[] toBytesASCII()
+	{
+		byte[] bytes = new byte[len];
+		int len = this.len,
+			i = off,
+			start = 0;
+		while(len-- > 0)
+			if(chars[i] < 128)
+				bytes[start++] = (byte) chars[i++];
+			else {
+				bytes[start++] = (byte) '?';
+				i++;
+			}
+		return bytes;
+	}
+	
+	public void toBytesASCII(byte[] bytes)
+	{
+		int len = this.len,
+			i = off,
+			start = 0;
+		while(len-- > 0)
+			if(chars[i] < 128)
+				bytes[start++] = (byte) chars[i++];
+			else {
+				bytes[start++] = (byte) '?';
+				i++;
+			}
+	}
+	
+	public void toBytesASCII(byte[] bytes, int start)
+	{
+		int len = this.len,
+			i = off;
+		while(len-- > 0)
+			if(chars[i] < 128)
+				bytes[start++] = (byte) chars[i++];
+			else {
+				bytes[start++] = (byte) '?';
+				i++;
+			}
+	}
+	
+	public byte[] toBytesUTF16()
+	{
+		return Bits.charsToBytes(chars, off, len);
+	}
+	
+	public void toBytesUTF16(byte[] bytes)
+	{
+		Bits.charsToBytes(chars, off, bytes, 0, len);
+	}
+	
+	public void toBytesUTF16(byte[] bytes, int start)
+	{
+		Bits.charsToBytes(chars, off, bytes, start, len);
+	}
+	
+	public byte[] toBytesUTF8()
+	{
+		return UTF8.fromUTF16(chars, off, len);
+	}
+	
+	public void toBytesUTF8(byte[] bytes)
+	{
+		UTF8.fromUTF16(chars, off, bytes, 0, len);
+	}
+	
+	public void toBytesUTF8(byte[] bytes, int start)
+	{
+		UTF8.fromUTF16(chars, off, bytes, start, len);
+	}
+	
+	public byte[] toBytesUTF32()
+	{
+		byte[] bytes = new byte[len << 1];
+		this.toBytesUTF32(bytes);
+		return bytes;
+	}
+	
+	public void toBytesUTF32(byte[] bytes)
+	{
+		int len = this.len,
+			i = off;
+		while(len-- > 0) 
+			Bits.intToBytes(chars[i], bytes, i++ << 2);
+	}
+	
+	public void toBytesUTF32(byte[] bytes, int start)
+	{
+		int len = this.len,
+			i = off;
+		while(len-- > 0) 
+		{
+			Bits.intToBytes(chars[i++], bytes, start);
+			start += 4;
+		}
 	}
 
 	public int NAMESPACE()
