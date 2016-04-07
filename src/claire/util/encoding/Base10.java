@@ -965,7 +965,7 @@ public final class Base10 {
 				negative = true;
 				pos++;
 			}
-			while(chars.charAt(pos) == '0')
+			while(pos < chars.length() && chars.charAt(pos) == '0')
 				pos++;
 			while(pos < chars.length())
 			{
@@ -1028,7 +1028,7 @@ public final class Base10 {
 				negative = true;
 				pos++;
 			}
-			while(chars.charAt(pos) == '0')
+			while(pos < chars.length() && chars.charAt(pos) == '0')
 				pos++;
 			while(pos < chars.length())
 			{
@@ -1091,7 +1091,7 @@ public final class Base10 {
 				negative = true;
 				pos++;
 			}
-			while(chars.charAt(pos) == '0')
+			while(pos < chars.length() && chars.charAt(pos) == '0')
 				pos++;
 			while(pos < chars.length())
 			{
@@ -1154,7 +1154,7 @@ public final class Base10 {
 				negative = true;
 				pos++;
 			}
-			while(chars.charAt(pos) == '0')
+			while(pos < chars.length() && chars.charAt(pos) == '0')
 				pos++;
 			while(pos < chars.length())
 			{
