@@ -29,6 +29,16 @@ public class PartialString
 		this.len = len;
 	}
 	
+	public int getEnd()
+	{
+		return off + len;
+	}
+	
+	public PartialString substr(int off, int len)
+	{
+		return new PartialString(chars, this.off + off, len);
+	}
+	
 	public int getLength()
 	{
 		return this.len;
