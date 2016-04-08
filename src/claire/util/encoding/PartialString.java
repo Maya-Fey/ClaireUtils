@@ -79,6 +79,16 @@ public class PartialString
 		return k;
 	}
 	
+	public int next(int i, char c)
+	{
+		i += off;
+		int j = off + len;
+		while(++i < j)
+			if(chars[i] == c)
+				return i;
+		return -1;
+	}
+	
 	public byte toByte()
 	{
 		return Base10.stringExcepByte(chars, off, len);

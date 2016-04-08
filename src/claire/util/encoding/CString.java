@@ -316,6 +316,14 @@ public class CString
 		}
 	}
 	
+	public int next(int i, char c)
+	{
+		while(++i < chars.length)
+			if(chars[i] == c)
+				return i;
+		return -1;
+	}
+	
 	public void replaceWith(char c, char r)
 	{
 		for(int i = 0; i < chars.length; i++)
