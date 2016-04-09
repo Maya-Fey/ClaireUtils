@@ -2,6 +2,7 @@ package claire.util.crypto.hash.primitive;
 
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -77,7 +78,7 @@ public final class SHA2_256
 	public static final class SHA2_256Factory extends HashFactory<SHA2_256>
 	{
 
-		public SHA2_256 build(char[] params, char sep)
+		public SHA2_256 build(CryptoString str)
 		{
 			return new SHA2_256();
 		}
