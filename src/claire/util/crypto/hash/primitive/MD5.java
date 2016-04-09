@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.MD5.MD5State;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
@@ -296,7 +297,7 @@ public class MD5
 	public static final class MD5Factory extends HashFactory<MD5>
 	{
 
-		public MD5 build(char[] params, char sep)
+		public MD5 build(CryptoString str)
 		{
 			return new MD5();
 		}

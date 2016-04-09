@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.MD2.MD2State;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
@@ -255,7 +256,7 @@ public class MD2
 	public static final class MD2Factory extends HashFactory<MD2>
 	{
 
-		public MD2 build(char[] params, char sep)
+		public MD2 build(CryptoString str)
 		{
 			return new MD2();
 		}
