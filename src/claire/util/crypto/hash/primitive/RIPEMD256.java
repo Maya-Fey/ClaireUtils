@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.crypto.hash.primitive.RIPEMD256.RIPEMD256State;
@@ -356,7 +357,7 @@ public final class RIPEMD256
 	public static final class RIPEMD256Factory extends HashFactory<RIPEMD256>
 	{
 
-		public RIPEMD256 build(char[] params, char sep)
+		public RIPEMD256 build(CryptoString str)
 		{
 			return new RIPEMD256();
 		}

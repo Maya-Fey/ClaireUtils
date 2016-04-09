@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.crypto.hash.primitive.RIPEMD320.RIPEMD320State;
@@ -473,7 +474,7 @@ public final class RIPEMD320
 	public static final class RIPEMD320Factory extends HashFactory<RIPEMD320>
 	{
 
-		public RIPEMD320 build(char[] params, char sep)
+		public RIPEMD320 build(CryptoString str)
 		{
 			return new RIPEMD320();
 		}
