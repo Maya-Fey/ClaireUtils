@@ -56,7 +56,7 @@ public class PartialString
 	
 	public String toString()
 	{
-		return new String(chars, len, off);
+		return new String(chars, off, len);
 	}
 	
 	public void print()

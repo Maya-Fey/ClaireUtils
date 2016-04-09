@@ -6,11 +6,13 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
 import claire.util.crypto.hash.primitive.BEAR.$BEAR3;
 import claire.util.display.ImageUtil;
 import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
 import claire.util.encoding.Hex;
+import claire.util.encoding.PartialString;
 import claire.util.math.UInt;
 import claire.util.memory.Bits;
 
@@ -63,6 +65,11 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
+		String s = "AES-256-CBC-KEK";
+		CryptoString string = new CryptoString(s.toCharArray(), 0, s.length(), '-');
+		while(string.hasNext())
+			System.out.println(string.nextArg());
+		end();
 		Test.runTests();
 		end();
 		//*/
