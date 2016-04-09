@@ -2,6 +2,7 @@ package claire.util.crypto.hash.primitive;
 
 import java.io.IOException;
 
+import claire.util.crypto.CryptoString;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.CRC16.CRC16State;
 import claire.util.crypto.rng.RandUtils;
@@ -196,7 +197,7 @@ public final class CRC16
 	public static final class CRC16Factory extends HashFactory<CRC16>
 	{
 
-		public CRC16 build(char[] params, char sep)
+		public CRC16 build(CryptoString str)
 		{
 			return new CRC16();
 		}

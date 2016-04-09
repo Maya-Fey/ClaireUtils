@@ -2,6 +2,7 @@ package claire.util.crypto.hash.primitive;
 
 import java.io.IOException;
 
+import claire.util.crypto.CryptoString;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.CRC8.CRC8State;
 import claire.util.crypto.rng.RandUtils;
@@ -195,7 +196,7 @@ public final class CRC8
 	public static final class CRC8Factory extends HashFactory<CRC8>
 	{
 
-		public CRC8 build(char[] params, char sep)
+		public CRC8 build(CryptoString str)
 		{
 			return new CRC8();
 		}

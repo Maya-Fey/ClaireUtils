@@ -2,6 +2,7 @@ package claire.util.crypto.hash.primitive;
 
 import java.io.IOException;
 
+import claire.util.crypto.CryptoString;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.CRC32.CRC32State;
 import claire.util.crypto.rng.RandUtils;
@@ -227,7 +228,7 @@ public final class CRC32
 	public static final class CRC32Factory extends HashFactory<CRC32>
 	{
 
-		public CRC32 build(char[] params, char sep)
+		public CRC32 build(CryptoString str)
 		{
 			return new CRC32();
 		}
