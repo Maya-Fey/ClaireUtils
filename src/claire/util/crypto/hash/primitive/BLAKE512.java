@@ -1,5 +1,6 @@
 package claire.util.crypto.hash.primitive;
 
+import claire.util.crypto.CryptoString;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -62,7 +63,7 @@ public class BLAKE512
 	public static final class BLAKE512Factory extends HashFactory<BLAKE512>
 	{
 
-		public BLAKE512 build(char[] params, char sep)
+		public BLAKE512 build(CryptoString str)
 		{
 			return new BLAKE512();
 		}
