@@ -1,5 +1,6 @@
 package claire.util.crypto.hash.primitive;
 
+import claire.util.crypto.CryptoString;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -66,7 +67,7 @@ public class JH512
 	public static final class JH512Factory extends HashFactory<JH512>
 	{
 
-		public JH512 build(char[] params, char sep)
+		public JH512 build(CryptoString str)
 		{
 			return new JH512();
 		}
