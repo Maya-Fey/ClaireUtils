@@ -1,5 +1,6 @@
 package claire.util.crypto.hash.primitive;
 
+import claire.util.crypto.CryptoString;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -66,7 +67,7 @@ public class BMW384
 	public static final class BMW384Factory extends HashFactory<BMW384>
 	{
 
-		public BMW384 build(char[] params, char sep)
+		public BMW384 build(CryptoString str)
 		{
 			return new BMW384();
 		}
