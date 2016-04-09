@@ -1,5 +1,6 @@
 package claire.util.crypto.hash.primitive;
 
+import claire.util.crypto.CryptoString;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.standards.IPersistable;
@@ -43,7 +44,7 @@ public class Tiger2
 	public static final class Tiger2Factory extends HashFactory<Tiger2>
 	{
 
-		public Tiger2 build(char[] params, char sep)
+		public Tiger2 build(CryptoString str)
 		{
 			return new Tiger2();
 		}
