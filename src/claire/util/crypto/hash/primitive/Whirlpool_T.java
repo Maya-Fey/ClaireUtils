@@ -1,5 +1,6 @@
 package claire.util.crypto.hash.primitive;
 
+import claire.util.crypto.CryptoString;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.standards.IPersistable;
@@ -1101,7 +1102,7 @@ public class Whirlpool_T
 	public static final class Whirlpool_TFactory extends HashFactory<Whirlpool_T>
 	{
 
-		public Whirlpool_T build(char[] params, char sep)
+		public Whirlpool_T build(CryptoString str)
 		{
 			return new Whirlpool_T();
 		}
