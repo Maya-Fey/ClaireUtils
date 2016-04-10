@@ -3,6 +3,8 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.HAVAL.HAVALState;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.crypto.rng.RandUtils;
@@ -727,6 +729,7 @@ public class HAVAL
 		counter = state.counter;
 	}
 	
+	public static final HAVALFactory factory = new HAVALFactory();
 	public static final HAVALStateFactory sfactory = new HAVALStateFactory();
 	
 	protected static final class HAVALState extends MerkleState<HAVALState, HAVAL>
@@ -842,6 +845,21 @@ public class HAVAL
 		IState state = blake.getState();
 		i += IPersistable.test(state);
 		return i;
+	}
+
+	public HashFactory<HAVAL> factory()
+	{
+		return factory;
+	}
+	
+	private static final class HAVALFactory extends HashFactory<HAVAL>
+	{
+
+		public HAVAL build(CryptoString str)
+		{
+			return new HAVAL(str.nextArg().toInt(), str.nextArg().toInt());
+		}
+		
 	}
 	
 }
