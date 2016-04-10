@@ -55,5 +55,29 @@ public class Arguments {
 	{
 		return this.words;
 	}
+	
+	public boolean isSwitched(String arg)
+	{
+		for(String s : switches)
+			if(s.equals(arg))
+				return true;
+		return false;
+	}
+	
+	public boolean hasArg(String arg)
+	{
+		for(String s : index)
+			if(s.equals(arg))
+				return true;
+		return false;
+	}
+	
+	public String getArg(String arg)
+	{
+		for(int i = 0; i < index.length; i++)
+			if(index[i].equals(arg))
+				return words[i];
+		return null;
+	}
 
 }
