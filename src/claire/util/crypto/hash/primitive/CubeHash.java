@@ -3,6 +3,8 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.CubeHash.CubeHashState;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.crypto.rng.RandUtils;
@@ -578,6 +580,33 @@ public final class CubeHash
 		IState state = blake.getState();
 		i += IPersistable.test(state);
 		return i;
+	}
+
+	/*
+	 * CUBEHASH-OUTPUT-INITROUNDS-INPERROUND-ROUNDSPERIN-FINROUNDS
+	 * e.g CUBEHASH-256-8-8-16-8
+	 */
+	
+	public static final CubeHashFactory factory = new CubeHashFactory();
+	
+	public HashFactory<CubeHash> factory()
+	{
+		return factory;
+	}
+	
+	private static final class CubeHashFactory extends HashFactory<CubeHash>
+	{
+
+		public CubeHash build(CryptoString str)
+		{
+			int out = str.nextArg().toInt() / 8;
+			int ini = str.nextArg().toInt();
+			int inp = str.nextArg().toInt();
+			int rou = str.nextArg().toInt();
+			int fin = str.nextArg().toInt();
+			return new CubeHash(ini, inp, out, rou, fin);
+		}
+		
 	}
 	
 }

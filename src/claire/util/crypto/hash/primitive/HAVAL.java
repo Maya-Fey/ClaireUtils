@@ -857,7 +857,7 @@ public class HAVAL
 
 		public HAVAL build(CryptoString str)
 		{
-			return new HAVAL(str.nextArg().toInt(), str.nextArg().toInt());
+			return new HAVAL(str.nextArg().toInt() / 32, str.nextArg().toInt());
 		}
 		
 	}
