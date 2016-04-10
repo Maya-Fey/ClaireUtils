@@ -1,5 +1,6 @@
 package claire.util.crypto.hash.primitive;
 
+import claire.util.crypto.CryptoString;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.standards.crypto.IHash;
 
@@ -32,9 +33,9 @@ public class JH {
 	public static final class JHFactory extends HashFactory<JHCore<?>>
 	{
 
-		public JHCore<?> build(char[] params, char sep)
+		public JHCore<?> build(CryptoString str)
 		{
-			switch(new String(params))
+			switch(str.nextArg().toString())
 			{
 				case "224":
 					return new JH224();
