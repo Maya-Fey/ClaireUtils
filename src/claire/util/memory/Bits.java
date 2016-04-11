@@ -484,16 +484,14 @@ public interface Bits<Type extends Bits<Type>>
 	
 	public static boolean[] randomBits(int amount, IRandom prng)
 	{
-		//TODO Fix this garbage scowl
 		boolean[] n = new boolean[amount];
-		try {
-			for(int i = 0; i < amount; i += 64) {
-				Bit64 bits = new Bit64(prng.nextLong());
-				for(int j = 0; j < 64; j++)
-					n[i + j] = bits.get(j);
-			}
-		} catch (java.lang.ArrayIndexOutOfBoundsException e) {
-			return n;
+		int i = 0;
+		while(amount > 0)
+		{
+			long l = prng.nextLong();
+			int j = 0;
+			while(j < 64 && amount-- > 0)
+				n[i++] = (l & BIT64_TABLE[j++]) != 0;
 		}
 		return n;		
 	}
