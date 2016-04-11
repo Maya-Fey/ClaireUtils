@@ -15,7 +15,8 @@ import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
 public final class CRC8
-	   implements IHash<CRC8, CRC8State> {
+	   		 implements IHash<CRC8, CRC8State>,
+	   		 			IOutgoingStream {
 	
 	private static final byte[] SBOX =
 	{
@@ -61,6 +62,131 @@ public final class CRC8
 		while(start < end)
 			STATE = SBOX[(bytes[start++] ^ STATE) & 0xFF];
 	}
+	
+	public void close() {}
+
+	public void writeBool(boolean data)
+	{
+		if(data)
+			writeByte((byte) 1);
+		else
+			writeByte((byte) 0);
+	}
+
+	public void writeByte(byte data)
+	{
+		STATE = SBOX[(data ^ STATE) & 0xFF];
+	}
+
+	public void writeShort(short data)
+	{
+		writeByte((byte) data);
+		writeByte((byte) (data >>>  8));
+	}
+
+	public void writeChar(char data)
+	{
+		writeByte((byte) data);
+		writeByte((byte) (data >>>  8));
+	}
+
+	public void writeInt(int data)
+	{
+		writeByte((byte) data);
+		writeByte((byte) (data >>>= 8));
+		writeByte((byte) (data >>>= 8));
+		writeByte((byte) (data >>>  8));
+	}
+
+	public void writeLong(long data)
+	{
+		writeByte((byte) data);
+		writeByte((byte) (data >>>= 8));
+		writeByte((byte) (data >>>= 8));
+		writeByte((byte) (data >>>= 8));
+		writeByte((byte) (data >>>= 8));
+		writeByte((byte) (data >>>= 8));
+		writeByte((byte) (data >>>= 8));
+		writeByte((byte) (data >>>  8));
+	}
+
+	public void writeBools(boolean[] bools, int off, int len)
+	{
+		while(len-- > 0) {
+			boolean data = bools[off++];
+			if(data)
+				writeByte((byte) 1);
+			else
+				writeByte((byte) 0);
+		}
+	}
+
+	public void writeNibbles(byte[] nibbles, int off, int len)
+	{
+		while(len > 1) {
+			writeByte((byte) (((nibbles[off++] & 0xF) << 4) |
+							   (nibbles[off++] & 0xF)));
+			len -= 2;
+		}
+	}
+
+	public void writeBytes(byte[] bytes, int off, int len)
+	{
+		add(bytes, off, len);
+	}
+
+	public void writeShorts(short[] shorts, int off, int len)
+	{
+		while(len-- > 0)
+		{
+			short data = shorts[off++];
+			writeByte((byte) data);
+			writeByte((byte) (data >>>  8));
+		}
+	}
+
+	public void writeChars(char[] charss, int off, int len)
+	{
+		while(len-- > 0)
+		{
+			char data = charss[off++];
+			writeByte((byte) data);
+			writeByte((byte) (data >>>  8));
+		}
+	}
+
+	public void writeInts(int[] ints, int off, int len)
+	{
+		while(len-- > 0)
+		{
+			int data = ints[off++];
+			writeByte((byte) data);
+			writeByte((byte) (data >>>= 8));
+			writeByte((byte) (data >>>= 8));
+			writeByte((byte) (data >>>  8));
+		}
+	}
+
+	public void writeLongs(long[] longs, int off, int len)
+	{
+		while(len-- > 0)
+		{
+			long data = longs[off++];
+			writeByte((byte) data);
+			writeByte((byte) (data >>>= 8));
+			writeByte((byte) (data >>>= 8));
+			writeByte((byte) (data >>>= 8));
+			writeByte((byte) (data >>>= 8));
+			writeByte((byte) (data >>>= 8));
+			writeByte((byte) (data >>>= 8));
+			writeByte((byte) (data >>>  8));
+		}
+	}
+
+	public void rewind(long pos) {}
+	public void skip(long pos) {}
+	public void seek(long pos) {}
+	public IIncomingStream getIncoming() { return null; }
 
 	public void finish(byte[] out, int start)
 	{
