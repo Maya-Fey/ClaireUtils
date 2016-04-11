@@ -215,6 +215,13 @@ public final class CRC32
 		}
 	}
 
+	public void persist(IPersistable<?> obj)
+	{
+		try {
+			obj.export(this);
+		} catch (IOException e) {}
+	}
+
 	public void rewind(long pos) {}
 	public void skip(long pos) {}
 	public void seek(long pos) {}
@@ -224,6 +231,15 @@ public final class CRC32
 	{
 		Bits.BigEndian.intToBytes(STATE ^ 0xFFFFFFFF, out, start);
 		STATE = 0xFFFFFFFF;
+	}
+	
+	public int getCode()
+	{
+		try {
+			return STATE;
+		} finally {
+			STATE = 0xFFFFFFFF;
+		}
 	}
 	
 	public void reset()

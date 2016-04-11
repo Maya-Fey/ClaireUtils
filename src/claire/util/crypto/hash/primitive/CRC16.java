@@ -183,6 +183,13 @@ public final class CRC16
 			writeByte((byte) (data >>>  8));
 		}
 	}
+	
+	public void persist(IPersistable<?> obj)
+	{
+		try {
+			obj.export(this);
+		} catch (IOException e) {}
+	}
 
 	public void rewind(long pos) {}
 	public void skip(long pos) {}
@@ -193,6 +200,15 @@ public final class CRC16
 	{
 		Bits.BigEndian.shortToBytes((short) STATE, out, start);
 		STATE = 0;
+	}
+	
+	public short getCode()
+	{
+		try {
+			return STATE;
+		} finally {
+			STATE = 0;
+		}
 	}
 	
 	public void reset()

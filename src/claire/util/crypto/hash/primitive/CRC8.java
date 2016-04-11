@@ -182,6 +182,13 @@ public final class CRC8
 			writeByte((byte) (data >>>  8));
 		}
 	}
+	
+	public void persist(IPersistable<?> obj)
+	{
+		try {
+			obj.export(this);
+		} catch (IOException e) {}
+	}
 
 	public void rewind(long pos) {}
 	public void skip(long pos) {}
@@ -192,6 +199,15 @@ public final class CRC8
 	{
 		out[start] = STATE;
 		STATE = 0x00;
+	}
+	
+	public byte getCode()
+	{
+		try {
+			return STATE;
+		} finally {
+			STATE = 0;
+		}
 	}
 	
 	public void reset()
