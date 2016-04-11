@@ -1,10 +1,29 @@
 package claire.util.standards;
 
+import claire.util.crypto.hash.primitive.CRC16;
+import claire.util.crypto.hash.primitive.CRC32;
+import claire.util.crypto.hash.primitive.CRC8;
+
 public interface ISoftID {
 	
-	byte getSID8();
-	short getSID16();
-	int getSID32();
+	byte getSID8(CRC8 crc);
+	short getSID16(CRC16 crc);
+	int getSID32(CRC32 crc);
+	
+	default byte getSID8()
+	{
+		return getSID8(new CRC8());
+	}
+	
+	default short getSID16()
+	{
+		return getSID16(new CRC16());
+	}
+	
+	default int getSID32()
+	{
+		return getSID32(new CRC32());
+	}
 	
 	default boolean equalsSoftID(ISoftID obj, int level)
 	{
