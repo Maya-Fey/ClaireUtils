@@ -10,13 +10,9 @@ import claire.util.standards.IUUID;
 import claire.util.standards._NAMESPACE;
 
 /*
- * Why is this all in one class, you ask? I really don't know.
- * It works, though. And it makes it simpler, so there is that. 
- * 
- * Note: Bits.java uses LITTLE ENDIAN. If you do not like little
- * endian, then talk to Intel. Also fuck you! 
- * 
- *  	Signed littleendianmaterrace
+ * A massive, overly monolithic class with all your bit-twiddling,
+ * array-shifting, primitive-converting, logic-functing needs. Complete
+ * with a coffee machine.
  */
 
 public interface Bits<Type extends Bits<Type>> 
@@ -488,6 +484,7 @@ public interface Bits<Type extends Bits<Type>>
 	
 	public static boolean[] randomBits(int amount, IRandom prng)
 	{
+		//TODO Fix this garbage scowl
 		boolean[] n = new boolean[amount];
 		try {
 			for(int i = 0; i < amount; i += 64) {
