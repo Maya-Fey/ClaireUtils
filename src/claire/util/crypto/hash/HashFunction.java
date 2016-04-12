@@ -180,9 +180,29 @@ public class HashFunction
 	public void seek(long pos) {}
 	public IIncomingStream getIncoming()  { return null; }
 	
+	public int outputLength()
+	{
+		return hash.outputLength();
+	}
+	
+	public void reset()
+	{
+		hash.reset();
+	}
+	
 	public String getHashString()
 	{
 		return Hex.toHexString(hash.finish());
+	}
+	
+	public byte[] getHash()
+	{
+		return hash.finish();
+	}
+	
+	public void getHash(byte[] bytes, int off)
+	{
+		hash.finish(bytes, off);
 	}
 	
 }
