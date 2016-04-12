@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import claire.util.io.IOUtils;
 import claire.util.memory.buffer.PrimitiveDeaggregator;
+import claire.util.standards.IPersistable;
 import claire.util.standards.crypto.IHash;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
@@ -164,6 +165,13 @@ public class HashFunction
 			deag.processLong(longs[off++]);
 			hash.add(buf, 0, 8);
 		}
+	}
+	
+	public void persist(IPersistable<?> obj)
+	{
+		try {
+			obj.export(this);
+		} catch (IOException e) {}
 	}
 	
 	public void rewind(long pos) {}
