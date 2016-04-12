@@ -3,6 +3,7 @@ package claire.util.crypto.hash;
 import java.io.File;
 import java.io.IOException;
 
+import claire.util.encoding.Hex;
 import claire.util.io.IOUtils;
 import claire.util.memory.buffer.PrimitiveDeaggregator;
 import claire.util.standards.IPersistable;
@@ -178,5 +179,10 @@ public class HashFunction
 	public void skip(long pos) {}
 	public void seek(long pos) {}
 	public IIncomingStream getIncoming()  { return null; }
+	
+	public String getHashString()
+	{
+		return Hex.toHexString(hash.finish());
+	}
 	
 }
