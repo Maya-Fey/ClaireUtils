@@ -3,6 +3,9 @@ package claire.util.encoding;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.CRC16;
+import claire.util.crypto.hash.primitive.CRC32;
+import claire.util.crypto.hash.primitive.CRC8;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayBuilder;
@@ -10,12 +13,14 @@ import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.CObject;
 import claire.util.standards.IIterable;
 import claire.util.standards.IIterator;
+import claire.util.standards.ISoftID;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.io.IOutgoingStream;
 
 public class CString 
 	   implements CObject<CString>, 
-	   			  IIterable<Character> {
+	   			  IIterable<Character>,
+	   			  ISoftID {
 	
 	private char[] chars;
 	
@@ -662,6 +667,26 @@ public class CString
 	public Factory<CString> factory()
 	{
 		return factory;
+	}
+
+	public byte getSID8(CRC8 crc)
+	{
+		crc.persist(this);
+		return 0;
+	}
+
+	@Override
+	public short getSID16(CRC16 crc)
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getSID32(CRC32 crc)
+	{
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }
