@@ -220,6 +220,11 @@ public final class CRC16
 	{
 		return 2;
 	}
+
+	public int desiredInputLength()
+	{
+		return 1;
+	}
 	
 	public CRC16State getState()
 	{

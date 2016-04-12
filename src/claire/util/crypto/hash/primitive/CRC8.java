@@ -220,6 +220,11 @@ public final class CRC8
 		return 1;
 	}
 	
+	public int desiredInputLength()
+	{
+		return 1;
+	}
+	
 	public CRC8State getState()
 	{
 		return new CRC8State(this);

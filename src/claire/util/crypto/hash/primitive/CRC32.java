@@ -252,6 +252,11 @@ public final class CRC32
 		return 4;
 	}
 	
+	public int desiredInputLength()
+	{
+		return 1;
+	}
+	
 	public CRC32State getState()
 	{
 		return new CRC32State(this);
