@@ -70,6 +70,11 @@ public abstract class MerkleHash<State extends MerkleState<State, ?>, Hash exten
 		return this.out;
 	}
 	
+	public int desiredInputLength()
+	{
+		return this.size;
+	}
+	
 	public void loadState(State state)
 	{
 		System.arraycopy(state.temp, 0, this.temp, 0, size);
