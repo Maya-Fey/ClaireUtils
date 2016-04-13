@@ -192,6 +192,7 @@ public class HashFunction
 	
 	public String getHashString()
 	{
+		//TODO: Make this conserve memory, no way for it to be reused.
 		return Hex.toHexString(hash.finish());
 	}
 	
