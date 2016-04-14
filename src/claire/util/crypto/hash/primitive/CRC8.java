@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 
 import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.CRC8.CRC8State;
 import claire.util.crypto.rng.RandUtils;
@@ -53,6 +54,11 @@ public final class CRC8
 		  -34,  -39,  -48,  -41,  -62,  -59,  -52,  -53,  
 		  -26,  -31,  -24,  -17,   -6,   -3,  -12,  -13
 	};
+	
+	public int hashID()
+	{
+		return Hash.CRC8;
+	}
 	
 	private byte STATE = 0x00;
 

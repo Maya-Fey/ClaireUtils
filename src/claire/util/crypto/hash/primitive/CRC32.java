@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 
 import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.CRC32.CRC32State;
 import claire.util.crypto.rng.RandUtils;
@@ -85,6 +86,11 @@ public final class CRC32
             0xb3667a2e, 0xc4614ab8, 0x5d681b02, 0x2a6f2b94, 
             0xb40bbe37, 0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d,
         };
+	
+	public int hashID()
+	{
+		return Hash.CRC32;
+	}
 	
 	private int STATE = 0xFFFFFFFF;
 

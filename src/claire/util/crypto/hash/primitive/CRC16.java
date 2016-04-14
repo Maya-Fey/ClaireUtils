@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 
 import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.CRC16.CRC16State;
 import claire.util.crypto.rng.RandUtils;
@@ -54,6 +55,11 @@ public final class CRC16
 	      17408, -31551, -31359,  17728, -30975,  18368,  18048, -31167, 
 	     -32255,  17088,  17280, -31935,  16640, -32319, -32639,  16448, 
 	};
+	
+	public int hashID()
+	{
+		return Hash.CRC16;
+	}
 	
 	private short STATE = 0;
 

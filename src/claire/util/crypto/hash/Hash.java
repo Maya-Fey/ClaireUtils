@@ -10,5 +10,8 @@ public final class Hash {
 	public static final int BMW256 = 5;
 	public static final int BMW384 = 6;
 	public static final int BMW512 = 7;
+	public static final int CRC8 = 8;
+	public static final int CRC16 = 9;
+	public static final int CRC32 = 10;
 	
 }
