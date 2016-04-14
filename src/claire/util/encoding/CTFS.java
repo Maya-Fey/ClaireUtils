@@ -160,6 +160,45 @@ public final class CTFS {
 		return bytes;
 	}
 	
+	public static void fromString(String utf, int start0, byte[] bytes, int start1, int len)
+	{
+		byte b1, b2;
+		char t;
+		while(len > 0)
+		{
+			t = utf.charAt(start0++);
+			if(t >= 128)
+			{
+				if(t > 0x3FFF) {
+					b1 = (byte) (t & 0x007F);
+					t >>>= 7;
+					b2 = (byte) (0x80 | (t & 0x007F));
+					t >>>= 7;
+					bytes[start1++] = (byte) (0x80 | (t & 0x007F));
+					bytes[start1++] = b2;
+					bytes[start1++] = b1;
+				} else  {
+					b1 = (byte) (t & 0x007F);
+					t >>>= 7;
+					bytes[start1++] = (byte) (0x80 | (t & 0x007F));
+					bytes[start1++] = b1;
+				}	
+			} else
+				bytes[start1++] = (byte) t;
+			len--;
+		}
+	}
+	
+	public static void fromString(String utf, int start0, byte[] bytes, int start1)
+	{
+		fromString(utf, start0, bytes, start1, utf.length() - start1);
+	}
+	
+	public static void fromString(String utf, byte[] bytes)
+	{
+		fromString(utf, 0, bytes, 0, utf.length());
+	}
+	
 	public static void fromUTF32(IOutgoingStream os, int l) throws IOException
 	{
 		int cont, co;
