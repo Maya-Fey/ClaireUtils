@@ -1,6 +1,7 @@
 package claire.util.crypto.hash.primitive;
 
 import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -22,6 +23,11 @@ public class BLAKE512
 	public BLAKE512()
 	{
 		super(64);
+	}
+	
+	public int hashID()
+	{
+		return Hash.BLAKE512;
 	}
 
 	protected long[] getIV()

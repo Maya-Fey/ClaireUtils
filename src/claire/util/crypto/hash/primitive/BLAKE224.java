@@ -1,15 +1,18 @@
 package claire.util.crypto.hash.primitive;
 
 import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
 import claire.util.standards.IPersistable;
 import claire.util.standards.crypto.IHash;
 import claire.util.standards.crypto.IState;
+import claire.util.standards.crypto.UHash;
 
 public class BLAKE224 
-	   extends BLAKE_Base_32<BLAKE224> {
+	   extends BLAKE_Base_32<BLAKE224>
+	   implements UHash {
 	
 	private static final int[] IV = 
 	{
@@ -20,6 +23,11 @@ public class BLAKE224
 	public BLAKE224()
 	{
 		super(28);
+	}
+	
+	public int hashID()
+	{
+		return Hash.BLAKE224;
 	}
 
 	protected int[] getIV()
