@@ -13,5 +13,6 @@ public final class Hash {
 	public static final int CRC8 = 8;
 	public static final int CRC16 = 9;
 	public static final int CRC32 = 10;
+	public static final int CUBEHASH = 11;
 	
 }

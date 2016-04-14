@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.CubeHash.CubeHashState;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
@@ -48,6 +49,11 @@ public final class CubeHash
 		this.sClose = (close & 1) == 1;
 		genIV(IV, SCRATCH, out, block, rounds, init);
 		System.arraycopy(IV, 0, STATE, 0, 32);
+	}
+	
+	public int hashID()
+	{
+		return Hash.CUBEHASH;
 	}
 	
 	protected static final void genIV(int[] IV, int[] scratch, int out, int size, int rounds, final int init)
