@@ -527,6 +527,37 @@ public final class CTFL {
 		return bytes;
 	}
 	
+	public static final int bytesUTF64(long c)
+	{
+		int len = 1;
+		for(int i = 0; i < MASKS.length; i++)
+			if((c & MASKS[i]) != c)
+				len++;
+			else 
+				return len;
+		return len;
+	}
+	
+	public static final int bytesUTF64(long[] chars, int start, int slen)
+	{
+		int len = 0;
+		while(slen-- > 0)
+		{
+			long c = chars[start++];
+			for(int i = 0; i < MASKS.length; i++)
+				if((c & MASKS[i]) != c)
+					len++;
+				else 
+					break;
+		}
+		return len;
+	}
+	
+	public static final int bytesUTF64(long[] chars)
+	{
+		return bytesUTF64(chars, 0, chars.length);
+	}
+	
 	public static void toUTF16(IIncomingStream is, char[] chars, int start, int len) throws IOException
 	{
 		byte b, b1, n;
