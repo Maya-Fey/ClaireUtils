@@ -13,6 +13,7 @@ public interface IHash<Hash extends IHash<Hash, State>, State extends IState<Sta
 	
 	void finish(byte[] out, int start);
 	
+	int hashID();
 	int outputLength();
 	int desiredInputLength();
 	
