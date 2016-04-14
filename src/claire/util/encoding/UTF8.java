@@ -273,6 +273,46 @@ public final class UTF8 {
 		return bytes;
 	}
 	
+	public static void fromString(String chars, int start0, byte[] bytes, int start1, int len)
+	{
+		char t;
+		byte t1, t2;
+		while(len > 0)
+		{
+			t = chars.charAt(start0++);
+			if((t & 0x007F) == t)
+				bytes[start1++] = (byte) t;
+			else {
+				if((t & 0x07FF) == t) {
+					t1 = (byte) (0x80 | (t & 0x3F));
+					t >>>= 6;
+					bytes[start1++] = (byte) (0xC0 | (t & 0x1F));
+					bytes[start1++] = t1;
+				} else {
+					t2 = (byte) (0x80 | (t & 0x3F));
+					t >>>= 6;
+					t1 = (byte) (0x80 | (t & 0x3F));
+					t >>>= 6;
+					bytes[start1++] = (byte) (0xE0 | (t & 0x0F));
+					bytes[start1++] = t1;
+					bytes[start1++] = t2;
+				}
+			}
+			len--;
+		}
+	}
+	
+	public static void fromString(String chars, int start0, byte[] bytes, int start1)
+	{
+		fromString(chars, start0, bytes, start1, chars.length() - start0);
+	}
+	
+	public static void fromString(String chars, byte[] bytes)
+	{
+		fromString(chars, 0, bytes, 0, chars.length());
+	}
+	
+	
 	public static byte toASCII(IIncomingStream is) throws IOException
 	{
 		byte t = is.readByte();
