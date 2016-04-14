@@ -160,6 +160,46 @@ public final class CTFL {
 		return bytes;
 	}
 	
+	public static void fromString(String utf, int start0, byte[] bytes, int start1, int len)
+	{
+		char c;
+		int cont;
+		while(len > 0)
+		{
+			c = utf.charAt(start0++);
+			cont = 0;
+			for(int i = 0; i < MASKS.length; i++)
+				if((c & MASKS[i]) != c)
+					cont++;
+				else 
+					break;
+			if(cont > 0) {
+				bytes[start1++] = (byte) (0x80 | (--cont << 4) | (c & 0x000F));
+				c >>>= 4;
+				bytes[start1++] = (byte) c;
+				while(cont > 0) {
+					c >>>= 8;
+					bytes[start1++] = (byte) c;
+					cont--;
+				}
+			} else {
+				bytes[start1++] = (byte) (c & 0x7F);
+				c >>>= 4;
+			}
+			len--;
+		}
+	}
+	
+	public static void fromString(String utf, int start0, byte[] bytes, int start1)
+	{
+		fromString(utf, start0, bytes, start1, utf.length() - start1);
+	}
+	
+	public static void fromString(String utf, byte[] bytes)
+	{
+		fromString(utf, 0, bytes, 0, utf.length());
+	}
+	
 	public static void fromUTF32(IOutgoingStream os, int c) throws IOException
 	{
 		int cont = 0;
