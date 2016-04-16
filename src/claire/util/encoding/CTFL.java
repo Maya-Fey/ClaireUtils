@@ -216,6 +216,29 @@ public final class CTFL {
 		return bytesUTF16(utf, 0, utf.length);
 	}
 	
+	public static final int maxIntoUTF16(char[] utf, int start, int slen, int max)
+	{
+		int chars = 0;
+		while(slen-- > 0)
+		{
+			char c = utf[start++];
+			if(c > 0x7F)
+				if(c > 0x0FFF)
+					max -= 3;
+				else
+					max -= 2;
+			else
+				max--;
+			if(max > 0)
+				chars++;
+			else if(max == 0)
+				return ++chars;
+			else
+				return chars;
+		}
+		return chars;
+	}
+	
 	public static void fromString(String utf, int start0, byte[] bytes, int start1, int len)
 	{
 		char c;
