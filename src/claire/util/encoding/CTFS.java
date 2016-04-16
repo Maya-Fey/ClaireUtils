@@ -258,7 +258,7 @@ public final class CTFS {
 	public static void fromUTF32(IOutgoingStream os, int l) throws IOException
 	{
 		int cont, co;
-		byte[] temp = new byte[9];
+		byte[] temp = new byte[5];
 		if(l >= 128)
 		{
 			cont = 1;
