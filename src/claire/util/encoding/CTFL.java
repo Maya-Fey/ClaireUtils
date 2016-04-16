@@ -499,6 +499,29 @@ public final class CTFL {
 		fromUTF64(os, utf, 0, utf.length);
 	}
 	
+	public static void fromUTF64(long c, byte[] bytes, int start1)
+	{
+		int cont = 0;
+		for(int i = 0; i < MASKS.length; i++)
+			if((c & MASKS[i]) != c)
+				cont++;
+			else 
+				break;
+		if(cont > 0) {
+			bytes[start1++] = (byte) (0x80 | (--cont << 4) | (c & 0x000F));
+			c >>>= 4;
+			bytes[start1++] = (byte) c;
+			while(cont > 0) {
+				c >>>= 8;
+				bytes[start1++] = (byte) c;
+				cont--;
+			}
+		} else {
+			bytes[start1++] = (byte) (c & 0x7F);
+			c >>>= 4;
+		}
+	}
+	
 	public static void fromUTF64(long[] utf, int start0, byte[] bytes, int start1, int len)
 	{
 		long c;
