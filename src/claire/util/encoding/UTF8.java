@@ -348,6 +348,25 @@ public final class UTF8 {
 		return bytesUTF16(chars, 0, chars.length);
 	}
 	
+	public static final int maxIntoUTF16(char[] utf, int start, int slen, int max)
+	{
+		int chars = 0;
+		while(slen-- > 0)
+		{
+			char c = utf[start++];
+			for(int i = 0; i < MASKS.length; i++)
+				if((c & MASKS[i]) != c)
+					max--;
+			if(max > 0)
+				chars++;
+			else if(max == 0)
+				return ++chars;
+			else
+				return chars;
+		}
+		return chars;
+	}
+	
 	public static void fromString(String chars, int start0, byte[] bytes, int start1, int len)
 	{
 		char t;
