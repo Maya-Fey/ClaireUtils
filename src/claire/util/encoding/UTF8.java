@@ -176,6 +176,25 @@ public final class UTF8 {
 		return bytesUTF32(chars, 0, chars.length);
 	}
 	
+	public static final int maxIntoUTF32(int[] utf, int start, int slen, int max)
+	{
+		int chars = 0;
+		while(slen-- > 0)
+		{
+			int c = utf[start++];
+			for(int i = 0; i < MASKS.length; i++)
+				if((c & MASKS[i]) != c)
+					max--;
+			if(max > 0)
+				chars++;
+			else if(max == 0)
+				return ++chars;
+			else
+				return chars;
+		}
+		return chars;
+	}
+	
 	public static void fromUTF16(IOutgoingStream out, char[] utf, int start, int len) throws IOException
 	{
 		char t;
