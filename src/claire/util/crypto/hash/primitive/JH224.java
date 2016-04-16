@@ -1,6 +1,7 @@
 package claire.util.crypto.hash.primitive;
 
 import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -26,6 +27,11 @@ public class JH224
 	public JH224()
 	{
 		super(28);
+	}
+	
+	public int hashID()
+	{
+		return Hash.JH224;
 	}
 
 	protected long[] getIV()
