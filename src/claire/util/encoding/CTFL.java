@@ -671,7 +671,7 @@ public final class CTFL {
 		return bytesUTF64(chars, 0, chars.length);
 	}
 	
-	public static final int maxIntoUTF32(long[] utf, int start, int slen, int max)
+	public static final int maxIntoUTF64(long[] utf, int start, int slen, int max)
 	{
 		int chars = 0;
 		while(slen-- > 0)
