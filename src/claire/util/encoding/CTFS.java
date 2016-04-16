@@ -636,6 +636,27 @@ public final class CTFS {
 		return bytesUTF64(chars, 0, chars.length);
 	}
 	
+	public static final int maxIntoUTF64(long[] utf, int start, int slen, int max)
+	{
+		int chars = 0;
+		while(slen-- > 0)
+		{
+			long c = utf[start++];
+			for(int i = 0; i < MASKS.length; i++)
+				if((c & MASKS[i]) != c)
+					max--;
+				else 
+					break;
+			if(max > 0)
+				chars++;
+			else if(max == 0)
+				return ++chars;
+			else
+				return chars;
+		}
+		return chars;
+	}
+	
 	public static long toUTF64(IIncomingStream is) throws IOException
 	{
 		long c = 0;
