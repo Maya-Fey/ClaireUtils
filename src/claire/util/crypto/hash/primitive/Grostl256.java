@@ -1,6 +1,7 @@
 package claire.util.crypto.hash.primitive;
 
 import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -14,6 +15,11 @@ public class Grostl256
 	public Grostl256() 
 	{
 		super(32);
+	}
+	
+	public int hashID()
+	{
+		return Hash.GROSTL256;
 	}
 
 	protected void output(byte[] out, int start)
