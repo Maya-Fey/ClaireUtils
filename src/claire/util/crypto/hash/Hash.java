@@ -18,5 +18,6 @@ public final class Hash {
 	public static final int GROSTL256 = 13;
 	public static final int GROSTL384 = 14;
 	public static final int GROSTL512 = 15;
+	public static final int HAVAL = 16;
 	
 }

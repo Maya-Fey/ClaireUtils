@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.HAVAL.HAVALState;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
@@ -107,6 +108,11 @@ public class HAVAL
 		this.rounds = passes;
 		this.out = out;
 		reset();
+	}
+	
+	public int hashID()
+	{
+		return Hash.HAVAL;
 	}
 	
 	public void reset()
