@@ -140,12 +140,40 @@ public final class UTF8 {
 		for(int c : ints) {
 			len++;
 			for(int i = 0; i < MASKS.length; i++)
-			if((c & MASKS[i]) != c)
-				len++;
+				if((c & MASKS[i]) != c)
+					len++;
 		}
 		byte[] bytes = new byte[len];
 		fromUTF32(ints, 0, bytes, 0, ints.length);
 		return bytes;
+	}
+	
+	public static int bytesUTF32(int c)
+	{
+		int len = 1;
+		for(int i = 0; i < MASKS.length; i++)
+			if((c & MASKS[i]) != c)
+				len++;
+		return len;
+	}
+	
+	public static int bytesUTF32(int[] chars, int start, int slen)
+	{
+		int len = 0;
+		int c;
+		while(slen-- > 0) {
+			c = chars[start++];
+			len++;
+			for(int i = 0; i < MASKS.length; i++)
+				if((c & MASKS[i]) != c)
+					len++;
+		}
+		return len;
+	}
+	
+	public static int bytesUTF32(int[] chars)
+	{
+		return bytesUTF32(chars, 0, chars.length);
 	}
 	
 	public static void fromUTF16(IOutgoingStream out, char[] utf, int start, int len) throws IOException
