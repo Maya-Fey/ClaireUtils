@@ -300,6 +300,34 @@ public final class UTF8 {
 		fromUTF16(chars, 0, bytes, 0, chars.length);
 		return bytes;
 	}
+
+	public static int bytesUTF16(char c)
+	{
+		int len = 1;
+		for(int i = 0; i < MASKS.length; i++)
+			if((c & MASKS[i]) != c)
+				len++;
+		return len;
+	}
+	
+	public static int bytesUTF16(char[] chars, int start, int slen)
+	{
+		int len = 0;
+		char c;
+		while(slen-- > 0) {
+			c = chars[start++];
+			len++;
+			for(int i = 0; i < MASKS.length; i++)
+				if((c & MASKS[i]) != c)
+					len++;
+		}
+		return len;
+	}
+	
+	public static int bytesUTF16(char[] chars)
+	{
+		return bytesUTF16(chars, 0, chars.length);
+	}
 	
 	public static void fromString(String chars, int start0, byte[] bytes, int start1, int len)
 	{
