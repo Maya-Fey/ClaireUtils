@@ -26,5 +26,9 @@ public final class Hash {
 	public static final int MD2 = 21;
 	public static final int MD4 = 22;
 	public static final int MD5 = 23;
+	public static final int RIPEMD128 = 24;
+	public static final int RIPEMD160 = 25;
+	public static final int RIPEMD256 = 26;
+	public static final int RIPEMD320 = 27;
 	
 }

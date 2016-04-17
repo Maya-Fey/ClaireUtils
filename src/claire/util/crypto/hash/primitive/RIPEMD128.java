@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.crypto.hash.primitive.RIPEMD128.RIPEMD128State;
@@ -60,6 +61,11 @@ public final class RIPEMD128
 	{
 		super(64, 16);
 		reset();
+	}
+	
+	public int hashID()
+	{
+		return Hash.RIPEMD128;
 	}
 	
 	public void reset()

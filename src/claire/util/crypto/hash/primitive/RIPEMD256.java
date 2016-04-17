@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.crypto.hash.primitive.RIPEMD256.RIPEMD256State;
@@ -60,6 +61,11 @@ public final class RIPEMD256
 	{
 		super(64, 32);
 		reset();
+	}
+	
+	public int hashID()
+	{
+		return Hash.RIPEMD256;
 	}
 	
 	public void reset()
