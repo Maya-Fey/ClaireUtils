@@ -11,8 +11,10 @@ import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayBuilder;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.CObject;
+import claire.util.standards.IDeepClonable;
 import claire.util.standards.IIterable;
 import claire.util.standards.IIterator;
+import claire.util.standards.IPersistable;
 import claire.util.standards.ISoftID;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.io.IOutgoingStream;
@@ -685,6 +687,16 @@ public class CString
 	{
 		crc.persist(this);
 		return crc.getCode();
+	}
+	
+	public static final int test()
+	{
+		int e = 0;
+		CString test = new CString("dh87adha28hd8a27dh8a2hd8ag2d8ga287dga28gda2thisiskeyboardmashingÓð↓°×ı‗,>XòY");
+		e += IPersistable.test(test);
+		e += IDeepClonable.test(test);
+		e += ISoftID.test(test, test.createDeepClone());
+		return e;
 	}
 	
 }

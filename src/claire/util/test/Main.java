@@ -65,10 +65,6 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
-		HashFunction hf = new HashFunction(new MD5());
-		hf.persist(new CString("topkek"));
-		System.out.println(hf.getHashString());
-		end();
 		Test.runTests();
 		end();
 		//*/
