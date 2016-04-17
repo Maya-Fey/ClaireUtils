@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.crypto.hash.primitive.SHA1.SHA1State;
@@ -34,6 +35,11 @@ public class SHA1
 	{
 		super(64, 20);
 		reset();
+	}
+	
+	public int hashID()
+	{
+		return Hash.SHA1;
 	}
 	
 	public void reset()
