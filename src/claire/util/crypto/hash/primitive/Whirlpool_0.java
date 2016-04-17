@@ -1,6 +1,7 @@
 package claire.util.crypto.hash.primitive;
 
 import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.standards.IPersistable;
@@ -13,6 +14,11 @@ public class Whirlpool_0
 	public Whirlpool_0()
 	{
 		super(SCUBE, RC);
+	}
+	
+	public int hashID()
+	{
+		return Hash.WHIRLPOOL0;
 	}
 	
 	private static final long[][] SCUBE = 

@@ -8,11 +8,9 @@ import claire.util.memory.Bits;
 import claire.util.standards.IPersistable;
 import claire.util.standards.crypto.IHash;
 import claire.util.standards.crypto.IState;
-import claire.util.standards.crypto.UHash;
 
 public class BLAKE224 
-	   extends BLAKE_Base_32<BLAKE224>
-	   implements UHash {
+	   extends BLAKE_Base_32<BLAKE224> {
 	
 	private static final int[] IV = 
 	{
