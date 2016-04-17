@@ -3,6 +3,7 @@ package claire.util.standards;
 import claire.util.crypto.hash.primitive.CRC16;
 import claire.util.crypto.hash.primitive.CRC32;
 import claire.util.crypto.hash.primitive.CRC8;
+import claire.util.logging.Log;
 
 public interface ISoftID {
 	
@@ -37,6 +38,16 @@ public interface ISoftID {
 				return this.getSID32() == obj.getSID32();
 			default:
 				return false;
+		}
+	}
+	
+	public static int test(ISoftID obj, ISoftID obj2)
+	{
+		if(obj.equalsSoftID(obj2, 1) && (obj.equalsSoftID(obj2, 2) && obj.equalsSoftID(obj2, 3)))
+			return 0;
+		else {
+			Log.err.println("Soft comparison between object and its clone didn't work.");
+			return 1;
 		}
 	}
 	
