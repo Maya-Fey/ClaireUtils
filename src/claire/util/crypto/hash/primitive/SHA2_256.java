@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import java.util.Arrays;
 
 import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -31,6 +32,11 @@ public final class SHA2_256
         STATE[5] = 0x9b05688c;
         STATE[6] = 0x1f83d9ab;
         STATE[7] = 0x5be0cd19;
+	}
+
+	public int hashID()
+	{
+		return Hash.SHA2_256;
 	}
 
 	protected void complete(byte[] remaining, int pos, byte[] out, int start)

@@ -30,5 +30,10 @@ public final class Hash {
 	public static final int RIPEMD160 = 25;
 	public static final int RIPEMD256 = 26;
 	public static final int RIPEMD320 = 27;
+	public static final int SHA1 = 28;
+	public static final int SHA2_224 = 29;
+	public static final int SHA2_256 = 30;
+	public static final int SHA2_384 = 31;
+	public static final int SHA2_512 = 32;
 	
 }

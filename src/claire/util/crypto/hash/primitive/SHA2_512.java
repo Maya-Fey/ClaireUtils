@@ -1,6 +1,7 @@
 package claire.util.crypto.hash.primitive;
 
 import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -28,6 +29,12 @@ public final class SHA2_512
         STATE[6] = 0x1f83d9abfb41bd6bL;
         STATE[7] = 0x5be0cd19137e2179L;
 	}
+	
+	public int hashID()
+	{
+		return Hash.SHA2_512;
+	}
+
 
 	protected void complete(byte[] out, int start)
 	{
