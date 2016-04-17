@@ -1,6 +1,7 @@
 package claire.util.crypto.hash.primitive;
 
 import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.standards.IPersistable;
@@ -14,6 +15,12 @@ public class Tiger1
 	{
 		super((byte) 0x01);
 	}
+	
+	public int hashID()
+	{
+		return Hash.TIGER1;
+	}
+
 	
 	/*
 	 * This isn't actually required, just convenient because IState<?>

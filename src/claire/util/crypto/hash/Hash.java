@@ -35,5 +35,7 @@ public final class Hash {
 	public static final int SHA2_256 = 30;
 	public static final int SHA2_384 = 31;
 	public static final int SHA2_512 = 32;
+	public static final int TIGER1 = 33;
+	public static final int TIGER2 = 34;
 	
 }
