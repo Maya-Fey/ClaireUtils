@@ -23,5 +23,8 @@ public final class Hash {
 	public static final int JH256 = 18;
 	public static final int JH384 = 19;
 	public static final int JH512 = 20;
+	public static final int MD2 = 21;
+	public static final int MD4 = 22;
+	public static final int MD5 = 23;
 	
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.MD5.MD5State;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
@@ -57,6 +58,11 @@ public class MD5
 		super(64, 16);
 		reset();	
 	}	
+	
+	public int hashID()
+	{
+		return Hash.MD5;
+	}
 	
 	private static int F1(int u, int v, int w)
 	{

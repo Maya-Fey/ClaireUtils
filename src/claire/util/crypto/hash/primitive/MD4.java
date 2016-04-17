@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.MD4.MD4State;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
@@ -24,6 +25,11 @@ public class MD4
 	public MD4() {
 		super(64, 16);
 		reset();
+	}
+	
+	public int hashID()
+	{
+		return Hash.MD4;
 	}
 
 	private static final int[] CONSTANTS = {

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import claire.util.crypto.CryptoString;
+import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
 import claire.util.crypto.hash.primitive.MD2.MD2State;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
@@ -20,10 +21,6 @@ import claire.util.standards.io.IOutgoingStream;
 public class MD2 
 	   extends MerkleHash<MD2State, MD2> {
 	
-	public MD2() {
-		super(16, 16);
-	}
-
 	private static final byte[] CONSTANTS = {
         41,   46,   67,  -55,  -94,  -40,  124,   1,
         61,   54,   84,  -95,  -20,  -16,    6,  19,
@@ -58,6 +55,15 @@ public class MD2
         49,   68,   80,  -76, -113,  -19,   31,   26,
        -37, -103, -115,   51, - 97,   17, -125,   20 
     };
+	
+	public MD2() {
+		super(16, 16);
+	}
+	
+	public int hashID()
+	{
+		return Hash.MD2;
+	}
 	
 	protected final byte[] checksum = new byte[16];
 	protected final byte[] state = new byte[48];
