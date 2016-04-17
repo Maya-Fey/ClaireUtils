@@ -24,7 +24,7 @@ public class CString
 	   			  IIterable<Character>,
 	   			  ISoftID {
 	
-	private char[] chars;
+	protected char[] chars;
 	
 	public CString(final String s)
 	{
@@ -694,9 +694,138 @@ public class CString
 		int e = 0;
 		CString test = new CString("dh87adha28hd8a27dh8a2hd8ag2d8ga287dga28gda2thisiskeyboardmashingÓð↓°×ı‗,>XòY");
 		e += IPersistable.test(test);
+		e += IPersistable.test(new UTF8String(test));
 		e += IDeepClonable.test(test);
 		e += ISoftID.test(test, test.createDeepClone());
 		return e;
+	}
+	
+	public static final StringFactory factoryutf8 = new StringFactory("UTF-8");
+	
+	public static final class UTF8String extends CString
+	{
+		public UTF8String(CString s)
+		{
+			this.chars = s.chars;
+		}
+		
+		public UTF8String(final String s)
+		{
+			chars = s.toCharArray();
+		}
+		
+		public UTF8String(char c)
+		{
+			this.chars = new char[] { c };
+		}
+		
+		public UTF8String(char[] c, int start, int len)
+		{
+			chars = new char[len];
+			System.arraycopy(c, 0, chars, start, len);
+		}
+		
+		public UTF8String(final char ... c)
+		{
+			this.chars = c;
+		}
+		
+		public UTF8String(byte[] bytes)
+		{
+			this(bytes, "UTF-16");
+		}
+		
+		public UTF8String(byte[] bytes, String encoding)
+		{
+			switch(encoding)
+			{
+				case "CTF-S":
+					this.chars = CTFS.toUTF16(bytes);
+					break;
+				case "CTF-L":
+					this.chars = CTFL.toUTF16(bytes);
+					break;
+				case "UTF-8":
+					this.chars = UTF8.toUTF16(bytes);
+					break;
+				case "UTF-16":
+					this.chars = Bits.bytesToChars(bytes);
+					break;
+				case "ASCII":
+					chars = new char[bytes.length];
+					for(int i = 0; i < bytes.length; i++)
+						chars[i] = (char) bytes[i];
+					break;
+				default:
+					throw new java.lang.NullPointerException("Unsupported Encoding");
+			}
+		}
+		
+		public UTF8String(byte i)
+		{
+			this.chars = Base10.fromByte(i);
+		}
+		
+		public UTF8String(short i)
+		{
+			this.chars = Base10.fromShort(i);
+		}
+		
+		public UTF8String(int i)
+		{
+			this.chars = Base10.fromInt(i);
+		}
+		
+		public UTF8String(long i)
+		{
+			this.chars = Base10.fromLong(i);
+		}
+		
+		public UTF8String(boolean b)
+		{
+			if(b)
+				this.chars = new char[] { 't', 'r', 'u', 'e' };
+			else
+				this.chars = new char[] { 'f', 'a', 'l', 's', 'e' };
+		}
+		
+		public UTF8String(UTF8String string)
+		{
+			this.chars = ArrayUtil.copy(string.array());
+		}
+		
+		public UTF8String(boolean[] bools)
+		{
+			this.chars = new char[bools.length];
+			for(int i = 0; i < bools.length; i++)
+				if(bools[i])
+					chars[i] = '1';
+				else
+					chars[i] = '0';
+		}
+		
+		public void export(IOutgoingStream os) throws IOException
+		{
+			os.writeInt(chars.length);
+			UTF8.fromUTF16(os, chars);
+		}
+		
+		public void export(byte[] bytes, int start)
+		{
+			Bits.intToBytes(chars.length, bytes, start);
+			UTF8.fromUTF16(chars, 0, bytes, start + 4, chars.length);
+		}
+		
+		public int exportSize()
+		{
+			return UTF8.bytesUTF16(chars) + 4;
+		}
+		
+		public Factory<CString> factory()
+		{
+			return factoryutf8;
+		}
+		
 	}
 	
 }
