@@ -672,21 +672,19 @@ public class CString
 	public byte getSID8(CRC8 crc)
 	{
 		crc.persist(this);
-		return 0;
+		return crc.getCode();
 	}
 
-	@Override
 	public short getSID16(CRC16 crc)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		crc.persist(this);
+		return crc.getCode();
 	}
 
-	@Override
 	public int getSID32(CRC32 crc)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		crc.persist(this);
+		return crc.getCode();
 	}
 	
 }
