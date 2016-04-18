@@ -178,6 +178,11 @@ public class IBAA
 			this.rem = ia.rem;
 		}
 		
+		public int stateID()
+		{
+			return IState.IBAA;
+		}
+		
 		/**
 		 * Updates this state with the given IBAA object.
 		 * <br><br>

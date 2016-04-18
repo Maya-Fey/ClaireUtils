@@ -12,5 +12,7 @@ public interface IState<Type extends IState<Type>>
 	int stateID();
 	
 	static int IA = 0;
+	static int IBAA = 1;
+	static int ISAAC = 2;
 
 }
