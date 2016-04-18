@@ -494,6 +494,11 @@ public final class CubeHash
 			this.block = ch.block;
 			this.factory = new CubeHashStateFactory(block);
 		}
+		
+		public int stateID()
+		{
+			return IState.CUBEHASH;
+		}
 
 		public Factory<CubeHashState> factory()
 		{
