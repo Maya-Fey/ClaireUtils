@@ -295,6 +295,11 @@ public final class CRC32
 			this.state = state;
 		}
 		
+		public int stateID()
+		{
+			return IState.CRC32;
+		}
+		
 		public void export(IOutgoingStream stream) throws IOException
 		{
 			stream.writeInt(state);

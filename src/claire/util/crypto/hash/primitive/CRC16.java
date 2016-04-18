@@ -264,6 +264,11 @@ public final class CRC16
 			this.state = state;
 		}
 		
+		public int stateID()
+		{
+			return IState.CRC16;
+		}
+		
 		public void export(IOutgoingStream stream) throws IOException
 		{
 			stream.writeShort(state);

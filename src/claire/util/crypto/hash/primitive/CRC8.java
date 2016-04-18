@@ -263,6 +263,11 @@ public final class CRC8
 			this.state = state;
 		}
 		
+		public int stateID()
+		{
+			return IState.CRC8;
+		}
+		
 		public void export(IOutgoingStream stream) throws IOException
 		{
 			stream.writeByte(state);
