@@ -752,6 +752,11 @@ public class HAVAL
 		{
 			super(hl);
 		}
+		
+		public int stateID()
+		{
+			return IState.HAVAL;
+		}
 
 		public Factory<HAVALState> factory()
 		{
