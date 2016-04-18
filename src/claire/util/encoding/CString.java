@@ -695,12 +695,14 @@ public class CString
 		CString test = new CString("dh87adha28hd8a27dh8a2hd8ag2d8ga287dga28gda2thisiskeyboardmashingÓð↓°×ı‗,>XòY");
 		e += IPersistable.test(test);
 		e += IPersistable.test(new UTF8String(test));
+		e += IPersistable.test(new CTFSString(test));
 		e += IDeepClonable.test(test);
 		e += ISoftID.test(test, test.createDeepClone());
 		return e;
 	}
 	
 	public static final StringFactory factoryutf8 = new StringFactory("UTF-8");
+	public static final StringFactory factoryctfs = new StringFactory("CTF-S");
 	
 	public static final class UTF8String extends CString
 	{
@@ -824,6 +826,132 @@ public class CString
 		public Factory<CString> factory()
 		{
 			return factoryutf8;
+		}
+		
+	}
+	
+	public static final class CTFSString extends CString
+	{
+		public CTFSString(CString s)
+		{
+			this.chars = s.chars;
+		}
+		
+		public CTFSString(final String s)
+		{
+			chars = s.toCharArray();
+		}
+		
+		public CTFSString(char c)
+		{
+			this.chars = new char[] { c };
+		}
+		
+		public CTFSString(char[] c, int start, int len)
+		{
+			chars = new char[len];
+			System.arraycopy(c, 0, chars, start, len);
+		}
+		
+		public CTFSString(final char ... c)
+		{
+			this.chars = c;
+		}
+		
+		public CTFSString(byte[] bytes)
+		{
+			this(bytes, "UTF-16");
+		}
+		
+		public CTFSString(byte[] bytes, String encoding)
+		{
+			switch(encoding)
+			{
+				case "CTF-S":
+					this.chars = CTFS.toUTF16(bytes);
+					break;
+				case "CTF-L":
+					this.chars = CTFL.toUTF16(bytes);
+					break;
+				case "UTF-8":
+					this.chars = CTFS.toUTF16(bytes);
+					break;
+				case "UTF-16":
+					this.chars = Bits.bytesToChars(bytes);
+					break;
+				case "ASCII":
+					chars = new char[bytes.length];
+					for(int i = 0; i < bytes.length; i++)
+						chars[i] = (char) bytes[i];
+					break;
+				default:
+					throw new java.lang.NullPointerException("Unsupported Encoding");
+			}
+		}
+		
+		public CTFSString(byte i)
+		{
+			this.chars = Base10.fromByte(i);
+		}
+		
+		public CTFSString(short i)
+		{
+			this.chars = Base10.fromShort(i);
+		}
+		
+		public CTFSString(int i)
+		{
+			this.chars = Base10.fromInt(i);
+		}
+		
+		public CTFSString(long i)
+		{
+			this.chars = Base10.fromLong(i);
+		}
+		
+		public CTFSString(boolean b)
+		{
+			if(b)
+				this.chars = new char[] { 't', 'r', 'u', 'e' };
+			else
+				this.chars = new char[] { 'f', 'a', 'l', 's', 'e' };
+		}
+		
+		public CTFSString(CTFSString string)
+		{
+			this.chars = ArrayUtil.copy(string.array());
+		}
+		
+		public CTFSString(boolean[] bools)
+		{
+			this.chars = new char[bools.length];
+			for(int i = 0; i < bools.length; i++)
+				if(bools[i])
+					chars[i] = '1';
+				else
+					chars[i] = '0';
+		}
+		
+		public void export(IOutgoingStream os) throws IOException
+		{
+			os.writeInt(chars.length);
+			CTFS.fromUTF16(os, chars);
+		}
+		
+		public void export(byte[] bytes, int start)
+		{
+			Bits.intToBytes(chars.length, bytes, start);
+			CTFS.fromUTF16(chars, 0, bytes, start + 4, chars.length);
+		}
+		
+		public int exportSize()
+		{
+			return CTFS.bytesUTF16(chars) + 4;
+		}
+		
+		public Factory<CString> factory()
+		{
+			return factoryctfs;
 		}
 		
 	}
