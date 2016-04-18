@@ -8,5 +8,9 @@ public interface IState<Type extends IState<Type>>
 	   		   IUUID<Type> {
 	
 	void erase();
+	
+	int stateID();
+	
+	
 
 }
