@@ -173,6 +173,11 @@ public class RC4_DROP
 			this.j = j;
 		}
 		
+		public int stateID()
+		{
+			return IState.RC4_DROP;
+		}
+		
 		public void update(RC4_DROP rc4)
 		{
 			if(this.S == null)
