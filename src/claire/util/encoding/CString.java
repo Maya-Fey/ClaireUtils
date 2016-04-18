@@ -696,6 +696,7 @@ public class CString
 		e += IPersistable.test(test);
 		e += IPersistable.test(new UTF8String(test));
 		e += IPersistable.test(new CTFSString(test));
+		e += IPersistable.test(new CTFLString(test));
 		e += IDeepClonable.test(test);
 		e += ISoftID.test(test, test.createDeepClone());
 		return e;
@@ -703,6 +704,7 @@ public class CString
 	
 	public static final StringFactory factoryutf8 = new StringFactory("UTF-8");
 	public static final StringFactory factoryctfs = new StringFactory("CTF-S");
+	public static final StringFactory factoryctfl = new StringFactory("CTF-L");
 	
 	public static final class UTF8String extends CString
 	{
@@ -952,6 +954,132 @@ public class CString
 		public Factory<CString> factory()
 		{
 			return factoryctfs;
+		}
+		
+	}
+	
+	public static final class CTFLString extends CString
+	{
+		public CTFLString(CString s)
+		{
+			this.chars = s.chars;
+		}
+		
+		public CTFLString(final String s)
+		{
+			chars = s.toCharArray();
+		}
+		
+		public CTFLString(char c)
+		{
+			this.chars = new char[] { c };
+		}
+		
+		public CTFLString(char[] c, int start, int len)
+		{
+			chars = new char[len];
+			System.arraycopy(c, 0, chars, start, len);
+		}
+		
+		public CTFLString(final char ... c)
+		{
+			this.chars = c;
+		}
+		
+		public CTFLString(byte[] bytes)
+		{
+			this(bytes, "UTF-16");
+		}
+		
+		public CTFLString(byte[] bytes, String encoding)
+		{
+			switch(encoding)
+			{
+				case "CTF-S":
+					this.chars = CTFL.toUTF16(bytes);
+					break;
+				case "CTF-L":
+					this.chars = CTFL.toUTF16(bytes);
+					break;
+				case "UTF-8":
+					this.chars = CTFL.toUTF16(bytes);
+					break;
+				case "UTF-16":
+					this.chars = Bits.bytesToChars(bytes);
+					break;
+				case "ASCII":
+					chars = new char[bytes.length];
+					for(int i = 0; i < bytes.length; i++)
+						chars[i] = (char) bytes[i];
+					break;
+				default:
+					throw new java.lang.NullPointerException("Unsupported Encoding");
+			}
+		}
+		
+		public CTFLString(byte i)
+		{
+			this.chars = Base10.fromByte(i);
+		}
+		
+		public CTFLString(short i)
+		{
+			this.chars = Base10.fromShort(i);
+		}
+		
+		public CTFLString(int i)
+		{
+			this.chars = Base10.fromInt(i);
+		}
+		
+		public CTFLString(long i)
+		{
+			this.chars = Base10.fromLong(i);
+		}
+		
+		public CTFLString(boolean b)
+		{
+			if(b)
+				this.chars = new char[] { 't', 'r', 'u', 'e' };
+			else
+				this.chars = new char[] { 'f', 'a', 'l', 's', 'e' };
+		}
+		
+		public CTFLString(CTFLString string)
+		{
+			this.chars = ArrayUtil.copy(string.array());
+		}
+		
+		public CTFLString(boolean[] bools)
+		{
+			this.chars = new char[bools.length];
+			for(int i = 0; i < bools.length; i++)
+				if(bools[i])
+					chars[i] = '1';
+				else
+					chars[i] = '0';
+		}
+		
+		public void export(IOutgoingStream os) throws IOException
+		{
+			os.writeInt(chars.length);
+			CTFL.fromUTF16(os, chars);
+		}
+		
+		public void export(byte[] bytes, int start)
+		{
+			Bits.intToBytes(chars.length, bytes, start);
+			CTFL.fromUTF16(chars, 0, bytes, start + 4, chars.length);
+		}
+		
+		public int exportSize()
+		{
+			return CTFL.bytesUTF16(chars) + 4;
+		}
+		
+		public Factory<CString> factory()
+		{
+			return factoryctfl;
 		}
 		
 	}
