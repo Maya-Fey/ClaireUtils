@@ -151,6 +151,11 @@ public class RC4
 			this.j = j;
 		}
 		
+		public int stateID()
+		{
+			return IState.RC4;
+		}
+		
 		public void update(RC4 rc4)
 		{
 			if(this.S == null)

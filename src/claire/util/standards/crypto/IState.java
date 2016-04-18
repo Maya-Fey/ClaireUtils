@@ -15,5 +15,6 @@ public interface IState<Type extends IState<Type>>
 	static int IBAA = 1;
 	static int ISAAC = 2;
 	static int RC4_DROP = 3;
+	static int RC4 = 4;
 
 }
