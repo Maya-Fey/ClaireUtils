@@ -169,6 +169,11 @@ public class IA
 			this.rem = ia.rem;
 		}
 		
+		public int stateID()
+		{
+			return IState.IA;
+		}
+		
 		/**
 		 * Updates this state with the given IA object.
 		 * <br><br>
