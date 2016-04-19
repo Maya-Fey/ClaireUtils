@@ -3,7 +3,11 @@ package claire.util.standards.io;
 import java.io.Closeable;
 import java.io.IOException;
 
+import claire.util.crypto.rng.RandUtils;
 import claire.util.encoding.CString;
+import claire.util.logging.Log;
+import claire.util.memory.buffer.ByteArrayOutgoingStream;
+import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IPersistable;
 
 public interface IOutgoingStream 
@@ -115,6 +119,73 @@ public interface IOutgoingStream
 	{
 		this.writeInt(arr.length);
 		this.writeLongs(arr, 0, arr.length);
+	}
+	
+	public static int testWrapper(byte[] arr, IOutgoingStream os2)
+	{
+		try {
+			byte[] arr2 = new byte[arr.length];
+			ByteArrayOutgoingStream os3 = new ByteArrayOutgoingStream(arr2);
+			boolean[] bools = new boolean[57];
+			byte[] bytes = new byte[57];
+			short[] shorts = new short[57];
+			char[] chars = new char[57];
+			int[] ints = new int[57];
+			long[] longs = new long[57];
+			RandUtils.fillArr(bools);
+			RandUtils.fillArr(bytes);
+			RandUtils.fillArr(shorts);
+			RandUtils.fillArr(chars);
+			RandUtils.fillArr(ints);
+			RandUtils.fillArr(longs);
+			for(boolean b : bools) {
+				os2.writeBool(b);
+				os3.writeBool(b);
+			}
+			for(byte b : bytes) {
+				os2.writeByte(b);
+				os3.writeByte(b);
+			}
+			for(short b : shorts) {
+				os2.writeShort(b);
+				os3.writeShort(b);
+			}
+			for(char b : chars) {
+				os2.writeChar(b);
+				os3.writeChar(b);
+			}
+			for(int b : ints) {
+				os2.writeInt(b);
+				os3.writeInt(b);
+			}
+			for(long b : longs) {
+				os2.writeLong(b);
+				os3.writeLong(b);
+			}
+			os2.writeBools(bools);
+			os2.writeBytes(bytes);
+			os2.writeShorts(shorts);
+			os2.writeChars(chars);
+			os2.writeInts(ints);
+			os2.writeLongs(longs);
+			os3.writeBools(bools);
+			os3.writeBytes(bytes);
+			os3.writeShorts(shorts);
+			os3.writeChars(chars);
+			os3.writeInts(ints);
+			os3.writeLongs(longs);
+			os2.close();
+			os3.close();
+			if(!ArrayUtil.equals(arr, arr2)) {
+				Log.err.println("Wrapper around output stream did not have identical output to unwrapped.");
+				return 1;
+			} else
+				return 0;
+		} catch(Exception e) {
+			Log.err.println("An unexpected " + e.getClass().getSimpleName() + ": " + e.getMessage() + " occured while testing  " + os2.getClass().getSimpleName());
+			e.printStackTrace();
+			return 1;
+		}
 	}
 
 }
