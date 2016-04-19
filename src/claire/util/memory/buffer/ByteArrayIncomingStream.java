@@ -18,6 +18,11 @@ public class ByteArrayIncomingStream
 		this.array = data;
 	}
 	
+	public byte[] getArr()
+	{
+		return array;
+	}
+	
 	public ByteArrayIncomingStream(byte[] data, int start)
 	{
 		this.array = data;

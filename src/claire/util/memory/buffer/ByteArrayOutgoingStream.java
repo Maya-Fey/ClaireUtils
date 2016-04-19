@@ -19,6 +19,11 @@ public class ByteArrayOutgoingStream
 		this.array = data;
 	}
 	
+	public byte[] getArr()
+	{
+		return array;
+	}
+	
 	public void close() {}
 	
 	public void writeByte(byte data) throws IOException
