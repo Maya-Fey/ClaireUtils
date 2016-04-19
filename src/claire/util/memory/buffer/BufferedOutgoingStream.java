@@ -14,7 +14,10 @@ public class BufferedOutgoingStream
 	
 	private final int l2,
 					  l4,
-					  l8;
+					  l8,
+					  l2t,
+					  l4t,
+					  l8t;
 	
 	private int pos = 0;
 	
@@ -25,6 +28,9 @@ public class BufferedOutgoingStream
 		l2 = buffer.length >>> 1;
 		l4 = buffer.length >>> 2;
 		l8 = buffer.length >>> 3;
+		l2t = l2 << 1;
+		l4t = l4 << 2;
+		l8t = l8 << 3;
 	}
 	
 	private void doIt(int incoming) throws IOException
@@ -39,6 +45,11 @@ public class BufferedOutgoingStream
 	{
 		os.writeBytes(buffer, 0, pos);
 		pos = 0;
+	}
+	
+	private void flush(int pos) throws IOException
+	{
+		os.writeBytes(buffer, 0, pos);
 	}
 	
 	public void close() throws IOException	
@@ -160,14 +171,14 @@ public class BufferedOutgoingStream
 			System.arraycopy(bytes, off, buffer, pos, rem);
 			off += rem;
 			len -= rem;
-			flush();
+			flush(buffer.length);
 			while(len > buffer.length) {
 				System.arraycopy(bytes, off, buffer, 0, buffer.length);
 				off += buffer.length;
 				len -= buffer.length;
-				flush();
+				flush(buffer.length);
 			}
-			System.arraycopy(bytes, off, buffer, pos, len);
+			System.arraycopy(bytes, off, buffer, 0, len);
 			pos = len;
 		}
 	}
@@ -177,19 +188,19 @@ public class BufferedOutgoingStream
 		int rem = (buffer.length - pos) >>> 1;
 		if(rem > len) {
 			Bits.shortsToBytes(shorts, off, buffer, pos, len);
-			pos += len;
+			pos += len * 2;
 		} else {
 			Bits.shortsToBytes(shorts, off, buffer, pos, rem);
 			off += rem;
 			len -= rem;
-			flush();
+			flush(pos + (rem * 2));
 			while(len > l2) {
 				Bits.shortsToBytes(shorts, off, buffer, 0, l2);
 				off += l2;
 				len -= l2;
-				flush();
+				flush(l2t);
 			}
-			Bits.shortsToBytes(shorts, off, buffer, pos, len);
+			Bits.shortsToBytes(shorts, off, buffer, 0, len);
 			pos = len * 2;
 		}
 	}
@@ -199,19 +210,19 @@ public class BufferedOutgoingStream
 		int rem = (buffer.length - pos) >>> 1;
 		if(rem > len) {
 			Bits.charsToBytes(chars, off, buffer, pos, len);
-			pos += len;
+			pos += len * 2;
 		} else {
 			Bits.charsToBytes(chars, off, buffer, pos, rem);
 			off += rem;
 			len -= rem;
-			flush();
+			flush(pos + (rem * 2));
 			while(len > l2) {
 				Bits.charsToBytes(chars, off, buffer, 0, l2);
 				off += l2;
 				len -= l2;
-				flush();
+				flush(l2t);
 			}
-			Bits.charsToBytes(chars, off, buffer, pos, len);
+			Bits.charsToBytes(chars, off, buffer, 0, len);
 			pos = len * 2;
 		}
 	}
@@ -221,19 +232,19 @@ public class BufferedOutgoingStream
 		int rem = (buffer.length - pos) >>> 2;
 		if(rem > len) {
 			Bits.intsToBytes(ints, off, buffer, pos, len);
-			pos += len;
+			pos += len * 4;
 		} else {
 			Bits.intsToBytes(ints, off, buffer, pos, rem);
 			off += rem;
 			len -= rem;
-			flush();
+			flush(pos + (rem * 4));
 			while(len > l4) {
 				Bits.intsToBytes(ints, off, buffer, 0, l4);
 				off += l4;
 				len -= l4;
-				flush();
+				flush(l4t);
 			}
-			Bits.intsToBytes(ints, off, buffer, pos, len);
+			Bits.intsToBytes(ints, off, buffer, 0, len);
 			pos = len * 4;
 		}
 	}
@@ -243,19 +254,19 @@ public class BufferedOutgoingStream
 		int rem = (buffer.length - pos) >>> 3;
 		if(rem > len) {
 			Bits.longsToBytes(longs, off, buffer, pos, len);
-			pos += len;
+			pos += len * 8;
 		} else {
 			Bits.longsToBytes(longs, off, buffer, pos, rem);
 			off += rem;
 			len -= rem;
-			flush();
+			flush(pos + (rem * 8));
 			while(len > l8) {
 				Bits.longsToBytes(longs, off, buffer, 0, l8);
 				off += l8;
 				len -= l8;
-				flush();
+				flush(l8t);
 			}
-			Bits.longsToBytes(longs, off, buffer, pos, len);
+			Bits.longsToBytes(longs, off, buffer, 0, len);
 			pos = len * 8;
 		}
 	}
@@ -278,6 +289,12 @@ public class BufferedOutgoingStream
 	public IIncomingStream getIncoming() throws UnsupportedOperationException, IOException
 	{
 		return os.getIncoming();
+	}
+	
+	public static final int test()
+	{
+		byte[] arr = new byte[5000];
+		return IOutgoingStream.testWrapper(arr, new BufferedOutgoingStream(new ByteArrayOutgoingStream(arr), new byte[15]));
 	}
 
 }

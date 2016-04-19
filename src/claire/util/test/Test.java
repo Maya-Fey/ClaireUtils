@@ -80,11 +80,11 @@ import claire.util.crypto.hash.primitive.Tiger2;
 import claire.util.crypto.hash.primitive.Whirlpool;
 import claire.util.crypto.hash.primitive.Whirlpool_0;
 import claire.util.crypto.hash.primitive.Whirlpool_T;
-import claire.util.encoding.Base10;
 import claire.util.encoding.CString;
 import claire.util.logging.Log;
 import claire.util.math.counters.IntCounter;
 import claire.util.math.counters.LongCounter;
+import claire.util.memory.buffer.BufferedOutgoingStream;
 
 public class Test {
 	
@@ -283,6 +283,10 @@ public class Test {
 		IntCounter.test();
 		Log.info.println("Testing claire.util.math.counters.LongCounter");
 		LongCounter.test();
+		Log.info.println("Testing ../memory");
+		Log.info.println("Testing buffers");
+		Log.info.println("Testing claire.util.memory.buffers.BufferedOutputStream");
+		reg += BufferedOutgoingStream.test();
 		if(reg > 0)
 			Log.crit.println(reg + " regressions detected!");
 		else

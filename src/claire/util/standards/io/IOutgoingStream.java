@@ -168,6 +168,7 @@ public interface IOutgoingStream
 			os2.writeChars(chars);
 			os2.writeInts(ints);
 			os2.writeLongs(longs);
+			
 			os3.writeBools(bools);
 			os3.writeBytes(bytes);
 			os3.writeShorts(shorts);
