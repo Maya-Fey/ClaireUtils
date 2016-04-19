@@ -47,6 +47,28 @@ public class RandUtils {
 		return (guass.nextGaussian() + 1.0D) / 2;
 	}
 	
+	public static final void fillArr(boolean[] i)
+	{
+		fillArr(i, 0, i.length);
+	}
+	
+	public static final void fillArr(boolean[] i, int start, int len)
+	{
+		for(int j = 0; j < len; j++)
+			i[start++] = dprng.nextByte() < 1;
+	}
+	
+	public static final void fillArr(boolean[] i, IRandom prng)
+	{
+		fillArr(i, 0, i.length, prng);
+	}
+	
+	public static final void fillArr(boolean[] i, int start, int len, IRandom prng)
+	{
+		for(int j = 0; j < len; j++)
+			i[start++] = prng.nextByte() < 1;
+	}
+	
 	public static final void fillArr(byte[] i)
 	{
 		fillArr(i, 0, i.length);
