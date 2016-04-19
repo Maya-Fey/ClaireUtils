@@ -42,7 +42,6 @@ public class PrimeGenerator<Int extends IInteger<Int>> {
 		};
 	
 	private final int st,
-					  vt,
 					  primes;
 	
 	private final IRandom rand;
@@ -54,25 +53,24 @@ public class PrimeGenerator<Int extends IInteger<Int>> {
 	private Int min;
 	private Int canidate;
 	
-	public PrimeGenerator(int st, int vt, Int min, Int max)
+	public PrimeGenerator(int st, Int min, Int max)
 	{
-		this(st, vt, min, max, 2, RandUtils.dprng);
+		this(st, min, max, 2, RandUtils.dprng);
 	}
 	
-	public PrimeGenerator(int st, int vt, Int min, Int max, int primes)
+	public PrimeGenerator(int st, Int min, Int max, int primes)
 	{
-		this(st, vt, min, max, primes, RandUtils.dprng);
+		this(st, min, max, primes, RandUtils.dprng);
 	}
 	
-	public PrimeGenerator(int st, int vt, Int min, Int max, int primes, IRandom rand)
+	public PrimeGenerator(int st, Int min, Int max, int primes, IRandom rand)
 	{
-		this(st, vt, min, max, primes, rand, rand);
+		this(st, min, max, primes, rand, rand);
 	}
 	
-	public PrimeGenerator(int st, int vt, Int min, Int max, int primes, IRandom rand, IRandom rand2)
+	public PrimeGenerator(int st,Int min, Int max, int primes, IRandom rand, IRandom rand2)
 	{
 		this.st = st;
-		this.vt = vt;
 		this.min = min;
 		this.max = max;
 		this.rand = rand;
@@ -131,12 +129,7 @@ public class PrimeGenerator<Int extends IInteger<Int>> {
 				if(canidate.isGreaterOrEqualTo(max))
 					this.nextCanidate();
 			}
-			if(vt > 0) 
-				if(MathHelper.isPrimeProbableMR(canidate, rand2, vt))
-					return canidate.createDeepClone();
-				else;
-			else
-				return canidate.createDeepClone();
+			return canidate.createDeepClone();
 		}
 	}
 	
