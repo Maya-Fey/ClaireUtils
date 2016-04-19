@@ -122,8 +122,32 @@ public class BufferedOutgoingStream
 
 	public void writeNibbles(byte[] nibbles, int off, int len) throws IOException
 	{
-		// TODO Auto-generated method stub
-		
+		int rem = buffer.length - pos;
+		len /= 2;
+		if(rem > len) {
+			while(len-- > 0) {
+				buffer[pos++] = ((byte) (((nibbles[off++] & 0xF) << 4) |
+										  (nibbles[off++] & 0xF)));
+			}
+		} else {
+			while(pos < buffer.length)
+				buffer[pos++] = ((byte) (((nibbles[off++] & 0xF) << 4) |
+						  				  (nibbles[off++] & 0xF)));
+			len -= rem;
+			flush();
+			while(len > buffer.length) {
+				pos = 0;
+				while(pos < buffer.length)
+					buffer[pos++] = ((byte) (((nibbles[off++] & 0xF) << 4) |
+							 				  (nibbles[off++] & 0xF)));
+				len -= buffer.length;
+				flush();
+			}
+			pos = 0;
+			while(len-- > 0)
+				buffer[pos++] = ((byte) (((nibbles[off++] & 0xF) << 4) |
+						  			      (nibbles[off++] & 0xF)));
+		}
 	}
 
 	public void writeBytes(byte[] bytes, int off, int len) throws IOException
