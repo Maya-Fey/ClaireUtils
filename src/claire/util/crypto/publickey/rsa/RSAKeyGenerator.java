@@ -8,8 +8,7 @@ import claire.util.standards.IRandom;
 
 public class RSAKeyGenerator {
 	
-	private static final int scan_tests = 2;
-	private static final int conf_tests = 6;
+	private static final int scan_tests = 4;
 
 	public static RSALargeKeyPair generateBig(final int size, int amt, IRandom rng, UInt exp, int primes)
 	{
@@ -22,7 +21,7 @@ public class RSAKeyGenerator {
 		UInt phi = new UInt("1", size + (amt / 24) + 1);
 		MathHelper.getMinIntValue(min, per);
 		MathHelper.getMinBitValue(max, (per << 5) + 1);
-		PrimeGenerator<UInt> pg = new PrimeGenerator<UInt>(scan_tests, conf_tests, min, max, primes, rng);
+		PrimeGenerator<UInt> pg = new PrimeGenerator<UInt>(scan_tests, min, max, primes, rng);
 		UInt t = null;
 		pg.setMinMax(min, max);
 		boolean extra = (size % amt) != 0;
@@ -88,7 +87,7 @@ public class RSAKeyGenerator {
 		UInt phi = new UInt("1", size + (amt / 24) + 1);
 		MathHelper.getMinIntValue(min, per);
 		MathHelper.getMinBitValue(max, (per << 5) + 1);
-		PrimeGenerator<UInt> pg = new PrimeGenerator<UInt>(scan_tests, conf_tests, min, max, primes, rng);
+		PrimeGenerator<UInt> pg = new PrimeGenerator<UInt>(scan_tests, min, max, primes, rng);
 		UInt t = null;
 		pg.setMinMax(min, max);
 		boolean extra = (size % amt) != 0;
@@ -159,7 +158,7 @@ public class RSAKeyGenerator {
 		UInt exp = new UInt(new CString(iexp), size + (amt / 24) + 1);
 		MathHelper.getMinIntValue(min, per);
 		MathHelper.getMinBitValue(max, (per << 5) + 1);
-		PrimeGenerator<UInt> pg = new PrimeGenerator<UInt>(scan_tests, conf_tests, min, max, primes, rng);
+		PrimeGenerator<UInt> pg = new PrimeGenerator<UInt>(scan_tests, min, max, primes, rng);
 		UInt t = null;
 		pg.setMinMax(min, max);
 		boolean extra = (size % amt) != 0;
@@ -227,7 +226,7 @@ public class RSAKeyGenerator {
 		MathHelper.getMinIntValue(min, per);
 		MathHelper.getMinBitValue(max, (per << 5) + 1);
 		UInt exp = new UInt(new CString(iexp), size + (amt / 24) + 1);
-		PrimeGenerator<UInt> pg = new PrimeGenerator<UInt>(scan_tests, conf_tests, min, max, primes, rng);
+		PrimeGenerator<UInt> pg = new PrimeGenerator<UInt>(scan_tests, min, max, primes, rng);
 		UInt t = null;
 		pg.setMinMax(min, max);
 		boolean extra = (size % amt) != 0;
