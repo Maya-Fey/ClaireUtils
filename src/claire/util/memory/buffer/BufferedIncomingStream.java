@@ -105,14 +105,61 @@ public class BufferedIncomingStream
 
 	public void readBools(boolean[] out, int off, int amt) throws IOException
 	{
-		// TODO Auto-generated method stub
-		
+		int len = buffer.length - pos;
+		if(len > amt) {
+			while(amt-- > 0)
+				out[off++] = buffer[pos++] == 1;
+		} else {
+			amt -= len;
+			while(len-- > 0)
+				out[off++] = buffer[pos++] == 1;
+			int i = 0;
+			while(amt > buffer.length) {
+				is.readBytes(buffer);
+				i = 0;
+				len = buffer.length;
+				while(len-- > 0)
+					out[off++] = buffer[i++] == 1;
+				amt -= buffer.length;
+			}
+			is.readBytes(buffer);
+			while(amt-- > 0)
+				out[off++] = buffer[pos++] == 1;
+		}
 	}
 
 	public void readNibbles(byte[] out, int off, int amt) throws IOException
 	{
-		// TODO Auto-generated method stub
-		
+		amt >>>= 1;
+		int len = buffer.length - pos;
+		if(len > amt) {
+			while(amt-- > 0) {
+				out[off++] = (byte) ((buffer[pos  ] & 0xFF) >>> 4); 
+				out[off++] = (byte)  (buffer[pos++] & 0x0F); 
+			}
+		} else {
+			amt -= len;
+			while(len-- > 0) {
+				out[off++] = (byte) ((buffer[pos  ] & 0xFF) >>> 4); 
+				out[off++] = (byte)  (buffer[pos++] & 0x0F); 
+			}
+			int i = 0;
+			while(amt > buffer.length) {
+				is.readBytes(buffer);
+				i = 0;
+				len = buffer.length;
+				while(len-- > 0) {
+					out[off++] = (byte) ((buffer[i  ] & 0xFF) >>> 4); 
+					out[off++] = (byte)  (buffer[i++] & 0x0F); 
+				}
+				amt -= buffer.length;
+			}
+			is.readBytes(buffer);
+			while(amt-- > 0) {
+				out[off++] = (byte) ((buffer[pos  ] & 0xFF) >>> 4); 
+				out[off++] = (byte)  (buffer[pos++] & 0x0F); 
+			}
+		}
 	}
 
 	public void readBytes(byte[] out, int off, int bytes) throws IOException
