@@ -28,5 +28,6 @@ public interface IState<Type extends IState<Type>>
 	static int SHA1 = 14;
 	static int SHA2_32 = 15;
 	static int SHA2_64 = 16;
+	static int TIGER = 17;
 
 }

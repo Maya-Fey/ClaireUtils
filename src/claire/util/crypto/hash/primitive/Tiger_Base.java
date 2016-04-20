@@ -7,6 +7,7 @@ import claire.util.crypto.hash.primitive.Tiger_Base.TigerState;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IState;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -459,6 +460,11 @@ abstract class Tiger_Base<Hash extends Tiger_Base<Hash>>
 		public Factory<TigerState> factory()
 		{
 			return sfactory;
+		}
+		
+		public int stateID()
+		{
+			return IState.TIGER;
 		}
 
 		public int NAMESPACE()
