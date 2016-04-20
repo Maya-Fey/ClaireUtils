@@ -8,6 +8,7 @@ import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IState;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -187,6 +188,11 @@ abstract class SHA2_Base_32<Hash extends SHA2_Base_32<Hash>>
 			return sfactory;
 		}
 
+		public int stateID()
+		{
+			return IState.SHA2_32;
+		}
+	
 		public int NAMESPACE()
 		{
 			return _NAMESPACE.SHA2_32STATE;
