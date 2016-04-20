@@ -143,6 +143,11 @@ public class MD2
 		{
 			super(md2);
 		}
+		
+		public int stateID()
+		{
+			return IState.MD2;
+		}
 
 		public Factory<MD2State> factory()
 		{

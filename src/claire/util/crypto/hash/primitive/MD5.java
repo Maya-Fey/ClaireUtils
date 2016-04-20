@@ -189,6 +189,11 @@ public class MD5
 		{
 			super(bytes, pos);
 		}
+		
+		public int stateID()
+		{
+			return IState.MD5;
+		}
 
 		public Factory<MD5State> factory()
 		{

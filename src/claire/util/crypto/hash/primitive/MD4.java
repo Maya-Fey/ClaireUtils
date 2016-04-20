@@ -186,6 +186,11 @@ public class MD4
 		{
 			super(bytes, pos);
 		}
+		
+		public int stateID()
+		{
+			return IState.MD4;
+		}
 
 		public Factory<MD4State> factory()
 		{

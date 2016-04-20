@@ -21,5 +21,8 @@ public interface IState<Type extends IState<Type>>
 	static int CRC32 = 7;
 	static int CUBEHASH = 8;
 	static int HAVAL = 9;
+	static int MD2 = 10;
+	static int MD4 = 11;
+	static int MD5 = 12;
 
 }
