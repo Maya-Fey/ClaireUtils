@@ -24,5 +24,6 @@ public interface IState<Type extends IState<Type>>
 	static int MD2 = 10;
 	static int MD4 = 11;
 	static int MD5 = 12;
+	static int JH = 13;
 
 }

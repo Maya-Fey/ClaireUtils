@@ -9,6 +9,7 @@ import claire.util.math.counters.LongCounter;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IState;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -413,6 +414,11 @@ abstract class JHCore<Hash extends JHCore<Hash>>
 		public Factory<JHState> factory()
 		{
 			return sfactory;
+		}
+		
+		public int stateID()
+		{
+			return IState.JH;
 		}
 
 		public int NAMESPACE()
