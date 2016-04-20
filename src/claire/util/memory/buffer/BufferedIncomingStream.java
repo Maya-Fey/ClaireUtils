@@ -2,6 +2,7 @@ package claire.util.memory.buffer;
 
 import java.io.IOException;
 
+import claire.util.memory.Bits;
 import claire.util.standards.io.IIncomingStream;
 
 public class BufferedIncomingStream
@@ -10,12 +11,19 @@ public class BufferedIncomingStream
 	private final IIncomingStream is;
 	private final byte[] buffer;
 	
+	private final int l2,
+					  l4,
+					  l8;
+	
 	private int pos;
 	
 	public BufferedIncomingStream(IIncomingStream is, byte[] buffer)
 	{
 		this.is = is;
 		this.buffer = buffer;
+		l2 = buffer.length >>> 1;
+		l4 = buffer.length >>> 2;
+		l8 = buffer.length >>> 3;
 	}
 
 	public void close() throws IOException
@@ -37,6 +45,14 @@ public class BufferedIncomingStream
 	{
 		if(pos == buffer.length)
 			is.readBytes(buffer);
+	}
+	
+	private final void flush() throws IOException
+	{
+		int len = buffer.length - pos;
+		System.arraycopy(buffer, pos, buffer, 0, len);
+		is.readBytes(buffer, len, pos);
+		pos = 0;
 	}
 	
 	public boolean readBool() throws IOException
@@ -101,32 +117,112 @@ public class BufferedIncomingStream
 
 	public void readBytes(byte[] out, int off, int bytes) throws IOException
 	{
-		// TODO Auto-generated method stub
-		
+		int len = buffer.length - pos;
+		if(len > bytes) {
+			System.arraycopy(buffer, pos, out, off, bytes);
+			pos += bytes;
+		} else {
+			System.arraycopy(buffer, pos, out, off, len);
+			off += len;
+			bytes -= len;
+			while(bytes > buffer.length) {
+				is.readBytes(buffer);
+				System.arraycopy(buffer, pos, out, off, buffer.length);
+				off += buffer.length;
+				bytes -= buffer.length;
+			}
+			is.readBytes(buffer);
+			System.arraycopy(buffer, pos, out, off, bytes);
+			pos = bytes;
+		}
 	}
 
 	public void readShorts(short[] shorts, int off, int amt) throws IOException
 	{
-		// TODO Auto-generated method stub
-		
+		int len = (buffer.length - pos) >> 1;
+		if(len > amt) {
+			Bits.bytesToShorts(buffer, pos, shorts, off, amt);
+			pos += amt * 2;
+		} else {
+			Bits.bytesToShorts(buffer, pos, shorts, off, len);
+			off += len;
+			amt -= len;
+			while(amt > buffer.length) {
+				flush();
+				Bits.bytesToShorts(buffer, pos, shorts, off, l2);
+				off += buffer.length;
+				amt -= buffer.length;
+			}
+			flush();
+			Bits.bytesToShorts(buffer, pos, shorts, off, amt);
+			pos = amt * 2;
+		}
 	}
 
 	public void readChars(char[] chars, int off, int amt) throws IOException
 	{
-		// TODO Auto-generated method stub
-		
+		int len = (buffer.length - pos) >> 1;
+		if(len > amt) {
+			Bits.bytesToChars(buffer, pos, chars, off, amt);
+			pos += amt * 2;
+		} else {
+			Bits.bytesToChars(buffer, pos, chars, off, len);
+			off += len;
+			amt -= len;
+			while(amt > buffer.length) {
+				flush();
+				Bits.bytesToChars(buffer, pos, chars, off, l2);
+				off += buffer.length;
+				amt -= buffer.length;
+			}
+			flush();
+			Bits.bytesToChars(buffer, pos, chars, off, amt);
+			pos = amt * 2;
+		}
 	}
 
 	public void readInts(int[] ints, int off, int amt) throws IOException
 	{
-		// TODO Auto-generated method stub
-		
+		int len = (buffer.length - pos) >> 1;
+		if(len > amt) {
+			Bits.bytesToInts(buffer, pos, ints, off, amt);
+			pos += amt * 4;
+		} else {
+			Bits.bytesToInts(buffer, pos, ints, off, len);
+			off += len;
+			amt -= len;
+			while(amt > buffer.length) {
+				flush();
+				Bits.bytesToInts(buffer, pos, ints, off, l4);
+				off += buffer.length;
+				amt -= buffer.length;
+			}
+			flush();
+			Bits.bytesToInts(buffer, pos, ints, off, amt);
+			pos = amt * 4;
+		}
 	}
 
 	public void readLongs(long[] longs, int off, int amt) throws IOException
 	{
-		// TODO Auto-generated method stub
-		
+		int len = (buffer.length - pos) >> 1;
+		if(len > amt) {
+			Bits.bytesToLongs(buffer, pos, longs, off, amt);
+			pos += amt * 8;
+		} else {
+			Bits.bytesToLongs(buffer, pos, longs, off, len);
+			off += len;
+			amt -= len;
+			while(amt > buffer.length) {
+				flush();
+				Bits.bytesToLongs(buffer, pos, longs, off, l8);
+				off += buffer.length;
+				amt -= buffer.length;
+			}
+			flush();
+			Bits.bytesToLongs(buffer, pos, longs, off, amt);
+			pos = amt * 8;
+		}
 	}
 
 	public void rewind(long len) throws IOException
