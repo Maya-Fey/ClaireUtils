@@ -1,7 +1,6 @@
 package claire.util.memory.buffer;
 
 import claire.util.memory.Bits;
-import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.io.IOutgoingStream;
 
 public class DynamicDeaggregator {

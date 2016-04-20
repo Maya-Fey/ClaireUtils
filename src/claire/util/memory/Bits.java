@@ -1748,7 +1748,7 @@ public interface Bits<Type extends Bits<Type>>
 		while(start1 < roof)
 		{
 			shorts[start1++] = (short) (((bytes[start0++] & 0x00FF)) |
-									    (bytes[start0++] & 0x00FF) << 8);
+									     (bytes[start0++] & 0x00FF) << 8);
 		}
 	}
 	
@@ -1845,7 +1845,7 @@ public interface Bits<Type extends Bits<Type>>
 		while(start1 < roof)
 		{
 			ints[start1++] = ((((int) bytes[start0++] & 0xFF)) |
-							  (((int) bytes[start0++] & 0xFF) << 8) |
+							  (((int) bytes[start0++] & 0xFF) << 8 ) |
 							  (((int) bytes[start0++] & 0xFF) << 16) |
 							  (((int) bytes[start0++] & 0xFF) << 24));
 		}
