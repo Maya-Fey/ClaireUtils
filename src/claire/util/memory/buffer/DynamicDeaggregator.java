@@ -1,6 +1,7 @@
 package claire.util.memory.buffer;
 
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.io.IOutgoingStream;
 
 public class DynamicDeaggregator {
@@ -51,6 +52,7 @@ public class DynamicDeaggregator {
 	public void use(int amt)
 	{
 		last -= amt;
+		System.arraycopy(buffer, amt, buffer, 0, last - amt);
 	}
 	
 	public int getBytes()
