@@ -200,6 +200,12 @@ public class SHA1
 		{
 			return sfactory;
 		}
+		
+		public int stateID()
+		{
+			return IState.SHA1;
+		}
+
 
 		public int NAMESPACE()
 		{
