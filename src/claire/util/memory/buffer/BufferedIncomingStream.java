@@ -132,16 +132,19 @@ public class BufferedIncomingStream
 	public void rewind(long len) throws IOException
 	{
 		is.rewind(len);
+		is.readBytes(buffer);
 	}
 
 	public void skip(long pos) throws IOException
 	{
 		is.skip(pos);
+		is.readBytes(buffer);
 	}
 
 	public void seek(long pos) throws IOException
 	{
 		is.seek(pos);
+		is.readBytes(buffer);
 	}
 
 	public long available() throws IOException
