@@ -3,6 +3,7 @@ package claire.util.crypto.publickey.rsa;
 import claire.util.encoding.CString;
 import claire.util.math.MathHelper;
 import claire.util.math.PrimeGenerator;
+import claire.util.math.StrongPrimeGenerator;
 import claire.util.math.UInt;
 import claire.util.standards.IRandom;
 
@@ -10,7 +11,7 @@ public class RSAKeyGenerator {
 	
 	private static final int scan_tests = 4;
 
-	public static RSALargeKeyPair generateBig(final int size, int amt, IRandom rng, UInt exp, int primes)
+	public static RSALargeKeyPair generateBig(final int size, int amt, IRandom rng, UInt exp, int primes, boolean strong)
 	{
 		int per = size / amt;
 		if(size == 0)
@@ -21,7 +22,11 @@ public class RSAKeyGenerator {
 		UInt phi = new UInt("1", size + (amt / 24) + 1);
 		MathHelper.getMinIntValue(min, per);
 		MathHelper.getMinBitValue(max, (per << 5) + 1);
-		PrimeGenerator<UInt> pg = new PrimeGenerator<UInt>(scan_tests, min, max, primes, rng);
+		PrimeGenerator<UInt> pg;
+		if(strong)
+			pg = new StrongPrimeGenerator<UInt>(scan_tests, min, max, primes, rng);
+		else
+			pg = new PrimeGenerator<UInt>(scan_tests, min, max, primes, rng);
 		UInt t = null;
 		pg.setMinMax(min, max);
 		boolean extra = (size % amt) != 0;
@@ -70,13 +75,13 @@ public class RSAKeyGenerator {
 		MathHelper.p_modular_exponent(test, exp, mod);
 		MathHelper.p_modular_exponent(test, inv, mod);
 		if(message.doesNotEqual(test))
-			return generateBig(size, amt, rng, exp, primes);
+			return generateBig(size, amt, rng, exp, primes, strong);
 		RSAStandardPrivateKey priv = new RSAStandardPrivateKey(mod, inv, size);
 		RSAStandardPublicKey pub = new RSAStandardPublicKey(mod.createDeepClone(), exp, size);
 		return new RSALargeKeyPair(pub, priv);
 	}
 	
-	public static RSAFastLargeKeyPair generateBigFast(final int size, int amt, IRandom rng, UInt exp, int primes)
+	public static RSAFastLargeKeyPair generateBigFast(final int size, int amt, IRandom rng, UInt exp, int primes, boolean strong)
 	{
 		int per = size / amt;
 		if(size == 0)
@@ -87,7 +92,11 @@ public class RSAKeyGenerator {
 		UInt phi = new UInt("1", size + (amt / 24) + 1);
 		MathHelper.getMinIntValue(min, per);
 		MathHelper.getMinBitValue(max, (per << 5) + 1);
-		PrimeGenerator<UInt> pg = new PrimeGenerator<UInt>(scan_tests, min, max, primes, rng);
+		PrimeGenerator<UInt> pg;
+		if(strong)
+			pg = new StrongPrimeGenerator<UInt>(scan_tests, min, max, primes, rng);
+		else
+			pg = new PrimeGenerator<UInt>(scan_tests, min, max, primes, rng);
 		UInt t = null;
 		pg.setMinMax(min, max);
 		boolean extra = (size % amt) != 0;
@@ -140,13 +149,13 @@ public class RSAKeyGenerator {
 		MathHelper.p_modular_exponent(test, exp, mod);
 		MathHelper.p_modular_exponent(test, inv, mod);
 		if(message.doesNotEqual(test))
-			return generateBigFast(size, amt, rng, exp, primes);
+			return generateBigFast(size, amt, rng, exp, primes, strong);
 		RSAFastPrivateKey priv = new RSAFastPrivateKey(mod, inv, parr, size);
 		RSAStandardPublicKey pub = new RSAStandardPublicKey(mod.createDeepClone(), exp, size);
 		return new RSAFastLargeKeyPair(pub, priv);
 	}
 	
-	public static RSAStandardKeyPair generateSmall(final int size, int amt, IRandom rng, int iexp, int primes)
+	public static RSAStandardKeyPair generateSmall(final int size, int amt, IRandom rng, int iexp, int primes, boolean strong)
 	{
 		int per = size / amt;
 		if(size == 0)
@@ -158,7 +167,11 @@ public class RSAKeyGenerator {
 		UInt exp = new UInt(new CString(iexp), size + (amt / 24) + 1);
 		MathHelper.getMinIntValue(min, per);
 		MathHelper.getMinBitValue(max, (per << 5) + 1);
-		PrimeGenerator<UInt> pg = new PrimeGenerator<UInt>(scan_tests, min, max, primes, rng);
+		PrimeGenerator<UInt> pg;
+		if(strong)
+			pg = new StrongPrimeGenerator<UInt>(scan_tests, min, max, primes, rng);
+		else
+			pg = new PrimeGenerator<UInt>(scan_tests, min, max, primes, rng);
 		UInt t = null;
 		pg.setMinMax(min, max);
 		boolean extra = (size % amt) != 0;
@@ -208,13 +221,13 @@ public class RSAKeyGenerator {
 		MathHelper.p_modular_exponent(test, exp, mod);
 		MathHelper.p_modular_exponent(test, inv, mod);
 		if(message.doesNotEqual(test))
-			return generateSmall(size, amt, rng, iexp, primes);
+			return generateSmall(size, amt, rng, iexp, primes, strong);
 		RSAStandardPrivateKey priv = new RSAStandardPrivateKey(mod, inv, size);
 		RSAMicroPublicKey pub = new RSAMicroPublicKey(mod.createDeepClone(), iexp, size);
 		return new RSAStandardKeyPair(pub, priv);
 	}
 	
-	public static RSAFastStandardKeyPair generateSmallFast(final int size, int amt, IRandom rng, int iexp, int primes)
+	public static RSAFastStandardKeyPair generateSmallFast(final int size, int amt, IRandom rng, int iexp, int primes, boolean strong)
 	{
 		int per = size / amt;
 		if(size == 0)
@@ -226,7 +239,11 @@ public class RSAKeyGenerator {
 		MathHelper.getMinIntValue(min, per);
 		MathHelper.getMinBitValue(max, (per << 5) + 1);
 		UInt exp = new UInt(new CString(iexp), size + (amt / 24) + 1);
-		PrimeGenerator<UInt> pg = new PrimeGenerator<UInt>(scan_tests, min, max, primes, rng);
+		PrimeGenerator<UInt> pg;
+		if(strong)
+			pg = new StrongPrimeGenerator<UInt>(scan_tests, min, max, primes, rng);
+		else
+			pg = new PrimeGenerator<UInt>(scan_tests, min, max, primes, rng);
 		UInt t = null;
 		pg.setMinMax(min, max);
 		boolean extra = (size % amt) != 0;
@@ -279,7 +296,7 @@ public class RSAKeyGenerator {
 		MathHelper.p_modular_exponent(test, exp, mod);
 		MathHelper.p_modular_exponent(test, inv, mod);
 		if(message.doesNotEqual(test))
-			return generateSmallFast(size, amt, rng, iexp, primes);
+			return generateSmallFast(size, amt, rng, iexp, primes, strong);
 		RSAFastPrivateKey priv = new RSAFastPrivateKey(mod, inv, parr, size);
 		RSAMicroPublicKey pub = new RSAMicroPublicKey(mod.createDeepClone(), iexp, size);
 		return new RSAFastStandardKeyPair(pub, priv);
