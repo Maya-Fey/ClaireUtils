@@ -33,6 +33,18 @@ public class BufferedOutgoingStream
 		l8t = l8 << 3;
 	}
 	
+	public BufferedOutgoingStream(IOutgoingStream os, int size)
+	{
+		this.os = os;
+		this.buffer = new byte[size];
+		l2 = size >>> 1;
+		l4 = size >>> 2;
+		l8 = size >>> 3;
+		l2t = l2 << 1;
+		l4t = l4 << 2;
+		l8t = l8 << 3;
+	}
+	
 	private void doIt(int incoming) throws IOException
 	{
 		if(pos + incoming > buffer.length) {

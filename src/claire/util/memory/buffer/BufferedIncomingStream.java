@@ -25,6 +25,15 @@ public class BufferedIncomingStream
 		l4 = buffer.length >>> 2;
 		l8 = buffer.length >>> 3;
 	}
+	
+	public BufferedIncomingStream(IIncomingStream is, int size)
+	{
+		this.is = is;
+		this.buffer = new byte[size];
+		l2 = size >>> 1;
+		l4 = size >>> 2;
+		l8 = size >>> 3;
+	}
 
 	public void close() throws IOException
 	{
