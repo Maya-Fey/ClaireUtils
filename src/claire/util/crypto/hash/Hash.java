@@ -40,5 +40,6 @@ public final class Hash {
 	public static final int WHIRLPOOL = 35;
 	public static final int WHIRLPOOL0 = 36;
 	public static final int WHIRLPOOLT = 37;
+	public static final int WMD = 38;
 	
 }
