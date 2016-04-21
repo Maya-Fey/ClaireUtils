@@ -610,7 +610,40 @@ public class VariableSInt
 
 	public void p_square()
 	{
-		this.p_multiply(val);
+		int tlen = MathHelper.getRealLength(val);
+		int[] ref = new int[tlen];
+		System.arraycopy(val, 0, ref, 0, tlen);
+		if((tlen * 2) > this.length)
+			this.build(tlen * 2);
+		int max = val.length;
+		if(MathHelper.mul1(val, tlen + 1, ref[0]) > 0) 
+			throw new java.lang.ArithmeticException("Ran out of space during multiplication");
+		for(int j = 1; j < tlen; j++)
+		{
+			long borrow = 0;
+			long jw = ((long) ref[j] & 0xFFFFFFFFL);
+			int k = 0;
+			int t = 0;
+			while((t = k + j) < max)
+			{
+				if(k < tlen) {
+					borrow += (jw * ((long) ref[k] & 0xFFFFFFFFL)) + ((long) val[t] & 0xFFFFFFFFL);
+					val[t] = (int) borrow;
+					borrow >>>= 32;
+				} else {
+					if(borrow != 0) {
+						val[t] = (int) borrow;
+						borrow >>>= 32;
+					} else {
+						break;
+					}
+				}
+				k++;
+			}
+			//Shouldn't happen
+			if(borrow != 0) 
+				throw new java.lang.ArithmeticException("Ran out of space during multiplication");
+		}
 	}
 
 	public VariableSInt p_divmod(IInteger<?> i)

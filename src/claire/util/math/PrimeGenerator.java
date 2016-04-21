@@ -41,14 +41,15 @@ public class PrimeGenerator<Int extends IInteger<Int>> {
 			23, 23
 		};
 	
-	private final int st,
-					  primes;
+	protected final int st,
+			    		primes;
 	
-	private final IRandom rand;
-	private final PrimeTester<Int> tester;
+	protected final IRandom rand;
+	protected final PrimeTester<Int> tester;
 	private final Int add;
 
-	private Int temp;
+	protected Int temp;
+	
 	private Int max;
 	private Int min;
 	private Int canidate;

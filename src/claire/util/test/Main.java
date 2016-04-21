@@ -6,13 +6,12 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
 
-import claire.util.crypto.hash.HashFunction;
-import claire.util.crypto.hash.primitive.MD5;
 import claire.util.crypto.hash.primitive.BEAR.$BEAR3;
 import claire.util.display.ImageUtil;
 import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
 import claire.util.encoding.Hex;
+import claire.util.math.StrongPrimeGenerator;
 import claire.util.math.UInt;
 import claire.util.memory.Bits;
 
@@ -65,6 +64,9 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
+		StrongPrimeGenerator<UInt> p = new StrongPrimeGenerator<UInt>(8, new UInt("123124310298", 64), new UInt("432179483712984732987432987438927", 64));
+		System.out.println(p.nextPrime());
+		end();
 		Test.runTests();
 		end();
 		//*/

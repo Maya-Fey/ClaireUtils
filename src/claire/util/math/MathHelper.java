@@ -661,8 +661,7 @@ public final class MathHelper {
 				o.p_modulo(mod);
 			}	
 			i.p_square();
-			i.p_modulo(mod);
-			
+			i.p_modulo(mod);		
 		}
 		i.p_multiply(o);
 		i.p_modulo(mod);
@@ -836,6 +835,8 @@ public final class MathHelper {
 			 */
 			if(witness.getArr()[0] < 2 && witness.getArr()[0] >= 0) 
 				witness.getArr()[0] += 2;
+			UInt u = new UInt(witness.toString(), 64);
+			p_modular_exponent(u, exponent, prospective);
 			p_modular_exponent(witness, exponent, prospective);
 			if(witness.isEqualTo(1) || witness.isEqualTo(test))
 				continue;
