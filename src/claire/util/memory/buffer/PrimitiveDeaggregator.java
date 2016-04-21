@@ -51,6 +51,7 @@ public class PrimitiveDeaggregator {
 	public void writeTo(byte[] bytes, int off)
 	{
 		System.arraycopy(buffer, 0, bytes, off, last);
+		last = 0;
 	}
 	
 	public void writeTo(IOutgoingStream stream) throws Exception
