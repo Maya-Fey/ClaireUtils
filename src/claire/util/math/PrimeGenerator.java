@@ -45,7 +45,7 @@ public class PrimeGenerator<Int extends IInteger<Int>> {
 					  primes;
 	
 	private final IRandom rand;
-	private final IRandom rand2;
+	private final PrimeTester<Int> tester;
 	private final Int add;
 
 	private Int temp;
@@ -74,8 +74,8 @@ public class PrimeGenerator<Int extends IInteger<Int>> {
 		this.min = min;
 		this.max = max;
 		this.rand = rand;
-		this.rand2 = rand2;
 		this.primes = primes;
+		this.tester = new PrimeTester<Int>(rand2, max);
 		Int add = min.createDeepClone();
 		if(add.getIntLen() < SPACE[primes])
 			add = add.getLarge(SPACE[primes]);
@@ -124,7 +124,7 @@ public class PrimeGenerator<Int extends IInteger<Int>> {
 			this.nextCanidate();
 		while(true) {
 			canidate.p_add(add);
-			while(!MathHelper.isPrimeProbableMR(canidate, rand2, st)) {
+			while(!tester.isPrimeProbableMR(canidate, st)) {
 				canidate.p_add(add);	
 				if(canidate.isGreaterOrEqualTo(max))
 					this.nextCanidate();
