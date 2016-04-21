@@ -330,19 +330,22 @@ public final class MathHelper {
 	/**
 	 * TODO: Write documentation for method once finished.
 	 */
-	public static long exponent(final long i, final long exponent)
+	public static long exponent(long i, long exponent)
 	{
-		//TODO: Use fast exponentiation
 		if(exponent == 0) {
 			return 1;
-		} else if(exponent == 1) {
+		} 
+		if(exponent == 1)
 			return i;
-		} else {
-			long f = i;
-			for(int i2 = 1; i2 < exponent; i2++)
-				f *= i;
-			return f;
+		int o = 1;
+		while(exponent > 1)
+		{
+			if((exponent & 1) == 1) 
+				o *= i;
+			i *= i;
+			exponent >>>= 1;
 		}
+		return i * o;
 	}
 	
 	/**
@@ -826,11 +829,10 @@ public final class MathHelper {
 		while(times-- > 0)
 		{
 			RandUtils.fillArr(witness.getArr(), rng);
-			witness.p_modulo(prospective);
+			witness.p_modulo(test);
 			/* 
 			 * Note: This check will cause a very rare problem of the witness
-			 * being incremented beyond the modulus. However, it is not an issue
-			 * as p_modular_exponent 
+			 * being incremented beyond the modulus. 
 			 */
 			if(witness.getArr()[0] < 2 && witness.getArr()[0] >= 0) 
 				witness.getArr()[0] += 2;
