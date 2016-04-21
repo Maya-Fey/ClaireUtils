@@ -35,6 +35,11 @@ public class BufferedIncomingStream
 		l8 = size >>> 3;
 	}
 
+	public byte[] getBuffer()
+	{
+		return this.buffer;
+	}
+	
 	public void close() throws IOException
 	{
 		is.close();

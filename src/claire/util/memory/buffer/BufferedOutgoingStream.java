@@ -45,6 +45,11 @@ public class BufferedOutgoingStream
 		l8t = l8 << 3;
 	}
 	
+	public byte[] getBuffer()
+	{
+		return this.buffer;
+	}
+	
 	private void doIt(int incoming) throws IOException
 	{
 		if(pos + incoming > buffer.length) {
