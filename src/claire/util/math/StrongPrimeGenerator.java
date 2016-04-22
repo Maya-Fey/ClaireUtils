@@ -24,7 +24,7 @@ public class StrongPrimeGenerator<Int extends IInteger<Int>>
 
 	public StrongPrimeGenerator(int st, Int min, Int max, int primes, IRandom rand, IRandom rand2) 
 	{
-		super(st, min, max, primes, rand, rand2);
+		super(st, min.divide(2), max.divide(2), primes, rand, rand2);
 	}
 	
 	public Int nextPrime()
