@@ -57,14 +57,20 @@ public class WMD_IA {
 		M = null;
 	}
 	
-	/**
-	 * Internal function. This generates the next integer and returns it.
-	 * Does not alter the integer in memory. 
-	 */
-	public int nextInt()
+	public void update(int[] up)
+	{
+		int i = prev & 0xFF;
+		for(int j : up) {
+			M[i++] ^= j;
+			i &= 255;
+		}
+	}
+
+	public int nextInt(int next)
 	{
 		int x = M[i], y;
 		M[i] = y = M[x & 0xFF] + b;
+		M[y & 0xFF] ^= next;
 		x = b = M[(y >>> 8) & 0xFF] + x;
 		i++;
 		i &= 255;
