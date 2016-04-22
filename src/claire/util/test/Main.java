@@ -7,13 +7,11 @@ import java.math.BigInteger;
 import java.util.Arrays;
 
 import claire.util.crypto.hash.primitive.BEAR.$BEAR3;
-import claire.util.crypto.rng.primitive.XorShiftNG;
 import claire.util.display.ImageUtil;
 import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
 import claire.util.encoding.Hex;
 import claire.util.math.MathHelper;
-import claire.util.math.StrongPrimeGenerator;
 import claire.util.math.UInt;
 import claire.util.memory.Bits;
 
@@ -66,19 +64,36 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
-		long mod = 3379046807L;
-		int i = 2;
-		int j = 10;
+		//StrongPrimeGenerator<UInt> p = new StrongPrimeGenerator<UInt>(8, new UInt(new CString(0x70000000L), 64), new UInt(new CString(0xF0000000L), 64));
+		//System.out.println(p.nextPrime());
+		long mod = 2648397443L;
+		long i = 2;
+		long j = 10;
+		int prims = 0;
+		int norms = 0;
 		long[] ints = new long[] { (mod - 1) / 2, 2 };
 		while(j-- > 0)
 			while(true) {
-				int p = i;
+				boolean prim = true;
 				for(long k : ints) {
+					if(MathHelper.modular_exponent(i, k, mod) == 1) {
+						prim = false;
+						break;
+					}
 					
 				}
+				if(prim) {
+					System.out.println("Found primitive root: " + i++);
+					//i++;
+					prims++;
+					break;
+				} else 
+					i++;
+				norms++;
 			}
-		StrongPrimeGenerator<UInt> p = new StrongPrimeGenerator<UInt>(8, new UInt(new CString(0x7FFFFFFFL), 64), new UInt(new CString(0xFFFFFFFFL), 64));
-		System.out.println(p.nextPrime());
+		System.out.println(prims + " primitive roots.");
+		System.out.println(norms + " shitty roots.");
+		
 		end();
 		Test.runTests();
 		end();
