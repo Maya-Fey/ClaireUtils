@@ -82,7 +82,7 @@ public abstract class MerkleHash<State extends MerkleState<State, ?>, Hash exten
 		this.loadCustom(state);
 	}
 	
-	protected static abstract class MerkleState<State extends MerkleState<State, ?>, Hash extends MerkleHash<State, ?>> implements IState<State>
+	public static abstract class MerkleState<State extends MerkleState<State, ?>, Hash extends MerkleHash<State, ?>> implements IState<State>
 	{
 		protected byte[] temp;
 		protected int pos;
