@@ -3,7 +3,6 @@ package claire.util.crypto.hash.primitive.WMD;
 import java.io.IOException;
 import java.util.Arrays;
 
-import claire.util.crypto.cipher.key.stream.KeyIA;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
@@ -16,38 +15,33 @@ import claire.util.standards.io.IOutgoingStream;
 
 public class WMD_IA {
 
-	private KeyIA key;
+	private int[] key;
 	private int[] M;
 	private int i = 0,
 				b = 0,
 				prev = 0;
 	
-	public WMD_IA(final KeyIA key) 	
+	public WMD_IA(final int[] key) 	
 	{
 		this.setKey(key);
 	}
-	
-	public KeyIA getKey()
-	{
-		return this.key;
-	}
 
-	public void setKey(final KeyIA t)
+	public void setKey(final int[] t)
 	{
 		this.key = t;
 		if(M == null)
-			M = ArrayUtil.copy(t.getInts());
+			M = ArrayUtil.copy(t);
 		else
-			System.arraycopy(t.getInts(), 0, M, 0, 256);
+			System.arraycopy(t, 0, M, 0, 256);
 	}
 
 	public void reset()
 	{
 		i = b = prev = 0;
 		if(M == null)
-			M = ArrayUtil.copy(key.getInts());
+			M = ArrayUtil.copy(key);
 		else
-			System.arraycopy(key.getInts(), 0, M, 0, 256);
+			System.arraycopy(key, 0, M, 0, 256);
 	}
 
 	public void wipe()
