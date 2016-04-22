@@ -1,9 +1,10 @@
-package claire.util.crypto.hash.primitive;
+package claire.util.crypto.hash.primitive.WMD;
 
 import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
+import claire.util.crypto.hash.primitive.MerkleHash;
 import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
-import claire.util.crypto.hash.primitive.WMD.WMDState;
+import claire.util.crypto.hash.primitive.WMD.WMD.WMDState;
 
 public class WMD 
 	   extends MerkleHash<WMDState, WMD> {
