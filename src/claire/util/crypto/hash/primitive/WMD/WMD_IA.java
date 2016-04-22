@@ -117,7 +117,7 @@ public class WMD_IA {
 		
 		public int stateID()
 		{
-			return IState.IA;
+			return IState.WMDIA;
 		}
 		
 		/**
