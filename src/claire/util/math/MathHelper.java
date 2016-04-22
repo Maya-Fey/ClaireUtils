@@ -348,6 +348,27 @@ public final class MathHelper {
 		return i * o;
 	}
 	
+	public static long modular_exponent(long i, long exponent, long mod)
+	{
+		if(exponent == 0) {
+			return 1;
+		} 
+		if(exponent == 1)
+			return i;
+		int o = 1;
+		while(exponent > 1)
+		{
+			if((exponent & 1) == 1) { 
+				o *= i;
+				o %= mod;
+			}
+			i *= i;
+			i %= mod;
+			exponent >>>= 1;
+		}
+		return (i * o) % mod;
+	}
+	
 	/**
 	 * This method finds the greatest value in an array of longs.
 	 * <br><br>

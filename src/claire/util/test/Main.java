@@ -66,6 +66,17 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
+		long mod = 3379046807L;
+		int i = 2;
+		int j = 10;
+		long[] ints = new long[] { (mod - 1) / 2, 2 };
+		while(j-- > 0)
+			while(true) {
+				int p = i;
+				for(long k : ints) {
+					
+				}
+			}
 		StrongPrimeGenerator<UInt> p = new StrongPrimeGenerator<UInt>(8, new UInt(new CString(0x7FFFFFFFL), 64), new UInt(new CString(0xFFFFFFFFL), 64));
 		System.out.println(p.nextPrime());
 		end();
