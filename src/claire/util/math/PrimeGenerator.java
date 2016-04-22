@@ -69,7 +69,7 @@ public class PrimeGenerator<Int extends IInteger<Int>> {
 		this(st, min, max, primes, rand, rand);
 	}
 	
-	public PrimeGenerator(int st,Int min, Int max, int primes, IRandom rand, IRandom rand2)
+	public PrimeGenerator(int st, Int min, Int max, int primes, IRandom rand, IRandom rand2)
 	{
 		this.st = st;
 		this.min = min;

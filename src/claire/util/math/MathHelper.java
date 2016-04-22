@@ -563,6 +563,28 @@ public final class MathHelper {
 	}
 	
 	/**
+	 * This method takes the exponent of an IInteger by an IInteger,
+	 * modulo a IInteger.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An IInteger of any value</li>
+	 * <li>An IInteger greater then or equal to zero</li>
+	 * <li>An IInteger of any value</li>
+	 * </ul>
+	 * An negative exponent will result in undefined behavior.
+	 * <br><br>
+	 * Returns: void, however the result ends up in <code>i</code>.
+	 */
+	public static void p_modular_exponent(final IInteger<?> i, final IInteger<?> exponent, final IInteger<?> mod)
+	{
+		if(getRealLength(exponent.getArr()) == 1)
+			p_modular_exponent(i, exponent.getArr()[0] & 0xFFFFFFFFL, mod);
+		else
+			p_modular_exponent_sure(i, exponent, mod);
+	}
+	
+	/**
 	 * This method takes the exponent of an IInteger by a 32-bit integer,
 	 * modulo a IInteger.
 	 * <br><br>
@@ -576,7 +598,7 @@ public final class MathHelper {
 	 * <br><br>
 	 * Returns: void, however the result ends up in <code>i</code>.
 	 */
-	public static void p_modular_exponent(final IInteger<?> i, int exponent, final IInteger<?> mod)
+	public static void p_modular_exponent(final IInteger<?> i, long exponent, final IInteger<?> mod)
 	{
 		if(exponent == 0) {
 			i.setTo(1);
@@ -600,28 +622,6 @@ public final class MathHelper {
 		}
 		i.p_multiply(o);
 		i.p_modulo(mod);
-	}
-	
-	/**
-	 * This method takes the exponent of an IInteger by an IInteger,
-	 * modulo a IInteger.
-	 * <br><br>
-	 * Expects:
-	 * <ul>
-	 * <li>An IInteger of any value</li>
-	 * <li>An IInteger greater then or equal to zero</li>
-	 * <li>An IInteger of any value</li>
-	 * </ul>
-	 * An negative exponent will result in undefined behavior.
-	 * <br><br>
-	 * Returns: void, however the result ends up in <code>i</code>.
-	 */
-	public static void p_modular_exponent(final IInteger<?> i, final IInteger<?> exponent, final IInteger<?> mod)
-	{
-		if(getRealLength(exponent.getArr()) == 1)
-			p_modular_exponent(i, exponent.getArr()[0], mod);
-		else
-			p_modular_exponent_sure(i, exponent, mod);
 	}
 	
 	/**
@@ -829,19 +829,22 @@ public final class MathHelper {
 		{
 			RandUtils.fillArr(witness.getArr(), rng);
 			witness.p_modulo(test);
+			System.out.println(test);
+			System.out.println(exponent);
+			System.out.println(prospective);
+			System.out.println(witness);
 			/* 
 			 * Note: This check will cause a very rare problem of the witness
 			 * being incremented beyond the modulus. 
 			 */
 			if(witness.getArr()[0] < 2 && witness.getArr()[0] >= 0) 
 				witness.getArr()[0] += 2;
-			UInt u = new UInt(witness.toString(), 64);
-			p_modular_exponent(u, exponent, prospective);
 			p_modular_exponent(witness, exponent, prospective);
+			System.out.println(witness);
+			System.out.println("----");
 			if(witness.isEqualTo(1) || witness.isEqualTo(test))
 				continue;
 			boolean com = true;
-			
 			for(int i = 1; i < checks; i++) {
 				witness.p_square();
 				witness.p_modulo(prospective);

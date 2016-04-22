@@ -32,9 +32,11 @@ public class StrongPrimeGenerator<Int extends IInteger<Int>>
 		while(true)
 		{
 			Int p = super.nextPrime();
+			System.out.print(p);
 			p.setTo(p);
 			p.p_multiply(2);
 			p.increment();
+			System.out.println(" : " + p);
 			if(this.tester.isPrimeProbableMR(p, this.st)) {
 				return p;
 			}
