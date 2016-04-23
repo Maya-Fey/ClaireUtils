@@ -252,6 +252,29 @@ public final class UTF8 {
 		}
 	}
 	
+	public static void fromUTF16(char t, byte[] bytes, int start1)
+	{
+		byte t1, t2;
+		if((t & 0x007F) == t)
+			bytes[start1++] = (byte) t;
+		else {
+			if((t & 0x07FF) == t) {
+				t1 = (byte) (0x80 | (t & 0x3F));
+				t >>>= 6;
+				bytes[start1++] = (byte) (0xC0 | (t & 0x1F));
+				bytes[start1++] = t1;
+			} else {
+				t2 = (byte) (0x80 | (t & 0x3F));
+				t >>>= 6;
+				t1 = (byte) (0x80 | (t & 0x3F));
+				t >>>= 6;
+				bytes[start1++] = (byte) (0xE0 | (t & 0x0F));
+				bytes[start1++] = t1;
+				bytes[start1++] = t2;
+			}
+		}
+	}
+	
 	public static void fromUTF16(char[] chars, int start0, byte[] bytes, int start1, int len)
 	{
 		char t;
