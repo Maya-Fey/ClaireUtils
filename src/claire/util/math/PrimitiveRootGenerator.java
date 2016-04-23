@@ -8,6 +8,7 @@ public class PrimitiveRootGenerator<Int extends IInteger<Int>> {
 	private final Int t2;
 	
 	private Int t3;
+	private Int prime;
 	
 	public PrimitiveRootGenerator(Int sample) 
 	{
@@ -15,8 +16,39 @@ public class PrimitiveRootGenerator<Int extends IInteger<Int>> {
 		this.t2 = sample.createDeepClone();
 	}
 	
+	public void setPrime(Int prime)
+	{
+		this.prime = prime;
+		t1.setTo(prime);
+		t1.decrement();
+		t1.p_divide(2);
+	}
+	
+	public Int nextRoot(int start)
+	{
+		while(true)
+		{
+			t2.setTo(start);
+			MathHelper.p_modular_exponent(t2, t1, prime);
+			if(t2.equals(1)) {
+				start++;
+				continue;
+			}
+			t2.setTo(start);
+			MathHelper.p_modular_exponent(t2, 2, prime);
+			if(t2.equals(1)) {
+				start++;
+				continue;
+			}
+			break;
+		}
+		t2.setTo(start);
+		return t2.createDeepClone();
+	}
+	
 	public Int getRoot(Int strongPrime)
 	{
+		t1.setTo(strongPrime);
 		t1.decrement();
 		t1.p_divide(2);
 		int start = 2;
@@ -37,11 +69,12 @@ public class PrimitiveRootGenerator<Int extends IInteger<Int>> {
 			break;
 		}
 		t2.setTo(start);
-		return t2;
+		return t2.createDeepClone();
 	}
 	
 	public Int getRoot(Int strongPrime, int start)
 	{
+		t1.setTo(strongPrime);
 		t1.decrement();
 		t1.p_divide(2);
 		while(true)
@@ -61,7 +94,7 @@ public class PrimitiveRootGenerator<Int extends IInteger<Int>> {
 			break;
 		}
 		t2.setTo(start);
-		return t2;
+		return t2.createDeepClone();
 	}
 	
 	public Int getRoot(Int strongPrime, Int start)
@@ -70,6 +103,7 @@ public class PrimitiveRootGenerator<Int extends IInteger<Int>> {
 			t3 = start.createDeepClone();
 		else
 			t3.setTo(start);
+		t1.setTo(strongPrime);
 		t1.decrement();
 		t1.p_divide(2);
 		while(true)
@@ -89,7 +123,7 @@ public class PrimitiveRootGenerator<Int extends IInteger<Int>> {
 			break;
 		}
 		t2.setTo(start);
-		return t2;
+		return t2.createDeepClone();
 	}
 
 }
