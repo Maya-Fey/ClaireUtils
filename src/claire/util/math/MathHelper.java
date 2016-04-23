@@ -1216,4 +1216,31 @@ public final class MathHelper {
 		}
 	}
 	
+	public static <Int extends IInteger<Int>> Int genPrimitiveRoot(Int strongPrime)
+	{
+		Int t1 = strongPrime.createDeepClone();
+		Int t2 = strongPrime.createDeepClone();
+		t1.decrement();
+		t1.p_divide(2);
+		int start = 2;
+		while(true)
+		{
+			t2.setTo(start);
+			MathHelper.p_modular_exponent(t2, t1, strongPrime);
+			if(t2.equals(1)) {
+				start++;
+				continue;
+			}
+			t2.setTo(start);
+			MathHelper.p_modular_exponent(t2, 2, strongPrime);
+			if(t2.equals(1)) {
+				start++;
+				continue;
+			}
+			break;
+		}
+		t2.setTo(start);
+		return t2;
+	}
+	
 }

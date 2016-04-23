@@ -84,8 +84,8 @@ public final class Main {
 					
 				}
 				if(prim) {
-					//System.out.println("Found primitive root: " + i++);
-					i++;
+					System.out.println("Found primitive root: " + i++);
+					//i++;
 					prims++;
 					break;
 				} else 
