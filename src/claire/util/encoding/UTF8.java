@@ -252,7 +252,7 @@ public final class UTF8 {
 		}
 	}
 	
-	public static void fromUTF16(char t, byte[] bytes, int start1)
+	public static int fromUTF16(char t, byte[] bytes, int start1)
 	{
 		byte t1, t2;
 		if((t & 0x007F) == t)
@@ -273,6 +273,7 @@ public final class UTF8 {
 				bytes[start1++] = t2;
 			}
 		}
+		return start1;
 	}
 	
 	public static void fromUTF16(char[] chars, int start0, byte[] bytes, int start1, int len)
