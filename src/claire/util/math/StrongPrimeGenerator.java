@@ -24,7 +24,7 @@ public class StrongPrimeGenerator<Int extends IInteger<Int>>
 
 	public StrongPrimeGenerator(int st, Int min, Int max, int primes, IRandom rand, IRandom rand2) 
 	{
-		super(st, min.divide(2), max.divide(2), primes, rand, rand2);
+		super(st, min, max, primes, rand, rand2);
 	}
 	
 	public Int nextPrime()
@@ -32,12 +32,10 @@ public class StrongPrimeGenerator<Int extends IInteger<Int>>
 		while(true)
 		{
 			Int p = super.nextPrime();
-			System.out.print(p);
-			p.setTo(p);
-			p.p_multiply(2);
-			p.increment();
-			System.out.println(" : " + p);
-			if(this.tester.isPrimeProbableMR(p, this.st)) {
+			temp.setTo(p);
+			temp.decrement();
+			temp.p_divide(2);
+			if(this.tester.isPrimeProbableMR(temp, this.st)) {
 				return p;
 			}
 			this.nextCanidate();

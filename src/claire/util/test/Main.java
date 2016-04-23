@@ -12,6 +12,7 @@ import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
 import claire.util.encoding.Hex;
 import claire.util.math.MathHelper;
+import claire.util.math.StrongPrimeGenerator;
 import claire.util.math.UInt;
 import claire.util.memory.Bits;
 
@@ -64,11 +65,11 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
-		//StrongPrimeGenerator<UInt> p = new StrongPrimeGenerator<UInt>(8, new UInt(new CString(0x70000000L), 64), new UInt(new CString(0xF0000000L), 64));
-		//System.out.println(p.nextPrime());
+		StrongPrimeGenerator<UInt> p = new StrongPrimeGenerator<UInt>(8, new UInt(new CString(0x70000000L), 64), new UInt(new CString(0xF0000000L), 64));
+		System.out.println(p.nextPrime());
 		long mod = 2648397443L;
 		long i = 2;
-		long j = 10;
+		long j =  100;
 		int prims = 0;
 		int norms = 0;
 		long[] ints = new long[] { (mod - 1) / 2, 2 };
@@ -83,13 +84,14 @@ public final class Main {
 					
 				}
 				if(prim) {
-					System.out.println("Found primitive root: " + i++);
-					//i++;
+					//System.out.println("Found primitive root: " + i++);
+					i++;
 					prims++;
 					break;
 				} else 
 					i++;
 				norms++;
+				j--;
 			}
 		System.out.println(prims + " primitive roots.");
 		System.out.println(norms + " shitty roots.");
