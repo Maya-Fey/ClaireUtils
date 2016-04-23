@@ -1269,4 +1269,32 @@ public final class MathHelper {
 		return t2;
 	}
 	
+	public static <Int extends IInteger<Int>>Int getPrimitiveRoot(Int strongPrime, Int start)
+	{
+		Int t1 = strongPrime.createDeepClone();
+		Int t2 = strongPrime.createDeepClone();
+		Int t3 = start.createDeepClone();
+		t1.setTo(strongPrime);
+		t1.decrement();
+		t1.p_divide(2);
+		while(true)
+		{
+			t2.setTo(t3);
+			MathHelper.p_modular_exponent(t2, t1, strongPrime);
+			if(t2.equals(1)) {
+				t3.increment();
+				continue;
+			}
+			t2.setTo(start);
+			MathHelper.p_modular_exponent(t2, 2, strongPrime);
+			if(t2.equals(1)) {
+				t3.increment();
+				continue;
+			}
+			break;
+		}
+		t2.setTo(start);
+		return t2;
+	}
+	
 }
