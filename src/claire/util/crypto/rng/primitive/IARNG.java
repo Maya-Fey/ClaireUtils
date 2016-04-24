@@ -51,14 +51,46 @@ public class IARNG
 
 	public void readBools(boolean[] out, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		int i, j;
+		while(amt > 32)
+		{
+			i = cipher.nextInt();
+			j = 32;
+			while(j-- > 0) {
+				out[off++] = (i & 1) == 1; 
+				i >>>= 1;
+			}
+		}
+		if(amt > 0)
+		{
+		i = cipher.nextInt();
+			while(amt-- > 0) {
+				out[off++] = (i & 1) == 1; 
+				i >>>= 1;
+			}
+		}
 	}
 
 	public void readNibbles(byte[] out, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		int i, j;
+		while(amt > 8)
+		{
+			i = cipher.nextInt();
+			j = 32;
+			while(j-- > 0) {
+				out[off++] = (byte) (i & 0x0F);
+				i >>>= 4;
+			}
+		}
+		if(amt > 0)
+		{
+		i = cipher.nextInt();
+			while(amt-- > 0) {
+				out[off++] = (byte) (i & 0x0F); 
+				i >>>= 4;
+			}
+		}
 	}
 
 	public void readBytes(byte[] out, int off, int bytes)
