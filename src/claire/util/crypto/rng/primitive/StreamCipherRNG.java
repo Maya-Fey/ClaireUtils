@@ -1,7 +1,7 @@
 package claire.util.crypto.rng.primitive;
 
 import claire.util.memory.buffer.PrimitiveAggregator;
-import claire.util.standards.IRandom;
+import claire.util.standards.crypto.IRandom;
 import claire.util.standards.crypto.IStreamCipher;
 
 public class StreamCipherRNG implements IRandom {

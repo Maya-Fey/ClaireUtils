@@ -4,7 +4,7 @@ import claire.util.encoding.CString;
 import claire.util.math.MathHelper;
 import claire.util.math.UInt1024;
 import claire.util.memory.Bits;
-import claire.util.standards.IRandom;
+import claire.util.standards.crypto.IRandom;
 
 public final class RNGTest {
 	

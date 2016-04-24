@@ -2,7 +2,7 @@ package claire.util.math;
 
 import claire.util.crypto.rng.RandUtils;
 import claire.util.standards.IInteger;
-import claire.util.standards.IRandom;
+import claire.util.standards.crypto.IRandom;
 
 public class StrongPrimeGenerator<Int extends IInteger<Int>>
 	   extends PrimeGenerator<Int> {

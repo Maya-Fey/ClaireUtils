@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 
-import claire.util.standards.IRandom;
+import claire.util.standards.crypto.IRandom;
 
 public strictfp class MersenneTwister implements Serializable, Cloneable, IRandom
 {

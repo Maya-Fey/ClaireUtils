@@ -4,10 +4,10 @@ import claire.util.encoding.CString;
 import claire.util.memory.array.DynArray;
 import claire.util.standards.IIterable;
 import claire.util.standards.IIterator;
-import claire.util.standards.IRandom;
 import claire.util.standards.IReferrable;
 import claire.util.standards.IUUID;
 import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IRandom;
 
 /*
  * A massive, overly monolithic class with all your bit-twiddling,

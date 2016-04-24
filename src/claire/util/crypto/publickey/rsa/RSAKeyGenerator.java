@@ -5,7 +5,7 @@ import claire.util.math.MathHelper;
 import claire.util.math.PrimeGenerator;
 import claire.util.math.StrongPrimeGenerator;
 import claire.util.math.UInt;
-import claire.util.standards.IRandom;
+import claire.util.standards.crypto.IRandom;
 
 public class RSAKeyGenerator {
 	

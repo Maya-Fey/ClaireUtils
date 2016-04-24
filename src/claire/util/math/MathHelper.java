@@ -5,7 +5,7 @@ import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.memory.util.Pointer;
 import claire.util.standards.IInteger;
-import claire.util.standards.IRandom;
+import claire.util.standards.crypto.IRandom;
 
 public final class MathHelper {
 	

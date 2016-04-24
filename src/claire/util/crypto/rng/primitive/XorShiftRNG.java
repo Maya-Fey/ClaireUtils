@@ -1,6 +1,6 @@
 package claire.util.crypto.rng.primitive;
 
-import claire.util.standards.IRandom;
+import claire.util.standards.crypto.IRandom;
 
 public abstract class XorShiftRNG implements IRandom {
 

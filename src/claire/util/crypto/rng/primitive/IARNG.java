@@ -2,7 +2,7 @@ package claire.util.crypto.rng.primitive;
 
 import claire.util.crypto.cipher.primitive.stream.IA;
 import claire.util.memory.buffer.PrimitiveAggregator;
-import claire.util.standards.IRandom;
+import claire.util.standards.crypto.IRandom;
 
 public class IARNG implements IRandom {
 

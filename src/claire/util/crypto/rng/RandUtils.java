@@ -2,7 +2,7 @@ package claire.util.crypto.rng;
 
 import claire.util.crypto.rng.primitive.FastXorShift;
 import claire.util.crypto.rng.primitive.JRandom;
-import claire.util.standards.IRandom;
+import claire.util.standards.crypto.IRandom;
 
 public class RandUtils {
 	
