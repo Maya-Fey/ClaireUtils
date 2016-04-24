@@ -482,13 +482,13 @@ public interface Bits<Type extends Bits<Type>>
 		return false;
 	}
 	
-	public static boolean[] randomBits(int amount, IRandom prng)
+	public static boolean[] randomBits(int amount, IRandom<?> prng)
 	{
 		boolean[] n = new boolean[amount];
 		int i = 0;
 		while(amount > 0)
 		{
-			long l = prng.nextLong();
+			long l = prng.readLong();
 			int j = 0;
 			while(j < 64 && amount-- > 0)
 				n[i++] = (l & BIT64_TABLE[j++]) != 0;
