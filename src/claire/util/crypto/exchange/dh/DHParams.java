@@ -16,9 +16,7 @@ public class DHParams {
 	
 	public UInt fromIndex(UInt u)
 	{
-		UInt r = generator.createDeepClone();
-		MathHelper.p_modular_exponent_sure(r, u, modulus);
-		return r;
+		return (UInt) MathHelper.modular_exponent_sure(generator, u, modulus);
 	}
 	
 	public void raiseTo(UInt u, UInt u2)
