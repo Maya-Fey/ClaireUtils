@@ -14,18 +14,18 @@ public final class RNGTest {
 		return l;
 	}
 
-	public static long runAverageTest(IRandom rng, long times)
+	public static long runAverageTest(IRandom<?> rng, long times)
 	{
 		for(int i = 0; i < 5; i++)
-			rng.nextInt();
-		final int first = rng.nextInt();
-		int second = rng.nextInt();
+			rng.readInt();
+		final int first = rng.readInt();
+		int second = rng.readInt();
 		int count = 1;
 		long total = 0;
 		long mod = 200;
 		for(long i = 0; i < times; i++)
 		{
-			int inte = rng.nextInt();	
+			int inte = rng.readInt();	
 			total += inte;
 			if(inte == first)
 				count++;
@@ -51,43 +51,43 @@ public final class RNGTest {
 	 * 
 	 * Lower scores are higher
 	 */
-	public static long runDifferenceTest(IRandom rng, long times)
+	public static long runDifferenceTest(IRandom<?> rng, long times)
 	{
 		long total = 0;
 		long ideal = 16 * times;
-		int prev = rng.nextInt();
-		int next;
+		int prev = rng.readInt();
+		int read;
 		for(int i = 0; i < times; i++)
 		{
-			next = rng.nextInt();
-			total += Bits.countDifferent(prev, next);
-			prev = next;
+			read = rng.readInt();
+			total += Bits.countDifferent(prev, read);
+			prev = read;
 		}
 		return MathHelper.distancefrom(total, ideal);
 	}
 	
-	public static int[] runAdvancedDifferenceTest(IRandom rng, int times)
+	public static int[] runAdvancedDifferenceTest(IRandom<?> rng, int times)
 	{
 		int[] out = new int[33];
-		int prev = rng.nextInt();
-		int next;
+		int prev = rng.readInt();
+		int read;
 		for(int i = 0; i < times; i++)
 		{
-			next = rng.nextInt();
-			out[Bits.countDifferent(prev, next)]++;
-			prev = next;
+			read = rng.readInt();
+			out[Bits.countDifferent(prev, read)]++;
+			prev = read;
 		}
 		return out;
 	}
 
-	public static int runRunsTest(IRandom rng, long times)
+	public static int runRunsTest(IRandom<?> rng, long times)
 	{
-		int prev = rng.nextInt();
+		int prev = rng.readInt();
 		long gt = 0, 
 			 lt = 0,
 			 runs = 1;
 		boolean gtp;
-		int j = rng.nextInt();
+		int j = rng.readInt();
 		if(j > prev) {
 			gtp = true;
 			gt++;
@@ -97,7 +97,7 @@ public final class RNGTest {
 		}
 		prev = j;
 		for(int i = 1; i < times; i++) {
-			j = rng.nextInt();
+			j = rng.readInt();
 			if(j > prev) {
 				gt++;
 				if(!gtp) {
