@@ -21,38 +21,32 @@ public class IARNG
 	
 	public boolean readBool()
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return cipher.nextInt() < 0;
 	}
 
 	public byte readByte()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return (byte) cipher.nextInt();
 	}
 
 	public short readShort()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return (short) cipher.nextInt();
 	}
 
 	public char readChar()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return (char) cipher.nextInt();
 	}
 
 	public int readInt()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return cipher.nextInt();
 	}
 
 	public long readLong()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return ((cipher.nextInt() & 0xFFFFFFFFL) << 32) | cipher.nextInt();
 	}
 
 	public void readBools(boolean[] out, int off, int amt)
@@ -69,32 +63,45 @@ public class IARNG
 
 	public void readBytes(byte[] out, int off, int bytes)
 	{
-		// TODO Auto-generated method stub
-		
+		cipher.fill(out, off, bytes);
 	}
 
 	public void readShorts(short[] shorts, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt > 1)
+		{
+			int i = cipher.nextInt();
+			shorts[off++] = (short) i;
+			shorts[off++] = (short) (i >>> 16);
+			amt -= 2;
+		}
+		if(amt > 0)
+			shorts[off++] = (short) cipher.nextInt();
 	}
 
 	public void readChars(char[] chars, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt > 1)
+		{
+			int i = cipher.nextInt();
+			chars[off++] = (char) i;
+			chars[off++] = (char) (i >>> 16);
+			amt -= 2;
+		}
+		if(amt > 0)
+			chars[off++] = (char) cipher.nextInt();
 	}
 
 	public void readInts(int[] ints, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt-- > 0)
+			ints[off++] = cipher.nextInt();
 	}
 
 	public void readLongs(long[] longs, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt-- > 0)
+			longs[off++] = ((cipher.nextInt() & 0xFFFFFFFFL) << 32) | cipher.nextInt();
 	}
 
 	public KeyIA getSeed()
