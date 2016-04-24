@@ -691,6 +691,96 @@ public final class MathHelper {
 	}
 	
 	/**
+	 * This method takes the exponent of an IInteger by a 32-bit integer
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An IInteger of any value</li>
+	 * <li>An Integer greater then or equal to zero</li>
+	 * </ul>
+	 * An negative exponent will result in undefined behavior.
+	 * <br><br>
+	 * Returns: <i>i</i><sup><i>exponent</i></sup>
+	 */
+	public static IInteger<?> exponent(final IInteger<?> i, int exponent)
+	{
+		IInteger<?> n = i.createDeepClone();
+		if(exponent == 0) {
+			n.setTo(1);
+			return n;
+		} 
+		if(exponent == 1)
+			return n;
+		IInteger<?> o = i.createDeepClone();
+		o.setTo(1);
+		while(exponent > 1)
+		{
+			if((exponent & 1) == 1) 
+				o.p_multiply(i);
+			n.p_square();
+			exponent >>>= 1;
+		}
+		n.p_multiply(o);
+		return n;
+	}
+	
+	/**
+	 * This method takes the exponent of an IInteger by another IInteger
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An IInteger of any value</li>
+	 * <li>An IInteger greater then or equal to zero</li>
+	 * </ul>
+	 * An negative exponent will result in undefined behavior.
+	 * <br><br>
+	 * Returns: <i>i</i><sup><i>exponent</i></sup>
+	 */
+	public static IInteger<?> exponent(final IInteger<?> i, final IInteger<?> exponent)
+	{
+		if(getRealLength(exponent.getArr()) == 1)
+			return exponent(i, exponent.getArr()[0]);
+		else
+			return exponent_sure(i, exponent);
+	}
+	
+	/**
+	 * This method takes the exponent of an IInteger by another IInteger, without
+	 * testing if the number can fit in 32 bits.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An IInteger of any value</li>
+	 * <li>An IInteger greater then or equal to zero</li>
+	 * </ul>
+	 * An negative exponent will result in undefined behavior.
+	 * <br><br>
+	 * Returns:<i>i</i><sup><i>exponent</i></sup>
+	 */
+	public static IInteger<?> exponent_sure(final IInteger<?> i, final IInteger<?> exponent)
+	{
+		IInteger<?> n = i.createDeepClone();
+		if(!exponent.isNonZero()) {
+			n.setTo(1);
+			return n;
+		}
+		if(exponent.isEqualTo(1))
+			return n;
+		final IInteger<?> o = i.createDeepClone();
+		final int max = getMSB(exponent.getArr());
+		int bit = 0;
+		o.setTo(1);
+		while(bit < max)
+		{
+			if(exponent.bitAt(bit++)) 
+				o.p_multiply(i);
+			n.p_square();			
+		}
+		n.p_multiply(o);
+		return n;
+	}
+	
+	/**
 	 * This method takes the exponent of an IInteger by an IInteger,
 	 * modulo a IInteger.
 	 * <br><br>
