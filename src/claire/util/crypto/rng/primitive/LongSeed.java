@@ -6,6 +6,7 @@ import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
 public class LongSeed 
@@ -55,8 +56,29 @@ public class LongSeed
 	
 	public Factory<LongSeed> factory()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return factory;
+	}
+	
+	public static final LongSeedFactory factory = new LongSeedFactory();
+	
+	private static final class LongSeedFactory extends Factory<LongSeed>
+	{
+
+		protected LongSeedFactory() 
+		{
+			super(LongSeed.class);
+		}
+
+		public LongSeed resurrect(byte[] data, int start) throws InstantiationException
+		{
+			return new LongSeed(Bits.longFromBytes(data, start));
+		}
+
+		public LongSeed resurrect(IIncomingStream stream) throws InstantiationException, IOException
+		{
+			return new LongSeed(stream.readLong());
+		}
+		
 	}
 	
 	
