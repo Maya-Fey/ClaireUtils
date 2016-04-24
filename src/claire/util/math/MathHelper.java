@@ -691,6 +691,115 @@ public final class MathHelper {
 	}
 	
 	/**
+	 * This method takes the exponent of an IInteger by an IInteger,
+	 * modulo a IInteger.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An IInteger of any value</li>
+	 * <li>An IInteger greater then or equal to zero</li>
+	 * <li>An IInteger of any value</li>
+	 * </ul>
+	 * An negative exponent will result in undefined behavior.
+	 * <br><br>
+	 * Returns: <i>i</i><sup><i>exponent</i></sup> mod <i>mod</i>
+	 */
+	public static IInteger<?> modular_exponent(final IInteger<?> i, final IInteger<?> exponent, final IInteger<?> mod)
+	{
+		if(getRealLength(exponent.getArr()) == 1)
+			return modular_exponent(i, exponent.getArr()[0] & 0xFFFFFFFFL, mod);
+		else
+			return modular_exponent_sure(i, exponent, mod);
+	}
+	
+	/**
+	 * This method takes the exponent of an IInteger by a 32-bit integer,
+	 * modulo a IInteger.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An IInteger of any value</li>
+	 * <li>An Integer greater then or equal to zero</li>
+	 * <li>An IInteger of any value</li>
+	 * </ul>
+	 * An negative exponent will result in undefined behavior.
+	 * <br><br>
+	 * Returns: <i>i</i><sup><i>exponent</i></sup> mod <i>mod</i>
+	 */
+	public static IInteger<?> modular_exponent(final IInteger<?> i, long exponent, final IInteger<?> mod)
+	{
+		IInteger<?> n = i.createDeepClone();
+		if(exponent == 0) {
+			n.setTo(1);
+			return n;
+		} 
+		if(n.isGreaterOrEqualTo(mod))
+			n.p_modulo(mod);
+		if(exponent == 1)
+			return n;
+		final IInteger<?> o = i.createDeepClone();
+		o.setTo(1);
+		while(exponent > 1)
+		{
+			if((exponent & 1) == 1) {
+				o.p_multiply(i);
+				o.p_modulo(mod);
+			}
+			n.p_square();
+			n.p_modulo(mod);
+			exponent >>>= 1;
+		}
+		n.p_multiply(o);
+		n.p_modulo(mod);
+		return n;
+	}
+	
+	/**
+	 * This method takes the exponent of an IInteger by an IInteger,
+	 * modulo an IInteger without checking if the exponent can fit
+	 * int 32 bits.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>An IInteger of any value</li>
+	 * <li>An IInteger greater then or equal to zero</li>
+	 * <li>An IInteger of any value</li>
+	 * </ul>
+	 * An negative exponent will result in undefined behavior.
+	 * <br><br>
+	 * Returns: <i>i</i><sup><i>exponent</i></sup> mod <i>mod</i>
+	 */
+	public static IInteger<?> modular_exponent_sure(final IInteger<?> i, final IInteger<?> exponent, final IInteger<?> mod)
+	{
+		IInteger<?> n = i.createDeepClone();
+		if(!exponent.isNonZero()) {
+			n.setTo(1);
+			return n;
+		}
+		if(n.isGreaterOrEqualTo(mod)) {
+			n.p_modulo(mod);
+		}
+		if(exponent.isEqualTo(1))
+			return n;
+		final IInteger<?> o = i.createDeepClone();
+		final int max = getMSB(exponent.getArr());
+		int bit = 0;
+		o.setTo(1);
+		while(bit < max)
+		{
+			if(exponent.bitAt(bit++)) {
+				o.p_multiply(i);
+				o.p_modulo(mod);
+			}	
+			n.p_square();
+			n.p_modulo(mod);		
+		}
+		n.p_multiply(o);
+		n.p_modulo(mod);
+		return n;
+	}
+	
+	/**
 	 * This method takes greatest common divisor of two IIntegers.
 	 * <br><br>
 	 * Expects:
