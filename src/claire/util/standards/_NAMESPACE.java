@@ -104,5 +104,6 @@ public class _NAMESPACE {
 	public static final int SHAVITE32STATE = 92;
 	public static final int KEYISAAC = 93;
 	public static final int PARTIALSTRING = 94;
+	public static final int LONGSEED = 95;
 	
 }
