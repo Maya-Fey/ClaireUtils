@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.stream.KeyIA;
 import claire.util.crypto.cipher.primitive.stream.IA;
+import claire.util.memory.Bits;
 import claire.util.memory.buffer.PrimitiveAggregator;
 import claire.util.standards.crypto.IRandom;
 
@@ -55,19 +56,16 @@ public class IARNG
 		while(amt > 31)
 		{
 			i = cipher.nextInt();
-			j = 32;
-			while(j-- > 0) {
-				out[off++] = (i & 1) == 1; 
-				i >>>= 1;
-			}
+			j = 0;
+			while(j < 32) 
+				out[off++] = (Bits.BIT32_TABLE[j++] & i) != 0; 
 		}
 		if(amt > 0)
 		{
 			i = cipher.nextInt();
-			while(amt-- > 0) {
-				out[off++] = (i & 1) == 1; 
-				i >>>= 1;
-			}
+			j = 0;
+			while(amt-- > 0) 
+				out[off++] = (Bits.BIT32_TABLE[j++] & i) != 0; 
 		}
 	}
 
