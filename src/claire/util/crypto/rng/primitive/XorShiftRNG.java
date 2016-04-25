@@ -19,7 +19,7 @@ public abstract class XorShiftRNG
 		if(b)
 			this.setSeed(new LongSeed((System.currentTimeMillis() ^ (System.nanoTime() << 12))));
 		else
-			this.last = (System.currentTimeMillis() ^ (System.nanoTime() << 12))
+			this.last = (System.currentTimeMillis() ^ (System.nanoTime() << 12));
 	}
 	
 	public XorShiftRNG(LongSeed seed)
@@ -35,81 +35,45 @@ public abstract class XorShiftRNG
 	
 	protected abstract void update();
 	
-	
-	
 	public void setSeed(long seed)
 	{
 		this.last = seed;
 	}
-	
-	public int nextInt() {
-		update();
-    	return (int) this.last;
-	}
-	
-	public long nextLong() {
-		update();
-    	return this.last;
-	}
-
-	public int nextInt(int max) {
-		update();
-    	int out = (int) this.last % max;     
-    	return (out < 0) ? -out : out;
-	}
-	
-	public boolean nextBoolean()
-	{
-		update();
-    	return (this.last & 1) > 0;
-	}
-
-	public byte nextByte()
-	{
-		update();
-		return (byte) this.last;
-	}
-
-	public short nextShort()
-	{
-		update();
-		return (short) this.last;
-	}
 
 	public boolean readBool()
 	{
-		// TODO Auto-generated method stub
-		return false;
+		update();
+		return last < 0;
 	}
 
 	public byte readByte()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		update();
+		return (byte) last;
 	}
 
 	public short readShort()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		update();
+		return (short) last;
 	}
 
 	public char readChar()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		update();
+		return (char) last;
 	}
 
 	public int readInt()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		update();
+		return (int) last;
 	}
 
 	public long readLong()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		update();
+		return last;
 	}
 
 	public void readBools(boolean[] out, int off, int amt)
@@ -124,34 +88,116 @@ public abstract class XorShiftRNG
 		
 	}
 
-	public void readBytes(byte[] out, int off, int bytes)
+	public void readBytes(byte[] out, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt > 7)
+		{
+			update();
+			long l = last;
+			out[off++] = (byte) l;
+			l >>>= 8;
+			out[off++] = (byte) l;
+			l >>>= 8;
+    		out[off++] = (byte) l;
+			l >>>= 8;
+			out[off++] = (byte) l;
+			l >>>= 8;
+			out[off++] = (byte) l;
+			l >>>= 8;
+    		out[off++] = (byte) l;
+			l >>>= 8;
+			out[off++] = (byte) l;
+			l >>>= 8;
+			out[off++] = (byte) l;
+			amt -= 4;
+		}
+		if(amt > 0) {
+			update();
+			long l = last;
+			out[off++] = (byte) l;
+			amt--;
+			while(amt-- > 0) {
+				l >>>= 8;
+				out[off++] = (byte) l;
+			}
+		}
 	}
 
 	public void readShorts(short[] shorts, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt > 3)
+		{
+			update();
+			long l = last;
+			shorts[off++] = (short) l;
+			l >>>= 16;
+			shorts[off++] = (short) l;
+			l >>>= 16;
+    		shorts[off++] = (short) l;
+			l >>>= 16;
+			shorts[off++] = (short) l;
+			amt -= 4;
+		}
+		if(amt > 0) {
+			update();
+			long l = last;
+			shorts[off++] = (short) l;
+			amt--;
+			while(amt-- > 0) {
+				l >>>= 16;
+				shorts[off++] = (short) l;
+			}
+		}
 	}
 
 	public void readChars(char[] chars, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt > 3)
+		{
+			update();
+			long l = last;
+			chars[off++] = (char) l;
+			l >>>= 16;
+			chars[off++] = (char) l;
+			l >>>= 16;
+    		chars[off++] = (char) l;
+			l >>>= 16;
+			chars[off++] = (char) l;
+			amt -= 4;
+		}
+		if(amt > 0) {
+			update();
+			long l = last;
+			chars[off++] = (char) l;
+			amt--;
+			while(amt-- > 0) {
+				l >>>= 16;
+				chars[off++] = (char) l;
+			}
+		}
 	}
 
 	public void readInts(int[] ints, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt > 1)
+		{
+			update();
+			ints[off++] = (int) last;
+			ints[off++] = (int) (last >>> 32);
+			amt -= 2;
+		}
+		if(amt > 0) {
+			update();
+			ints[off++] = (int) last;
+		}
 	}
 
 	public void readLongs(long[] longs, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt-- > 0) {
+			update();
+			longs[off++] = last;
+		}
 	}
 
 	public LongSeed getSeed()
