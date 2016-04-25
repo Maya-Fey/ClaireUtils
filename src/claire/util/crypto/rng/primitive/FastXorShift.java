@@ -1,15 +1,26 @@
 package claire.util.crypto.rng.primitive;
 
-public class FastXorShift extends XorShiftRNG {
+public class FastXorShift 
+	   extends XorShiftRNG {
 	
-	public FastXorShift()
+	public FastXorShift() 
 	{
-		super();
+    	super();
 	}
 	
-	public FastXorShift(long seed)
+	public FastXorShift(boolean b)
+	{
+		super(b);
+	}
+	
+	public FastXorShift(LongSeed seed)
 	{
 		super(seed);
+	}
+
+	public FastXorShift(long l)
+	{
+		super(l);
 	}
 	
 	protected void update()
