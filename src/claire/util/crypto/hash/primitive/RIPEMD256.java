@@ -254,6 +254,11 @@ public final class RIPEMD256
 		{
 			return sfactory;
 		}
+		
+		public int stateID()
+		{
+			return IState.RIPEMD256;
+		}
 
 		public int NAMESPACE()
 		{

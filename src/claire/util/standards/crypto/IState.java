@@ -30,5 +30,9 @@ public interface IState<Type extends IState<Type>>
 	static int SHA2_64 = 16;
 	static int TIGER = 17;
 	static int WMDIA = 18;
+	static int RIPEMD128 = 19;
+	static int RIPEMD160 = 20;
+	static int RIPEMD256 = 21;
+	static int RIPEMD320 = 22;
 
 }

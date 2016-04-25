@@ -371,6 +371,11 @@ public final class RIPEMD320
 		{
 			return sfactory;
 		}
+		
+		public int stateID()
+		{
+			return IState.RIPEMD320;
+		}
 
 		public int NAMESPACE()
 		{
