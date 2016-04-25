@@ -1,5 +1,6 @@
 package claire.util.crypto.rng.primitive;
 
+import claire.util.memory.Bits;
 import claire.util.standards.crypto.IRandom;
 
 public abstract class XorShiftRNG
@@ -78,14 +79,75 @@ public abstract class XorShiftRNG
 
 	public void readBools(boolean[] out, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		long i;
+		int j;
+		while(amt > 63)
+		{
+			update();
+			i = last;
+			j = 0;
+			while(j < 64) 
+				out[off++] = (Bits.BIT64_TABLE[j++] & i) != 0; 
+		}
+		if(amt > 0)
+		{
+			update();
+			i = last;
+			j = 0;
+			while(amt-- > 0) 
+				out[off++] = (Bits.BIT64_TABLE[j++] & i) != 0; 
+		}
 	}
 
 	public void readNibbles(byte[] out, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt > 15)
+		{
+			update();
+			long l = last;
+			out[off++] = (byte) (l & 0xF);
+			l >>>= 4;
+			out[off++] = (byte) (l & 0xF);
+			l >>>= 4;
+    		out[off++] = (byte) (l & 0xF);
+    		l >>>= 4;
+    		out[off++] = (byte) (l & 0xF);
+			l >>>= 4;
+			out[off++] = (byte) (l & 0xF);
+			l >>>= 4;
+			out[off++] = (byte) (l & 0xF);
+			l >>>= 4;
+			out[off++] = (byte) (l & 0xF);
+			l >>>= 4;
+			out[off++] = (byte) (l & 0xF);
+			l >>>= 4;
+			out[off++] = (byte) (l & 0xF);
+			l >>>= 4;
+			out[off++] = (byte) (l & 0xF);
+			l >>>= 4;
+    		out[off++] = (byte) (l & 0xF);
+    		l >>>= 4;
+    		out[off++] = (byte) (l & 0xF);
+			l >>>= 4;
+			out[off++] = (byte) (l & 0xF);
+			l >>>= 4;
+			out[off++] = (byte) (l & 0xF);
+			l >>>= 4;
+			out[off++] = (byte) (l & 0xF);
+			l >>>= 4;
+			out[off++] = (byte) (l & 0xF);
+			amt -= 16;
+		}
+		if(amt > 0) {
+			update();
+			long l = last;
+			out[off++] = (byte) (l & 0xF);
+			amt--;
+			while(amt-- > 0) {
+				l >>>= 4;
+				out[off++] = (byte) (l & 0xF);
+			}
+		}
 	}
 
 	public void readBytes(byte[] out, int off, int amt)
@@ -109,7 +171,7 @@ public abstract class XorShiftRNG
 			out[off++] = (byte) l;
 			l >>>= 8;
 			out[off++] = (byte) l;
-			amt -= 4;
+			amt -= 8;
 		}
 		if(amt > 0) {
 			update();
