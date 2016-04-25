@@ -52,7 +52,7 @@ public class IARNG
 	public void readBools(boolean[] out, int off, int amt)
 	{
 		int i, j;
-		while(amt > 32)
+		while(amt > 31)
 		{
 			i = cipher.nextInt();
 			j = 32;
@@ -63,7 +63,7 @@ public class IARNG
 		}
 		if(amt > 0)
 		{
-		i = cipher.nextInt();
+			i = cipher.nextInt();
 			while(amt-- > 0) {
 				out[off++] = (i & 1) == 1; 
 				i >>>= 1;
@@ -74,7 +74,7 @@ public class IARNG
 	public void readNibbles(byte[] out, int off, int amt)
 	{
 		int i, j;
-		while(amt > 8)
+		while(amt > 7)
 		{
 			i = cipher.nextInt();
 			j = 32;
@@ -85,7 +85,7 @@ public class IARNG
 		}
 		if(amt > 0)
 		{
-		i = cipher.nextInt();
+			i = cipher.nextInt();
 			while(amt-- > 0) {
 				out[off++] = (byte) (i & 0x0F); 
 				i >>>= 4;
