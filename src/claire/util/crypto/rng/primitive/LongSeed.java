@@ -18,6 +18,11 @@ public class LongSeed
 	{
 		this.seed = l;
 	}
+	
+	public long getSeed()
+	{
+		return seed;
+	}
 
 	public LongSeed createDeepClone()
 	{

@@ -2,30 +2,40 @@ package claire.util.crypto.rng.primitive;
 
 import claire.util.standards.crypto.IRandom;
 
-public abstract class XorShiftRNG implements IRandom {
+public abstract class XorShiftRNG
+	   			implements IRandom<LongSeed> {
 
+	private LongSeed seed;
+	
 	protected long last;
+	
+	public XorShiftRNG() 
+	{
+    	this(new LongSeed((System.currentTimeMillis() ^ (System.nanoTime() << 12))));
+	}
+	
+	public XorShiftRNG(boolean b)
+	{
+		if(b)
+			this.setSeed(new LongSeed((System.currentTimeMillis() ^ (System.nanoTime() << 12))));
+		else
+			this.last = (System.currentTimeMillis() ^ (System.nanoTime() << 12))
+	}
+	
+	public XorShiftRNG(LongSeed seed)
+	{
+		this.seed = seed;
+		this.last = seed.getSeed();
+	}
 
-	public XorShiftRNG() {
-    	this((System.currentTimeMillis() ^ (System.nanoTime() << 12)));
+	public XorShiftRNG(long l)
+	{
+		this.last = l;
 	}
 	
 	protected abstract void update();
 	
-	public XorShiftRNG(@SuppressWarnings("unused") boolean b)
-	{
-		this.last = 0;
-	}
-
-	public XorShiftRNG(long seed) {
-    	this.last = seed;
-    	update();
-	}
 	
-	public XorShiftRNG(int seed) {
-    	this.last = seed + (((long) ~seed) << 32);
-    	update();
-	}
 	
 	public void setSeed(long seed)
 	{
@@ -47,20 +57,6 @@ public abstract class XorShiftRNG implements IRandom {
     	int out = (int) this.last % max;     
     	return (out < 0) ? -out : out;
 	}
-
-	public float nextFloat() {
-		update();
-    	int out = (int)this.last % 100000000;
-    	if(out < 0) { out *= -1; }
-    	return (float)out / 100000000;
-	}
-	
-	public double nextDouble() {
-		update();
-    	long out = (long)this.last % (long)((long)100000000 * (long)1000000000);
-    	if(out < 0L) { out *= -1; }
-    	return (double)out / (long)((long)100000000 * (long)1000000000);
-	}
 	
 	public boolean nextBoolean()
 	{
@@ -78,6 +74,104 @@ public abstract class XorShiftRNG implements IRandom {
 	{
 		update();
 		return (short) this.last;
+	}
+
+	public boolean readBool()
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public byte readByte()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public short readShort()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public char readChar()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int readInt()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public long readLong()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void readBools(boolean[] out, int off, int amt)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void readNibbles(byte[] out, int off, int amt)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void readBytes(byte[] out, int off, int bytes)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void readShorts(short[] shorts, int off, int amt)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void readChars(char[] chars, int off, int amt)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void readInts(int[] ints, int off, int amt)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void readLongs(long[] longs, int off, int amt)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public LongSeed getSeed()
+	{
+		return seed;
+	}
+
+	public void setSeed(LongSeed key)
+	{
+		this.last = key.getSeed();
+	}
+
+	public void reset()
+	{
+		last = seed.getSeed();
+	}
+
+	public void wipe()
+	{
+		this.last = 0;
 	}
 
 }
