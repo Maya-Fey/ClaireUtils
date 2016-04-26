@@ -491,6 +491,26 @@ public interface Bits<Type extends Bits<Type>>
 		return in & TRUNC64_TABLE[places];
 	}
 	
+	public static byte truncateBy(byte in, int places)
+	{
+		return (byte) (in & ~TRUNC32_TABLE[places]);
+	}
+	
+	public static short truncateBy(short in, int places)
+	{
+		return (short) (in & ~TRUNC32_TABLE[places]);
+	}
+	
+	public static int truncateBy(int in, int places)
+	{
+		return in & ~TRUNC32_TABLE[places];
+	}
+	
+	public static long truncateBy(long in, int places)
+	{
+		return in & ~TRUNC64_TABLE[places];
+	}
+	
 	public static boolean getBit(int t, int p)
 	{
 		return (t & BIT32_TABLE[p]) != 0;
