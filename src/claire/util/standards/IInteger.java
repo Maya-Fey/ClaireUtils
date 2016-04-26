@@ -230,6 +230,11 @@ public interface IInteger<Type extends IInteger<?>>
 	
 	void setArr(int[] arr);
 	
+	default void truncate(int bits)
+	{
+		MathHelper.truncate(this.getArr(), bits);
+	}
+	
 	default void setToAbs(IInteger<?> i)
 	{
 		this.setArr(i.getArr());
