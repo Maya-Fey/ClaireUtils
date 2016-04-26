@@ -66,14 +66,30 @@ public class JRandom
 
 	public void readBools(boolean[] out, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt-- > 0)
+			out[off++] = this.nextBoolean();
 	}
 
 	public void readNibbles(byte[] out, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		int i, j;
+		while(amt > 7)
+		{
+			i = this.nextInt();
+			j = 32;
+			while(j-- > 0) {
+				out[off++] = (byte) (i & 0x0F);
+				i >>>= 4;
+			}
+		}
+		if(amt > 0)
+		{
+			i = this.nextInt();
+			while(amt-- > 0) {
+				out[off++] = (byte) (i & 0x0F); 
+				i >>>= 4;
+			}
+		}
 	}
 
 	public void readBytes(byte[] out, int off, int bytes)
