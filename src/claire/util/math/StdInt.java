@@ -72,7 +72,7 @@ public abstract class StdInt<Type extends StdInt<Type>>
 	
 	public int getBits()
 	{
-		return MathHelper.getMSB(this.getArr());
+		return MathHelper.getMSB(this.getArr()) + 1;
 	}
 	
 	public String toString()
