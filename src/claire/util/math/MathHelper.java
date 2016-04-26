@@ -239,6 +239,11 @@ public final class MathHelper {
 		}
 	}
 	
+	public static void truncate(IInteger<?> in, int bits)
+	{
+		truncate(in.getArr(), bits);
+	}
+	
 	/**
 	 * This method shifts an integer right by <code>places</code> <i>bit
 	 * positions</i>. 
