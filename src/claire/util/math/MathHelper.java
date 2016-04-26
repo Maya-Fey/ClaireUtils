@@ -228,6 +228,20 @@ public final class MathHelper {
 		return total + Bits.getMSB(arr[i]);
 	}
 	
+	public static void truncate(int[] ints, int bits)
+	{
+		int i = 0;
+		while(bits > 31) {
+			i++;
+			bits -= 32;
+		}
+		if(i < ints.length) {
+			ints[i] = Bits.truncate(ints[i++], bits);
+			while(i < ints.length)
+				ints[i++] = 0;
+		}
+	}
+	
 	/**
 	 * This method shifts an integer right by <code>places</code> <i>bit
 	 * positions</i>. 
