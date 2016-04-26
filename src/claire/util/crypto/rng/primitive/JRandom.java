@@ -36,38 +36,32 @@ public class JRandom
 	
 	public boolean readBool()
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return this.nextBoolean();
 	}
 
 	public byte readByte()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return (byte) this.nextInt();
 	}
 
 	public short readShort()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return (short) this.nextInt();
 	}
 
 	public char readChar()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return (char) this.nextInt();
 	}
 
 	public int readInt()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return this.nextInt();
 	}
 
 	public long readLong()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return this.nextLong();
 	}
 
 	public void readBools(boolean[] out, int off, int amt)
@@ -84,32 +78,32 @@ public class JRandom
 
 	public void readBytes(byte[] out, int off, int bytes)
 	{
-		// TODO Auto-generated method stub
-		
+		while(bytes-- > 0)
+			out[off++] = (byte) this.nextInt();
 	}
 
 	public void readShorts(short[] shorts, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt-- > 0)
+			shorts[off++] = (short) this.nextInt();
 	}
 
 	public void readChars(char[] chars, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt-- > 0)
+			chars[off++] = (char) this.nextInt();
 	}
 
 	public void readInts(int[] ints, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt-- > 0)
+			ints[off++] = this.nextInt();
 	}
 
 	public void readLongs(long[] longs, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt-- > 0)
+			longs[off++] = this.nextLong();
 	}
 
 	public LongSeed getSeed()
