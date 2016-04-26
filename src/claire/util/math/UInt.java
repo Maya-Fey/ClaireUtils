@@ -696,11 +696,6 @@ public class UInt
 		}
 	}
 	
-	public int getBits()
-	{
-		return this.length << 5;
-	}
-	
 	public boolean isNonZero()
 	{
 		for(int i = 0; i < this.val.length; i++)

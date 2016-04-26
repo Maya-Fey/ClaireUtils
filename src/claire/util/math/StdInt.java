@@ -70,6 +70,11 @@ public abstract class StdInt<Type extends StdInt<Type>>
 		return MathHelper.absolute_compare(this.getArr(), split) <= 0;
 	}
 	
+	public int getBits()
+	{
+		return MathHelper.getMSB(this.getArr());
+	}
+	
 	public String toString()
 	{
 		return new String(this.toChars());

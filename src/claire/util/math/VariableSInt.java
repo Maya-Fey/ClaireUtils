@@ -732,11 +732,6 @@ public class VariableSInt
 			return Bits.getLong(orig[1], orig[0]);
 		}
 	}
-
-	public int getBits()
-	{
-		return this.length << 5;
-	}
 	
 	public boolean isNonZero()
 	{
