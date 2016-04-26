@@ -44,7 +44,7 @@ public class PrimeGenerator<Int extends IInteger<Int>> {
 	protected final int st,
 			    		primes;
 	
-	protected final IRandom rand;
+	protected final IRandom<?> rand;
 	protected final PrimeTester<Int> tester;
 	private final Int add;
 
@@ -64,12 +64,12 @@ public class PrimeGenerator<Int extends IInteger<Int>> {
 		this(st, min, max, primes, RandUtils.dprng);
 	}
 	
-	public PrimeGenerator(int st, Int min, Int max, int primes, IRandom rand)
+	public PrimeGenerator(int st, Int min, Int max, int primes, IRandom<?> rand)
 	{
 		this(st, min, max, primes, rand, rand);
 	}
 	
-	public PrimeGenerator(int st, Int min, Int max, int primes, IRandom rand, IRandom rand2)
+	public PrimeGenerator(int st, Int min, Int max, int primes, IRandom<?> rand, IRandom<?> rand2)
 	{
 		this.st = st;
 		this.min = min;

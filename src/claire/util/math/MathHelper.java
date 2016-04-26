@@ -1039,7 +1039,7 @@ public final class MathHelper {
 	 * <br><br>
 	 * Returns: true if probably prime, false if composite
 	 */
-	public static boolean isPrimeProbableMR(final IInteger<?> prospective, final IRandom rng, int times)
+	public static boolean isPrimeProbableMR(final IInteger<?> prospective, final IRandom<?> rng, int times)
 	{
 		IInteger<?> test = prospective.createDeepClone();
 		test.decrement();
