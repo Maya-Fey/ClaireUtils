@@ -230,11 +230,8 @@ public final class MathHelper {
 	
 	public static void truncate(int[] ints, int bits)
 	{
-		int i = 0;
-		while(bits > 31) {
-			i++;
-			bits -= 32;
-		}
+		int i = bits / 32;
+		bits &= 31;
 		if(i < ints.length) {
 			ints[i] = Bits.truncate(ints[i++], bits);
 			while(i < ints.length)
