@@ -232,7 +232,7 @@ public interface IInteger<Type extends IInteger<?>>
 	
 	void setArr(int[] arr);
 	
-	IntegerFactory<Type> factory();
+	IntegerFactory<Type> iFactory();
 	
 	default void truncate(int bits)
 	{

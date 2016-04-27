@@ -800,7 +800,13 @@ public class UInt
 		return factory;
 	}
 	
+	public IntegerFactory<UInt> iFactory()
+	{
+		return ifactory;
+	}
+	
 	public static final Factory<UInt> factory = new UIntFactory();
+	public static final IntegerFactory<UInt> ifactory = new UIntBuildFactory();
 	
 	private static final class UIntFactory extends Factory<UInt>
 	{
@@ -821,6 +827,21 @@ public class UInt
 			int[] val = new int[stream.readInt()];
 			stream.readInts(val);
 			return new UInt(val);
+		}
+		
+	}
+	
+	private static final class UIntBuildFactory extends IntegerFactory<UInt>
+	{
+
+		public UInt construct(int len)
+		{
+			return new UInt(len);
+		}
+
+		public UInt construct(int[] ints)
+		{
+			return new UInt(ints);
 		}
 		
 	}
