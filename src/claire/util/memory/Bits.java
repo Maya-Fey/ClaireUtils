@@ -563,6 +563,13 @@ public interface Bits<Type extends Bits<Type>>
 			return t & ~BIT64_TABLE[p];
 	}
 	
+	public static void setBit(int[] ints, int pos, boolean b)
+	{
+		int i = pos / 32;
+		pos &= 31;
+		ints[i] = setBit(ints[i], pos, b);
+	} 
+	
 	public static long UNSIGNED_DIVIDE(int i, int divisor)
 	{
 		if(divisor == 0) throw new java.lang.ArithmeticException("Division by Zero");
