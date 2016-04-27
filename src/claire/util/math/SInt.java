@@ -3,6 +3,7 @@ package claire.util.math;
 import java.util.Arrays;
 
 import claire.util.encoding.CString;
+import claire.util.math.UInt.UIntBuildFactory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IInteger;
@@ -775,6 +776,28 @@ public class SInt
 		if(val.length > arr.length)
 			Arrays.fill(val, arr.length, val.length, 0);
 		System.arraycopy(arr, 0, val, 0, val.length > arr.length ? arr.length : val.length);
+	}
+	
+	public IntegerFactory<SInt> iFactory()
+	{
+		return ifactory;
+	}
+	
+	public static final IntegerFactory<SInt> ifactory = new SIntBuildFactory();
+	
+	private static final class SIntBuildFactory extends IntegerFactory<SInt>
+	{
+
+		public SInt construct(int len)
+		{
+			return new SInt(len);
+		}
+
+		public SInt construct(int[] ints)
+		{
+			return new SInt(ints);
+		}
+		
 	}
 	
 	
