@@ -2,6 +2,7 @@ package claire.util.standards;
 
 import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
+import claire.util.math.IntegerFactory;
 import claire.util.math.MathHelper;
 import claire.util.memory.Bits;
 
@@ -230,6 +231,8 @@ public interface IInteger<Type extends IInteger<?>>
 	void setTo(IInteger<?> other);
 	
 	void setArr(int[] arr);
+	
+	IntegerFactory<Type> factory();
 	
 	default void truncate(int bits)
 	{
