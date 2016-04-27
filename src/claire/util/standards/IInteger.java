@@ -220,6 +220,7 @@ public interface IInteger<Type extends IInteger<?>>
 	boolean isNonZero();
 	
 	boolean bitAt(int pos);
+	void setBit(int pos, boolean bit);
 	int getBits();
 	int getIntLen();
 	
