@@ -531,6 +531,38 @@ public interface Bits<Type extends Bits<Type>>
 		return (t & BIT64_TABLE[p]) != 0;
 	}
 	
+	public static byte setBit(byte t, int p, boolean b)
+	{
+		if(b)
+			return (byte) (t | BIT32_TABLE[p]);
+		else
+			return (byte) (t & ~BIT32_TABLE[p]);
+	}
+	
+	public static short setBit(short t, int p, boolean b)
+	{
+		if(b)
+			return (short) (t | BIT32_TABLE[p]);
+		else
+			return (short) (t & ~BIT32_TABLE[p]);
+	}
+	
+	public static int setBit(int t, int p, boolean b)
+	{
+		if(b)
+			return t | BIT32_TABLE[p];
+		else
+			return t & ~BIT32_TABLE[p];
+	}
+	
+	public static long setBit(long t, int p, boolean b)
+	{
+		if(b)
+			return t | BIT64_TABLE[p];
+		else
+			return t & ~BIT64_TABLE[p];
+	}
+	
 	public static long UNSIGNED_DIVIDE(int i, int divisor)
 	{
 		if(divisor == 0) throw new java.lang.ArithmeticException("Division by Zero");
