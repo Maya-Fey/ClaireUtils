@@ -511,9 +511,24 @@ public interface Bits<Type extends Bits<Type>>
 		return in & ~TRUNC64_TABLE[places];
 	}
 	
+	public static boolean getBit(byte t, int p)
+	{
+		return (t & BIT32_TABLE[p]) != 0;
+	}
+	
+	public static boolean getBit(short t, int p)
+	{
+		return (t & BIT32_TABLE[p]) != 0;
+	}
+	
 	public static boolean getBit(int t, int p)
 	{
 		return (t & BIT32_TABLE[p]) != 0;
+	}
+	
+	public static boolean getBit(long t, int p)
+	{
+		return (t & BIT64_TABLE[p]) != 0;
 	}
 	
 	public static long UNSIGNED_DIVIDE(int i, int divisor)
