@@ -3,7 +3,6 @@ package claire.util.math;
 import java.util.Arrays;
 
 import claire.util.encoding.CString;
-import claire.util.math.SInt.SIntBuildFactory;
 import claire.util.memory.Bits;
 import claire.util.standards.IInteger;
 import claire.util.standards.IUUID;

@@ -840,6 +840,12 @@ public class VariableUInt
 		return factory;
 	}
 	
+	public IntegerFactory<VariableUInt> iFactory()
+	{
+		return ifactory;
+	}
+	
+	public static final IntegerFactory<VariableUInt> ifactory = new VariableUIntBuildFactory();
 	public static final Factory<VariableUInt> factory = new UIntFactory();
 	
 	private static final class UIntFactory extends Factory<VariableUInt>
@@ -861,6 +867,21 @@ public class VariableUInt
 			int[] val = new int[stream.readInt()];
 			stream.readInts(val);
 			return new VariableUInt(val);
+		}
+		
+	}
+	
+	private static final class VariableUIntBuildFactory extends IntegerFactory<VariableUInt>
+	{
+
+		public VariableUInt construct(int len)
+		{
+			return new VariableUInt(len);
+		}
+
+		public VariableUInt construct(int[] ints)
+		{
+			return new VariableUInt(ints);
 		}
 		
 	}
