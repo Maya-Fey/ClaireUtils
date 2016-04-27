@@ -3,6 +3,7 @@ package claire.util.math;
 import java.util.Arrays;
 
 import claire.util.encoding.CString;
+import claire.util.math.SInt.SIntBuildFactory;
 import claire.util.memory.Bits;
 import claire.util.standards.IInteger;
 import claire.util.standards.IUUID;
@@ -851,5 +852,26 @@ public class VariableSInt
 		System.arraycopy(arr, 0, val, 0, val.length > arr.length ? arr.length : val.length);
 	}
 	
+	public IntegerFactory<VariableSInt> iFactory()
+	{
+		return ifactory;
+	}
+	
+	public static final IntegerFactory<VariableSInt> ifactory = new VariableSIntBuildFactory();
+	
+	private static final class VariableSIntBuildFactory extends IntegerFactory<VariableSInt>
+	{
+
+		public VariableSInt construct(int len)
+		{
+			return new VariableSInt(len);
+		}
+
+		public VariableSInt construct(int[] ints)
+		{
+			return new VariableSInt(ints);
+		}
+		
+	}
 	
 }
