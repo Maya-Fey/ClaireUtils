@@ -75,6 +75,11 @@ public abstract class StdInt<Type extends StdInt<Type>>
 		return MathHelper.getMSB(this.getArr()) + 1;
 	}
 	
+	public void setBit(int pos, boolean bit)
+	{
+		Bits.setBit(this.getArr(), pos, bit);
+	}
+	
 	public String toString()
 	{
 		return new String(this.toChars());
