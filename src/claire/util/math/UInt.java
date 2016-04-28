@@ -6,15 +6,13 @@ import java.util.Arrays;
 import claire.util.encoding.CString;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
-import claire.util.standards.CObject;
 import claire.util.standards.IInteger;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
 public class UInt 
-	   extends StdUInt<UInt> 
-	   implements CObject<UInt> {
+	   extends StdUInt<UInt> {
 	
 	private int[] val;
 	private int length;
