@@ -1,17 +1,20 @@
 package claire.util.math;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import claire.util.encoding.CString;
+import claire.util.io.Factory;
+import claire.util.io.IOUtils;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IInteger;
-import claire.util.standards.IUUID;
 import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
 public class SInt 
-	   extends StdSInt<SInt> 
-	   implements IUUID<SInt> {
+	   extends StdSInt<SInt>  {
 	
 	private int[] val;
 	private int length;
@@ -777,12 +780,35 @@ public class SInt
 		System.arraycopy(arr, 0, val, 0, val.length > arr.length ? arr.length : val.length);
 	}
 	
+	public void export(IOutgoingStream stream) throws IOException
+	{
+		stream.writeIntArr(val);
+		stream.writeBool(sign);
+	}
+
+	public void export(byte[] bytes, int offset)
+	{
+		offset = IOUtils.writeArr(val, bytes, offset);
+		bytes[offset] = (byte) (sign ? 1 : 0);
+	}
+
+	public int exportSize()
+	{
+		return this.length * 4 + 5;
+	}
+
+	public Factory<SInt> factory()
+	{
+		return factory;
+	}
+	
 	public IntegerFactory<SInt> iFactory()
 	{
 		return ifactory;
 	}
 	
 	public static final IntegerFactory<SInt> ifactory = new SIntBuildFactory();
+	public static final SIntFactory factory = new SIntFactory();
 	
 	private static final class SIntBuildFactory extends IntegerFactory<SInt>
 	{
@@ -795,6 +821,29 @@ public class SInt
 		public SInt construct(int[] ints)
 		{
 			return new SInt(ints);
+		}
+		
+	}
+	
+	private static final class SIntFactory extends Factory<SInt>
+	{
+
+		protected SIntFactory() 
+		{
+			super(SInt.class);
+		}
+
+		public SInt resurrect(byte[] data, int start) throws InstantiationException
+		{
+			int len = Bits.intFromBytes(data, start); start += 4;
+			int[] val = new int[len];
+			Bits.bytesToInts(data, start, val, 0, len); start += len * 4;
+			return new SInt(val, data[start] == 1);
+		}
+
+		public SInt resurrect(IIncomingStream stream) throws InstantiationException, IOException
+		{
+			return new SInt(stream.readIntArr(), stream.readBool());
 		}
 		
 	}
