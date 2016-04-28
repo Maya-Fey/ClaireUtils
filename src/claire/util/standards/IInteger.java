@@ -2,6 +2,7 @@ package claire.util.standards;
 
 import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
+import claire.util.encoding.PartialString;
 import claire.util.math.IntegerFactory;
 import claire.util.math.MathHelper;
 import claire.util.memory.Bits;
@@ -309,6 +310,25 @@ public interface IInteger<Type extends IInteger<Type>>
 		this.p_add(chars[i] - 48);
 		i++;
 		for(; i < chars.length; i++)
+		{
+			this.p_multiply(10);
+			this.p_add(chars[i] - 48);
+		}
+		this.setNegative(negative);
+	}
+	
+	default void setTo(char[] chars, int start, int len)
+	{
+		this.zero();
+		int i = start;
+		boolean negative = false;
+		if(chars[i] == '-') {
+			i++;
+			len--;
+			negative = true;
+		}
+		this.p_add(chars[i] - 48);
+		while(len-- > 0)
 		{
 			this.p_multiply(10);
 			this.p_add(chars[i] - 48);
