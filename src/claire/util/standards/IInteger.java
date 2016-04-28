@@ -25,9 +25,8 @@ import claire.util.memory.Bits;
  * @author Claire
  * @param <Type> The implementation used
  */
-public interface IInteger<Type extends IInteger<?>> 
-	   extends IDeepClonable<Type>, 
-	   		   IReferrable<Type> {
+public interface IInteger<Type extends IInteger<Type>> 
+	   extends CObject<Type> {
 	
 	default Type add(IInteger<?> i)
 	{
