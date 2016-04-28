@@ -298,6 +298,11 @@ public interface IInteger<Type extends IInteger<Type>>
 		this.setTo(s.array());
 	}
 	
+	default void setTo(PartialString s)
+	{
+		this.setTo(s.array(), s.getOffset(), s.getLength());
+	}
+	
 	default void setTo(char[] chars)
 	{
 		this.zero();

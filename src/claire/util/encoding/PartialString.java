@@ -29,6 +29,11 @@ public class PartialString
 		this.len = len;
 	}
 	
+	public int getOffset()
+	{
+		return this.off;
+	}
+	
 	public int getEnd()
 	{
 		return off + len;
