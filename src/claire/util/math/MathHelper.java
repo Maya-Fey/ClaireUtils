@@ -285,6 +285,36 @@ public final class MathHelper {
 			ints[intz] = Bits.truncate(ints[intz], rem);
 	}
 	
+	public static <Int extends IInteger<Int>> Int strictRandomInteger(IntegerFactory<Int> factory, IRandom<?> rand, int bits)
+	{
+		int intz = bits / 32;
+		int rem = bits & 31;
+		boolean trunc = rem != 0;
+		if(trunc)
+			intz++;
+		int[] ints = new int[intz--];
+		rand.readInts(ints);
+		if(trunc)
+			ints[intz] = Bits.truncate(ints[intz], rem);
+		Bits.setBit(ints, bits - 1, true);
+		return factory.construct(ints);
+	}
+	
+	public static <Int extends IInteger<Int>> Int strictRandomInteger(IntegerFactory<Int> factory, int req, IRandom<?> rand, int bits)
+	{
+		int intz = bits / 32;
+		int rem = bits & 31;
+		boolean trunc = rem != 0;
+		if(trunc)
+			intz++;
+		int[] ints = new int[req];
+		rand.readInts(ints, 0, intz--);
+		if(trunc)
+			ints[intz] = Bits.truncate(ints[intz], rem);
+		Bits.setBit(ints, bits - 1, true);
+		return factory.construct(ints);
+	}
+	
 	/**
 	 * This method shifts an integer right by <code>places</code> <i>bit
 	 * positions</i>. 
