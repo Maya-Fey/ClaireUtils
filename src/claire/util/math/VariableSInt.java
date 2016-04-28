@@ -1,16 +1,19 @@
 package claire.util.math;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import claire.util.encoding.CString;
+import claire.util.io.Factory;
+import claire.util.io.IOUtils;
 import claire.util.memory.Bits;
 import claire.util.standards.IInteger;
-import claire.util.standards.IUUID;
 import claire.util.standards._NAMESPACE;
+import claire.util.standards.io.IIncomingStream;
+import claire.util.standards.io.IOutgoingStream;
 
 public class VariableSInt 
-	   extends StdSInt<VariableSInt> 
-	   implements IUUID<VariableSInt> {
+	   extends StdSInt<VariableSInt> {
 	
 	private int[] val;
 	private int length;
@@ -851,12 +854,35 @@ public class VariableSInt
 		System.arraycopy(arr, 0, val, 0, val.length > arr.length ? arr.length : val.length);
 	}
 	
+	public void export(IOutgoingStream stream) throws IOException
+	{
+		stream.writeIntArr(val);
+		stream.writeBool(sign);
+	}
+
+	public void export(byte[] bytes, int offset)
+	{
+		offset = IOUtils.writeArr(val, bytes, offset);
+		bytes[offset] = (byte) (sign ? 1 : 0);
+	}
+
+	public int exportSize()
+	{
+		return this.length * 4 + 5;
+	}
+
+	public Factory<VariableSInt> factory()
+	{
+		return factory;
+	}
+	
 	public IntegerFactory<VariableSInt> iFactory()
 	{
 		return ifactory;
 	}
 	
 	public static final IntegerFactory<VariableSInt> ifactory = new VariableSIntBuildFactory();
+	public static final VariableSIntFactory factory = new VariableSIntFactory();
 	
 	private static final class VariableSIntBuildFactory extends IntegerFactory<VariableSInt>
 	{
@@ -869,6 +895,29 @@ public class VariableSInt
 		public VariableSInt construct(int[] ints)
 		{
 			return new VariableSInt(ints);
+		}
+		
+	}
+	
+	private static final class VariableSIntFactory extends Factory<VariableSInt>
+	{
+
+		protected VariableSIntFactory() 
+		{
+			super(VariableSInt.class);
+		}
+
+		public VariableSInt resurrect(byte[] data, int start) throws InstantiationException
+		{
+			int len = Bits.intFromBytes(data, start); start += 4;
+			int[] val = new int[len];
+			Bits.bytesToInts(data, start, val, 0, len); start += len * 4;
+			return new VariableSInt(val, data[start] == 1);
+		}
+
+		public VariableSInt resurrect(IIncomingStream stream) throws InstantiationException, IOException
+		{
+			return new VariableSInt(stream.readIntArr(), stream.readBool());
 		}
 		
 	}
