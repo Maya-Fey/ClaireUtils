@@ -187,26 +187,22 @@ public interface IInteger<Type extends IInteger<Type>>
 	void p_modulo(long i);
 	long p_divmod(long i);
 	
-	default void p_exponent(long l)
+	default void p_exponent(long exponent)
 	{
-		if(l == 0) {
+		if(exponent == 0) {
 			this.setTo(1);
 			return;
-		} else if(l == 1)
+		} 
+		if(exponent == 1)
 			return;
 		Type o = this.createDeepClone();
 		o.setTo(1);
-		while(l > 1)
+		while(exponent > 1)
 		{
-			if((l & 1) == 0) {
-				this.p_square();
-				l /= 2;
-			} else {
+			if((exponent & 1) == 1) 
 				o.p_multiply(this);
-				this.p_square();
-				l--;
-				l /= 2;
-			}
+			this.p_square();
+			exponent >>>= 1;
 		}
 		this.p_multiply(o);
 	}
