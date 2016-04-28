@@ -66,7 +66,7 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
-		UInt u = MathHelper.randomInteger(UInt.ifactory, RandUtils.dprng, 75);
+		UInt u = MathHelper.randomInteger(UInt.ifactory, 3, RandUtils.dprng, 75);
 		System.out.println(u);
 		System.out.println(u.getBits());
 		StrongPrimeGenerator<UInt> p = new StrongPrimeGenerator<UInt>(8, new UInt(new CString(0x70000000L), 64), new UInt(new CString(0xFF0000000L), 64));
