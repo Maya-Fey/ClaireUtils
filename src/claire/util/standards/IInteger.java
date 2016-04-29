@@ -181,86 +181,86 @@ public interface IInteger<Type extends IInteger<Type>>
 	int toInt32();
 	long toInt64();
 	
-	default Type add(long i)
+	default Type add(int i)
 	{
 		Type n = this.createDeepClone();
 		n.p_add(i);
 		return n;
 	}
-	default Type subtract(long i)
+	default Type subtract(int i)
 	{
 		Type n = this.createDeepClone();
 		n.p_subtract(i);
 		return n;
 	}
-	default Type multiply(long i)
+	default Type multiply(int i)
 	{
 		Type n = this.createDeepClone();
 		n.p_multiply(i);
 		return n;
 	}
-	default Type divide(long i)
+	default Type divide(int i)
 	{
 		Type n = this.createDeepClone();
 		n.p_divide(i);
 		return n;
 	}
-	default Type modulo(long i)
+	default Type modulo(int i)
 	{
 		Type n = this.createDeepClone();
 		n.p_modulo(i);
 		return n;
 	}
-	default Type exponent(long i)
+	default Type exponent(int i)
 	{
 		Type n = this.createDeepClone();
 		n.p_exponent(i);
 		return n;
 	}
 	
-	default Type add(long i, Type n)
+	default Type add(int i, Type n)
 	{
 		n.setTo(this);
 		n.p_add(i);
 		return n;
 	}
-	default Type subtract(long i, Type n)
+	default Type subtract(int i, Type n)
 	{
 		n.setTo(this);
 		n.p_subtract(i);
 		return n;
 	}
-	default Type multiply(long i, Type n)
+	default Type multiply(int i, Type n)
 	{
 		n.setTo(this);
 		n.p_multiply(i);
 		return n;
 	}
-	default Type divide(long i, Type n)
+	default Type divide(int i, Type n)
 	{
 		n.setTo(this);
 		n.p_divide(i);
 		return n;
 	}
-	default Type modulo(long i, Type n)
+	default Type modulo(int i, Type n)
 	{
 		n.setTo(this);
 		n.p_modulo(i);
 		return n;
 	}
-	default Type exponent(long i, Type n)
+	default Type exponent(int i, Type n)
 	{
 		n.setTo(this);
 		n.p_exponent(i);
 		return n;
 	}
 
-	void p_add(long i);
-	void p_subtract(long i);
-	void p_multiply(long i);
-	void p_divide(long i);
-	void p_modulo(long i);
-	long p_divmod(long i);
+	void p_add(int i);
+	void p_subtract(int i);
+	void p_multiply(int i);
+	void p_divide(int i);
+	void p_modulo(int i);
+	long p_divmod(int i);
 	
 	default void p_exponent(long exponent)
 	{
@@ -282,12 +282,12 @@ public interface IInteger<Type extends IInteger<Type>>
 		this.p_multiply(o);
 	}
 	
-	boolean isGreaterThan(long i);
-	boolean isLesserThan(long i);
-	boolean isEqualTo(long i);
-	boolean doesNotEqual(long i);
-	boolean isGreaterOrEqualTo(long i);
-	boolean isLesserOrEqualTo(long i);
+	boolean isGreaterThan(int i);
+	boolean isLesserThan(int i);
+	boolean isEqualTo(int i);
+	boolean doesNotEqual(int i);
+	boolean isGreaterOrEqualTo(int i);
+	boolean isLesserOrEqualTo(int i);
 	boolean isNonZero();
 	
 	boolean bitAt(int pos);
@@ -297,7 +297,7 @@ public interface IInteger<Type extends IInteger<Type>>
 	
 	void setNegative(boolean b);
 	void invertSign();
-	void setTo(long l);
+	void setTo(int l);
 	void setTo(IInteger<?> other);
 	
 	void setArr(int[] arr);

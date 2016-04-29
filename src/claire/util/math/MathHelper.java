@@ -1182,10 +1182,6 @@ public final class MathHelper {
 		{
 			RandUtils.fillArr(witness.getArr(), rng);
 			witness.p_modulo(test);
-			System.out.println(test);
-			System.out.println(exponent);
-			System.out.println(prospective);
-			System.out.println(witness);
 			/* 
 			 * Note: This check will cause a very rare problem of the witness
 			 * being incremented beyond the modulus. 
@@ -1193,8 +1189,6 @@ public final class MathHelper {
 			if(witness.getArr()[0] < 2 && witness.getArr()[0] >= 0) 
 				witness.getArr()[0] += 2;
 			p_modular_exponent(witness, exponent, prospective);
-			System.out.println(witness);
-			System.out.println("----");
 			if(witness.isEqualTo(1) || witness.isEqualTo(test))
 				continue;
 			boolean com = true;
