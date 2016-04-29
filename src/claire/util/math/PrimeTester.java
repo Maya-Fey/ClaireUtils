@@ -10,6 +10,7 @@ public class PrimeTester<Int extends IInteger<Int>> {
 	private final Int test;
 	private final Int exponent;
 	private final Int witness;
+	private final Exponentiator<Int> exp;
 	
 	public PrimeTester(IRandom<?> rng, Int sample)
 	{
@@ -17,6 +18,7 @@ public class PrimeTester<Int extends IInteger<Int>> {
 		test = sample.createDeepClone();
 		exponent = sample.createDeepClone();
 		witness = sample.createDeepClone();
+		exp = new Exponentiator<Int>(sample.createDeepClone());
 	}
 	
 	/**
@@ -39,7 +41,7 @@ public class PrimeTester<Int extends IInteger<Int>> {
 	 * <br><br>
 	 * Returns: true if probably prime, false if composite
 	 */
-	public boolean isPrimeProbableMR(final IInteger<?> prospective, int times)
+	public boolean isPrimeProbableMR(final Int prospective, int times)
 	{
 		test.setTo(prospective);
 		test.decrement();
@@ -56,7 +58,7 @@ public class PrimeTester<Int extends IInteger<Int>> {
 			 */
 			if(witness.getArr()[0] < 2 && witness.getArr()[0] >= 0) 
 				witness.getArr()[0] += 2;
-			MathHelper.p_modular_exponent(witness, exponent, prospective);
+			exp.p_modular_exponent(witness, exponent, prospective);
 			if(witness.isEqualTo(1) || witness.isEqualTo(test))
 				continue;
 			boolean com = true;
