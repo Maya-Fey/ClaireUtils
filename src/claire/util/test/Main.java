@@ -12,6 +12,7 @@ import claire.util.display.ImageUtil;
 import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
 import claire.util.encoding.Hex;
+import claire.util.encoding.UTF8;
 import claire.util.math.MathHelper;
 import claire.util.math.StrongPrimeGenerator;
 import claire.util.math.UInt;
@@ -66,9 +67,8 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
-		UInt u = MathHelper.randomInteger(UInt.ifactory, 3, RandUtils.dprng, 75);
-		System.out.println(u);
-		System.out.println(u.getBits());
+		byte[] bytes = Hex.fromHex("846865206661637420746861742043616e616469616e2773207461786573206861766520746f20676f20746f776172642074686973205c2268756d616e27735c22205c2277656c6c206265696e675c22206973207361642e");
+		System.out.println(UTF8.toUTF16(bytes));
 		StrongPrimeGenerator<UInt> p = new StrongPrimeGenerator<UInt>(8, new UInt(new CString(0x70000000L), 64), new UInt(new CString(0xFF0000000L), 64));
 		System.out.println(p.nextPrime().getBits());
 		long mod = 2648397443L;
