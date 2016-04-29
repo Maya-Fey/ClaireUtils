@@ -70,7 +70,7 @@ public final class Main {
 		byte[] bytes = Hex.fromHex("846865206661637420746861742043616e616469616e2773207461786573206861766520746f20676f20746f776172642074686973205c2268756d616e27735c22205c2277656c6c206265696e675c22206973207361642e");
 		System.out.println(UTF8.toUTF16(bytes));
 		StrongPrimeGenerator<UInt> p = new StrongPrimeGenerator<UInt>(8, new UInt(new CString(0x70000000L), 64), new UInt(new CString(0xFF0000000L), 64));
-		System.out.println(p.nextPrime().getBits());
+		System.out.println(p.nextPrime());
 		long mod = 2648397443L;
 		long i = 2;
 		long j =  100;

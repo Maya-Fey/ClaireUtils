@@ -53,6 +53,7 @@ public class PrimeGenerator<Int extends IInteger<Int>> {
 	private Int max;
 	private Int min;
 	private Int canidate;
+	private Int temp2;
 	
 	public PrimeGenerator(int st, Int min, Int max)
 	{
@@ -76,6 +77,7 @@ public class PrimeGenerator<Int extends IInteger<Int>> {
 		this.max = max;
 		this.rand = rand;
 		this.primes = primes;
+		this.temp2 = min.createDeepClone();
 		this.tester = new PrimeTester<Int>(rand2, max);
 		Int add = min.createDeepClone();
 		if(add.getIntLen() < SPACE[primes])
@@ -103,7 +105,7 @@ public class PrimeGenerator<Int extends IInteger<Int>> {
 		{
 			boolean done = t >= primes;
 			for(int i = t; i < primes; i++) {
-				if(canidate.modulo(PRIMES[i]).isNonZero()) {
+				if(canidate.modulo(PRIMES[i], temp2).isNonZero()) {
 					t++;
 					temp.p_multiply(PRIMES[i]);
 				} else 
