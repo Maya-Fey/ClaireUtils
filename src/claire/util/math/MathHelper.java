@@ -327,14 +327,35 @@ public final class MathHelper {
 		if(trunc)
 			ints[intz] = Bits.truncate(ints[intz], rem);
 	}
+	public static <Int extends IInteger<Int>> Int randomIntegerFast(Int max, IRandom<?> rand) //Fast, modulo bias
+	{
+		Int kek = max.createDeepClone();
+		int[] ints = kek.getArr();
+		rand.readInts(ints, 0, getRealLength(ints));
+		kek.p_modulo(max);
+		return kek;
+	}
 	
-	public static <Int extends IInteger<Int>> Int randomInteger(Int max, IRandom<?> rand)
+	public static <Int extends IInteger<Int>> Int randomIntegerGood(Int max, IRandom<?> rand) //Good (but not perfect)
 	{
 		Int kek = max.createDeepClone();
 		//generate roundup(max.getBits()) + 64 bits of data
 		int[] ints = kek.getArr();
 		rand.readInts(ints, 0, (max.getBits() / 32) + (((max.getBits() & 31) > 0) ? 1 : 0) + 2);
 		kek.p_modulo(max);
+		return kek;
+	}
+	
+	public static <Int extends IInteger<Int>> Int randomIntegerUniform(Int max, IRandom<?> rand) //As good as the RNG (zero modulo bias). 
+	{
+		Int kek = max.createDeepClone();
+		int[] ints = kek.getArr();
+		int req = getRealLength(ints);
+		int bits = max.getBits();
+		do {
+			rand.readInts(ints, 0, req);
+			truncate(ints, bits);
+		} while(kek.isGreaterOrEqualTo(max));
 		return kek;
 	}
 	
