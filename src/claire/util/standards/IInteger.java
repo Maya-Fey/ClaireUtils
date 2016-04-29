@@ -217,6 +217,43 @@ public interface IInteger<Type extends IInteger<Type>>
 		n.p_exponent(i);
 		return n;
 	}
+	
+	default Type add(long i, Type n)
+	{
+		n.setTo(this);
+		n.p_add(i);
+		return n;
+	}
+	default Type subtract(long i, Type n)
+	{
+		n.setTo(this);
+		n.p_subtract(i);
+		return n;
+	}
+	default Type multiply(long i, Type n)
+	{
+		n.setTo(this);
+		n.p_multiply(i);
+		return n;
+	}
+	default Type divide(long i, Type n)
+	{
+		n.setTo(this);
+		n.p_divide(i);
+		return n;
+	}
+	default Type modulo(long i, Type n)
+	{
+		n.setTo(this);
+		n.p_modulo(i);
+		return n;
+	}
+	default Type exponent(long i, Type n)
+	{
+		n.setTo(this);
+		n.p_exponent(i);
+		return n;
+	}
 
 	void p_add(long i);
 	void p_subtract(long i);
