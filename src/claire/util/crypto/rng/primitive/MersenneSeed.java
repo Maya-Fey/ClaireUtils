@@ -8,6 +8,7 @@ import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
 public class MersenneSeed 
@@ -70,8 +71,29 @@ public class MersenneSeed
 	
 	public Factory<MersenneSeed> factory()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return factory;
+	}
+
+	public static final MersenneSeedFactory factory = new MersenneSeedFactory();
+	
+	private static final class MersenneSeedFactory extends Factory<MersenneSeed>
+	{
+
+		protected MersenneSeedFactory() 
+		{
+			super(MersenneSeed.class);
+		}
+
+		public MersenneSeed resurrect(byte[] data, int start) throws InstantiationException
+		{
+			return new MersenneSeed(Bits.bytesToInts(data, start, 624));
+		}
+
+		public MersenneSeed resurrect(IIncomingStream stream) throws InstantiationException, IOException
+		{
+			return new MersenneSeed(stream.readInts(624));
+		}
+		
 	}
 
 }
