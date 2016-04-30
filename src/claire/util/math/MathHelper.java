@@ -416,7 +416,7 @@ public final class MathHelper {
 	public static int getRealLength(final int[] num)
 	{
 		int i = num.length - 1;
-		while(num[i] == 0 && i != 0)
+		while(i != -1 && num[i] == 0)
 			i--;
 		return i + 1;
 	}
