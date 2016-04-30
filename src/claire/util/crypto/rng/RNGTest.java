@@ -1,8 +1,6 @@
 package claire.util.crypto.rng;
 
-import claire.util.encoding.CString;
 import claire.util.math.MathHelper;
-import claire.util.math.UInt1024;
 import claire.util.memory.Bits;
 import claire.util.standards.crypto.IRandom;
 
@@ -80,6 +78,7 @@ public final class RNGTest {
 		return out;
 	}
 
+	/*
 	public static int runRunsTest(IRandom<?> rng, long times)
 	{
 		int prev = rng.readInt();
@@ -128,5 +127,5 @@ public final class RNGTest {
 		t2.p_divide(t1);
 		return t2.toInt32();
 	}
-	
+	*/
 }
