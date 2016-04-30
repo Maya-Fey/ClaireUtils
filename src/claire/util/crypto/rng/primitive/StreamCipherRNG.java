@@ -17,77 +17,47 @@ public class StreamCipherRNG<Key extends IKey<Key>>
 	public StreamCipherRNG(IStreamCipher<Key, ?> cip)
 	{
 		this.cipher = cip;
-	}
-	
-	public boolean nextBoolean()
-	{
-		return (this.nextByte() & 1) == 1;
-	}
-
-	public byte nextByte()
-	{
-		return this.nextByte();
-	}
-	
-	public short nextShort()
-	{
-		this.reqBytes(2);
-		return agg.getShort();
-	}
-
-	public int nextInt()
-	{
-		this.reqBytes(4);
-		return agg.getInt();
-	}
-
-	public long nextLong()
-	{
-		this.reqBytes(8);
-		return agg.getLong();
-	}
+	}	
 	
 	private void reqBytes(int bytes)
 	{
 		cipher.fill(buffer, 0, bytes);
 	}
 
-	public boolean readBool()
+	public boolean readBoolean()
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return (cipher.nextByte() & 1) == 1;
 	}
 
 	public byte readByte()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return this.readByte();
 	}
-
+	
 	public short readShort()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		this.reqBytes(2);
+		return agg.getShort();
 	}
 
 	public char readChar()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		this.reqBytes(2);
+		return agg.getChar();
 	}
-
+	
 	public int readInt()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		this.reqBytes(4);
+		return agg.getInt();
 	}
 
 	public long readLong()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		this.reqBytes(8);
+		return agg.getLong();
 	}
-
+	
 	public void readBools(boolean[] out, int off, int amt)
 	{
 		// TODO Auto-generated method stub
@@ -102,32 +72,32 @@ public class StreamCipherRNG<Key extends IKey<Key>>
 
 	public void readBytes(byte[] out, int off, int bytes)
 	{
-		// TODO Auto-generated method stub
-		
+		while(bytes-- > 0)
+			out[off++] = cipher.nextByte();
 	}
 
 	public void readShorts(short[] shorts, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt-- > 0)
+			shorts[off++] = this.readShort();
 	}
 
 	public void readChars(char[] chars, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt-- > 0)
+			chars[off++] = this.readChar();
 	}
 
 	public void readInts(int[] ints, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt-- > 0)
+			ints[off++] = this.readInt();
 	}
 
 	public void readLongs(long[] longs, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt-- > 0)
+			longs[off++] = this.readLong();
 	}
 
 	public Key getSeed()
