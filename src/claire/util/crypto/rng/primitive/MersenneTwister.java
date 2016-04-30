@@ -208,95 +208,90 @@ public class MersenneTwister
 	    return mt;
 	}
 
-	@Override
 	public boolean readBool()
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return update() < 0;
 	}
 
-	@Override
 	public byte readByte()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return (byte) update();
 	}
 
-	@Override
 	public short readShort()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return (short) update();
 	}
 
-	@Override
 	public char readChar()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return (char) update();
 	}
 
-	@Override
 	public int readInt()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return update();
 	}
 
-	@Override
 	public long readLong()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return ((update() & 0xFFFFFFFFL) << 32) | update();
 	}
 
-	@Override
 	public void readBools(boolean[] out, int off, int amt)
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void readNibbles(byte[] out, int off, int amt)
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void readBytes(byte[] out, int off, int bytes)
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void readShorts(short[] shorts, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt > 1)
+		{
+			int i = update();
+			shorts[off++] = (short) i;
+			shorts[off++] = (short) (i >>> 16);
+			amt -= 2;
+		}
+		if(amt > 0)
+			shorts[off++] = (short) update();
 	}
 
-	@Override
 	public void readChars(char[] chars, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt > 1)
+		{
+			int i = update();
+			chars[off++] = (char) i;
+			chars[off++] = (char) (i >>> 16);
+			amt -= 2;
+		}
+		if(amt > 0)
+			chars[off++] = (char) update();
 	}
 
-	@Override
 	public void readInts(int[] ints, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt-- > 0)
+			ints[off++] = update();
 	}
 
-	@Override
 	public void readLongs(long[] longs, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt-- > 0)
+			longs[off++] = ((update() & 0xFFFFFFFFL) << 32) | update();
 	}
 
 	public MersenneSeed getSeed()
