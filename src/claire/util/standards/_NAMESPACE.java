@@ -30,7 +30,7 @@ public class _NAMESPACE {
 	public static final int INT32 = 13;
 	public static final int UINT1024 = 14;
 	public static final int REGULATOR = 15;
-	public static final int CEASERKEY = 16;
+	//Vacant 16
 	public static final int AESKEY = 17;
 	public static final int KEYRC2 = 18;
 	public static final int KEYRC5 = 19;
@@ -106,5 +106,6 @@ public class _NAMESPACE {
 	public static final int PARTIALSTRING = 94;
 	public static final int LONGSEED = 95;
 	public static final int MERSENNESEED = 96;
+	public static final int DHPARAMS = 97;
 	
 }

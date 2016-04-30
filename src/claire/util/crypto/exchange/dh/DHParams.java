@@ -6,11 +6,14 @@ import claire.util.io.Factory;
 import claire.util.io.IOUtils;
 import claire.util.math.UInt;
 import claire.util.standards.IPersistable;
+import claire.util.standards.IUUID;
+import claire.util.standards._NAMESPACE;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
 public class DHParams 
-	   implements IPersistable<DHParams> {
+	   implements IPersistable<DHParams>,
+	   			  IUUID<DHParams> {
 
 	private final UInt modulus;
 	private final UInt generator;
@@ -29,6 +32,16 @@ public class DHParams
 	public UInt getGenerator()
 	{
 		return generator;
+	}
+	
+	public boolean sameAs(DHParams obj)
+	{
+		return this.modulus.equals(obj.modulus) && this.generator.equals(obj.generator);
+	}
+	
+	public int NAMESPACE()
+	{
+		return _NAMESPACE.DHPARAMS;
 	}
 
 	public void export(IOutgoingStream stream) throws IOException
