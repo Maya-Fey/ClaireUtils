@@ -1,10 +1,5 @@
 package claire.util.crypto.rng.primitive;
 	
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
-
 import claire.util.standards.crypto.IRandom;
 
 public class MersenneTwister 
@@ -24,7 +19,8 @@ public class MersenneTwister
 	
 	private int mt[]; // the array for the state vector
 	private int mti; // mti==N+1 means mt[N] is not initialized
-	private int mag01[];
+	
+	private static final int mag01[] = new int[] { 0x0, MATRIX_A };
 	
 	/**
 	 * Constructor using the default seed.
@@ -63,7 +59,7 @@ public class MersenneTwister
 	    {
 	        int kk;
 	        final int[] mt = this.mt; // locals are slightly faster 
-	        final int[] mag01 = this.mag01; // locals are slightly faster 
+	        final int[] mag01 = MersenneTwister.mag01; // locals are slightly faster 
 	        
 	        for (kk = 0; kk < N - M; kk++)
 	        {
@@ -95,12 +91,7 @@ public class MersenneTwister
 	 */
 	public final void setSeed(long seed)
 	{	
-	    mt = new int[N];
-	    
-	    mag01 = new int[2];
-	    mag01[0] = 0x0;
-	    mag01[1] = MATRIX_A;
-	
+	    mt = new int[N];	
 	    mt[0]= (int)(seed & 0xffffffff);
 	    for (mti=1; mti<N; mti++) 
 	    {
