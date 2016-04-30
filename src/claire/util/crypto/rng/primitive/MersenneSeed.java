@@ -19,6 +19,19 @@ public class MersenneSeed
 	{
 		this.M = M;
 	}
+	
+	public MersenneSeed(int[] M, boolean neww)
+	{
+		if(neww)
+			this.M = MersenneTwister.getSeed(M);
+		else
+			this.M = M;
+	}
+	
+	public MersenneSeed(int seed)
+	{
+		this.M = MersenneTwister.getSeed(seed & 0xFFFFFFFFL);
+	}
 
 	public MersenneSeed createDeepClone()
 	{

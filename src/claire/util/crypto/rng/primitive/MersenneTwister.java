@@ -139,11 +139,11 @@ public class MersenneTwister
 	    mt[0] = 0x80000000; /* MSB is 1; assuring non-zero initial array */ 
 	}
 	
-	public final int[] getSeed(long seed)
+	public static final int[] getSeed(long seed)
 	{	
 	    int[] mt = new int[N];	
-	    mt[0]= (int)(seed & 0xffffffff);
-	    for (mti=1; mti<N; mti++) 
+	    mt[0] = (int)(seed & 0xffffffff);
+	    for (int mti=1; mti<N; mti++) 
 	    {
 	        mt[mti] = (1812433253 * (mt[mti-1] ^ (mt[mti-1] >>> 30)) + mti); 
 	        /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
@@ -154,7 +154,7 @@ public class MersenneTwister
 	    return mt;
 	}
 	
-	public int[] getSeed(int[] array)
+	public static int[] getSeed(int[] array)
 	{
 	    if (array.length == 0)
 	        throw new IllegalArgumentException("Array length must be greater than zero");
