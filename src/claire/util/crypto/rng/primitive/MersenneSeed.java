@@ -3,9 +3,13 @@ package claire.util.crypto.rng.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.cipher.key.stream.KeyIA;
+import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IDeepClonable;
+import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
 import claire.util.standards.io.IIncomingStream;
@@ -94,6 +98,16 @@ public class MersenneSeed
 			return new MersenneSeed(stream.readInts(624));
 		}
 		
+	}
+	
+	public static final int test()
+	{
+		final MersenneSeed aes = new MersenneSeed(432432432);
+		int i = 0;
+		i += IPersistable.test(aes);
+		i += IDeepClonable.test(aes);
+		i += IKey.testKey(aes);
+		return i;
 	}
 
 }
