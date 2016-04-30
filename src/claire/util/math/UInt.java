@@ -682,17 +682,9 @@ public class UInt
 		return Bits.getLong(val[1], val[0]);
 	}
 
-	public long p_divmod(long i)
+	public long p_divmod(int i)
 	{
-		if((i & 0xFFFFFFFFL) == i) {
-			return this.divmodOneWord((int) i)[0];
-		} else {
-			Bits.splitLong(i, split, 0);
-			int[] orig = val;
-			fastdiv(split, 2, MathHelper.getRealLength(val));
-			return Bits.getLong(orig[1], orig[0]);
-		}
-	}
+		return this.divmodOneWord(i);
 	
 	public boolean isNonZero()
 	{
