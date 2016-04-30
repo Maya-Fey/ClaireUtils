@@ -24,7 +24,7 @@ public class StreamCipherRNG<Key extends IKey<Key>>
 		cipher.fill(buffer, 0, bytes);
 	}
 
-	public boolean readBoolean()
+	public boolean readBool()
 	{
 		return (cipher.nextByte() & 1) == 1;
 	}
@@ -60,14 +60,21 @@ public class StreamCipherRNG<Key extends IKey<Key>>
 	
 	public void readBools(boolean[] out, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt-- > 0)
+			out[off++] = cipher.nextByte() < 0;
 	}
 
 	public void readNibbles(byte[] out, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		while(amt > 2)
+		{
+			byte b = cipher.nextByte();
+			out[off++] = (byte) (b & 0x0F);
+			out[off++] = (byte) ((b >>> 4) & 0xF);
+			amt -= 2;
+		}
+		if(amt == 1)
+			out[off++] = (byte) (cipher.nextByte() & 0x0F);
 	}
 
 	public void readBytes(byte[] out, int off, int bytes)
