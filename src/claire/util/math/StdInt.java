@@ -7,8 +7,6 @@ import claire.util.standards.IInteger;
 public abstract class StdInt<Type extends StdInt<Type>> 
 				implements IInteger<Type> {
 	
-	protected final int[] split = new int[2];
-	
 	protected StdInt()
 	{
 		this.create();
@@ -34,40 +32,34 @@ public abstract class StdInt<Type extends StdInt<Type>>
 	protected abstract void p_divide(int[] ints);
 	protected abstract void p_modulo(int[] ints);
 	
-	public boolean isGreaterThan(long i)
-	{
-		Bits.splitLong(i, split, 0);
-		return MathHelper.absolute_compare(this.getArr(), split) == 1;
+	public boolean isGreaterThan(int i)
+	{		
+		return MathHelper.absolute_compare(this.getArr(), i) == 1;
 	}
 	
-	public boolean isLesserThan(long i)
-	{
-		Bits.splitLong(i, split, 0);
-		return MathHelper.absolute_compare(this.getArr(), split) == -1;
+	public boolean isLesserThan(int i)
+	{		
+		return MathHelper.absolute_compare(this.getArr(), i) == -1;
 	}
 	
-	public boolean isEqualTo(long i)
-	{
-		Bits.splitLong(i, split, 0);
-		return MathHelper.absolute_compare(this.getArr(), split) == 0;
+	public boolean isEqualTo(int i)
+	{		
+		return MathHelper.absolute_compare(this.getArr(), i) == 0;
 	}
 	
-	public boolean doesNotEqual(long i)
-	{
-		Bits.splitLong(i, split, 0);
-		return MathHelper.absolute_compare(this.getArr(), split) != 0;
+	public boolean doesNotEqual(int i)
+	{		
+		return MathHelper.absolute_compare(this.getArr(), i) != 0;
 	}
 	
-	public boolean isGreaterOrEqualTo(long i)
-	{
-		Bits.splitLong(i, split, 0);
-		return MathHelper.absolute_compare(this.getArr(), split) >= 0;
+	public boolean isGreaterOrEqualTo(int i)
+	{		
+		return MathHelper.absolute_compare(this.getArr(), i) >= 0;
 	}
 	
-	public boolean isLesserOrEqualTo(long i)
+	public boolean isLesserOrEqualTo(int i)
 	{
-		Bits.splitLong(i, split, 0);
-		return MathHelper.absolute_compare(this.getArr(), split) <= 0;
+		return MathHelper.absolute_compare(this.getArr(), i) <= 0;
 	}
 	
 	public int getBits()
