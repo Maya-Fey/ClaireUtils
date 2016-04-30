@@ -1,14 +1,11 @@
 package claire.util.math;
 
 import claire.util.encoding.CString;
-import claire.util.memory.Bits;
 import claire.util.standards.IInteger;
 
 public abstract class StdUInt<Type extends StdUInt<Type>> 
 				extends StdInt<Type> {
-	
-	protected final int[] split = new int[2];
-	
+
 	protected StdUInt()
 	{
 		super();
@@ -47,36 +44,6 @@ public abstract class StdUInt<Type extends StdUInt<Type>>
 	public void p_modulo(IInteger<?> i)
 	{
 		this.p_modulo(i.getArr());
-	}
-
-	public void p_add(long i)
-	{
-		Bits.splitLong(i, split, 0);
-		this.p_add(split);
-	}
-
-	public void p_subtract(long i)
-	{
-		Bits.splitLong(i, split, 0);
-		this.p_subtract(split);
-	}
-
-	public void p_multiply(long i)
-	{
-		Bits.splitLong(i, split, 0);
-		this.p_multiply(split);
-	}
-
-	public void p_divide(long i)
-	{
-		Bits.splitLong(i, split, 0);
-		this.p_divide(split);
-	}
-
-	public void p_modulo(long i)
-	{
-		Bits.splitLong(i, split, 0);
-		this.p_modulo(split);
 	}
 	
 	public void setTo(IInteger<?> other)
