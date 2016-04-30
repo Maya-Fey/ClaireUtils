@@ -2,6 +2,7 @@ package claire.util.crypto.rng.primitive;
 	
 import java.util.Arrays;
 
+import claire.util.memory.Bits;
 import claire.util.standards.crypto.IRandom;
 
 public class MersenneTwister 
@@ -240,20 +241,58 @@ public class MersenneTwister
 
 	public void readBools(boolean[] out, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		int i, j;
+		while(amt > 31)
+		{
+			i = update();
+			j = 0;
+			while(j < 32) 
+				out[off++] = (Bits.BIT32_TABLE[j++] & i) != 0; 
+		}
+		if(amt > 0)
+		{
+			i = update();
+			j = 0;
+			while(amt-- > 0) 
+				out[off++] = (Bits.BIT32_TABLE[j++] & i) != 0; 
+		}
 	}
 
 	public void readNibbles(byte[] out, int off, int amt)
 	{
-		// TODO Auto-generated method stub
-		
+		int i, j;
+		while(amt > 7)
+		{
+			i = update();
+			j = 32;
+			while(j-- > 0) {
+				out[off++] = (byte) (i & 0x0F);
+				i >>>= 4;
+			}
+		}
+		if(amt > 0)
+		{
+			i = update();
+			while(amt-- > 0) {
+				out[off++] = (byte) (i & 0x0F); 
+				i >>>= 4;
+			}
+		}
 	}
 
 	public void readBytes(byte[] out, int off, int bytes)
 	{
-		// TODO Auto-generated method stub
-		
+		while(bytes > 1)
+		{
+			int i = update();
+			out[off++] = (byte)  i;
+			out[off++] = (byte) (i >>>  8);
+			out[off++] = (byte) (i >>> 16);
+			out[off++] = (byte) (i >>> 24);
+			bytes -= 2;
+		}
+		if(bytes > 0)
+			out[off++] = (byte) update();
 	}
 
 	public void readShorts(short[] shorts, int off, int amt)
