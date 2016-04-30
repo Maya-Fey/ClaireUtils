@@ -3,8 +3,6 @@ package claire.util.crypto.rng.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
-import claire.util.crypto.cipher.key.stream.KeyIA;
-import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;

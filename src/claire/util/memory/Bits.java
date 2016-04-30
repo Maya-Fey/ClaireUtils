@@ -1959,7 +1959,7 @@ public interface Bits<Type extends Bits<Type>>
 	
 	public static short[] bytesToShorts(byte[] bytes, int start, int len)
 	{
-		short[] shorts = new short[len >> 1];
+		short[] shorts = new short[len];
 		bytesToShorts(bytes, start, shorts, 0, len);
 		return shorts;
 	}
@@ -1993,7 +1993,7 @@ public interface Bits<Type extends Bits<Type>>
 	
 	public static char[] bytesToChars(byte[] bytes, int start, int len)
 	{
-		char[] chars = new char[len >> 1];
+		char[] chars = new char[len];
 		bytesToChars(bytes, start, chars, 0, len);
 		return chars;
 	}
@@ -2058,7 +2058,7 @@ public interface Bits<Type extends Bits<Type>>
 	
 	public static int[] bytesToInts(byte[] bytes, int start, int len)
 	{
-		int[] ints = new int[len >> 2];
+		int[] ints = new int[len];
 		bytesToInts(bytes, start, ints, 0, len);
 		return ints;
 	}
@@ -2118,7 +2118,7 @@ public interface Bits<Type extends Bits<Type>>
 	
 	public static long[] bytesToLongs(byte[] bytes, int start, int len)
 	{
-		long[] longs = new long[len >> 3];
+		long[] longs = new long[len];
 		bytesToLongs(bytes, start, longs, 0, len);
 		return longs;
 	}
