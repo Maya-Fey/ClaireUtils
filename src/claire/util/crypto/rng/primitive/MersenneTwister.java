@@ -93,13 +93,6 @@ public class MersenneTwister
 	 * pass in a long that's bigger than an int (Mersenne Twister
 	 * only uses the first 32 bits for its seed).   
 	 */
-	
-	/**
-	 * Note. removed synchronization to improve speed. If you're using the same instance
-	 * across multiple threads you're doing something wrong.
-	 * 
-	 * @param seed
-	 */
 	public final void setSeed(long seed)
 	{	
 	    mt = new int[N];
@@ -116,8 +109,6 @@ public class MersenneTwister
 	        /* In the previous versions, MSBs of the seed affect   */
 	        /* only MSBs of the array mt[].                        */
 	        /* 2002/01/09 modified by Makoto Matsumoto             */
-	        // mt[mti] &= 0xffffffff;
-	        /* for >32 bit machines */
 	    }
 	}
 	
