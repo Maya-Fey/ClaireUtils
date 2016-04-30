@@ -35,6 +35,11 @@ public class MersenneSeed
 	{
 		this.M = MersenneTwister.getSeed(seed & 0xFFFFFFFFL);
 	}
+	
+	public int[] getSeed()
+	{
+		return M;
+	}
 
 	public MersenneSeed createDeepClone()
 	{

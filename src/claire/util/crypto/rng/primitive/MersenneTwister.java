@@ -1,9 +1,11 @@
 package claire.util.crypto.rng.primitive;
 	
+import java.util.Arrays;
+
 import claire.util.standards.crypto.IRandom;
 
 public class MersenneTwister 
-	   implements IRandom {
+	   implements IRandom<MersenneSeed> {
 
 	// Period parameters
 	private static final int N = 624;
@@ -22,33 +24,56 @@ public class MersenneTwister
 	
 	private static final int mag01[] = new int[] { 0x0, MATRIX_A };
 	
-	/**
-	 * Constructor using the default seed.
-	 */
+	private MersenneSeed seed;
+	
 	public MersenneTwister()
 	{
 	    this(System.currentTimeMillis());
 	}
 	
-	/**
-	 * Constructor using a given seed.  Though you pass this seed in
-	 * as a long, it's best to make sure it's actually an integer.
-	 *
-	 */
 	public MersenneTwister(long seed)
 	{
 	    setSeed(seed);
 	}
 		
-	/**
-	 * Constructor using an array of integers as seed.
-	 * Your array must have a non-zero length.  Only the first 624 integers
-	 * in the array are used; if the array is shorter than this then
-	 * integers are repeatedly used in a wrap-around fashion.
-	 */
 	public MersenneTwister(int[] array)
 	{
 	    setSeed(array);
+	}
+	
+	public MersenneTwister(boolean seed)
+	{
+	    if(seed) {
+	    	this.seed = new MersenneSeed(getSeed(System.currentTimeMillis()));
+	    	this.setSeed(this.seed);
+	    } else {
+	    	setSeed(System.currentTimeMillis());
+	    }
+	}
+	
+	public MersenneTwister(long seed, boolean seednew)
+	{
+		if(seednew) {
+	    	this.seed = new MersenneSeed(getSeed(seed));
+	    	this.setSeed(this.seed);
+	    } else {
+	    	setSeed(seed);
+	    }
+	}
+		
+	public MersenneTwister(int[] seed, boolean seednew)
+	{
+		if(seednew) {
+	    	this.seed = new MersenneSeed(getSeed(seed));
+	    	this.setSeed(this.seed);
+	    } else {
+	    	setSeed(seed);
+	    }
+	}
+	
+	public MersenneTwister(MersenneSeed seed)
+	{
+		this.setSeed(seed);
 	}
 	
 	private final int update()
@@ -181,6 +206,120 @@ public class MersenneTwister
 	    }
 	    mt[0] = 0x80000000; /* MSB is 1; assuring non-zero initial array */ 
 	    return mt;
+	}
+
+	@Override
+	public boolean readBool()
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public byte readByte()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public short readShort()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public char readChar()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int readInt()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public long readLong()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void readBools(boolean[] out, int off, int amt)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void readNibbles(byte[] out, int off, int amt)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void readBytes(byte[] out, int off, int bytes)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void readShorts(short[] shorts, int off, int amt)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void readChars(char[] chars, int off, int amt)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void readInts(int[] ints, int off, int amt)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void readLongs(long[] longs, int off, int amt)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public MersenneSeed getSeed()
+	{
+		return this.seed;
+	}
+
+	public void setSeed(MersenneSeed key)
+	{
+		this.seed = key;
+		System.arraycopy(key.getSeed(), 0, mt, 0, N);
+	}
+
+	public void reset()
+	{
+		mti = 0;
+		System.arraycopy(seed.getSeed(), 0, mt, 0, N);
+	}
+
+	public void wipe()
+	{
+		Arrays.fill(mt, 0);
+		mti = 0;
 	}
 	
 	
