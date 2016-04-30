@@ -1371,6 +1371,23 @@ public final class MathHelper {
 		return 0;
 	}
 	
+	public static int absolute_compare(final int[] int1, int i2)
+	{
+		int len = getRealLength(int1);
+		if(len > 1)
+			return 1;
+		else if(len == 1) {
+			int j = int1[0];
+			if(j > i2)
+				return 1;
+			else if(j == i2)
+				return 0;
+			else
+				return -1;
+		} else
+			return i2 > 0 ? 1 : 0;
+	}
+	
 	/**
 	 * This method takes an IInteger and makes it equal to 2<sup>
 	 * <code>bits</code></sup>. Or you could say it sets the <code>
