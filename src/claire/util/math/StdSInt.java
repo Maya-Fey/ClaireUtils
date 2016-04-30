@@ -105,7 +105,7 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 		this.p_modulo(i.getArr());
 	}
 
-	public void p_add(long i)
+	/*public void p_add(int i)
 	{
 		boolean negative = i < 0;
 		if(negative) 
@@ -117,7 +117,7 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 			p_subtract_known(split, super.isLesserOrEqualTo(i));
 	}
 
-	public void p_subtract(long i)
+	public void p_subtract(int i)
 	{
 		boolean negative = i < 0;
 		if(negative) 
@@ -130,7 +130,7 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 		
 	}
 
-	public void p_multiply(long i)
+	public void p_multiply(int i)
 	{
 		boolean negative = i < 0;
 		if(negative) 
@@ -149,7 +149,7 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 		this.p_multiply(split);
 	}
 
-	public void p_divide(long i)
+	public void p_divide(int i)
 	{
 		boolean negative = i < 0;
 		if(negative) 
@@ -168,7 +168,7 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 		this.p_divide(split);
 	}
 
-	public void p_modulo(long i)
+	public void p_modulo(int i)
 	{
 		boolean negative = i < 0;
 		if(negative) 
@@ -185,7 +185,7 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 		if(!thisn && negative)
 			this.invertSign();
 		this.p_modulo(split);
-	}
+	}*/
 	
 	public boolean isGreaterThan(IInteger<?> i)
 	{
@@ -256,7 +256,7 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 			return false;
 	}
 
-	public boolean isGreaterThan(long i)
+	public boolean isGreaterThan(int i)
 	{
 		boolean neg = this.isNegative();
 		if(neg == i < 0)
@@ -270,7 +270,7 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 			return false;
 	}
 
-	public boolean isLesserThan(long i)
+	public boolean isLesserThan(int i)
 	{
 		boolean neg = this.isNegative();
 		if(neg == i < 0)
@@ -284,7 +284,7 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 			return false;
 	}
 
-	public boolean isEqualTo(long i)
+	public boolean isEqualTo(int i)
 	{
 		if(this.isNegative() == i < 0)
 			if(super.isEqualTo(i))
@@ -292,12 +292,12 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 		return false;
 	}
 
-	public boolean doesNotEqual(long i)
+	public boolean doesNotEqual(int i)
 	{
 		return !isEqualTo(i);
 	}
 
-	public boolean isGreaterOrEqualTo(long i)
+	public boolean isGreaterOrEqualTo(int i)
 	{
 		boolean neg = this.isNegative();
 		if(neg == i < 0)
@@ -311,7 +311,7 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 			return false;
 	}
 
-	public boolean isLesserOrEqualTo(long i)
+	public boolean isLesserOrEqualTo(int i)
 	{
 		boolean neg = this.isNegative();
 		if(neg == i < 0)
