@@ -1,6 +1,5 @@
 package claire.util.crypto.exchange.dh;
 
-import claire.util.math.MathHelper;
 import claire.util.math.UInt;
 
 public class DHParams {
@@ -14,14 +13,14 @@ public class DHParams {
 		this.modulus = modulus;
 	}
 	
-	public UInt fromIndex(UInt u)
+	public UInt getModulus()
 	{
-		return (UInt) MathHelper.modular_exponent_sure(generator, u, modulus);
+		return modulus;
 	}
 	
-	public void raiseTo(UInt u, UInt u2)
+	public UInt getGenerator()
 	{
-		MathHelper.p_modular_exponent_sure(u, u2, modulus);
+		return generator;
 	}
 
 }
