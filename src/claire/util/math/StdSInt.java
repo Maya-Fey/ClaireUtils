@@ -7,8 +7,6 @@ import claire.util.standards.IInteger;
 public abstract class StdSInt<Type extends StdSInt<Type>> 
 				extends StdInt<Type> {
 	
-	protected final int[] split = new int[2];
-	
 	protected int[] temp;
 	
 	protected StdSInt()
@@ -26,12 +24,31 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 		super(s);
 	}
 	
+	protected abstract void ip_add(int i);
+	protected abstract void ip_subtract(int i);
+	protected abstract void ip_multiply(int i);
+	protected abstract void ip_divide(int i);
+	protected abstract void ip_modulo(int i);
+	
 	public void p_add(IInteger<?> i)
 	{
 		if(this.isNegative() == i.isNegative())
 			this.p_add(i.getArr());
 		else 
 			p_subtract_known(i.getArr(), super.isLesserOrEqualTo(i));
+	}
+	
+	private void p_subtract_known(int i, boolean greater)
+	{
+		if(greater) {
+			if(temp == null)
+				temp = new int[this.getIntLen()];
+			System.arraycopy(this.getArr(), 0, temp, 0, this.getIntLen());
+			this.setTo(i);
+			this.p_subtract(temp);
+			this.invertSign();
+		} else 
+			this.ip_subtract(i);
 	}
 	
 	private void p_subtract_known(int[] arr, boolean greater)
@@ -45,7 +62,6 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 			this.invertSign();
 		} else 
 			this.p_subtract(arr);
-		
 	}
 	
 	public void p_subtract(IInteger<?> i)
@@ -105,16 +121,15 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 		this.p_modulo(i.getArr());
 	}
 
-	/*public void p_add(int i)
+	public void p_add(int i)
 	{
 		boolean negative = i < 0;
 		if(negative) 
 			i = ~i + 1;
-		Bits.splitLong(i, split, 0);
 		if(this.isNegative() == negative)
-			this.p_add(split);
+			this.ip_add(i);
 		else
-			p_subtract_known(split, super.isLesserOrEqualTo(i));
+			p_subtract_known(i, super.isLesserOrEqualTo(i));
 	}
 
 	public void p_subtract(int i)
@@ -122,11 +137,10 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 		boolean negative = i < 0;
 		if(negative) 
 			i = ~i + 1;
-		Bits.splitLong(i, split, 0);
 		if(this.isNegative() == negative)
-			p_subtract_known(split, super.isLesserOrEqualTo(i));
+			p_subtract_known(i, super.isLesserOrEqualTo(i));
 		else
-			p_add(split);
+			ip_add(i);
 		
 	}
 
@@ -135,7 +149,6 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 		boolean negative = i < 0;
 		if(negative) 
 			i = ~i + 1;
-		Bits.splitLong(i, split, 0);
 		boolean thisn = this.isNegative();
 		if(thisn ^ negative)
 			if(i == 0) {
@@ -146,7 +159,7 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 			this.invertSign();
 		if(!thisn && negative)
 			this.invertSign();
-		this.p_multiply(split);
+		this.ip_multiply(i);
 	}
 
 	public void p_divide(int i)
@@ -154,7 +167,6 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 		boolean negative = i < 0;
 		if(negative) 
 			i = ~i + 1;
-		Bits.splitLong(i, split, 0);
 		boolean thisn = this.isNegative();
 		if(thisn ^ negative)
 			if(i == 0) {
@@ -165,7 +177,7 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 			this.invertSign();
 		if(!thisn && negative)
 			this.invertSign();
-		this.p_divide(split);
+		this.ip_divide(i);
 	}
 
 	public void p_modulo(int i)
@@ -173,7 +185,6 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 		boolean negative = i < 0;
 		if(negative) 
 			i = ~i + 1;
-		Bits.splitLong(i, split, 0);
 		boolean thisn = this.isNegative();
 		if(thisn ^ negative)
 			if(i == 0) {
@@ -184,8 +195,8 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 			this.invertSign();
 		if(!thisn && negative)
 			this.invertSign();
-		this.p_modulo(split);
-	}*/
+		this.ip_modulo(i);
+	}
 	
 	public boolean isGreaterThan(IInteger<?> i)
 	{
