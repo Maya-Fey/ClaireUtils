@@ -209,7 +209,7 @@ public class WMD_IA {
 	{
 		final int[] bytes = new int[256];
 		RandUtils.fillArr(bytes);
-		final StateIA state = new StateIA(bytes, RandUtils.dprng.nextIntGood(256), RandUtils.dprng.nextInt(), RandUtils.dprng.nextInt());
+		final StateIA state = new StateIA(bytes, RandUtils.dprng.nextIntGood(256), RandUtils.dprng.readInt(), RandUtils.dprng.readInt());
 		return IPersistable.test(state);
 	}
 	
