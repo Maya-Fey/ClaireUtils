@@ -659,16 +659,9 @@ public class SInt
 		throw new java.lang.UnsupportedOperationException();
 	}
 
-	public long p_divmod(long i)
+	public int p_divmod(int i)
 	{
-		if((i & 0xFFFFFFFFL) == i) {
-			return this.divmodOneWord((int) i)[0];
-		} else {
-			Bits.splitLong(i, split, 0);
-			int[] orig = val;
-			fastdiv(split, 2, MathHelper.getRealLength(val));
-			return Bits.getLong(orig[1], orig[0]);
-		}
+		return this.divmodOneWord(i)[0];
 	}
 
 	public boolean isNonZero()
@@ -712,11 +705,12 @@ public class SInt
 			this.sign = true;
 			l = ~l + 1;
 		}
-		Bits.splitLong(l, split, 0);
-		int len = (this.length >= 2) ? 2 : 1;
-		if(len == 2)
-			Arrays.fill(val, 2, this.length, 0);
-		System.arraycopy(split, 0, val, 0, len);
+		if(val.length > 1) {
+			val[0] = (int) l;
+			val[1] = (int) (l >>> 32);
+			Arrays.fill(val, 2, val.length, 0);
+		} else
+			val[0] = (int) l;
 	}
 	
 	public boolean isOdd()
