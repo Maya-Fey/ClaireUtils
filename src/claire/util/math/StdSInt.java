@@ -1,7 +1,6 @@
 package claire.util.math;
 
 import claire.util.encoding.CString;
-import claire.util.memory.Bits;
 import claire.util.standards.IInteger;
 
 public abstract class StdSInt<Type extends StdSInt<Type>> 

@@ -260,7 +260,7 @@ public interface IInteger<Type extends IInteger<Type>>
 	void p_multiply(int i);
 	void p_divide(int i);
 	void p_modulo(int i);
-	long p_divmod(int i);
+	int  p_divmod(int i);
 	
 	default void p_exponent(long exponent)
 	{

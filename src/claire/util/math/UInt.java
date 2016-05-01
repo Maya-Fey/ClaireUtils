@@ -682,9 +682,10 @@ public class UInt
 		return Bits.getLong(val[1], val[0]);
 	}
 
-	public long p_divmod(int i)
+	public int p_divmod(int i)
 	{
-		return this.divmodOneWord(i);
+		return this.divmodOneWord(i)[0];
+	}
 	
 	public boolean isNonZero()
 	{
@@ -711,11 +712,12 @@ public class UInt
 
 	public void setTo(long l)
 	{
-		Bits.splitLong(l, split, 0);
-		int len = (this.length >= 2) ? 2 : 1;
-		if(len == 2)
-			Arrays.fill(val, 2, this.length, 0);
-		System.arraycopy(split, 0, val, 0, len);
+		if(val.length > 1) {
+			val[0] = (int) l;
+			val[1] = (int) (l >>> 32);
+			Arrays.fill(val, 2, val.length, 0);
+		} else
+			val[0] = (int) l;
 	}
 	
 	public void setArr(int[] arr)
