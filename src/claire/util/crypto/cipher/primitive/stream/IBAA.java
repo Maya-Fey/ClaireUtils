@@ -114,7 +114,7 @@ public class IBAA
 	 * Internal function. This generates the next integer and returns it.
 	 * Does not alter the integer in memory. 
 	 */
-	private int nextInt()
+	public int nextInt()
 	{
 		final int x = M[i];
 		a = Bits.rotateLeft(a, 19) + M[(i + 0x80) & 0xFF];
