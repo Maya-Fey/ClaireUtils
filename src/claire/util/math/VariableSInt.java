@@ -724,16 +724,9 @@ public class VariableSInt
 		throw new java.lang.UnsupportedOperationException();
 	}
 
-	public long p_divmod(long i)
+	public int p_divmod(int i)
 	{
-		if((i & 0xFFFFFFFFL) == i) {
-			return this.divmodOneWord((int) i)[0];
-		} else {
-			Bits.splitLong(i, split, 0);
-			int[] orig = val;
-			fastdiv(split, 2, MathHelper.getRealLength(val));
-			return Bits.getLong(orig[1], orig[0]);
-		}
+		return this.divmodOneWord(i)[0];
 	}
 	
 	public boolean isNonZero()
@@ -777,10 +770,11 @@ public class VariableSInt
 			this.sign = true;
 			l = ~l + 1;
 		}
-		Bits.splitLong(l, split, 0);
-		int len = (split[1] != 0) ? 2 : 1;
-		this.build(len);
-		System.arraycopy(split, 0, val, 0, len);
+		if(val.length == 1) 
+			build(2);
+		val[0] = (int) l;
+		val[1] = (int) (l >>> 32);
+		Arrays.fill(val, 2, val.length, 0);
 	}
 	
 	public void setTo(char[] chars)

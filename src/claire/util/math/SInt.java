@@ -664,6 +664,11 @@ public class SInt
 		return this.divmodOneWord(i)[0];
 	}
 
+	public int p_divmod(int i)
+	{
+		return this.divmodOneWord(i)[0];
+	}
+
 	public boolean isNonZero()
 	{
 		for(int i = 0; i < this.val.length; i++)
