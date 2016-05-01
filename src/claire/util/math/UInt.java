@@ -90,7 +90,7 @@ public class UInt
 			this.setMAX();
 	}
 	
-	protected  void p_subtract(int[] ints)
+	protected void p_subtract(int[] ints)
 	{
 		int len = MathHelper.getRealLength(ints);
 		if(len > this.length) throw new java.lang.IllegalArgumentException();
@@ -98,6 +98,7 @@ public class UInt
 		int j;
 		for(j = 0; j < len; j++)
 		{
+			//Note for future optimization: carry can never be anything other then 1;
 			int i1, i2;
 			i1 = val[j];
 			i2 = ints[j];

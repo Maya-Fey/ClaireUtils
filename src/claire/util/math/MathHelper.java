@@ -571,10 +571,25 @@ public final class MathHelper {
 		add = 1;
 		while(carry != 0 && add < r1.length) {
 			carry += r1[add];
-			r1[add] = (int) carry;
+			r1[add++] = (int) carry;
 			carry >>>= 32;
 		}
 		return (int) carry;
+	}
+	
+	public static int subtract1(int[] r1, int sub)
+	{
+		int bf = r1[0];
+		r1[0] -= sub;
+		if(Bits.u_greaterThan(r1[0], bf)) {
+			bf = 1;
+			do {
+				r1[bf]--;
+			} while(r1[bf] == -1 && ++bf < r1.length);
+			if(bf == r1.length)
+				return 1;
+		}
+		return 0;
 	}
 	
 	/**
