@@ -562,19 +562,17 @@ public final class MathHelper {
 		return l1 > l2 ? l1 - l2 : l2 - l1;
 	}
 	
-	public static int add1(int[] r1, int tlen, int mul)
+	public static int add1(int[] r1, int add)
 	{
-		long carry = 0;
-		long mull = ((long) mul & 0xFFFFFFFFL);
-		int k = 0;
-		for(; k < tlen; k++)
-		{
-			carry += mull + ((long) r1[k] & 0xFFFFFFFFL);
-			r1[k] = (int) carry;
+		long carry = add & 0xFFFFFFFFL;
+		carry += r1[0];
+		r1[0] = (int) carry;
+		carry >>>= 32;
+		add = 1;
+		while(carry != 0 && add < r1.length) {
+			carry += r1[add];
+			r1[add] = (int) carry;
 			carry >>>= 32;
-		}
-		if(k < r1.length && carry != 0) {
-			r1[k] = (int) carry;
 		}
 		return (int) carry;
 	}
