@@ -297,7 +297,7 @@ public interface IInteger<Type extends IInteger<Type>>
 	
 	void setNegative(boolean b);
 	void invertSign();
-	void setTo(int l);
+	void setTo(long l);
 	void setTo(IInteger<?> other);
 	
 	void setArr(int[] arr);
