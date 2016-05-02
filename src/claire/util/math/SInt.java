@@ -658,10 +658,30 @@ public class SInt
 	{
 		throw new java.lang.UnsupportedOperationException();
 	}
-
-	public int p_divmod(int i)
+	
+	public void ip_add(int i)
 	{
-		return this.divmodOneWord(i)[0];
+		MathHelper.add1(val, i);
+	}
+	
+	public void ip_subtract(int i)
+	{
+		MathHelper.subtract1(val, i);
+	}
+	
+	public void ip_multiply(int i)
+	{
+		MathHelper.mul1(val, MathHelper.getRealLength(val), i);
+	}
+	
+	public void ip_divide(int i)
+	{
+		divideOneWord(i);
+	}
+
+	public void ip_modulo(int i)
+	{
+		moduloOneWord(i);
 	}
 
 	public int p_divmod(int i)
