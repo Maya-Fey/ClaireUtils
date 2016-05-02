@@ -28,6 +28,7 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 	protected abstract void ip_multiply(int i);
 	protected abstract void ip_divide(int i);
 	protected abstract void ip_modulo(int i);
+	protected abstract  int ip_divmod(int i);
 	
 	public void p_add(IInteger<?> i)
 	{
@@ -168,7 +169,7 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 			this.invertSign();
 		this.ip_divide(i);
 	}
-
+	
 	public void p_modulo(int i)
 	{
 		boolean negative = i < 0;
@@ -181,6 +182,20 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 		if(negative)
 			this.invertSign();
 		this.ip_modulo(i);
+	}
+	
+	public int p_divmod(int i)
+	{
+		boolean negative = i < 0;
+		if(negative) 
+			i = ~i + 1;
+		if(i == 0) {
+			this.zero();
+			return 0;
+		}
+		if(negative)
+			this.invertSign();
+		return this.ip_divmod(i);
 	}
 	
 	public boolean isGreaterThan(IInteger<?> i)
