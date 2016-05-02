@@ -142,7 +142,7 @@ public class IA
 	
 	public static final StateIAFactory sfactory = new StateIAFactory();
 
-	protected static final class StateIA implements IState<StateIA> 
+	public static final class StateIA implements IState<StateIA> 
 	{
 
 		private int[] ints;
