@@ -4,12 +4,13 @@ import java.util.Arrays;
 
 import claire.util.crypto.cipher.key.stream.KeyIA;
 import claire.util.crypto.cipher.primitive.stream.IA;
+import claire.util.crypto.cipher.primitive.stream.IA.StateIA;
 import claire.util.memory.Bits;
 import claire.util.memory.buffer.PrimitiveAggregator;
 import claire.util.standards.crypto.IRandom;
 
 public class IARNG 
-	   implements IRandom<KeyIA> {
+	   implements IRandom<KeyIA, StateIA> {
 
 	private final IA cipher;
 	private final PrimitiveAggregator agg = new PrimitiveAggregator();
@@ -153,6 +154,21 @@ public class IARNG
 	{
 		Arrays.fill(buffer, (byte) 0);
 		cipher.wipe();
+	}
+
+	public StateIA getState()
+	{
+		return cipher.getState();
+	}
+
+	public void loadState(StateIA state)
+	{
+		cipher.loadState(state);
+	}
+
+	public void updateState(StateIA state)
+	{
+		cipher.updateState(state);
 	}
 
 }
