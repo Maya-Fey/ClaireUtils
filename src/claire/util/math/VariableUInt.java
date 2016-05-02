@@ -713,6 +713,35 @@ public class VariableUInt
 	{
 		return Bits.getLong(val[1], val[0]);
 	}
+	
+	public void p_add(int i)
+	{
+		if(val[val.length - 1] == 0xFFFFFFFF)
+			build(val.length + 1);
+		MathHelper.add1(val, i);
+	}
+	
+	public void p_subtract(int i)
+	{
+		MathHelper.subtract1(val, i);
+	}
+	
+	public void p_multiply(int i)
+	{
+		if(MathHelper.getRealLength(val) == val.length)
+			build(val.length + 1);
+		MathHelper.mul1(val, MathHelper.getRealLength(val), i);
+	}
+	
+	public void p_divide(int i)
+	{
+		divideOneWord(i);
+	}
+
+	public void p_modulo(int i)
+	{
+		moduloOneWord(i);
+	}
 
 	public int p_divmod(int i)
 	{
