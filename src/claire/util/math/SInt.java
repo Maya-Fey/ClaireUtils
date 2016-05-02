@@ -684,7 +684,7 @@ public class SInt
 		moduloOneWord(i);
 	}
 
-	public int p_divmod(int i)
+	public int ip_divmod(int i)
 	{
 		return this.divmodOneWord(i)[0];
 	}
