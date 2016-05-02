@@ -1,8 +1,10 @@
 package claire.util.standards.crypto;
 
 import claire.util.encoding.CString;
+import claire.util.standards.IStateMachine;
 
-public interface IRandom<Key extends IKey<?>> {
+public interface IRandom<Key extends IKey<?>, State extends IState<State>>
+       extends IStateMachine<State> {
 	
 	/*
 	 * Note: The reason I didn't simply extends IIncomingStream is
