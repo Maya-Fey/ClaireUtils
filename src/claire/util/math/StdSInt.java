@@ -97,9 +97,7 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 				this.zero();
 				return;
 			}
-		if(thisn && in)
-			this.invertSign();
-		if(!thisn && in)
+		if(in)
 			this.invertSign();
 		this.p_divide(i.getArr());
 	}
@@ -113,9 +111,7 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 				this.zero();
 				return;
 			}
-		if(thisn && in)
-			this.invertSign();
-		if(!thisn && in)
+		if(in)
 			this.invertSign();
 		this.p_modulo(i.getArr());
 	}
@@ -154,9 +150,7 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 				this.zero();
 				return;
 			}
-		if(thisn && negative)
-			this.invertSign();
-		if(!thisn && negative)
+		if(negative)
 			this.invertSign();
 		this.ip_multiply(i);
 	}
@@ -166,15 +160,11 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 		boolean negative = i < 0;
 		if(negative) 
 			i = ~i + 1;
-		boolean thisn = this.isNegative();
-		if(thisn ^ negative)
-			if(i == 0) {
-				this.zero();
-				return;
-			}
-		if(thisn && negative)
-			this.invertSign();
-		if(!thisn && negative)
+		if(i == 0) {
+			this.zero();
+			return;
+		}
+		if(negative)
 			this.invertSign();
 		this.ip_divide(i);
 	}
@@ -184,15 +174,11 @@ public abstract class StdSInt<Type extends StdSInt<Type>>
 		boolean negative = i < 0;
 		if(negative) 
 			i = ~i + 1;
-		boolean thisn = this.isNegative();
-		if(thisn ^ negative)
-			if(i == 0) {
-				this.zero();
-				return;
-			}
-		if(thisn && negative)
-			this.invertSign();
-		if(!thisn && negative)
+		if(i == 0) {
+			this.zero();
+			return;
+		}
+		if(negative)
 			this.invertSign();
 		this.ip_modulo(i);
 	}
