@@ -723,8 +723,37 @@ public class VariableSInt
 	{
 		throw new java.lang.UnsupportedOperationException();
 	}
+	
+	public void ip_add(int i)
+	{
+		if(val[val.length - 1] == 0xFFFFFFFF)
+			build(val.length + 1);
+		MathHelper.add1(val, i);
+	}
+	
+	public void ip_subtract(int i)
+	{
+		MathHelper.subtract1(val, i);
+	}
+	
+	public void ip_multiply(int i)
+	{
+		if(val.length == MathHelper.getRealLength(val))
+			build(val.length + 1);
+		MathHelper.mul1(val, MathHelper.getRealLength(val), i);
+	}
+	
+	public void ip_divide(int i)
+	{
+		divideOneWord(i);
+	}
 
-	public int p_divmod(int i)
+	public void ip_modulo(int i)
+	{
+		moduloOneWord(i);
+	}
+
+	public int ip_divmod(int i)
 	{
 		return this.divmodOneWord(i)[0];
 	}
