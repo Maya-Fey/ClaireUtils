@@ -148,7 +148,7 @@ public class IBAA
 	
 	public static final StateIBAAFactory sfactory = new StateIBAAFactory();
 
-	protected static final class StateIBAA implements IState<StateIBAA> 
+	public static final class StateIBAA implements IState<StateIBAA> 
 	{
 
 		private int[] ints;
