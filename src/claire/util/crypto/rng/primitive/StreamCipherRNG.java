@@ -5,16 +5,17 @@ import java.util.Arrays;
 import claire.util.memory.buffer.PrimitiveAggregator;
 import claire.util.standards.crypto.IKey;
 import claire.util.standards.crypto.IRandom;
+import claire.util.standards.crypto.IState;
 import claire.util.standards.crypto.IStreamCipher;
 
-public class StreamCipherRNG<Key extends IKey<Key>> 
-	   implements IRandom<Key> {
+public class StreamCipherRNG<Key extends IKey<Key>, State extends IState<State>> 
+	   implements IRandom<Key, State> {
 
-	private final IStreamCipher<Key, ?> cipher;
+	private final IStreamCipher<Key, State> cipher;
 	private final PrimitiveAggregator agg = new PrimitiveAggregator();
 	private final byte[] buffer = agg.getBuffer();
 	
-	public StreamCipherRNG(IStreamCipher<Key, ?> cip)
+	public StreamCipherRNG(IStreamCipher<Key, State> cip)
 	{
 		this.cipher = cip;
 	}	
@@ -126,6 +127,21 @@ public class StreamCipherRNG<Key extends IKey<Key>>
 	{
 		Arrays.fill(buffer, (byte) 0);
 		cipher.wipe();
+	}
+
+	public State getState()
+	{
+		return cipher.getState();
+	}
+	
+	public void loadState(State state)
+	{
+		cipher.loadState(state);
+	}
+
+	public void updateState(State state)
+	{
+		cipher.updateState(state);
 	}
 
 }
