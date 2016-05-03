@@ -17,12 +17,12 @@ public class StrongPrimeGenerator<Int extends IInteger<Int>>
 		this(st, min, max, primes, RandUtils.dprng);
 	}
 	
-	public StrongPrimeGenerator(int st, Int min, Int max, int primes, IRandom<?> rand)
+	public StrongPrimeGenerator(int st, Int min, Int max, int primes, IRandom<?, ?> rand)
 	{
 		this(st, min, max, primes, rand, rand);
 	}
 
-	public StrongPrimeGenerator(int st, Int min, Int max, int primes, IRandom<?> rand, IRandom<?> rand2) 
+	public StrongPrimeGenerator(int st, Int min, Int max, int primes, IRandom<?, ?> rand, IRandom<?, ?> rand2) 
 	{
 		super(st, min, max, primes, rand, rand2);
 	}
