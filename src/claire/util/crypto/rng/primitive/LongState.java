@@ -6,6 +6,7 @@ import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IState;
+import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
 public class LongState 
@@ -60,8 +61,27 @@ public class LongState
 	
 	public Factory<LongState> factory()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return factory;
+	}
+	
+	public static final LongStateFactory factory = new LongStateFactory();
+	
+	private static final class LongStateFactory extends Factory<LongState>
+	{
+		public LongStateFactory()
+		{
+			super(LongState.class);
+		}
+
+		public LongState resurrect(byte[] data, int start) throws InstantiationException
+		{
+			return new LongState(Bits.longFromBytes(data, start));
+		}
+
+		public LongState resurrect(IIncomingStream stream) throws InstantiationException, IOException
+		{
+			return new LongState(stream.readLong());
+		}
 	}
 
 }
