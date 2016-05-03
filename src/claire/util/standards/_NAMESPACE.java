@@ -107,5 +107,6 @@ public class _NAMESPACE {
 	public static final int LONGSEED = 95;
 	public static final int MERSENNESEED = 96;
 	public static final int DHPARAMS = 97;
+	public static final int LONGSTATE = 98;
 	
 }
