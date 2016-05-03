@@ -6,13 +6,13 @@ import claire.util.standards.crypto.IRandom;
 
 public class PrimeTester<Int extends IInteger<Int>> {
 	
-	private final IRandom<?> rng;
+	private final IRandom<?, ?> rng;
 	private final Int test;
 	private final Int exponent;
 	private final Int witness;
 	private final Exponentiator<Int> exp;
 	
-	public PrimeTester(IRandom<?> rng, Int sample)
+	public PrimeTester(IRandom<?, ?> rng, Int sample)
 	{
 		this.rng = rng;
 		test = sample.createDeepClone();
