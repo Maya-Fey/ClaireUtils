@@ -5,9 +5,9 @@ import claire.util.standards.io.IIncomingStream;
 
 public class RandomStreamAdapter implements IIncomingStream {
 
-	private final IRandom<?> rand;
+	private final IRandom<?, ?> rand;
 	
-	public RandomStreamAdapter(IRandom<?> rand) 
+	public RandomStreamAdapter(IRandom<?, ?> rand) 
 	{
 		this.rand = rand;
 	}
