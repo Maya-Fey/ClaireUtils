@@ -244,7 +244,7 @@ public final class MathHelper {
 		truncate(in.getArr(), bits);
 	}
 	
-	public static <Int extends IInteger<Int>> Int randomInteger(IntegerFactory<Int> factory, IRandom<?> rand, int bits)
+	public static <Int extends IInteger<Int>> Int randomInteger(IntegerFactory<Int> factory, IRandom<?, ?> rand, int bits)
 	{
 		int intz = bits / 32;
 		int rem = bits & 31;
@@ -258,7 +258,7 @@ public final class MathHelper {
 		return factory.construct(ints);
 	}
 	
-	public static <Int extends IInteger<Int>> Int randomInteger(IntegerFactory<Int> factory, int req, IRandom<?> rand, int bits)
+	public static <Int extends IInteger<Int>> Int randomInteger(IntegerFactory<Int> factory, int req, IRandom<?, ?> rand, int bits)
 	{
 		int intz = bits / 32;
 		int rem = bits & 31;
@@ -272,7 +272,7 @@ public final class MathHelper {
 		return factory.construct(ints);
 	}
 	
-	public static <Int extends IInteger<Int>> void randomInteger(Int i, IRandom<?> rand, int bits)
+	public static <Int extends IInteger<Int>> void randomInteger(Int i, IRandom<?, ?> rand, int bits)
 	{
 		int intz = bits / 32;
 		int rem = bits & 31;
@@ -285,7 +285,7 @@ public final class MathHelper {
 			ints[intz] = Bits.truncate(ints[intz], rem);
 	}
 	
-	public static <Int extends IInteger<Int>> Int strictRandomInteger(IntegerFactory<Int> factory, IRandom<?> rand, int bits)
+	public static <Int extends IInteger<Int>> Int strictRandomInteger(IntegerFactory<Int> factory, IRandom<?, ?> rand, int bits)
 	{
 		int intz = bits / 32;
 		int rem = bits & 31;
@@ -300,7 +300,7 @@ public final class MathHelper {
 		return factory.construct(ints);
 	}
 	
-	public static <Int extends IInteger<Int>> Int strictRandomInteger(IntegerFactory<Int> factory, int req, IRandom<?> rand, int bits)
+	public static <Int extends IInteger<Int>> Int strictRandomInteger(IntegerFactory<Int> factory, int req, IRandom<?, ?> rand, int bits)
 	{
 		int intz = bits / 32;
 		int rem = bits & 31;
@@ -315,7 +315,7 @@ public final class MathHelper {
 		return factory.construct(ints);
 	}
 	
-	public static <Int extends IInteger<Int>> void strictRandomInteger(Int i, IRandom<?> rand, int bits)
+	public static <Int extends IInteger<Int>> void strictRandomInteger(Int i, IRandom<?, ?> rand, int bits)
 	{
 		int intz = bits / 32;
 		int rem = bits & 31;
@@ -327,7 +327,7 @@ public final class MathHelper {
 		if(trunc)
 			ints[intz] = Bits.truncate(ints[intz], rem);
 	}
-	public static <Int extends IInteger<Int>> Int randomIntegerFast(Int max, IRandom<?> rand) //Fast, modulo bias
+	public static <Int extends IInteger<Int>> Int randomIntegerFast(Int max, IRandom<?, ?> rand) //Fast, modulo bias
 	{
 		Int kek = max.createDeepClone();
 		int[] ints = kek.getArr();
@@ -336,7 +336,7 @@ public final class MathHelper {
 		return kek;
 	}
 	
-	public static <Int extends IInteger<Int>> Int randomIntegerGood(Int max, IRandom<?> rand) //Good (but not perfect)
+	public static <Int extends IInteger<Int>> Int randomIntegerGood(Int max, IRandom<?, ?> rand) //Good (but not perfect)
 	{
 		Int kek = max.createDeepClone();
 		//generate roundup(max.getBits()) + 64 bits of data
@@ -346,7 +346,7 @@ public final class MathHelper {
 		return kek;
 	}
 	
-	public static <Int extends IInteger<Int>> Int randomIntegerUniform(Int max, IRandom<?> rand) //As good as the RNG (zero modulo bias). 
+	public static <Int extends IInteger<Int>> Int randomIntegerUniform(Int max, IRandom<?, ?> rand) //As good as the RNG (zero modulo bias). 
 	{
 		Int kek = max.createDeepClone();
 		int[] ints = kek.getArr();
@@ -1200,7 +1200,7 @@ public final class MathHelper {
 	 * <br><br>
 	 * Returns: true if probably prime, false if composite
 	 */
-	public static boolean isPrimeProbableMR(final IInteger<?> prospective, final IRandom<?> rng, int times)
+	public static boolean isPrimeProbableMR(final IInteger<?> prospective, final IRandom<?, ?> rng, int times)
 	{
 		IInteger<?> test = prospective.createDeepClone();
 		test.decrement();
