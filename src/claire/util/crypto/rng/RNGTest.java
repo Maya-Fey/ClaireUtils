@@ -12,7 +12,7 @@ public final class RNGTest {
 		return l;
 	}
 
-	public static long runAverageTest(IRandom<?> rng, long times)
+	public static long runAverageTest(IRandom<?, ?> rng, long times)
 	{
 		for(int i = 0; i < 5; i++)
 			rng.readInt();
@@ -49,7 +49,7 @@ public final class RNGTest {
 	 * 
 	 * Lower scores are higher
 	 */
-	public static long runDifferenceTest(IRandom<?> rng, long times)
+	public static long runDifferenceTest(IRandom<?, ?> rng, long times)
 	{
 		long total = 0;
 		long ideal = 16 * times;
@@ -64,7 +64,7 @@ public final class RNGTest {
 		return MathHelper.distancefrom(total, ideal);
 	}
 	
-	public static int[] runAdvancedDifferenceTest(IRandom<?> rng, int times)
+	public static int[] runAdvancedDifferenceTest(IRandom<?, ?> rng, int times)
 	{
 		int[] out = new int[33];
 		int prev = rng.readInt();
@@ -79,7 +79,7 @@ public final class RNGTest {
 	}
 
 	/*
-	public static int runRunsTest(IRandom<?> rng, long times)
+	public static int runRunsTest(IRandom<?, ?> rng, long times)
 	{
 		int prev = rng.readInt();
 		long gt = 0, 
