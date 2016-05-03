@@ -11,7 +11,7 @@ public class RSAKeyGenerator {
 	
 	private static final int scan_tests = 4;
 
-	public static RSALargeKeyPair generateBig(final int size, int amt, IRandom<?> rng, UInt exp, int primes, boolean strong)
+	public static RSALargeKeyPair generateBig(final int size, int amt, IRandom<?, ?> rng, UInt exp, int primes, boolean strong)
 	{
 		int per = size / amt;
 		if(size == 0)
@@ -81,7 +81,7 @@ public class RSAKeyGenerator {
 		return new RSALargeKeyPair(pub, priv);
 	}
 	
-	public static RSAFastLargeKeyPair generateBigFast(final int size, int amt, IRandom<?> rng, UInt exp, int primes, boolean strong)
+	public static RSAFastLargeKeyPair generateBigFast(final int size, int amt, IRandom<?, ?> rng, UInt exp, int primes, boolean strong)
 	{
 		int per = size / amt;
 		if(size == 0)
@@ -155,7 +155,7 @@ public class RSAKeyGenerator {
 		return new RSAFastLargeKeyPair(pub, priv);
 	}
 	
-	public static RSAStandardKeyPair generateSmall(final int size, int amt, IRandom<?> rng, int iexp, int primes, boolean strong)
+	public static RSAStandardKeyPair generateSmall(final int size, int amt, IRandom<?, ?> rng, int iexp, int primes, boolean strong)
 	{
 		int per = size / amt;
 		if(size == 0)
@@ -227,7 +227,7 @@ public class RSAKeyGenerator {
 		return new RSAStandardKeyPair(pub, priv);
 	}
 	
-	public static RSAFastStandardKeyPair generateSmallFast(final int size, int amt, IRandom<?> rng, int iexp, int primes, boolean strong)
+	public static RSAFastStandardKeyPair generateSmallFast(final int size, int amt, IRandom<?, ?> rng, int iexp, int primes, boolean strong)
 	{
 		int per = size / amt;
 		if(size == 0)
