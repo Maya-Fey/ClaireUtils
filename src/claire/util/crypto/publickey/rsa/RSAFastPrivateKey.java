@@ -3,12 +3,14 @@ package claire.util.crypto.publickey.rsa;
 import java.io.IOException;
 import java.math.BigInteger;
 
-import claire.util.io.Factory;
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.math.MathHelper;
 import claire.util.math.UInt;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -243,7 +245,7 @@ public class RSAFastPrivateKey
 		return 8 + mod.exportSize() + (exp.length * exp[0].exportSize()) + (mul.length * mul[0].exportSize()) + (inv.length * inv[0].exportSize()) + (primes.length * primes[0].exportSize());
 	}
 
-	public Factory<RSAFastPrivateKey> factory()
+	public KeyFactory<RSAFastPrivateKey> factory()
 	{
 		return factory;
 	}
@@ -251,7 +253,7 @@ public class RSAFastPrivateKey
 	public static final RSAPrivateKeyFactory factory = new RSAPrivateKeyFactory();
 
 	private static final class RSAPrivateKeyFactory 
-						 extends Factory<RSAFastPrivateKey> {
+						 extends KeyFactory<RSAFastPrivateKey> {
 
 		private RSAPrivateKeyFactory() 
 		{
@@ -305,6 +307,11 @@ public class RSAFastPrivateKey
 			for(int i = 0; i < primes.length; i++)
 				primes[i] = stream.resurrect(UInt.factory);
 			return new RSAFastPrivateKey(mul, inv, exp, primes, mod, len);
+		}
+
+		public RSAFastPrivateKey random(IRandom<?, ?> rand, CryptoString s)
+		{
+			throw new java.lang.UnsupportedOperationException("RSA Keys must be generated in pairs");
 		}
 		
 		
