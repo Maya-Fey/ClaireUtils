@@ -677,7 +677,7 @@ public interface Bits<Type extends Bits<Type>>
 		return false;
 	}
 	
-	public static boolean[] randomBits(int amount, IRandom<?> prng)
+	public static boolean[] randomBits(int amount, IRandom<?, ?> prng)
 	{
 		boolean[] n = new boolean[amount];
 		int i = 0;
