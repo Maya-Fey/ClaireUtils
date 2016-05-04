@@ -23,6 +23,11 @@ public class LongState
 	{
 		return state;
 	}
+	
+	public void update(long l)
+	{
+		this.state = l;
+	}
 
 	public void export(IOutgoingStream stream) throws IOException
 	{

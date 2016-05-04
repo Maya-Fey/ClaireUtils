@@ -4,7 +4,7 @@ import claire.util.memory.Bits;
 import claire.util.standards.crypto.IRandom;
 
 public abstract class XorShiftRNG
-	   			implements IRandom<LongSeed> {
+	   			implements IRandom<LongSeed, LongState> {
 
 	private LongSeed seed;
 	
@@ -280,6 +280,21 @@ public abstract class XorShiftRNG
 	public void wipe()
 	{
 		this.last = 0;
+	}
+	
+	public LongState getState()
+	{
+		return new LongState(last);
+	}
+
+	public void loadState(LongState state)
+	{
+		this.last = state.getState();
+	}
+
+	public void updateState(LongState state)
+	{
+		state.update(last);
 	}
 
 }
