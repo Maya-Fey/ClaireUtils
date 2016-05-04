@@ -1,5 +1,6 @@
 package claire.util.standards.crypto;
 
+import claire.util.crypto.KeyFactory;
 import claire.util.logging.Log;
 import claire.util.standards.CObject;
 
@@ -10,6 +11,8 @@ public interface IKey<Key extends IKey<Key>>
 	 * Erases all secret data in the key. Once complete the object will be unusable.
 	 */
 	public void erase();
+	
+	KeyFactory<Key> factory();
 	
 	public static int testKey(IKey<?> key)
 	{
