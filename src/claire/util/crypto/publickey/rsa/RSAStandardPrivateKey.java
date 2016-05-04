@@ -2,11 +2,13 @@ package claire.util.crypto.publickey.rsa;
 
 import java.io.IOException;
 
-import claire.util.io.Factory;
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.math.MathHelper;
 import claire.util.math.UInt;
 import claire.util.memory.Bits;
 import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -101,7 +103,7 @@ public class RSAStandardPrivateKey
 		return 4 + mod.exportSize() + exp.exportSize();
 	}
 
-	public Factory<RSAStandardPrivateKey> factory()
+	public KeyFactory<RSAStandardPrivateKey> factory()
 	{
 		return factory;
 	}
@@ -109,7 +111,7 @@ public class RSAStandardPrivateKey
 	public static final RSAPrivateKeyFactory factory = new RSAPrivateKeyFactory();
 
 	private static final class RSAPrivateKeyFactory 
-						 extends Factory<RSAStandardPrivateKey> {
+						 extends KeyFactory<RSAStandardPrivateKey> {
 
 		private RSAPrivateKeyFactory() 
 		{
@@ -128,7 +130,11 @@ public class RSAStandardPrivateKey
 			int len = stream.readInt();
 			return new RSAStandardPrivateKey(UInt.factory.resurrect(stream), UInt.factory.resurrect(stream), len);
 		}
-		
+
+		public RSAStandardPrivateKey random(IRandom<?, ?> rand, CryptoString s)
+		{
+			throw new java.lang.UnsupportedOperationException("RSA Keys must be generated in pairs");
+		}
 		
 	}
 
