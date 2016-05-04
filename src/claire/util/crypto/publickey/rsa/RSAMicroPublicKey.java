@@ -2,11 +2,13 @@ package claire.util.crypto.publickey.rsa;
 
 import java.io.IOException;
 
-import claire.util.io.Factory;
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.math.MathHelper;
 import claire.util.math.UInt;
 import claire.util.memory.Bits;
 import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -101,7 +103,7 @@ public class RSAMicroPublicKey
 		return 8 + mod.exportSize();
 	}
 
-	public Factory<RSAMicroPublicKey> factory()
+	public KeyFactory<RSAMicroPublicKey> factory()
 	{
 		return factory;
 	}
@@ -109,7 +111,7 @@ public class RSAMicroPublicKey
 	public static final RSAPublicKeyFactory factory = new RSAPublicKeyFactory();
 
 	private static final class RSAPublicKeyFactory 
-						 extends Factory<RSAMicroPublicKey> {
+						 extends KeyFactory<RSAMicroPublicKey> {
 
 		private RSAPublicKeyFactory() 
 		{
@@ -127,6 +129,11 @@ public class RSAMicroPublicKey
 		{
 			int len = stream.readInt();
 			return new RSAMicroPublicKey(UInt.factory.resurrect(stream), stream.readInt(), len);
+		}
+
+		public RSAMicroPublicKey random(IRandom<?, ?> rand, CryptoString s)
+		{
+			throw new java.lang.UnsupportedOperationException("RSA Keys must be generated in pairs");
 		}
 		
 		
