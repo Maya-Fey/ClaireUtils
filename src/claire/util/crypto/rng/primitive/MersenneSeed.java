@@ -3,13 +3,15 @@ package claire.util.crypto.rng.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
-import claire.util.io.Factory;
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IDeepClonable;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -76,14 +78,14 @@ public class MersenneSeed
 		Arrays.fill(M, 0);
 	}
 	
-	public Factory<MersenneSeed> factory()
+	public KeyFactory<MersenneSeed> factory()
 	{
 		return factory;
 	}
 
 	public static final MersenneSeedFactory factory = new MersenneSeedFactory();
 	
-	private static final class MersenneSeedFactory extends Factory<MersenneSeed>
+	private static final class MersenneSeedFactory extends KeyFactory<MersenneSeed>
 	{
 
 		protected MersenneSeedFactory() 
@@ -99,6 +101,13 @@ public class MersenneSeed
 		public MersenneSeed resurrect(IIncomingStream stream) throws InstantiationException, IOException
 		{
 			return new MersenneSeed(stream.readInts(624));
+		}
+
+		public MersenneSeed random(IRandom<?, ?> rand, CryptoString s)
+		{
+			int[] ints = new int[624];
+			rand.readInts(ints);
+			return new MersenneSeed(ints);
 		}
 		
 	}
