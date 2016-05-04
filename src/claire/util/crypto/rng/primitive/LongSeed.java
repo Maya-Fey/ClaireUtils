@@ -2,10 +2,12 @@ package claire.util.crypto.rng.primitive;
 
 import java.io.IOException;
 
-import claire.util.io.Factory;
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.memory.Bits;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -59,14 +61,14 @@ public class LongSeed
 		this.seed = 0;
 	}
 	
-	public Factory<LongSeed> factory()
+	public KeyFactory<LongSeed> factory()
 	{
 		return factory;
 	}
 	
 	public static final LongSeedFactory factory = new LongSeedFactory();
 	
-	private static final class LongSeedFactory extends Factory<LongSeed>
+	private static final class LongSeedFactory extends KeyFactory<LongSeed>
 	{
 
 		protected LongSeedFactory() 
@@ -82,6 +84,11 @@ public class LongSeed
 		public LongSeed resurrect(IIncomingStream stream) throws InstantiationException, IOException
 		{
 			return new LongSeed(stream.readLong());
+		}
+		
+		public LongSeed random(IRandom<?, ?> rand, CryptoString s)
+		{
+			return new LongSeed(rand.readLong());
 		}
 		
 	}
