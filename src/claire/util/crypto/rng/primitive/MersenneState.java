@@ -3,12 +3,13 @@ package claire.util.crypto.rng.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
-import claire.util.crypto.KeyFactory;
+import claire.util.io.Factory;
 import claire.util.io.IOUtils;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IState;
+import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
 public class MersenneState 
@@ -89,9 +90,34 @@ public class MersenneState
 		pos = 0;
 	}
 	
-	public KeyFactory<MersenneState> factory()
+	public Factory<MersenneState> factory()
 	{
-		return null;
+		return factory;
+	}
+	
+	public static final MersenneStateFactory factory = new MersenneStateFactory();
+	
+	private static final class MersenneStateFactory extends Factory<MersenneState>
+	{
+
+		protected MersenneStateFactory() 
+		{
+			super(MersenneState.class);
+		}
+
+		public MersenneState resurrect(byte[] data, int start) throws InstantiationException
+		{
+			int[] ints = Bits.bytesToInts(data, start, 624); start += 624 * 4;
+			return new MersenneState(ints, Bits.intFromBytes(data, start));
+		}
+
+		public MersenneState resurrect(IIncomingStream stream) throws InstantiationException, IOException
+		{
+			return new MersenneState(stream.readInts(624), stream.readInt());
+		}
+		
+		
+		
 	}
 
 }
