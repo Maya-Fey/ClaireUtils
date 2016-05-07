@@ -35,5 +35,6 @@ public interface IState<Type extends IState<Type>>
 	static int RIPEMD256 = 21;
 	static int RIPEMD320 = 22;
 	static int LONGSTATE = 23;
+	static int MERSENNESTATE = 24;
 
 }
