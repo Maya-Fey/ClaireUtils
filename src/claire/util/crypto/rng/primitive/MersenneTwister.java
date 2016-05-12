@@ -3,10 +3,11 @@ package claire.util.crypto.rng.primitive;
 import java.util.Arrays;
 
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.crypto.IRandom;
 
 public class MersenneTwister 
-	   implements IRandom<MersenneSeed> {
+	   implements IRandom<MersenneSeed, MersenneState> {
 
 	// Period parameters
 	private static final int N = 624;
@@ -354,6 +355,23 @@ public class MersenneTwister
 	{
 		Arrays.fill(mt, 0);
 		mti = 0;
+	}
+
+	public MersenneState getState()
+	{
+		return new MersenneState(ArrayUtil.copy(mt), mti);
+	}
+	
+	public void loadState(MersenneState state)
+	{
+		System.arraycopy(state.getSeed(), 0, mt, 0, N);
+		this.mti = state.getPos();
+	}
+
+	public void updateState(MersenneState state)
+	{
+		System.arraycopy(mt, 0, state.getSeed(), 0, N);
+		state.setPos(mti);
 	}
 	
 	

@@ -46,6 +46,11 @@ public class MersenneState
 	{
 		return pos;
 	}
+	
+	public void setPos(int pos)
+	{
+		this.pos = pos;
+	}
 
 	public MersenneState createDeepClone()
 	{
