@@ -3,14 +3,17 @@ package claire.util.crypto.cipher.key.block;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.rng.RandUtils;
-import claire.util.io.Factory;
 import claire.util.io.IOUtils;
+import claire.util.math.MathHelper;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IDeepClonable;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -79,14 +82,14 @@ public class KeyAES
 		this.ints = null;
 	}
 	
-	public Factory<KeyAES> factory()
+	public KeyFactory<KeyAES> factory()
 	{
 		return factory;
 	}
 	
 	public static final KeyAESFactory factory = new KeyAESFactory();
 
-	public static final class KeyAESFactory extends Factory<KeyAES> {
+	public static final class KeyAESFactory extends KeyFactory<KeyAES> {
 
 		protected KeyAESFactory() 
 		{
@@ -101,6 +104,31 @@ public class KeyAES
 		public KeyAES resurrect(IIncomingStream stream) throws InstantiationException, IOException
 		{
 			return new KeyAES(stream.readIntArr());
+		}
+		
+		
+
+		public KeyAES random(IRandom<?, ?> rand, CryptoString s)
+		{
+			int bits;
+			if(s.args() > 0)
+				bits = s.nextArg().toInt();
+			else 
+				bits = 128;
+			if(bits < 0)
+				throw new java.lang.IllegalArgumentException("Negative key length specified");
+			int[] ints = new int[(bits / 32) + (((bits & 31) > 0) ? 1 : 0)];
+			rand.readInts(ints);
+			MathHelper.truncate(ints, bits);
+			/*if(s.args() > 1) {
+				int rounds = s.nextArg().toInt();
+				if(rounds > 4096)
+					throw new java.lang.IllegalArgumentException("Excessive amount of rounds specified");
+				if(rounds < 0)
+					throw new java.lang.IllegalArgumentException("Negative amount of rounds specified");
+				return new KeyAES(ints, rounds);
+			} else */ //TODO: Look into variable round count
+				return new KeyAES(ints);
 		}
 		
 	}
