@@ -3,14 +3,16 @@ package claire.util.crypto.cipher.key.block;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.rng.RandUtils;
-import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IDeepClonable;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -75,14 +77,14 @@ public class KeyFEAL_CI
 		this.shorts = null;
 	}
 	
-	public Factory<KeyFEAL_CI> factory()
+	public KeyFactory<KeyFEAL_CI> factory()
 	{
 		return factory;
 	}
 	
 	public static final KeyFEAL_CIFactory factory = new KeyFEAL_CIFactory();
 
-	public static final class KeyFEAL_CIFactory extends Factory<KeyFEAL_CI> {
+	public static final class KeyFEAL_CIFactory extends KeyFactory<KeyFEAL_CI> {
 
 		protected KeyFEAL_CIFactory() 
 		{
@@ -101,6 +103,23 @@ public class KeyFEAL_CI
 		{
 			int rounds = stream.readInt();
 			return new KeyFEAL_CI(stream.readShorts(8), rounds);
+		}
+
+		public KeyFEAL_CI random(IRandom<?, ?> rand, CryptoString s)
+		{
+			short[] shorts = new short[12];
+			rand.readShorts(shorts);
+			//Default 8 rounds;
+			int rounds;
+			if(s.args() > 0) {
+				rounds = s.args();
+				if(rounds > 4096)
+					throw new java.lang.IllegalArgumentException("Excessive amount of rounds specified");
+				if(rounds < 0)
+					throw new java.lang.IllegalArgumentException("Negative amount of rounds specified");
+			} else
+				rounds = 8;
+			return new KeyFEAL_CI(shorts, rounds);
 		}
 		
 	}
