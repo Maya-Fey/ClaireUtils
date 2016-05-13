@@ -60,6 +60,7 @@ public class KeyCAST5
 				bytes = new byte[amt];
 			} else
 				bytes = new byte[12];
+			rand.readBytes(bytes);
 			return new KeyCAST5(bytes);
 		}
 		
