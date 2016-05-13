@@ -1,13 +1,15 @@
 package claire.util.crypto.cipher.key.block;
 
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.cipher.key.ByteKey;
 import claire.util.crypto.cipher.key.ByteKeyFactory;
 import claire.util.crypto.rng.RandUtils;
-import claire.util.io.Factory;
 import claire.util.standards.IDeepClonable;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.crypto.IRandom;
 
 public class KeyCAST5 
 	   extends ByteKey<KeyCAST5> {
@@ -27,7 +29,7 @@ public class KeyCAST5
 		return _NAMESPACE.KEYCAST5;
 	}
 	
-	public Factory<KeyCAST5> factory()
+	public KeyFactory<KeyCAST5> factory()
 	{
 		return factory;
 	}
@@ -44,6 +46,21 @@ public class KeyCAST5
 		protected KeyCAST5 construct(final byte[] key)
 		{
 			return new KeyCAST5(key);
+		}
+
+		public KeyCAST5 random(IRandom<?, ?> rand, CryptoString s)
+		{
+			byte[] bytes;
+			if(s.args() > 0) {
+				int amt = s.nextArg().toInt() / 8;
+				if(amt > 12)
+					throw new java.lang.IllegalArgumentException("CAST5 only supports keys of up to 128 bits");
+				if(amt < 5)
+					throw new java.lang.IllegalArgumentException("CAST5 only supports keys of greater than 40 bits");
+				bytes = new byte[amt];
+			} else
+				bytes = new byte[12];
+			return new KeyCAST5(bytes);
 		}
 		
 	}
