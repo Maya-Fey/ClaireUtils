@@ -19,7 +19,7 @@ public class Arguments {
 		{
 			if(s.charAt(0) == '-' && s.length() > 1)
 			{
-				if(s.charAt(1) == '1')
+				if(s.charAt(1) == '-')
 					word++;
 				else 
 					swit++;
