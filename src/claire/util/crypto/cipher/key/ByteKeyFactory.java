@@ -2,12 +2,12 @@ package claire.util.crypto.cipher.key;
 
 import java.io.IOException;
 
-import claire.util.io.Factory;
+import claire.util.crypto.KeyFactory;
 import claire.util.io.IOUtils;
 import claire.util.standards.io.IIncomingStream;
 
 public abstract class ByteKeyFactory<Key extends ByteKey<Key>>
-	   		    extends Factory<Key> {
+	   		    extends KeyFactory<Key> {
 
 	public ByteKeyFactory(Class<Key> class_) 
 	{
