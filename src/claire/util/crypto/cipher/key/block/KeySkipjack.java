@@ -3,13 +3,15 @@ package claire.util.crypto.cipher.key.block;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.rng.RandUtils;
-import claire.util.io.Factory;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IDeepClonable;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -64,14 +66,14 @@ public class KeySkipjack
 		this.bytes = null;
 	}
 	
-	public Factory<KeySkipjack> factory()
+	public KeyFactory<KeySkipjack> factory()
 	{
 		return factory;
 	}
 	
 	public static final KeySkipjackFactory factory = new KeySkipjackFactory();
 
-	public static final class KeySkipjackFactory extends Factory<KeySkipjack> {
+	public static final class KeySkipjackFactory extends KeyFactory<KeySkipjack> {
 
 		protected KeySkipjackFactory() 
 		{
@@ -88,6 +90,13 @@ public class KeySkipjack
 		public KeySkipjack resurrect(final IIncomingStream stream) throws InstantiationException, IOException
 		{
 			return new KeySkipjack(stream.readBytes(10));
+		}
+
+		public KeySkipjack random(IRandom<?, ?> rand, CryptoString s)
+		{
+			byte[] bytes = new byte[10];
+			rand.readBytes(bytes);
+			return new KeySkipjack(bytes);
 		}
 		
 	}
