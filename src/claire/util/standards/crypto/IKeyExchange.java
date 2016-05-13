@@ -1,8 +1,9 @@
 package claire.util.standards.crypto;
 
 import claire.util.crypto.KeyFactory;
+import claire.util.standards.IPersistable;
 
-public interface IKeyExchange<Private extends IKey<Private>, Public extends IKey<Public>> {
+public interface IKeyExchange<Private extends IKey<Private>, Public extends IPersistable<Public>> {
 
 	void setPrivate(Private key);
 	Private getPrivate();
