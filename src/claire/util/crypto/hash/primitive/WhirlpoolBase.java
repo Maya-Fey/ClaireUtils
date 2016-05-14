@@ -9,6 +9,7 @@ import claire.util.math.counters.LongCounter;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IState;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -362,6 +363,11 @@ public abstract class WhirlpoolBase<Hash extends WhirlpoolBase<Hash>>
 		protected int customSize()
 		{
 			return 96;
+		}
+
+		public int stateID()
+		{
+			return IState.WHIRLPOOL;
 		}
 		
 	}

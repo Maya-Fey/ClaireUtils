@@ -42,5 +42,6 @@ public interface IState<Type extends IState<Type>>
 	static int BLAKE_64 = 28;
 	static int GROSTL_32 = 29;
 	static int GROSTL_64 = 30;
+	static int WHIRLPOOL = 31;
 
 }
