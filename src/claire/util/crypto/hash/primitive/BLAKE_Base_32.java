@@ -9,6 +9,7 @@ import claire.util.math.counters.IntCounter;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards._NAMESPACE;
+import claire.util.standards.crypto.IState;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -283,6 +284,11 @@ abstract class BLAKE_Base_32<Hash extends BLAKE_Base_32<Hash>>
 		protected int customSize()
 		{
 			return 40;
+		}
+
+		public int stateID()
+		{
+			return IState.BLAKE_32;
 		}
 		
 	}

@@ -38,5 +38,7 @@ public interface IState<Type extends IState<Type>>
 	static int MERSENNESTATE = 24;
 	static int BMW_32 = 25;
 	static int BMW_64 = 26;
+	static int BLAKE_32 = 27;
+	static int BLAKE_64 = 28;
 
 }
