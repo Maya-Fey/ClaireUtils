@@ -3,14 +3,16 @@ package claire.util.crypto.cipher.key.block;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.rng.RandUtils;
-import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IDeepClonable;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -69,14 +71,14 @@ public class KeyTEA
 		this.ints = null;
 	}
 	
-	public Factory<KeyTEA> factory()
+	public KeyFactory<KeyTEA> factory()
 	{
 		return factory;
 	}
 	
 	public static final KeyTEAFactory factory = new KeyTEAFactory();
 
-	public static final class KeyTEAFactory extends Factory<KeyTEA> {
+	public static final class KeyTEAFactory extends KeyFactory<KeyTEA> {
 
 		protected KeyTEAFactory() 
 		{
@@ -93,6 +95,11 @@ public class KeyTEA
 		public KeyTEA resurrect(final IIncomingStream stream) throws InstantiationException, IOException
 		{
 			return new KeyTEA(stream.readInts(4));
+		}
+		
+		public KeyTEA random(IRandom<?, ?> rand, CryptoString s)
+		{
+			return new KeyTEA(rand.readInts(4));
 		}
 		
 	}
