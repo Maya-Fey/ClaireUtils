@@ -3,14 +3,16 @@ package claire.util.crypto.cipher.key.block;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.rng.RandUtils;
-import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IDeepClonable;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -79,14 +81,14 @@ public class KeyXTEA
 		this.rounds = 0;
 	}
 	
-	public Factory<KeyXTEA> factory()
+	public KeyFactory<KeyXTEA> factory()
 	{
 		return factory;
 	}
 	
 	public static final KeyTEAFactory factory = new KeyTEAFactory();
 
-	public static final class KeyTEAFactory extends Factory<KeyXTEA> {
+	public static final class KeyTEAFactory extends KeyFactory<KeyXTEA> {
 
 		protected KeyTEAFactory() 
 		{
@@ -106,6 +108,19 @@ public class KeyXTEA
 		{
 			final int rounds = stream.readInt();
 			return new KeyXTEA(stream.readInts(4), rounds);
+		}
+		
+		public KeyXTEA random(IRandom<?, ?> rand, CryptoString s)
+		{
+			int rounds = 32;
+			if(s.args() > 0) {
+				rounds = s.nextArg().toInt();
+				if(rounds < 1) 
+					throw new java.lang.IllegalArgumentException("XTEA requires at least 1 rounds");
+				if(rounds > 8192) 
+					throw new java.lang.IllegalArgumentException("Cannot do in excess of 8192 rounds");
+			}
+			return new KeyXTEA(rand.readInts(4), rounds);
 		}
 		
 	}

@@ -11,7 +11,6 @@ import claire.util.display.ImageUtil;
 import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
 import claire.util.encoding.Hex;
-import claire.util.encoding.UTF8;
 import claire.util.math.MathHelper;
 import claire.util.math.StrongPrimeGenerator;
 import claire.util.math.UInt;
