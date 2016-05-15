@@ -326,6 +326,7 @@ public final class MathHelper {
 		rand.readInts(ints, 0, intz--);
 		if(trunc)
 			ints[intz] = Bits.truncate(ints[intz], rem);
+		Bits.setBit(ints, bits - 1, true);
 	}
 	public static <Int extends IInteger<Int>> Int randomIntegerFast(Int max, IRandom<?, ?> rand) //Fast, modulo bias
 	{
