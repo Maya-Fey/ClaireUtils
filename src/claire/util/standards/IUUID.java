@@ -1,6 +1,6 @@
 package claire.util.standards;
 
-public interface IUUID<Type extends IUUID<Type>> {
+public interface IUUID<Type extends IUUID<?>> {
 	
 	/** Used internally by IUUID. Returns a namespace to compare objects */
 	int NAMESPACE();

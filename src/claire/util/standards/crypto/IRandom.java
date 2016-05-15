@@ -3,7 +3,7 @@ package claire.util.standards.crypto;
 import claire.util.encoding.CString;
 import claire.util.standards.IStateMachine;
 
-public interface IRandom<Key extends IKey<?>, State extends IState<State>>
+public interface IRandom<Key extends IKey<?>, State extends IState<?>>
        extends IStateMachine<State> {
 	
 	/*

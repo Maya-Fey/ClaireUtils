@@ -3,6 +3,7 @@ package claire.util.crypto.rng.primitive;
 import java.util.Random;
 
 import claire.util.standards.crypto.IRandom;
+import claire.util.standards.crypto.IState;
 
 public class JRandom 
 	   extends Random 

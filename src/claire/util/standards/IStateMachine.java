@@ -2,7 +2,7 @@ package claire.util.standards;
 
 import claire.util.standards.crypto.IState;
 
-public interface IStateMachine<State extends IState<State>> {
+public interface IStateMachine<State extends IState<?>> {
 	
 	State getState();
 	void loadState(State state);

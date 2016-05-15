@@ -6,6 +6,7 @@ import java.util.Arrays;
 import claire.util.crypto.CryptoString;
 import claire.util.crypto.hash.Hash;
 import claire.util.crypto.hash.HashFactory;
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.crypto.hash.primitive.RIPEMD256.RIPEMD256State;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.io.Factory;
