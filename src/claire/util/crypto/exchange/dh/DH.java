@@ -4,6 +4,7 @@ import claire.util.crypto.KeyFactory;
 import claire.util.crypto.exchange.dh.DHPrivateKey.DHPrivateKeyFactory;
 import claire.util.math.MathHelper;
 import claire.util.math.UInt;
+import claire.util.memory.Bits;
 import claire.util.standards.crypto.IKeyExchange;
 
 public class DH 
@@ -11,6 +12,8 @@ public class DH
 	
 	private DHParams params;
 	private DHPrivateKey key;
+	
+	private UInt t;
 	
 	public DH(DHParams params)
 	{
@@ -34,8 +37,21 @@ public class DH
 
 	public void output(UInt other, byte[] bytes, int start)
 	{
-		// TODO Auto-generated method stub
-		
+		if(t == null)
+			t = other.createDeepClone();
+		else 
+			t.setTo(other);
+		MathHelper.p_modular_exponent_sure(t, key.getExp(), params.getModulus());
+		Bits.intsToBytes(t.getArr(), 0, bytes, start, other.getIntLen());
+	}
+	
+	public void output(UInt other, byte[] bytes, int start, boolean consume)
+	{
+		if(consume) {
+			MathHelper.p_modular_exponent_sure(other, key.getExp(), params.getModulus());
+			Bits.intsToBytes(other.getArr(), 0, bytes, start, other.getIntLen());
+		} else
+			output(other, bytes, start);
 	}
 
 	public int outputLen()
