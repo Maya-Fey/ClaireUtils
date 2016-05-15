@@ -7,7 +7,7 @@ import claire.util.standards.crypto.IState;
 
 public class JRandom 
 	   extends Random 
-	   implements IRandom<LongSeed> {
+	   implements IRandom<LongSeed, IState<?>> {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -143,5 +143,13 @@ public class JRandom
 	{
 		super.setSeed(0);
 	}
+
+	public IState<?> getState()
+	{
+		return null;
+	}
+
+	public void loadState(IState<?> state) {}
+	public void updateState(IState<?> state) {}
 
 }
