@@ -21,6 +21,15 @@ public class PrimeTester<Int extends IInteger<Int>> {
 		exp = new Exponentiator<Int>(sample.createDeepClone());
 	}
 	
+	public PrimeTester(IRandom<?, ?> rng, IntegerFactory<Int> factory, int len)
+	{
+		this.rng = rng;
+		test = factory.construct(len);
+		exponent = factory.construct(len);
+		witness = factory.construct(len);
+		exp = new Exponentiator<Int>(factory.construct(len));
+	}
+	
 	/**
 	 * This method finds whether a number is prime or not with a 
 	 * probabilistic success rate. 
