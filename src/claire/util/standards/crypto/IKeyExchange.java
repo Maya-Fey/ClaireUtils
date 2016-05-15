@@ -11,6 +11,8 @@ public interface IKeyExchange<Private extends IKey<Private>, Public extends IPer
 	Public genPublic();
 	
 	void output(Public other, byte[] bytes, int start);
+	void output(Public other, byte[] bytes, int start, boolean consume);
+	
 	int outputLen();
 	
 	default byte[] output(Public other)
