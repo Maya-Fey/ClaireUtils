@@ -79,19 +79,17 @@ public class UInt
 	{
 		int len = MathHelper.getRealLength(ints);
 		if(len > this.length) throw new java.lang.IllegalArgumentException();
-		boolean carry = false;
 		int j = 0;
-		for(; j < len; j++)
+		int k = val[0];
+		while(j < len)
 		{
-			int k = val[j];
-			val[j] += ints[j] + (carry ? 1 : 0);
-			if(k > val[j])
-				carry = true;
+			val[j] += ints[j];
+			k = val[++j];
+			if(k > val[j]) 
+				val[j]++;
 		}
-		while(j < this.length && carry) {
-			val[j]++;
-			carry = val[j++] == 0;
-		}
+		while(val[j] == 0 && j < this.length)
+			val[++j]++;
 	}
 	
 	protected void p_subtract(int[] ints)
