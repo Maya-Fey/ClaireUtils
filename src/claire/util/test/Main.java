@@ -7,10 +7,12 @@ import java.math.BigInteger;
 import java.util.Arrays;
 
 import claire.util.crypto.hash.primitive.BEAR.$BEAR3;
+import claire.util.crypto.rng.primitive.XorShiftNG;
 import claire.util.display.ImageUtil;
 import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
 import claire.util.encoding.Hex;
+import claire.util.math.CryptoPrimeGenerator;
 import claire.util.math.MathHelper;
 import claire.util.math.StrongPrimeGenerator;
 import claire.util.math.UInt;
@@ -65,11 +67,11 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
-		byte b = (byte) 0xFF;
-		while((b & 0xFF) > 10) {
-			System.out.println(Hex.toHex(b));
-			b -= 7;
-		}
+		CryptoPrimeGenerator<UInt> pg = new CryptoPrimeGenerator<UInt>(16, 768, UInt.ifactory);
+		UInt u = pg.nextPrime();
+		System.out.println(u);
+		System.out.println(u.getBits());
+		System.out.println(MathHelper.isPrimeProbableMR(u, new XorShiftNG(), 64));
 		end();
 		System.out.println(MathHelper.getRealLength(new int[] { 0, 0, 0, 0 }));
 		StrongPrimeGenerator<UInt> p = new StrongPrimeGenerator<UInt>(8, new UInt(new CString(0x70000000L), 64), new UInt(new CString(0xFF0000000L), 64));

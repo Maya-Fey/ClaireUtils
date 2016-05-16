@@ -73,6 +73,7 @@ public class CryptoPrimeGenerator<Int extends IInteger<Int>> {
 	public CryptoPrimeGenerator(int st, int bits, IntegerFactory<Int> factory, int primes, IRandom<?, ?> rand, IRandom<?, ?> rand2)
 	{
 		int ints = bits * 32 + (((bits & 31) > 0) ? 1 : 0);
+		this.bits = bits;
 		this.st = st;
 		this.rand = rand;
 		this.primes = primes;
@@ -90,7 +91,10 @@ public class CryptoPrimeGenerator<Int extends IInteger<Int>> {
 	
 	public void nextCanidate()
 	{
-		nextCanidate(temp2.createDeepClone());
+		if(canidate == null)
+			nextCanidate(temp2.createDeepClone());
+		else
+			nextCanidate(canidate);
 	}
 	
 	public void nextCanidate(Int canidate)
