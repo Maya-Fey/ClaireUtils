@@ -86,8 +86,6 @@ public class UInt
 			val[j++] = (int) carry;
 			carry >>>= 32;
 		}
-		if(carry != 0)
-			this.setMAX();
 	}
 	
 	protected void p_subtract(int[] ints)
@@ -120,8 +118,6 @@ public class UInt
 						break;
 					}
 				}
-			else
-				this.setMIN();
 	}
 	
 	protected void p_multiply(int[] ints)
@@ -133,7 +129,6 @@ public class UInt
 		int[] ref = new int[tlen];
 		System.arraycopy(val, 0, ref, 0, tlen);
 		if(MathHelper.mul1(val, tlen, ints[0]) > 0) {
-			this.setMAX();
 			return;
 		}
 		for(int j = 1; j < len; j++)
@@ -159,7 +154,6 @@ public class UInt
 				k++;
 			}
 			if(borrow != 0) {
-				this.setMAX();
 				return;
 			}
 		}
@@ -170,7 +164,7 @@ public class UInt
 		int dlen = MathHelper.getRealLength(ints);
 		int vlen = MathHelper.getRealLength(val);
 		if(dlen > vlen) {
-			this.setMIN();
+			this.zero();
 		}
 		if(dlen < 2) {
 			divideOneWord(ints[0]);
@@ -576,16 +570,6 @@ public class UInt
         val[0] = (int) cur;
         Arrays.fill(val, 1, vlen, 0);
     }
-	
-	private final void setMAX()
-	{
-		Arrays.fill(val, 0xFFFFFFFF);
-	}
-	
-	private final void setMIN()
-	{
-		Arrays.fill(val, 0);
-	}
 
 	public void p_square()
 	{
@@ -594,8 +578,7 @@ public class UInt
 		int max = val.length;
 		int[] ref = new int[tlen];
 		System.arraycopy(val, 0, ref, 0, tlen);
-		if(MathHelper.mul1(val, tlen, val[0]) > 0) {
-			this.setMAX();			
+		if(MathHelper.mul1(val, tlen, val[0]) > 0) {	
 			return;
 		}
 		for(int j = 1; j < tlen; j++)
@@ -621,7 +604,6 @@ public class UInt
 				k++;
 			}
 			if(borrow != 0) {
-				this.setMAX();
 				return;
 			}
 		}
@@ -633,7 +615,7 @@ public class UInt
 		int dlen = MathHelper.getRealLength(ints);
 		int vlen = MathHelper.getRealLength(val);
 		if(dlen > vlen) {
-			this.setMIN();
+			this.zero();
 		}
 		if(dlen < 2) 
 			return new UInt(divmodOneWord(ints[0]));

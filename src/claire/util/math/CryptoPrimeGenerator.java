@@ -130,7 +130,7 @@ public class CryptoPrimeGenerator<Int extends IInteger<Int>> {
 			this.nextCanidate();
 		while(true) {
 			canidate.p_add(add);
-			while(!tester.isPrimeProbableMR(canidate, st)) {
+			while(!tester.isPrimeProbable(canidate, st)) {
 				canidate.p_add(add);	
 				if(canidate.getBits() > bits)
 					this.nextCanidate(canidate);
