@@ -70,21 +70,20 @@ public class UInt
 	
 	protected void p_add(int[] ints)
 	{
-		
 		int len = MathHelper.getRealLength(ints);
 		if(len > this.length) throw new java.lang.IllegalArgumentException();
-		long carry = 0;
+		boolean carry = false;
 		int j = 0;
 		for(; j < len; j++)
 		{
-			carry += ((long) val[j] & 0xFFFFFFFFL) + ((long) ints[j] & 0xFFFFFFFFL);
-			val[j] = (int) carry;
-			carry >>>= 32;
+			int k = val[j];
+			val[j] += ints[j] + (carry ? 1 : 0);
+			if(k > val[j])
+				carry = true;
 		}
-		while(j < this.length && carry != 0) {
-			carry += ((long) val[j] & 0xFFFFFFFFL);
-			val[j++] = (int) carry;
-			carry >>>= 32;
+		while(j < this.length && carry) {
+			val[j]++;
+			carry = val[j++] == 0;
 		}
 	}
 	
