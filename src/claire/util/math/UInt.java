@@ -43,6 +43,13 @@ public class UInt
 		IInteger.make(this, string.array());
 	}
 	
+	public UInt(char[] chars, int start, int len, int len2)
+	{
+		this.length = len2;
+		this.val = new int[len2];
+		IInteger.make(this, chars, start, len);
+	}
+	
 	public UInt createDeepClone()
 	{
 		int[] n = new int[this.length];
@@ -841,6 +848,11 @@ public class UInt
 		public UInt construct(int[] ints)
 		{
 			return new UInt(ints);
+		}
+
+		public UInt construct(char[] chars, int start, int len, int len2)
+		{
+			return new UInt(chars, start, len, len2);
 		}
 		
 	}

@@ -415,6 +415,24 @@ public interface IInteger<Type extends IInteger<Type>>
 		this.setNegative(negative);
 	}
 	
+	static <Type extends IInteger<?>> void make(Type t, char[] chars, int start, int len)
+	{
+		boolean negative = false;
+		if(chars[0] == '-') {
+			start++;
+			negative = true;
+		}
+		t.p_add(chars[start] - 48);
+		start++;
+		for(; start < len; start++)
+		{
+			t.p_multiply(10);
+			t.p_add(chars[start] - 48);
+		}
+		if(negative)
+			t.invertSign();
+	}
+	
 	static <Type extends IInteger<?>> void make(Type t, char[] chars)
 	{
 		int i = 0;
