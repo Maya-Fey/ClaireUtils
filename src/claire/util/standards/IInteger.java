@@ -457,6 +457,25 @@ public interface IInteger<Type extends IInteger<Type>>
 			t.invertSign();
 	}
 	
+	public static <Int extends IInteger<Int>> int verifyConstruction(IntegerFactory<Int> fac)
+	{
+		int er = 0;
+		try {
+			char[] chars = new char[100];
+			Arrays.fill(chars, '0');
+			for(int i = 0; i < 100; i++)
+				chars[i] += RandUtils.dprng.nextIntFast(10);
+			Int i = fac.construct(chars, 32);
+			if(!i.toString().equals(new String(chars)));
+				er++;
+			return er;
+		} catch(Exception e) {
+			Log.err.println("Exception encountered while testing construction of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
+			e.printStackTrace();
+			return er + 1;
+		}
+	}
+	
 	public static <Int extends IInteger<Int>> int verifyAddition(IntegerFactory<Int> fac)
 	{
 		int er = 0;
