@@ -39,6 +39,13 @@ public class SInt
 		this.sign = negative;
 		this.length = i.length;
 	}
+	
+	public SInt(char[] chars, int start, int len, int len2) 
+	{
+		this.length = len2;
+		this.val = new int[len2];
+		IInteger.make(this, chars, start, len);
+	}
 
 	public SInt(String string, int len) 
 	{
@@ -840,6 +847,11 @@ public class SInt
 		public SInt construct(int[] ints)
 		{
 			return new SInt(ints);
+		}
+
+		public SInt construct(char[] chars, int start, int len, int len2)
+		{
+			return new SInt(chars, start, len, len2);
 		}
 		
 	}
