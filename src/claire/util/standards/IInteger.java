@@ -466,8 +466,10 @@ public interface IInteger<Type extends IInteger<Type>>
 			for(int i = 0; i < 100; i++)
 				chars[i] += RandUtils.dprng.nextIntFast(10);
 			Int i = fac.construct(chars, 32);
-			if(!i.toString().equals(new String(chars)));
+			if(!i.toString().equals(new String(chars))) {
+				Log.err.println("String construction non consistent");
 				er++;
+			}
 			return er;
 		} catch(Exception e) {
 			Log.err.println("Exception encountered while testing construction of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
@@ -490,16 +492,20 @@ public interface IInteger<Type extends IInteger<Type>>
 			BigInteger b2 = new BigInteger(i2.toString());
 			i1.p_add(i2);
 			b1 = b1.add(b2);
-			if(!i1.toString().equals(b1.toString()))
+			if(!i1.toString().equals(b1.toString())){
+				Log.err.println("Addition failed");
 				er++;
+			}
 			//Carrying
 			Arrays.fill(ints1, 16, 32, 0);
 			Arrays.fill(ints1, 0, 16, -1);
 			b1 = new BigInteger(i1.toString());
 			i1.p_add(i2);
 			b1 = b1.add(b2);
-			if(!i1.toString().equals(b1.toString()))
+			if(!i1.toString().equals(b1.toString())) {
+				Log.err.println("Addition failed with carry");
 				er++;
+			}
 			return er;
 		} catch(Exception e) {
 			Log.err.println("Exception encountered while testing addition of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
