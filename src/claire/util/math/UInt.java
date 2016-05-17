@@ -855,4 +855,12 @@ public class UInt
 		
 	}
 	
+	public static int test()
+	{
+		int er = 0;
+		er += IInteger.verifyConstruction(ifactory);
+		er += IInteger.verifyAddition(ifactory);
+		return er;
+	}
+	
 }

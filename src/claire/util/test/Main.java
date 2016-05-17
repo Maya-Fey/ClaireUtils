@@ -67,6 +67,8 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
+		Test.runTests();
+		end();
 		CryptoPrimeGenerator<UInt> pg = new CryptoPrimeGenerator<UInt>(8, 768, UInt.ifactory, 50);
 		UInt u = pg.nextPrime();
 		System.out.println(u);
@@ -106,8 +108,7 @@ public final class Main {
 		System.out.println(norms + " shitty roots.");
 		
 		end();
-		Test.runTests();
-		end();
+		
 		//*/
 
 		
