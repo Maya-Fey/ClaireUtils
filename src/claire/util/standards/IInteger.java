@@ -1,8 +1,13 @@
 package claire.util.standards;
 
+import java.math.BigInteger;
+import java.util.Arrays;
+
+import claire.util.crypto.rng.RandUtils;
 import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
 import claire.util.encoding.PartialString;
+import claire.util.logging.Log;
 import claire.util.math.IntegerFactory;
 import claire.util.math.MathHelper;
 import claire.util.memory.Bits;
@@ -450,6 +455,38 @@ public interface IInteger<Type extends IInteger<Type>>
 		}
 		if(negative)
 			t.invertSign();
+	}
+	
+	public static <Int extends IInteger<Int>> int verifyAddition(IntegerFactory<Int> fac)
+	{
+		int er = 0;
+		try {
+			int[] ints1 = new int[32];
+			RandUtils.fillArr(ints1, 0, 16);
+			Int i1 = fac.construct(ints1);
+			int[] ints2 = new int[32];
+			RandUtils.fillArr(ints2, 0, 16);
+			Int i2 = fac.construct(ints1);
+			BigInteger b1 = new BigInteger(i1.toString());
+			BigInteger b2 = new BigInteger(i2.toString());
+			i1.p_add(i2);
+			b1 = b1.add(b2);
+			if(!i1.toString().equals(b1.toString()))
+				er++;
+			//Carrying
+			Arrays.fill(ints1, 16, 32, 0);
+			Arrays.fill(ints1, 0, 16, -1);
+			b1 = new BigInteger(i1.toString());
+			i1.p_add(i2);
+			b1 = b1.add(b2);
+			if(!i1.toString().equals(b1.toString()))
+				er++;
+			return er;
+		} catch(Exception e) {
+			Log.err.println("Exception encountered while testing addition of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
+			e.printStackTrace();
+			return er + 1;
+		}
 	}
 
 }
