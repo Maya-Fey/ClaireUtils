@@ -89,8 +89,9 @@ public class UInt
 			carry >>>= 32;
 		}
 		val[j] += carry;
-		while(val[j] == 0 && ++j < val.length)
-			val[j]++;
+		if(carry != 0)
+			while(val[j] == 0 && ++j < val.length)
+				val[j]++;
 	}
 	
 	protected void p_subtract(int[] ints)
