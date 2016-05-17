@@ -563,19 +563,16 @@ public final class MathHelper {
 		return l1 > l2 ? l1 - l2 : l2 - l1;
 	}
 	
-	public static int add1(int[] r1, int add)
+	public static void add1(int[] r1, int add)
 	{
-		long carry = add & 0xFFFFFFFFL;
-		carry += r1[0];
-		r1[0] = (int) carry;
-		carry >>>= 32;
-		add = 1;
-		while(carry != 0 && add < r1.length) {
-			carry += r1[add];
-			r1[add++] = (int) carry;
-			carry >>>= 32;
+		int i = r1[0];
+		r1[0] += add;
+		if(Bits.u_greaterThan(i, r1[0])) {
+			r1[1]++;
+			i = 1;
+			while(r1[i] == 0 && ++i < r1.length)
+				r1[i]++;
 		}
-		return (int) carry;
 	}
 	
 	public static int subtract1(int[] r1, int sub)

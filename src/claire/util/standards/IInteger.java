@@ -467,6 +467,8 @@ public interface IInteger<Type extends IInteger<Type>>
 				chars[i] += RandUtils.dprng.nextIntFast(10);
 			Int i = fac.construct(chars, 32);
 			if(!i.toString().equals(new String(chars))) {
+				System.out.println(chars);
+				System.out.println(i.toString());
 				Log.err.println("String construction non consistent");
 				er++;
 			}
@@ -490,9 +492,11 @@ public interface IInteger<Type extends IInteger<Type>>
 			Int i2 = fac.construct(ints1);
 			BigInteger b1 = new BigInteger(i1.toString());
 			BigInteger b2 = new BigInteger(i2.toString());
+			
 			i1.p_add(i2);
 			b1 = b1.add(b2);
 			if(!i1.toString().equals(b1.toString())){
+				
 				Log.err.println("Addition failed");
 				er++;
 			}
@@ -500,9 +504,13 @@ public interface IInteger<Type extends IInteger<Type>>
 			Arrays.fill(ints1, 16, 32, 0);
 			Arrays.fill(ints1, 0, 16, -1);
 			b1 = new BigInteger(i1.toString());
+			System.out.println(i1);
+			System.out.println(b1);
 			i1.p_add(i2);
 			b1 = b1.add(b2);
 			if(!i1.toString().equals(b1.toString())) {
+				System.out.println(i1);
+				System.out.println(b1);
 				Log.err.println("Addition failed with carry");
 				er++;
 			}
