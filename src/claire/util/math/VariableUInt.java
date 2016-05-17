@@ -30,6 +30,13 @@ public class VariableUInt
 		this.length = i.length;
 	}
 
+	public VariableUInt(char[] chars, int start, int len, int len2) 
+	{
+		this.length = len2;
+		this.val = new int[len2];
+		IInteger.make(this, chars, start, len);
+	}
+	
 	public VariableUInt(String string, int len) 
 	{
 		this.length = len;
@@ -903,6 +910,11 @@ public class VariableUInt
 		public VariableUInt construct(int[] ints)
 		{
 			return new VariableUInt(ints);
+		}
+
+		public VariableUInt construct(char[] chars, int start, int len, int len2)
+		{
+			return new VariableUInt(chars, start, len, len2);
 		}
 		
 	}
