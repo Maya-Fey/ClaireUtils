@@ -38,6 +38,13 @@ public class VariableSInt
 		this.sign = negative;
 		this.length = i.length;
 	}
+	
+	public VariableSInt(char[] chars, int start, int len, int len2) 
+	{
+		this.length = len2;
+		this.val = new int[len2];
+		IInteger.make(this, chars, start, len);
+	}
 
 	public VariableSInt(String string, int len) 
 	{
@@ -918,6 +925,11 @@ public class VariableSInt
 		public VariableSInt construct(int[] ints)
 		{
 			return new VariableSInt(ints);
+		}
+
+		public VariableSInt construct(char[] chars, int start, int len, int len2)
+		{
+			return new VariableSInt(chars, start, len, len2);
 		}
 		
 	}
