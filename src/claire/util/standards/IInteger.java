@@ -465,8 +465,9 @@ public interface IInteger<Type extends IInteger<Type>>
 			Arrays.fill(chars, '0');
 			for(int i = 0; i < 100; i++)
 				chars[i] += RandUtils.dprng.nextIntFast(10);
-			while(chars[99] == '0')
-				chars[99] += RandUtils.dprng.nextIntFast(10);
+			while(chars[0] == '0')
+				chars[0] += RandUtils.dprng.nextIntFast(10);
+			
 			Int i = fac.construct(chars, 32);
 			if(!i.toString().equals(new String(chars))) {
 				Log.err.println("String construction non consistent");

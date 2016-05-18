@@ -80,7 +80,6 @@ public class UInt
 		int len = MathHelper.getRealLength(ints);
 		if(len > this.length) throw new java.lang.IllegalArgumentException();
 		int j = 0;
-		//int k = val[0];
 		long carry = 0;
 		while(j < len)
 		{
