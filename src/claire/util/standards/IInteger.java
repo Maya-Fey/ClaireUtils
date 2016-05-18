@@ -536,8 +536,22 @@ public interface IInteger<Type extends IInteger<Type>>
 				er++;
 			}
 			//Carrying
+			RandUtils.fillArr(ints1, 0, 16);
+			RandUtils.fillArr(ints2, 0, 15);
 			Arrays.fill(ints1, 15, 32, 0);
-			Arrays.fill(ints1, 0, 15, -1);
+			Arrays.fill(ints2, 0, 15, -1);
+			b1 = new BigInteger(i1.toString());
+			i1.p_subtract(i2);
+			b1 = b1.subtract(b2);
+			if(!i1.toString().equals(b1.toString())) {
+				Log.err.println("Subtraction failed with carry");
+				er++;
+			}
+			
+			RandUtils.fillArr(ints1, 0, 16);
+			RandUtils.fillArr(ints2, 0, 15);
+			Arrays.fill(ints1, 15, 32, 0);
+			Arrays.fill(ints1, 6, 15, -1);
 			b1 = new BigInteger(i1.toString());
 			i1.p_subtract(i2);
 			b1 = b1.subtract(b2);
@@ -547,7 +561,7 @@ public interface IInteger<Type extends IInteger<Type>>
 			}
 			return er;
 		} catch(Exception e) {
-			Log.err.println("Exception encountered while testing addition of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
+			Log.err.println("Exception encountered while testing subtraction of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
 			e.printStackTrace();
 			return er + 1;
 		}
