@@ -113,14 +113,10 @@ public class UInt
 				carry = 1;
 			j++;
 		}
+		val[j] -= carry;
 		if(carry > 0)
-			if(j < this.length)
-				while(true) {
-					val[j]--;
-					if(val[j++] != -1) {
-						break;
-					}
-				}
+			while(val[j] == -1 && ++j < val.length)
+				val[j]--;
 	}
 	
 	protected void p_multiply(int[] ints)

@@ -538,7 +538,6 @@ public interface IInteger<Type extends IInteger<Type>>
 			//Carrying
 			RandUtils.fillArr(ints1, 0, 16);
 			RandUtils.fillArr(ints2, 0, 15);
-			Arrays.fill(ints1, 15, 32, 0);
 			Arrays.fill(ints2, 0, 15, -1);
 			b1 = new BigInteger(i1.toString());
 			i1.p_subtract(i2);
