@@ -585,10 +585,7 @@ public interface Bits<Type extends Bits<Type>>
 	 */
 	public static boolean u_greaterOrEqual(int i1, int i2)
 	{
-		if((i1 ^ 0x80000000) >= (i2 ^ 0x80000000)) 
-			return true;
-		else
-			return false;
+		return (i1 ^ 0x80000000) >= (i2 ^ 0x80000000);
 	}
 	
 	/**
@@ -600,10 +597,7 @@ public interface Bits<Type extends Bits<Type>>
 	 */
 	public static boolean u_greaterOrEqual(long i1, long i2)
 	{
-		if((i1 ^ 0x8000000000000000L) >= (i2 ^ 0x8000000000000000L)) 
-			return true;
-		else
-			return false;
+		return (i1 ^ 0x8000000000000000L) >= (i2 ^ 0x8000000000000000L);
 	}
 	
 	/**
@@ -615,10 +609,7 @@ public interface Bits<Type extends Bits<Type>>
 	 */
 	public static boolean u_greaterThan(int i1, int i2)
 	{
-		if((i1 ^ 0x80000000) > (i2 ^ 0x80000000)) 
-			return true;
-		else
-			return false;
+		return (i1 ^ 0x80000000) > (i2 ^ 0x80000000);
 	}
 	
 	/**
@@ -630,10 +621,7 @@ public interface Bits<Type extends Bits<Type>>
 	 */
 	public static boolean u_greaterThan(long i1, long i2)
 	{
-		if((i1 ^ 0x8000000000000000L) > (i2 ^ 0x8000000000000000L)) 
-			return true;
-		else
-			return false;
+		return (i1 ^ 0x8000000000000000L) > (i2 ^ 0x8000000000000000L); 
 	}
 	
 	/**
