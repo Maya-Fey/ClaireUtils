@@ -861,6 +861,7 @@ public class UInt
 		int er = 0;
 		er += IInteger.verifyConstruction(ifactory);
 		er += IInteger.verifyAddition(ifactory);
+		er += IInteger.verifySubtraction(ifactory);
 		return er;
 	}
 	

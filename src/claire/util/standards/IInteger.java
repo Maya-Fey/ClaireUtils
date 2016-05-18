@@ -516,5 +516,41 @@ public interface IInteger<Type extends IInteger<Type>>
 			return er + 1;
 		}
 	}
+	
+	public static <Int extends IInteger<Int>> int verifySubtraction(IntegerFactory<Int> fac)
+	{
+		int er = 0;
+		try {
+			int[] ints1 = new int[32];
+			RandUtils.fillArr(ints1, 0, 16);
+			Int i1 = fac.construct(ints1);
+			int[] ints2 = new int[32];
+			RandUtils.fillArr(ints2, 0, 15);
+			Int i2 = fac.construct(ints2);
+			BigInteger b1 = new BigInteger(i1.toString());
+			BigInteger b2 = new BigInteger(i2.toString());
+			i1.p_subtract(i2);
+			b1 = b1.subtract(b2);
+			if(!i1.toString().equals(b1.toString())){
+				Log.err.println("Subtraction failed");
+				er++;
+			}
+			//Carrying
+			Arrays.fill(ints1, 15, 32, 0);
+			Arrays.fill(ints1, 0, 15, -1);
+			b1 = new BigInteger(i1.toString());
+			i1.p_subtract(i2);
+			b1 = b1.subtract(b2);
+			if(!i1.toString().equals(b1.toString())) {
+				Log.err.println("Subtraction failed with carry");
+				er++;
+			}
+			return er;
+		} catch(Exception e) {
+			Log.err.println("Exception encountered while testing addition of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
+			e.printStackTrace();
+			return er + 1;
+		}
+	}
 
 }
