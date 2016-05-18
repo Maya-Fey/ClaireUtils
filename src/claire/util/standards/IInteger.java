@@ -540,6 +540,7 @@ public interface IInteger<Type extends IInteger<Type>>
 			RandUtils.fillArr(ints2, 0, 15);
 			Arrays.fill(ints2, 0, 15, -1);
 			b1 = new BigInteger(i1.toString());
+			b2 = new BigInteger(i2.toString());
 			i1.p_subtract(i2);
 			b1 = b1.subtract(b2);
 			if(!i1.toString().equals(b1.toString())) {
@@ -552,6 +553,7 @@ public interface IInteger<Type extends IInteger<Type>>
 			Arrays.fill(ints1, 15, 32, 0);
 			Arrays.fill(ints1, 6, 15, -1);
 			b1 = new BigInteger(i1.toString());
+			b2 = new BigInteger(i2.toString());
 			i1.p_subtract(i2);
 			b1 = b1.subtract(b2);
 			if(!i1.toString().equals(b1.toString())) {
