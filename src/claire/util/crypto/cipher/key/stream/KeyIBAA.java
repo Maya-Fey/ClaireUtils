@@ -3,14 +3,16 @@ package claire.util.crypto.cipher.key.stream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.rng.RandUtils;
-import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IDeepClonable;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -107,14 +109,14 @@ public class KeyIBAA implements IKey<KeyIBAA> {
 		return 1024;
 	}
 
-	public Factory<KeyIBAA> factory()
+	public KeyFactory<KeyIBAA> factory()
 	{
 		return factory;
 	}
 	
 	public static final KeyIBAAFactory factory = new KeyIBAAFactory();
 	
-	protected static class KeyIBAAFactory extends Factory<KeyIBAA>
+	protected static class KeyIBAAFactory extends KeyFactory<KeyIBAA>
 	{
 		public KeyIBAAFactory()
 		{
@@ -131,6 +133,13 @@ public class KeyIBAA implements IKey<KeyIBAA> {
 		public KeyIBAA resurrect(final IIncomingStream stream) throws InstantiationException, IOException
 		{
 			return new KeyIBAA(stream.readInts(256));
+		}
+		
+		public KeyIBAA random(IRandom<?, ?> rand, CryptoString s)
+		{
+			int[] key = new int[256];
+			rand.readInts(key);
+			return new KeyIBAA(key);
 		}
 	}
 	
