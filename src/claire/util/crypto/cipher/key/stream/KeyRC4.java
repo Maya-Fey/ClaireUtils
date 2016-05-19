@@ -1,14 +1,16 @@
 package claire.util.crypto.cipher.key.stream;
 
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.cipher.key.ByteKey;
 import claire.util.crypto.cipher.key.ByteKeyFactory;
 import claire.util.crypto.rng.RandUtils;
-import claire.util.io.Factory;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IDeepClonable;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.crypto.IRandom;
 
 public class KeyRC4 
 	   extends ByteKey<KeyRC4>{
@@ -28,7 +30,7 @@ public class KeyRC4
 		return _NAMESPACE.KEYRC4;
 	}
 	
-	public Factory<KeyRC4> factory()
+	public KeyFactory<KeyRC4> factory()
 	{
 		return factory;
 	}
@@ -46,6 +48,21 @@ public class KeyRC4
 		protected KeyRC4 construct(byte[] key)
 		{
 			return new KeyRC4(key);
+		}
+
+		public KeyRC4 random(IRandom<?, ?> rand, CryptoString s)
+		{
+			int len = 256;
+			if(s.args() > 0) {
+				len = s.nextArg().toInt();
+				if(len < 1)
+					throw new java.lang.IllegalArgumentException("RC4 does not accept key lengths below 1 byte");
+				if(len > 256)
+					throw new java.lang.IllegalArgumentException("RC4 does not accept key lengths in excess of 256 bytes");
+			}
+			byte[] bytes = new byte[len];
+			rand.readBytes(bytes);
+			return new KeyRC4(bytes);
 		}
 		
 	}	
