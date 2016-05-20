@@ -646,4 +646,29 @@ public interface IInteger<Type extends IInteger<Type>>
 		}
 	}
 	
+	public static <Int extends IInteger<Int>> int verifyAddSub(IntegerFactory<Int> fac)
+	{
+		int er = 0;
+		try {
+			int[] ints1 = new int[32];
+			RandUtils.fillArr(ints1, 0, 18);
+			Int i1 = fac.construct(ints1);
+			int[] ints2 = new int[32];
+			RandUtils.fillArr(ints2, 0, 16);
+			Int i2 = fac.construct(ints2);
+			Int conf = i1.createDeepClone();
+			i1.p_add(i2);
+			i1.p_subtract(i2);
+			if(!i1.equals(conf)) {
+				Log.err.println("Addition followed by subtraction did not yield the same value");
+				er++;
+			}
+			return er;
+		} catch(Exception e) {
+			Log.err.println("Exception encountered while testing addition of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
+			e.printStackTrace();
+			return er + 1;
+		}
+	}
+	
 }
