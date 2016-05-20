@@ -15,6 +15,7 @@ public class UInt
 	   extends StdUInt<UInt> {
 	
 	private int[] val;
+	private int[] ref;
 	private int length;
 	
 	public UInt(int i)
@@ -125,7 +126,9 @@ public class UInt
 		int tlen = MathHelper.getRealLength(val);
 		int max = val.length;
 		if(len > this.length) throw new java.lang.IllegalArgumentException();
-		int[] ref = new int[tlen];
+		if(ref == null)
+			ref = new int[val.length];
+		final int[] ref = this.ref;
 		System.arraycopy(val, 0, ref, 0, tlen);
 		if(MathHelper.mul1(val, tlen, ints[0]) > 0) {
 			return;
