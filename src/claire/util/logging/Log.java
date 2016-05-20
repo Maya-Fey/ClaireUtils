@@ -9,6 +9,7 @@ public class Log {
 	public static ILogger warn;
 	public static ILogger err;
 	public static ILogger crit;
+	public static Version version;
 	
 	private static ILogManager manager;
 	
@@ -29,6 +30,16 @@ public class Log {
 	public static final ILogManager getLogManager()
 	{
 		return manager;
+	}
+	
+	public static void setVersion(Version version)
+	{
+		Log.version = version;
+	}
+	
+	public static Version getVersion()
+	{
+		return Log.version;
 	}
 
 }
