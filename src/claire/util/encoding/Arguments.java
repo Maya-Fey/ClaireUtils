@@ -10,6 +10,38 @@ public class Arguments {
 	private final String[] index;
 	private final String[] words;
 	
+	public Arguments(String[] args, int start)
+	{
+		//Prescan
+		int word = 0;
+		int swit = 0;
+		for(int i = start; i < args.length; i++)
+		{
+			String s = args[i];
+			if(s.charAt(0) == '-' && s.length() > 1)
+			{
+				if(s.charAt(1) == '-')
+					word++;
+				else 
+					swit++;
+			}
+		}
+		switches = new String[swit];
+		index = new String[word];
+		words = new String[word];
+		swit = 0;
+		word = 0;
+		for(int i = start; i < args.length; i++) {
+			String arg = args[i];
+			if(arg.charAt(0) == '-' && arg.length() > 1)
+				if(arg.charAt(1) == '-') {
+					index[word  ] = arg;
+					words[word++] = args[++i];
+				} else
+					switches[swit++] = arg;
+		}
+	}
+	
 	public Arguments(String[] args)
 	{
 		//Prescan
