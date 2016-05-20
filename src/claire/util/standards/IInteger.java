@@ -594,4 +594,30 @@ public interface IInteger<Type extends IInteger<Type>>
 		}
 	}
 
+	public static <Int extends IInteger<Int>> int verifyDivision(IntegerFactory<Int> fac)
+	{
+		int er = 0;
+		try {
+			int[] ints1 = new int[32];
+			RandUtils.fillArr(ints1, 0, 24);
+			Int i1 = fac.construct(ints1);
+			int[] ints2 = new int[32];
+			RandUtils.fillArr(ints2, 0, 6);
+			Int i2 = fac.construct(ints2);
+			BigInteger b1 = new BigInteger(i1.toString());
+			BigInteger b2 = new BigInteger(i2.toString());
+			i1.p_divide(i2);
+			b1 = b1.divide(b2);
+			if(!i1.toString().equals(b1.toString())){
+				Log.err.println("Division failed");
+				er++;
+			}
+			return er;
+		} catch(Exception e) {
+			Log.err.println("Exception encountered while testing addition of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
+			e.printStackTrace();
+			return er + 1;
+		}
+	}
+	
 }
