@@ -580,8 +580,8 @@ public interface IInteger<Type extends IInteger<Type>>
 			Int i2 = fac.construct(ints2);
 			BigInteger b1 = new BigInteger(i1.toString());
 			BigInteger b2 = new BigInteger(i2.toString());
-			i1.p_add(i2);
-			b1 = b1.add(b2);
+			i1.p_multiply(i2);
+			b1 = b1.multiply(b2);
 			if(!i1.toString().equals(b1.toString())){
 				Log.err.println("Multiplication failed");
 				er++;
