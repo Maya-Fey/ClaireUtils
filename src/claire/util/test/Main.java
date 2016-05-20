@@ -67,9 +67,9 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
-		Test.runTests();
-		end();
-		CryptoPrimeGenerator<UInt> pg = new CryptoPrimeGenerator<UInt>(8, 768, UInt.ifactory, 50);
+		//Test.runTests();
+		//end();
+		CryptoPrimeGenerator<UInt> pg = new CryptoPrimeGenerator<UInt>(8, 768, UInt.ifactory, 1);
 		UInt u = pg.nextPrime();
 		System.out.println(u);
 		System.out.println(u.getBits());

@@ -609,9 +609,9 @@ public final class MathHelper {
 			r1[k] = (int) carry;
 			carry >>>= 32;
 		}
-		while(k < r1.length && carry != 0) {
+		if(k < r1.length && carry != 0) {
 			r1[k] = (int) carry;
-			carry >>>= 32;
+			carry = 0;
 		}
 		return (int) carry;
 	}
