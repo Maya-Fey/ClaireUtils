@@ -858,6 +858,7 @@ public class UInt
 		er += IInteger.verifyAddition(ifactory);
 		er += IInteger.verifySubtraction(ifactory);
 		er += IInteger.verifyMultiplication(ifactory);
+		er += IInteger.verifySquaring(ifactory);
 		er += IInteger.verifyDivision(ifactory);
 		er += IInteger.verifyModulus(ifactory);
 		er += IInteger.verifyAddSub(ifactory);

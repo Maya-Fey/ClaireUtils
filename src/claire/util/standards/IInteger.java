@@ -588,7 +588,29 @@ public interface IInteger<Type extends IInteger<Type>>
 			}
 			return er;
 		} catch(Exception e) {
-			Log.err.println("Exception encountered while testing addition of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
+			Log.err.println("Exception encountered while testing multiplication of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
+			e.printStackTrace();
+			return er + 1;
+		}
+	}
+	
+	public static <Int extends IInteger<Int>> int verifySquaring(IntegerFactory<Int> fac)
+	{
+		int er = 0;
+		try {
+			int[] ints1 = new int[32];
+			RandUtils.fillArr(ints1, 0, 16);
+			Int i1 = fac.construct(ints1);
+			BigInteger b1 = new BigInteger(i1.toString());
+			i1.p_square();
+			b1 = b1.pow(2);
+			if(!i1.toString().equals(b1.toString())){
+				Log.err.println("Squaring failed");
+				er++;
+			}
+			return er;
+		} catch(Exception e) {
+			Log.err.println("Exception encountered while testing squaring of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
 			e.printStackTrace();
 			return er + 1;
 		}
@@ -614,7 +636,7 @@ public interface IInteger<Type extends IInteger<Type>>
 			}
 			return er;
 		} catch(Exception e) {
-			Log.err.println("Exception encountered while testing addition of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
+			Log.err.println("Exception encountered while testing division of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
 			e.printStackTrace();
 			return er + 1;
 		}
@@ -640,7 +662,7 @@ public interface IInteger<Type extends IInteger<Type>>
 			}
 			return er;
 		} catch(Exception e) {
-			Log.err.println("Exception encountered while testing addition of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
+			Log.err.println("Exception encountered while testing modulus of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
 			e.printStackTrace();
 			return er + 1;
 		}
@@ -665,7 +687,7 @@ public interface IInteger<Type extends IInteger<Type>>
 			}
 			return er;
 		} catch(Exception e) {
-			Log.err.println("Exception encountered while testing addition of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
+			Log.err.println("Exception encountered while testing addition/subtraction of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
 			e.printStackTrace();
 			return er + 1;
 		}
@@ -690,7 +712,7 @@ public interface IInteger<Type extends IInteger<Type>>
 			}
 			return er;
 		} catch(Exception e) {
-			Log.err.println("Exception encountered while testing addition of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
+			Log.err.println("Exception encountered while testing multiplication/division of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
 			e.printStackTrace();
 			return er + 1;
 		}
