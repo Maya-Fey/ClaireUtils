@@ -623,7 +623,6 @@ public class UInt
 		}
 	}
 
-	//TODO: When optimize div/mod make sure this copies orig, rather than returning internal data
 	public UInt p_divmod(IInteger<?> i)
 	{
 		int[] ints = i.getArr();
@@ -631,12 +630,13 @@ public class UInt
 		int vlen = MathHelper.getRealLength(val);
 		if(dlen > vlen) {
 			this.zero();
+			return new UInt(ArrayUtil.copy(val));
 		}
 		if(dlen < 2) 
 			return new UInt(divmodOneWord(ints[0]));
 		int[] orig = val;
 		fastdiv(ints, dlen, vlen);
-		return new UInt(orig);
+		return new UInt(ArrayUtil.copy(orig));
 	}
 
 	public void increment()
