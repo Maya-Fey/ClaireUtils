@@ -69,7 +69,7 @@ public final class Main {
 		System.out.println("I've actually done something! Will ya look at that.");
 		//Test.runTests();
 		//end();
-		CryptoPrimeGenerator<UInt> pg = new CryptoPrimeGenerator<UInt>(8, 1536, UInt.ifactory, 100);
+		CryptoPrimeGenerator<UInt> pg = new CryptoPrimeGenerator<UInt>(8, 512, UInt.ifactory, 50);
 		UInt u = pg.nextPrime();
 		System.out.println(u);
 		System.out.println(u.getBits());

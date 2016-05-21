@@ -6,6 +6,7 @@ import java.util.Arrays;
 import claire.util.encoding.CString;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
+import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IInteger;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.io.IIncomingStream;
@@ -451,13 +452,12 @@ public class UInt
 	private final void divideOneWord(int divs) 
 	{
 		if(divs == 1) {
-			final int[] n = new int[this.length];
-			System.arraycopy(val, 0, n, 0, this.length);
-			val = n;
 			return;
 		}
         final long divsLong = divs & 0xFFFFFFFFL;
-        final int[] n = new int[this.length];
+        if(ref == null)
+			ref = new int[length];
+        final int[] n = ref;
         final int vlen = MathHelper.getRealLength(val);
         
         if (vlen == 1) {
@@ -490,6 +490,7 @@ public class UInt
                 cur = (int) r;
         	}
         }
+        ref = val;
         val = n;
     }
 	
@@ -504,7 +505,9 @@ public class UInt
 			return orig;
 		}
         final long divsLong = divs & 0xFFFFFFFFL;
-        final int[] n = new int[this.length];
+        if(ref == null)
+			ref = new int[length];
+        final int[] n = ref;
         final int vlen = MathHelper.getRealLength(orig);
         
         if (vlen == 1) {
@@ -541,7 +544,8 @@ public class UInt
         orig[0] = (int) cur;
         Arrays.fill(orig, 1, vlen, 0);
         val = n;
-        return orig;
+        ref = orig;
+        return ArrayUtil.copy(orig);
     }
 	
 	private final void moduloOneWord(final int divs) 
