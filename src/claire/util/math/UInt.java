@@ -576,7 +576,9 @@ public class UInt
 		
 		int tlen = MathHelper.getRealLength(val);
 		int max = val.length;
-		int[] ref = new int[tlen];
+		if(ref == null)
+			ref = new int[val.length];
+		final int[] ref = this.ref;
 		System.arraycopy(val, 0, ref, 0, tlen);
 		if(MathHelper.mul1(val, tlen, val[0]) > 0) {	
 			return;
@@ -586,8 +588,8 @@ public class UInt
 			long borrow = 0;
 			long jw = ((long) ref[j] & 0xFFFFFFFFL);
 			int k = 0;
-			int t = 0;
-			while((t = k + j) < max)
+			int t = j;
+			for(; t < max; k++, t++)
 			{
 				if(k < tlen) {
 					borrow += (jw * ((long) ref[k] & 0xFFFFFFFFL)) + ((long) val[t] & 0xFFFFFFFFL);
@@ -596,12 +598,10 @@ public class UInt
 				} else {
 					if(borrow != 0) {
 						val[t] = (int) borrow;
-						borrow >>>= 32;
-					} else {
+						borrow = 0;
+					} else 
 						break;
-					}
 				}
-				k++;
 			}
 			if(borrow != 0) {
 				return;
