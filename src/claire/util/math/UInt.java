@@ -90,7 +90,7 @@ public class UInt
 		}
 		val[j] += carry;
 		if(carry != 0)
-			while(val[j] == 0 && ++j < val.length)
+			while(val[j] == 0 && ++j < length)
 				val[j]++;
 	}
 	
@@ -116,7 +116,7 @@ public class UInt
 		}
 		val[j] -= carry;
 		if(carry > 0)
-			while(val[j] == -1 && ++j < val.length)
+			while(val[j] == -1 && ++j < length)
 				val[j]--;
 	}
 	
@@ -124,10 +124,10 @@ public class UInt
 	{
 		int len = MathHelper.getRealLength(ints);
 		int tlen = MathHelper.getRealLength(val);
-		int max = val.length;
+		int max = length;
 		if(len > this.length) throw new java.lang.IllegalArgumentException();
 		if(ref == null)
-			ref = new int[val.length];
+			ref = new int[length];
 		final int[] ref = this.ref;
 		System.arraycopy(val, 0, ref, 0, tlen);
 		if(MathHelper.mul1(val, tlen, ints[0]) > 0) {
@@ -188,7 +188,7 @@ public class UInt
 	
 	private final void fastdiv(final int[] divisor, final int dlen, int vlen)
 	{
-		final int[] n = new int[this.length];
+		final int[] n;
 		final int[] divd;
 		
 		int vit,
@@ -205,10 +205,17 @@ public class UInt
 			vlen++;
 		}
 		if(narr) {
-			divd = new int[vlen + 1];
+			if(ref == null || ref.length < vlen + 1)
+				ref = new int[length + 1];
+			divd = ref;
 			System.arraycopy(val, 0, divd, 0, vlen - 1);
-		} else 
+			n = val;
+		} else {
 			divd = val;
+			if(ref == null || ref.length < vlen + 1)
+				ref = new int[length + 1];
+			n = ref;
+		}
 		
 		if(shift > 0) {
 			MathHelper.shiftArrayRightBE(divisor, shift);
@@ -309,6 +316,7 @@ public class UInt
 		}
 		MathHelper.shiftArrayLeftBE(divisor, shift);
 		val = n;
+		ref = divd;
 	}
 	
 	private final void fastmod(final int[] divisor, final int dlen, int vlen)
@@ -329,7 +337,9 @@ public class UInt
 			vlen++;
 		}
 		if(narr) {
-			divd = new int[vlen + 1];
+			if(ref == null || ref.length < vlen + 1)
+				ref = new int[length + 1];
+			divd = ref;
 			System.arraycopy(val, 0, divd, 0, vlen - 1);
 		} else 
 			divd = val;
@@ -434,7 +444,7 @@ public class UInt
 		}
 		MathHelper.shiftArrayLeftBE(divisor, shift);
 		MathHelper.shiftArrayLeftBE(divd, shift);
-		if(narr)
+		if(narr) 
 			System.arraycopy(divd, 0, val, 0, vlen - 1);
 	}
 	
@@ -575,9 +585,9 @@ public class UInt
 	{
 		
 		int tlen = MathHelper.getRealLength(val);
-		int max = val.length;
+		int max = length;
 		if(ref == null)
-			ref = new int[val.length];
+			ref = new int[length];
 		final int[] ref = this.ref;
 		System.arraycopy(val, 0, ref, 0, tlen);
 		if(MathHelper.mul1(val, tlen, val[0]) > 0) {	
@@ -609,6 +619,7 @@ public class UInt
 		}
 	}
 
+	//TODO: When optimize div/mod make sure this copies orig, rather than returning internal data
 	public UInt p_divmod(IInteger<?> i)
 	{
 		int[] ints = i.getArr();
@@ -697,7 +708,7 @@ public class UInt
 	
 	public boolean isNonZero()
 	{
-		for(int i = 0; i < this.val.length; i++)
+		for(int i = 0; i < this.length; i++)
 			if(this.val[i] != 0)
 				return true;
 		return false;
@@ -720,10 +731,10 @@ public class UInt
 
 	public void setTo(long l)
 	{
-		if(val.length > 1) {
+		if(length > 1) {
 			val[0] = (int) l;
 			val[1] = (int) (l >>> 32);
-			Arrays.fill(val, 2, val.length, 0);
+			Arrays.fill(val, 2, length, 0);
 		} else
 			val[0] = (int) l;
 	}
@@ -733,9 +744,9 @@ public class UInt
 		if(arr.length > this.length)
 			if(MathHelper.getRealLength(arr) > this.length)
 				throw new java.lang.ArrayIndexOutOfBoundsException("Cannot set " + arr.length + " array to a " + this.length +"-int integer");
-		if(val.length > arr.length)
-			Arrays.fill(val, arr.length, val.length, 0);
-		System.arraycopy(arr, 0, val, 0, val.length > arr.length ? arr.length : val.length);
+		if(length > arr.length)
+			Arrays.fill(val, arr.length, length, 0);
+		System.arraycopy(arr, 0, val, 0, length > arr.length ? arr.length : length);
 	}
 	
 	public boolean isOdd()
@@ -765,7 +776,7 @@ public class UInt
 	public void upsize(int size)
 	{
 		int[] n = new int[size];
-		System.arraycopy(val, 0, n, 0, val.length);
+		System.arraycopy(val, 0, n, 0, length);
 		this.length = size;
 		val = n;
 	}
@@ -773,7 +784,7 @@ public class UInt
 	public UInt getLarge(int size)
 	{
 		int[] n = new int[size];
-		System.arraycopy(val, 0, n, 0, val.length);
+		System.arraycopy(val, 0, n, 0, length);
 		return new UInt(n);
 	}
 
