@@ -495,16 +495,11 @@ public class UInt
         val = n;
     }
 	
-	private final int[] divmodOneWord(int divs) 
+	private final int divmodOneWord(int divs) 
 	{
 		final int[] orig = val;
-		if(divs == 1) {
-			final int[] n = new int[this.length];
-			System.arraycopy(orig, 0, n, 0, this.length);
-			Arrays.fill(orig, 0);
-			val = n;
-			return orig;
-		}
+		if(divs == 1) 
+			return 0;
         final long divsLong = divs & 0xFFFFFFFFL;
         if(ref == null)
 			ref = new int[length];
@@ -515,7 +510,7 @@ public class UInt
         	orig[0] = (int) ((val[0] & 0xFFFFFFFFL) % divsLong);
         	val = n;
         	ref = orig;
-            return  ArrayUtil.copy(orig);
+            return orig[0];
         }
         
         long cur = 0;
@@ -546,7 +541,7 @@ public class UInt
         Arrays.fill(orig, 1, vlen, 0);
         val = n;
         ref = orig;
-        return ArrayUtil.copy(orig);
+        return orig[0];
     }
 	
 	private final void moduloOneWord(final int divs) 
@@ -708,7 +703,7 @@ public class UInt
 	
 	public int p_divmod(int i)
 	{
-		return this.divmodOneWord(i)[0];
+		return this.divmodOneWord(i);
 	}
 	
 	public boolean isNonZero()
