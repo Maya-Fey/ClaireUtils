@@ -470,6 +470,8 @@ public interface IInteger<Type extends IInteger<Type>>
 			
 			Int i = fac.construct(chars, 32);
 			if(!i.toString().equals(new String(chars))) {
+				System.out.println(i);
+				System.out.println(chars);
 				Log.err.println("String construction non consistent");
 				er++;
 			}

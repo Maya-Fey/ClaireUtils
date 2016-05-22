@@ -459,6 +459,7 @@ public class UInt
 			ref = new int[length];
         final int[] n = ref;
         final int vlen = MathHelper.getRealLength(val);
+        Arrays.fill(n, vlen, n.length, 0);
         
         if (vlen == 1) {
         	n[0] = (int) ((val[0] & 0xFFFFFFFFL) / divsLong);
@@ -509,12 +510,12 @@ public class UInt
 			ref = new int[length];
         final int[] n = ref;
         final int vlen = MathHelper.getRealLength(orig);
-        
         if (vlen == 1) {
         	n[0] = (int) ((orig[0] & 0xFFFFFFFFL) / divsLong);
         	orig[0] = (int) ((val[0] & 0xFFFFFFFFL) % divsLong);
         	val = n;
-            return orig;
+        	ref = orig;
+            return  ArrayUtil.copy(orig);
         }
         
         long cur = 0;
