@@ -284,9 +284,9 @@ public class Test {
 		//Log.info.println("Testing claire.util.encoding.Base10");
 		//reg += Base10.test();
 		Log.info.println("Testing ../math");
-		Log.info.println("Testing UInt");
+		Log.info.println("Testing claire.util.math.UInt");
 		reg += UInt.test();
-		Log.info.println("Testing MathHelper");
+		Log.info.println("Testing claire.util.math.MathHelper");
 		reg += MathHelper.test();
 		Log.info.println("Testing counters");
 		Log.info.println("Testing claire.util.math.counters.IntCounter");
