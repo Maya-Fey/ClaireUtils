@@ -1,6 +1,9 @@
 package claire.util.math;
 
+import java.math.BigInteger;
+
 import claire.util.crypto.rng.RandUtils;
+import claire.util.logging.Log;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.memory.util.Pointer;
@@ -1664,6 +1667,49 @@ public final class MathHelper {
 		}
 		t2.setTo(start);
 		return t2;
+	}
+	
+	public static int testExponentiation()
+	{
+		int er = 0;
+		try {
+			int exp = RandUtils.inRange(50, 600);
+			UInt u = new UInt("7", 128);
+			UInt u2 = u.createDeepClone();
+			UInt e = new UInt(Integer.toString(exp), 8);
+			BigInteger b = new BigInteger("7");
+			b = b.pow(exp);
+			p_exponent(u2, exp);
+			if(!b.toString().equals(u2.toString())) {
+				er++;
+				Log.err.println("p_exponent failed to deliver proper results");
+			}
+			u2 = u.createDeepClone();
+			p_exponent(u2, e);
+			if(!b.toString().equals(u2.toString())) {
+				er++;
+				Log.err.println("p_exponent with IInteger failed to deliver proper results");
+			}
+			u2 = u.createDeepClone();
+			p_exponent_sure(u2, e);
+			if(!b.toString().equals(u2.toString())) {
+				er++;
+				Log.err.println("p_exponent_sure with IInteger failed to deliver proper results");
+			}
+			return er;
+		} catch(Exception e) {
+			Log.err.println("Exception encountered while testing exponentiation of integers: " + e.getMessage());
+			e.printStackTrace();
+			return er + 1;
+		}
+	}
+	
+	public static int test()
+	{
+		//TODO: Complete tests
+		int er = 0;
+		er += testExponentiation();
+		return er;
 	}
 	
 }

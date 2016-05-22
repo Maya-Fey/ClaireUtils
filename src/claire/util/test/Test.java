@@ -83,6 +83,7 @@ import claire.util.crypto.hash.primitive.Whirlpool_T;
 import claire.util.crypto.rng.primitive.MersenneSeed;
 import claire.util.encoding.CString;
 import claire.util.logging.Log;
+import claire.util.math.MathHelper;
 import claire.util.math.UInt;
 import claire.util.math.counters.IntCounter;
 import claire.util.math.counters.LongCounter;
@@ -135,11 +136,11 @@ public class Test {
 		Log.info.println("Testing claire.util.crypto.cipher.key.stream.KeyRC4");
 		reg += KeyRC4.test();
 		Log.info.println("Testing claire.util.crypto.cipher.key.stream.KeyRC4_DROP");
-		reg += KeyRC4_DROP.test();
+		reg += KeyRC4_DROP.test();*/
 		Log.info.println("Testing claire.util.crypto.cipher.key.stream.KeyIA");
 		reg += KeyIA.test();
 		Log.info.println("Testing claire.util.crypto.cipher.key.stream.KeyIBAA");
-		reg += KeyIBAA.test();*/
+		reg += KeyIBAA.test();
 		Log.info.println("Testing ../primitive");
 		Log.info.println("Testing block");
 		Log.info.println("Testing claire.util.crypto.cipher.primitive.block.AES");
@@ -285,6 +286,8 @@ public class Test {
 		Log.info.println("Testing ../math");
 		Log.info.println("Testing UInt");
 		reg += UInt.test();
+		Log.info.println("Testing MathHelper");
+		reg += MathHelper.test();
 		Log.info.println("Testing counters");
 		Log.info.println("Testing claire.util.math.counters.IntCounter");
 		reg += IntCounter.test();
