@@ -1704,11 +1704,54 @@ public final class MathHelper {
 		}
 	}
 	
+	public static int testModularExponentiation()
+	{
+		int er = 0;
+		try {
+			UInt u1 = MathHelper.randomInteger(UInt.ifactory, 32, RandUtils.dprng, 16 * 32 - 1);
+			UInt u2 = MathHelper.randomInteger(UInt.ifactory, 32, RandUtils.dprng, 16 * 32);
+			UInt u3 = MathHelper.randomInteger(UInt.ifactory, 32, RandUtils.dprng, 16 * 32);
+			UInt u4;
+			BigInteger b1 = new BigInteger(u1.toString());
+			BigInteger b2 = new BigInteger(u2.toString());
+			BigInteger b3 = new BigInteger(u3.toString());
+			b1 = b1.modPow(b3, b2);
+			u4 = u1.createDeepClone();
+			p_modular_exponent(u4, u3, u2);
+			if(!b1.toString().equals(u4.toString())) {
+				er++;
+				Log.err.println("p_modular_exponent failed to deliver proper results");
+			}
+			b1 = new BigInteger(u1.toString());
+			b1 = b1.modPow(b3, b2);
+			u4 = u1.createDeepClone();
+			p_modular_exponent_sure(u4, u3, u2);
+			if(!b1.toString().equals(u4.toString())) {
+				er++;
+				Log.err.println("p_modular_exponent_sure failed to deliver proper results");
+			}
+			b1 = new BigInteger(u1.toString());
+			b1 = b1.modPow(new BigInteger("3432423"), b2);
+			u4 = u1.createDeepClone();
+			p_modular_exponent(u4, 3432423, u2);
+			if(!b1.toString().equals(u4.toString())) {
+				er++;
+				Log.err.println("p_modular_exponent with int with IInteger failed to deliver proper results");
+			}
+			return er;
+		} catch(Exception e) {
+			Log.err.println("Exception encountered while testing exponentiation of integers: " + e.getMessage());
+			e.printStackTrace();
+			return er + 1;
+		}
+	}
+	
 	public static int test()
 	{
 		//TODO: Complete tests
 		int er = 0;
 		er += testExponentiation();
+		er += testModularExponentiation();
 		return er;
 	}
 	
