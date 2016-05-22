@@ -682,15 +682,14 @@ public final class MathHelper {
 		if(exponent == 1)
 			return;
 		IInteger<?> o = i.createDeepClone();
-		o.setTo(1);
-		while(exponent > 1)
+		int max = Bits.getMSB(exponent);
+		int bit = max - 1;
+		while(bit > -1)
 		{
-			if((exponent & 1) == 1) 
-				o.p_multiply(i);
 			i.p_square();
-			exponent >>>= 1;
+			if(Bits.getBit(exponent, bit--)) 
+				i.p_multiply(o);
 		}
-		i.p_multiply(o);
 	}
 	
 	/**
