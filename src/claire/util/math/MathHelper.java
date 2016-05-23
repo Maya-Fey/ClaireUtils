@@ -1738,12 +1738,35 @@ public final class MathHelper {
 		}
 	}
 	
+	public static int testModularInverse()
+	{
+		UInt u1 = new UInt(32);
+		UInt u2 = new UInt(32);
+		UInt u3;
+		while(true)
+		{
+			RandUtils.fillArr(u1.getArr(), 0, 16);
+			RandUtils.fillArr(u2.getArr(), 0, 12);
+			if(gcd(u1, u2).toString().equals("1"))
+				break;
+		}
+		u3 = u_modular_inverse(u1, u2);
+		u1.p_multiply(u3);
+		u1.p_modulo(u2);
+		if(!u1.isEqualTo(1)) {
+			Log.err.println("Error: modular inverse did not multiply too 1");
+			return 1;
+		}
+		return 0;
+	}
+	
 	public static int test()
 	{
 		//TODO: Complete tests
 		int er = 0;
 		er += testExponentiation();
 		er += testModularExponentiation();
+		er += testModularInverse();
 		return er;
 	}
 	
