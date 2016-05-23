@@ -1,10 +1,12 @@
 package claire.util.math;
 
 import claire.util.crypto.rng.RandUtils;
+import claire.util.standards.IGenerator;
 import claire.util.standards.IInteger;
 import claire.util.standards.crypto.IRandom;
 
-public class CryptoPrimeGenerator<Int extends IInteger<Int>> {
+public class CryptoPrimeGenerator<Int extends IInteger<Int>> 
+	   implements IGenerator<Int> {
 	
 	public static final int[] PRIMES = new int[]
 		{
@@ -147,6 +149,11 @@ public class CryptoPrimeGenerator<Int extends IInteger<Int>> {
 	public int getBits()
 	{
 		return this.bits;
+	}
+
+	public Int generate()
+	{
+		return this.nextPrime();
 	}
 
 }
