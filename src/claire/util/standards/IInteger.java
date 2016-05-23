@@ -305,6 +305,15 @@ public interface IInteger<Type extends IInteger<Type>>
 	void setTo(long l);
 	void setTo(IInteger<?> other);
 	
+	void p_trim();
+	
+	default Type trim()
+	{
+		Type t = this.createDeepClone();
+		t.p_trim();
+		return t;
+	}
+	
 	void setArr(int[] arr);
 	
 	IntegerFactory<Type> iFactory();
