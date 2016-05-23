@@ -1761,6 +1761,31 @@ public final class MathHelper {
 			}
 			return er;
 		} catch(Exception e) {
+			Log.err.println("Exception encountered while testing modular inversion of integers: " + e.getMessage());
+			e.printStackTrace();
+			return er + 1;
+		}
+	}
+	
+	public static int testPrimeTest()
+	{
+		int er = 0;
+		try {
+			UInt u = new UInt(8);
+			int tests = 20;
+			while(tests -- > 0) {
+				RandUtils.fillArr(u.getArr(), 0, 4);
+				if(!u.isOdd())
+					u.increment();
+				BigInteger b = new BigInteger(u.toString());
+				if(b.isProbablePrime(8) != isPrimeProbableMR(u, RandUtils.dprng, 8))
+				{
+					er++;
+					Log.err.println("Primality test gave inaccurate results");
+				}
+			}
+			return er;
+		} catch(Exception e) {
 			Log.err.println("Exception encountered while testing exponentiation of integers: " + e.getMessage());
 			e.printStackTrace();
 			return er + 1;
