@@ -1,10 +1,12 @@
 package claire.util.math;
 
 import claire.util.crypto.rng.RandUtils;
+import claire.util.standards.IGenerator;
 import claire.util.standards.IInteger;
 import claire.util.standards.crypto.IRandom;
 
-public class PrimeGenerator<Int extends IInteger<Int>> {
+public class PrimeGenerator<Int extends IInteger<Int>> 
+	   implements IGenerator<Int> {
 	
 	public static final int[] PRIMES = new int[]
 		{
@@ -150,6 +152,11 @@ public class PrimeGenerator<Int extends IInteger<Int>> {
 	public Int getMax()
 	{
 		return this.max;
+	}
+
+	public Int generate()
+	{
+		return this.nextPrime();
 	}
 
 }
