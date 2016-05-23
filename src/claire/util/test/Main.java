@@ -13,6 +13,7 @@ import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
 import claire.util.encoding.Hex;
 import claire.util.math.CryptoPrimeGenerator;
+import claire.util.math.CryptoStrongPrimeGenerator;
 import claire.util.math.MathHelper;
 import claire.util.math.StrongPrimeGenerator;
 import claire.util.math.UInt;
