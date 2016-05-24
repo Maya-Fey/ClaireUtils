@@ -25,5 +25,10 @@ public class GeneratorThread<Type>
 	{
 		return fruit;
 	}
+	
+	public boolean harvested()
+	{
+		return fruit != null;
+	}
 
 }
