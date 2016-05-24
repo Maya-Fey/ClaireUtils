@@ -6,19 +6,19 @@ public class GeneratorThread<Type>
 	   extends Thread {
 	
 	private IGenerator<Type> gen;
+	private TaskMonitor mon;
 	private Type fruit;
 	
-	public GeneratorThread(IGenerator<Type> gen)
+	public GeneratorThread(IGenerator<Type> gen, TaskMonitor mon)
 	{
 		this.gen = gen;
+		this.mon = mon;
 	}
 			
 	public void run()
 	{
 		fruit = gen.generate();
-		synchronized(gen) {
-			gen.notify();
-		}
+		mon.notifyProgress();
 	}
 	
 	public Type harvest()
