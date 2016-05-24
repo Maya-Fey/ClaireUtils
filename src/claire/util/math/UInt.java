@@ -799,13 +799,13 @@ public class UInt
 	public void export(IOutgoingStream stream) throws IOException
 	{
 		stream.writeInt(this.length);
-		stream.writeInts(val);
+		stream.writeInts(val, 0, length);
 	}
 
 	public void export(byte[] bytes, int offset)
 	{
 		Bits.intToBytes(this.length, bytes, offset);
-		Bits.intsToBytes(val, 0, bytes, offset + 4);
+		Bits.intsToBytes(val, 0, bytes, offset + 4, length);
 	}
 
 	public int exportSize()
