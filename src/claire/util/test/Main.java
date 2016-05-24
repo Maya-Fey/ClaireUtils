@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
 
+import claire.util.concurrency.CountdownMonitor;
 import claire.util.concurrency.GeneratorThread;
 import claire.util.concurrency.TaskMonitor;
 import claire.util.crypto.hash.primitive.BEAR.$BEAR3;
@@ -71,28 +72,12 @@ public final class Main {
 		System.out.println("I've actually done something! Will ya look at that.");
 		CryptoPrimeGenerator<UInt> pg1 = new CryptoPrimeGenerator<UInt>(8, 512, UInt.ifactory, 1);
 		CryptoPrimeGenerator<UInt> pg2 = new CryptoPrimeGenerator<UInt>(8, 512, UInt.ifactory, 1);
-		TaskMonitor mon = new TaskMonitor() {
-			
-			int amt = 2;
-
-			public boolean isDone()
-			{
-				return amt < 1;
-			}
-
-			public void onProgress()
-			{
-				amt--;
-			}
-			
-		};
+		TaskMonitor mon = new CountdownMonitor(2);
 		GeneratorThread<UInt> t1 = new GeneratorThread<UInt>(pg1, mon);
 		GeneratorThread<UInt> t2 = new GeneratorThread<UInt>(pg2, mon);
 		t1.start();
 		t2.start();
-		synchronized(mon) {
-			mon.wait();
-		}
+		mon.waitOn();
 		System.out.println(t1.harvest());
 		System.out.println(t2.harvest());
 		end();
