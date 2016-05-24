@@ -43,5 +43,20 @@ public class CryptoString
 			}
 		}
 	}
+	
+	public CryptoString nextLevel(char sep)
+	{
+		try {
+			return new CryptoString(this.chars, this.off + a, b - a, sep);
+		} finally {
+			if(b == end)
+				a = -1;
+			else {
+				a = b + 1;
+				if((b = this.next(a, sep)) == -1) 
+					b = end;
+			}
+		}
+	}
 
 }

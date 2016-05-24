@@ -12,9 +12,9 @@ public class PartialString
 	   			  IDeepClonable<PartialString>,
 	   			  IReferrable<PartialString> {
 
-	private int off, len;
+	protected int off, len;
 	
-	private char[] chars;
+	protected char[] chars;
 	
 	public PartialString(char[] chars, int off, int len)
 	{
