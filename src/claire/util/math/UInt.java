@@ -718,6 +718,11 @@ public class UInt
 	{
 		return this.val;
 	}
+	
+	public void p_trim()
+	{
+		length = MathHelper.getRealLength(val);
+	}
 
 	public boolean sameAs(UInt obj)
 	{
