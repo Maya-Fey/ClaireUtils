@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
 
+import claire.util.concurrency.GeneratorThread;
 import claire.util.crypto.hash.primitive.BEAR.$BEAR3;
 import claire.util.crypto.rng.primitive.XorShiftNG;
 import claire.util.display.ImageUtil;
@@ -13,7 +14,6 @@ import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
 import claire.util.encoding.Hex;
 import claire.util.math.CryptoPrimeGenerator;
-import claire.util.math.CryptoStrongPrimeGenerator;
 import claire.util.math.MathHelper;
 import claire.util.math.StrongPrimeGenerator;
 import claire.util.math.UInt;
@@ -68,6 +68,22 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
+		CryptoPrimeGenerator<UInt> pg1 = new CryptoPrimeGenerator<UInt>(8, 64, UInt.ifactory, 1);
+		CryptoPrimeGenerator<UInt> pg2 = new CryptoPrimeGenerator<UInt>(8, 64, UInt.ifactory, 1);
+		GeneratorThread<UInt> t1 = new GeneratorThread<UInt>(pg1);
+		GeneratorThread<UInt> t2 = new GeneratorThread<UInt>(pg2);
+		t1.start();
+		t2.start();
+		int git = 2;
+		while(git-- > 0){
+			synchronized(new Object()) {
+				pg1.wait();
+			}
+			System.out.println("Donuts");
+		}
+		System.out.println(t1.harvest());
+		System.out.println(t2.harvest());
+		end();
 		Test.runTests();
 		end();
 		CryptoPrimeGenerator<UInt> pg = new CryptoPrimeGenerator<UInt>(8, 512, UInt.ifactory, 50);
