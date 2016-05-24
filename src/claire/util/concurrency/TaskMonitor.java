@@ -1,25 +1,17 @@
 package claire.util.concurrency;
 
-public class TaskMonitor {
+public abstract class TaskMonitor {
 	
-	boolean[] status;
+	public abstract boolean isDone();
+	public abstract void onProgress();
 	
-	public TaskMonitor(int threads)
+	public void notifyProgress()
 	{
-		status = new boolean[threads];
-	}
-	
-	public void setCompleted(int thread)
-	{
-		status[thread] = true;
-	}
-	
-	public boolean isComplete()
-	{
-		for(int i = 0; i < status.length; i++)
-			if(!status[i])
-				return false;
-		return true;
+		this.onProgress();
+		if(this.isDone())
+			synchronized(this) {
+				this.notify();
+			}
 	}
 
 }
