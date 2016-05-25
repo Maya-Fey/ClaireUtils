@@ -1,5 +1,6 @@
 package claire.util.test;
 
+import claire.util.crypto.cipher.key.block.KeyAES;
 import claire.util.crypto.cipher.key.stream.KeyIA;
 import claire.util.crypto.cipher.key.stream.KeyIBAA;
 import claire.util.crypto.cipher.primitive.block.AES;
@@ -83,9 +84,9 @@ public class Test {
 		Log.info.println("Testing cipher");
 		Log.info.println("Testing key");
 		Log.info.println("Testing block");
-		/*Log.info.println("Testing claire.util.crypto.cipher.key.block.KeyAES");
+		Log.info.println("Testing claire.util.crypto.cipher.key.block.KeyAES");
 		reg += KeyAES.test();
-		Log.info.println("Testing claire.util.crypto.cipher.key.block.KeyBlowfish");
+		/*Log.info.println("Testing claire.util.crypto.cipher.key.block.KeyBlowfish");
 		reg += KeyBlowfish.test();
 		Log.info.println("Testing claire.util.crypto.cipher.key.block.KeyCAST5");
 		reg += KeyCAST5.test();

@@ -473,11 +473,49 @@ public class Exponentiator<Int extends IInteger<Int>> {
 		}
 	}
 	
+	public static int testReturn()
+	{
+		int er = 0;
+		try {
+			int exp = RandUtils.inRange(50, 600);
+			UInt u = new UInt("7", 128);
+			Exponentiator<UInt> d = new Exponentiator<UInt>(u.createDeepClone());
+			UInt u2 = u.createDeepClone();
+			UInt e = new UInt(Integer.toString(exp), 8);
+			UInt u3 = d.exponent(u2, exp);
+			d.p_exponent(u2, exp);
+			if(!u2.isEqualTo(u3)) {
+				er++;
+				Log.err.println("p_exponent failed to deliver consistent results");
+			}
+			u2 = u.createDeepClone();
+			u3 = d.exponent(u2, e);
+			d.p_exponent(u2, e);
+			if(!u2.isEqualTo(u3)) {
+				er++;
+				Log.err.println("p_exponent with IInteger failed to deliver consistent results");
+			}
+			u2 = u.createDeepClone();
+			u3 = d.exponent(u2, e);
+			d.p_exponent_sure(u2, e);
+			if(!u2.isEqualTo(u3)) {
+				er++;
+				Log.err.println("p_exponent_sure with IInteger failed to deliver consistent results");
+			}
+			return er;
+		} catch(Exception e) {
+			Log.err.println("Exception encountered while testing exponentiation of integers: " + e.getMessage());
+			e.printStackTrace();
+			return er + 1;
+		}
+	}
+	
 	public static int test()
 	{
 		int er = 0;
 		er += testExponentiation();
 		er += testModularExponentiation();
+		er += testReturn();
 		return er;
 	}
 	
