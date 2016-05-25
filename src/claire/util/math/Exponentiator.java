@@ -1,5 +1,9 @@
 package claire.util.math;
 
+import java.math.BigInteger;
+
+import claire.util.crypto.rng.RandUtils;
+import claire.util.logging.Log;
 import claire.util.standards.IInteger;
 
 public class Exponentiator<Int extends IInteger<Int>> {
@@ -391,6 +395,49 @@ public class Exponentiator<Int extends IInteger<Int>> {
 		i.p_multiply(o);
 		i.p_modulo(mod);
 		return i;
+	}
+	
+	public static int testExponentiation()
+	{
+		int er = 0;
+		try {
+			int exp = RandUtils.inRange(50, 600);
+			UInt u = new UInt("7", 128);
+			Exponentiator<UInt> d = new Exponentiator<UInt>(u.createDeepClone());
+			UInt u2 = u.createDeepClone();
+			UInt e = new UInt(Integer.toString(exp), 8);
+			BigInteger b = new BigInteger("7");
+			b = b.pow(exp);
+			d.p_exponent(u2, exp);
+			if(!b.toString().equals(u2.toString())) {
+				er++;
+				Log.err.println("p_exponent failed to deliver proper results");
+			}
+			u2 = u.createDeepClone();
+			d.p_exponent(u2, e);
+			if(!b.toString().equals(u2.toString())) {
+				er++;
+				Log.err.println("p_exponent with IInteger failed to deliver proper results");
+			}
+			u2 = u.createDeepClone();
+			d.p_exponent_sure(u2, e);
+			if(!b.toString().equals(u2.toString())) {
+				er++;
+				Log.err.println("p_exponent_sure with IInteger failed to deliver proper results");
+			}
+			return er;
+		} catch(Exception e) {
+			Log.err.println("Exception encountered while testing exponentiation of integers: " + e.getMessage());
+			e.printStackTrace();
+			return er + 1;
+		}
+	}
+	
+	public static int test()
+	{
+		int er = 0;
+		er += testExponentiation();
+		return er;
 	}
 	
 }

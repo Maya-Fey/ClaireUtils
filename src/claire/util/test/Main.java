@@ -70,6 +70,8 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
+		Test.runTests();
+		end();
 		CryptoPrimeGenerator<UInt> pg1 = new CryptoPrimeGenerator<UInt>(8, 512, UInt.ifactory, 1);
 		CryptoPrimeGenerator<UInt> pg2 = new CryptoPrimeGenerator<UInt>(8, 512, UInt.ifactory, 1);
 		TaskMonitor mon = new CountdownMonitor(2);
