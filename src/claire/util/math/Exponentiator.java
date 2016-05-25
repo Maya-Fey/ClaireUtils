@@ -88,16 +88,15 @@ public class Exponentiator<Int extends IInteger<Int>> {
 		}
 		if(exponent.isEqualTo(1))
 			return;
+		o.setTo(i);
 		final int max = MathHelper.getMSB(exponent.getArr());
-		int bit = 0;
-		o.setTo(1);
-		while(bit < max)
+		int bit = max - 1;
+		while(bit >= 0)
 		{
-			if(exponent.bitAt(bit++)) 
-				o.p_multiply(i);
-			i.p_square();			
+			i.p_square();	
+			if(exponent.bitAt(bit--)) 
+				i.p_multiply(o);			
 		}
-		i.p_multiply(o);
 	}
 	
 	/**
