@@ -29,5 +29,7 @@ public abstract class IntegerFactory<Int extends IInteger<?>> {
 	{
 		return construct(s.array(), s.getOffset(), s.getLength(), len);
 	}
+	
+	public abstract Int[] array(int len);
 
 }
