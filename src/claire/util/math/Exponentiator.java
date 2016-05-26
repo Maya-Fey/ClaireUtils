@@ -375,20 +375,18 @@ public class Exponentiator<Int extends IInteger<Int>> {
 		}
 		if(exponent.isEqualTo(1))
 			return i;
+		o.setTo(i);
 		final int max = MathHelper.getMSB(exponent.getArr());
-		int bit = 0;
-		o.setTo(1);
-		while(bit < max)
+		int bit = max - 1;
+		while(bit > -1)
 		{
-			if(exponent.bitAt(bit++)) {
-				o.p_multiply(i);
-				o.p_modulo(mod);
-			}	
 			i.p_square();
 			i.p_modulo(mod);		
-		}
-		i.p_multiply(o);
-		i.p_modulo(mod);
+			if(exponent.bitAt(bit--)) {
+				i.p_multiply(o);
+				i.p_modulo(mod);
+			}	
+		};
 		return i;
 	}
 	
