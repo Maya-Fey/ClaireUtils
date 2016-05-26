@@ -853,6 +853,11 @@ public class SInt
 		{
 			return new SInt(chars, start, len, len2);
 		}
+
+		public SInt[] array(int len)
+		{
+			return new SInt[len];
+		}
 		
 	}
 	
