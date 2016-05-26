@@ -868,6 +868,11 @@ public class UInt
 		{
 			return new UInt(chars, start, len, len2);
 		}
+
+		public UInt[] array(int len)
+		{
+			return new UInt[len];
+		}
 		
 	}
 	
