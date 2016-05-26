@@ -931,6 +931,11 @@ public class VariableSInt
 		{
 			return new VariableSInt(chars, start, len, len2);
 		}
+
+		public VariableSInt[] array(int len)
+		{
+			return new VariableSInt[len];
+		}
 		
 	}
 	
