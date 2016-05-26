@@ -333,19 +333,18 @@ public class Exponentiator<Int extends IInteger<Int>> {
 			i.p_modulo(mod);
 		if(exponent == 1)
 			return i;
-		o.setTo(1);
-		while(exponent > 1)
+		o.setTo(i);
+		int max = Bits.getMSB(exponent);
+		int bit = max - 1;
+		while(bit > -1)
 		{
-			if((exponent & 1) == 1) {
-				o.p_multiply(i);
-				o.p_modulo(mod);
-			}
 			i.p_square();
 			i.p_modulo(mod);
-			exponent >>>= 1;
+			if(Bits.getBit(exponent, bit--)) {
+				i.p_multiply(o);
+				i.p_modulo(mod);
+			}
 		}
-		i.p_multiply(o);
-		i.p_modulo(mod);
 		return i;
 	}
 	
