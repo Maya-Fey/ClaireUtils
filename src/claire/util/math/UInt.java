@@ -783,6 +783,8 @@ public class UInt
 	public void upsize(int size)
 	{
 		int[] n = new int[size];
+		if(ref != null && size > ref.length)
+			ref = null;
 		System.arraycopy(val, 0, n, 0, length);
 		this.length = size;
 		val = n;
