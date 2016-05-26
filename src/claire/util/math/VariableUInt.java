@@ -916,6 +916,11 @@ public class VariableUInt
 		{
 			return new VariableUInt(chars, start, len, len2);
 		}
+
+		public VariableUInt[] array(int len)
+		{
+			return new VariableUInt[len];
+		}
 		
 	}
 	
