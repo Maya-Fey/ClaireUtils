@@ -7,10 +7,11 @@ import claire.util.standards.crypto.IRandom;
 public class PrimeTester<Int extends IInteger<Int>> {
 	
 	private final IRandom<?, ?> rng;
-	private final Int test;
-	private final Int exponent;
-	private final Int witness;
-	private final Exponentiator<Int> exp;
+	
+	private Int test;
+	private Int exponent;
+	private Int witness;
+	private Exponentiator<Int> exp;
 	
 	public PrimeTester(IRandom<?, ?> rng, Int sample)
 	{
@@ -28,6 +29,14 @@ public class PrimeTester<Int extends IInteger<Int>> {
 		exponent = factory.construct(len);
 		witness = factory.construct(len);
 		exp = new Exponentiator<Int>(factory.construct(len));
+	}
+	
+	public void redefine(Int sample)
+	{
+		test = sample.createDeepClone();
+		exponent = sample.createDeepClone();
+		witness = sample.createDeepClone();
+		exp = new Exponentiator<Int>(sample.createDeepClone());
 	}
 	
 	/**
