@@ -143,6 +143,10 @@ public class CryptoPrimeGenerator<Int extends IInteger<Int>>
 	
 	public void setBits(int bits)
 	{
+		if(this.bits < bits) {
+			temp.upsize(bits / 32 + (((bits & 31) > 0) ? 1 : 0));
+			tester.redefine(temp2 = temp.createDeepClone());
+		}
 		this.bits = bits;
 	}
 	
