@@ -362,7 +362,7 @@ public interface IInteger<Type extends IInteger<Type>>
 		int pos = 0;
 		for(; n.isNonZero(); pos++)
 		{
-			int remainder = (int) n.p_divmod(10);
+			int remainder = n.p_divmod(10);
 			characters[pos] = (char)(48 + remainder);
 		}
 		if(n.isNegative())
