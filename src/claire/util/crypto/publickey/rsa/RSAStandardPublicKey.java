@@ -96,7 +96,7 @@ public class RSAStandardPublicKey
 	{
 		Bits.intToBytes(len, bytes, offset);
 		mod.export(bytes, offset += 4);
-		exp.export(bytes, (int) (offset + mod.exportSize()));
+		exp.export(bytes, offset + mod.exportSize());
 	}
 
 	public int exportSize()
@@ -123,7 +123,7 @@ public class RSAStandardPublicKey
 		{
 			int len = Bits.intFromBytes(data, start);
 			UInt mod = UInt.factory.resurrect(data, start += 4);
-			return new RSAStandardPublicKey(mod, UInt.factory.resurrect(data, (int) (start + mod.exportSize())), len);
+			return new RSAStandardPublicKey(mod, UInt.factory.resurrect(data, start + mod.exportSize()), len);
 		}
 
 		public RSAStandardPublicKey resurrect(IIncomingStream stream)throws InstantiationException, IOException
