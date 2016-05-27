@@ -806,6 +806,13 @@ public class SInt
 		System.arraycopy(arr, 0, val, 0, val.length > arr.length ? arr.length : val.length);
 	}
 	
+	public void p_trim()
+	{
+		int[] n = new int[MathHelper.getRealLength(val)];
+		System.arraycopy(val, 0, n, 0, n.length);
+		val = n;
+	}
+	
 	public void export(IOutgoingStream stream) throws IOException
 	{
 		stream.writeIntArr(val);
