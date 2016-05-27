@@ -87,7 +87,7 @@ public class UInt
 		long carry = 0;
 		while(j < len)
 		{
-			carry += ((long) val[j] & 0xFFFFFFFFL) + ((long) ints[j] & 0xFFFFFFFFL);
+			carry += (val[j] & 0xFFFFFFFFL) + (ints[j] & 0xFFFFFFFFL);
 			val[j++] = (int) carry;
 			carry >>>= 32;
 		}
@@ -105,7 +105,6 @@ public class UInt
 		int j = 0;
 		while(j < len)
 		{
-			//Note for future optimization: carry can never be anything other then 1;	
 			int i2 = ints[j] + carry;
 			if(i2 != 0)
 			{
@@ -139,13 +138,13 @@ public class UInt
 		for(int j = 1; j < len; j++)
 		{
 			long borrow = 0;
-			long jw = ((long) ints[j] & 0xFFFFFFFFL);
+			long jw = ints[j] & 0xFFFFFFFFL;
 			int k = 0;
 			int t = j;
 			for(; t < max; k++, t++)
 			{
 				if(k < tlen) {
-					borrow += (jw * ((long) ref[k] & 0xFFFFFFFFL)) + ((long) val[t] & 0xFFFFFFFFL);
+					borrow += (jw * (ref[k] & 0xFFFFFFFFL)) + (val[t] & 0xFFFFFFFFL);
 					val[t] = (int) borrow;
 					borrow >>>= 32;
 				} else {
@@ -237,7 +236,7 @@ public class UInt
 			if(prev == divs) {
 				q = 0xFFFFFFFF;
 				r = divd[vit] + prev;
-				verify ^= Bits.u_greaterThan((int) prev, r);
+				verify ^= Bits.u_greaterThan(prev, r);
 			} else {
 				long cur = (((prev & 0xFFFFFFFFL) << 32) | (divd[vit] & 0xFFFFFFFFL));
 				if(cur >= 0) {
@@ -364,7 +363,7 @@ public class UInt
 			if(prev == divs) {
 				q = 0xFFFFFFFF;
 				r = divd[vit] + prev;
-				verify ^= Bits.u_greaterThan((int) prev, r);
+				verify ^= Bits.u_greaterThan(prev, r);
 			} else {
 				long cur = (((prev & 0xFFFFFFFFL) << 32) | (divd[vit] & 0xFFFFFFFFL));
 				if(cur >= 0) {
@@ -598,13 +597,13 @@ public class UInt
 		for(int j = 1; j < tlen; j++)
 		{
 			long borrow = 0;
-			long jw = ((long) ref[j] & 0xFFFFFFFFL);
+			long jw = ref[j] & 0xFFFFFFFFL;
 			int k = 0;
 			int t = j;
 			for(; t < max; k++, t++)
 			{
 				if(k < tlen) {
-					borrow += (jw * ((long) ref[k] & 0xFFFFFFFFL)) + ((long) val[t] & 0xFFFFFFFFL);
+					borrow += (jw * (ref[k] & 0xFFFFFFFFL)) + (val[t] & 0xFFFFFFFFL);
 					val[t] = (int) borrow;
 					borrow >>>= 32;
 				} else {
@@ -776,8 +775,7 @@ public class UInt
 		int ipos = pos >>> 5;
 		if(ipos == 0) 
 			return Bits.getBit(val[0], pos);
-		else
-			return Bits.getBit(val[ipos], pos & 31);
+		return Bits.getBit(val[ipos], pos & 31);
 	}
 
 	public void upsize(int size)
