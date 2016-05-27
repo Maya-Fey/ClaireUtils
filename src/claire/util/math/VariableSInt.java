@@ -105,19 +105,18 @@ public class VariableSInt
 			this.build(len + 1);
 		else if(val[this.length - 1] != 0)
 			this.build(this.length + 1);
-		long carry = 0;
 		int j = 0;
-		for(; j < len; j++)
+		long carry = 0;
+		while(j < len)
 		{
-			carry += ((long) val[j] & 0xFFFFFFFFL) + ((long) ints[j] & 0xFFFFFFFFL);
-			val[j] = (int) carry;
-			carry >>>= 32;
-		}
-		while(j < this.length && carry != 0) {
-			carry += ((long) val[j] & 0xFFFFFFFFL);
+			carry += (val[j] & 0xFFFFFFFFL) + (ints[j] & 0xFFFFFFFFL);
 			val[j++] = (int) carry;
 			carry >>>= 32;
 		}
+		val[j] += carry;
+		if(carry != 0)
+			while(val[j] == 0 && ++j < length)
+				val[j]++;
 		if(carry != 0)
 			throw new java.lang.ArithmeticException("Ran out of space during addition");
 	}
