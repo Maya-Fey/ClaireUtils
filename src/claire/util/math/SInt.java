@@ -81,7 +81,7 @@ public class SInt
 		long carry = 0;
 		while(j < len)
 		{
-			carry += ((long) val[j] & 0xFFFFFFFFL) + ((long) ints[j] & 0xFFFFFFFFL);
+			carry += (val[j] & 0xFFFFFFFFL) + (ints[j] & 0xFFFFFFFFL);
 			val[j++] = (int) carry;
 			carry >>>= 32;
 		}
@@ -130,13 +130,13 @@ public class SInt
 		for(int j = 1; j < len; j++)
 		{
 			long borrow = 0;
-			long jw = ((long) ints[j] & 0xFFFFFFFFL);
+			long jw = ints[j] & 0xFFFFFFFFL;
 			int k = 0;
 			int t = 0;
 			while((t = k + j) < max)
 			{
 				if(k < tlen) {
-					borrow += (jw * ((long) this.val[k] & 0xFFFFFFFFL)) + ((long) newval[t] & 0xFFFFFFFFL);
+					borrow += (jw * (this.val[k] & 0xFFFFFFFFL)) + (newval[t] & 0xFFFFFFFFL);
 					newval[t] = (int) borrow;
 					borrow >>>= 32;
 				} else {
@@ -225,7 +225,7 @@ public class SInt
 			if(prev == divs) {
 				q = 0xFFFFFFFF;
 				r = divd[vit] + prev;
-				verify ^= Bits.u_greaterThan((int) prev, r);
+				verify ^= Bits.u_greaterThan(prev, r);
 			} else {
 				long cur = (((prev & 0xFFFFFFFFL) << 32) | (divd[vit] & 0xFFFFFFFFL));
 				if(cur >= 0) {
@@ -349,7 +349,7 @@ public class SInt
 			if(prev == divs) {
 				q = 0xFFFFFFFF;
 				r = divd[vit] + prev;
-				verify ^= Bits.u_greaterThan((int) prev, r);
+				verify ^= Bits.u_greaterThan(prev, r);
 			} else {
 				long cur = (((prev & 0xFFFFFFFFL) << 32) | (divd[vit] & 0xFFFFFFFFL));
 				if(cur >= 0) {
@@ -755,8 +755,7 @@ public class SInt
 		int ipos = pos / 32;
 		if(ipos == 0) 
 			return Bits.getBit(val[0], pos);
-		else
-			return Bits.getBit(val[ipos], pos & 31);
+		return Bits.getBit(val[ipos], pos & 31);
 	}
 	
 	public void upsize(int size)
