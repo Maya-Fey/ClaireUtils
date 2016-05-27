@@ -95,7 +95,7 @@ public class RSAMicroPublicKey
 	{
 		Bits.intToBytes(len, bytes, offset);
 		mod.export(bytes, offset += 4);
-		Bits.intToBytes(exp, bytes, (int) (offset + mod.exportSize()));
+		Bits.intToBytes(exp, bytes, offset + mod.exportSize());
 	}
 
 	public int exportSize()
@@ -122,7 +122,7 @@ public class RSAMicroPublicKey
 		{
 			int len = Bits.intFromBytes(data, start);
 			UInt mod = UInt.factory.resurrect(data, start += 4);
-			return new RSAMicroPublicKey(mod, Bits.intFromBytes(data, (int) (start + mod.exportSize())), len);
+			return new RSAMicroPublicKey(mod, Bits.intFromBytes(data, start + mod.exportSize()), len);
 		}
 
 		public RSAMicroPublicKey resurrect(IIncomingStream stream)throws InstantiationException, IOException
