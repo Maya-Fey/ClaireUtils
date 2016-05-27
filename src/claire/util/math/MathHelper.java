@@ -440,7 +440,7 @@ public final class MathHelper {
 	 */
 	public static double absolute(double d)
 	{
-		if(d < 0) { d *= (double)-1; }
+		if(d < 0) { d *= -1D; }
 		return d;
 	}
 	
@@ -604,11 +604,11 @@ public final class MathHelper {
 	public static int mul1(int[] r1, int tlen, int mul)
 	{
 		long carry = 0;
-		long mull = ((long) mul & 0xFFFFFFFFL);
+		long mull = (mul & 0xFFFFFFFFL);
 		int k = 0;
 		for(; k < tlen; k++)
 		{
-			carry += mull * ((long) r1[k] & 0xFFFFFFFFL);
+			carry += mull * (r1[k] & 0xFFFFFFFFL);
 			r1[k] = (int) carry;
 			carry >>>= 32;
 		}
