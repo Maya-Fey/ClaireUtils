@@ -77,54 +77,43 @@ public class SInt
 	{
 		int len = MathHelper.getRealLength(ints);
 		if(len > this.length) throw new java.lang.IllegalArgumentException();
-		long carry = 0;
 		int j = 0;
-		for(; j < len; j++)
+		long carry = 0;
+		while(j < len)
 		{
 			carry += ((long) val[j] & 0xFFFFFFFFL) + ((long) ints[j] & 0xFFFFFFFFL);
-			val[j] = (int) carry;
-			carry >>>= 32;
-		}
-		
-		while(j < this.length && carry != 0) {
-			carry += ((long) val[j] & 0xFFFFFFFFL);
 			val[j++] = (int) carry;
 			carry >>>= 32;
 		}
+		val[j] += carry;
 		if(carry != 0)
-			this.setMAX();
+			while(val[j] == 0 && ++j < length)
+				val[j]++;
 	}
 	
-	protected  void p_subtract(int[] ints)
+	protected void p_subtract(int[] ints)
 	{
 		int len = MathHelper.getRealLength(ints);
 		if(len > this.length) throw new java.lang.IllegalArgumentException();
-		long carry = 0;
-		int j;
-		for(j = 0; j < len; j++)
+		int carry = 0;
+		int j = 0;
+		while(j < len)
 		{
-			int i1, i2;
-			i1 = val[j];
-			i2 = ints[j];
-			i2 += carry;
-			if(Bits.u_greaterThan((int) carry, i2)) 
+			int i2 = ints[j] + carry;
+			if(i2 != 0)
+			{
+				int i1 = val[j];
+				i2 = i1 - i2;
+				carry = Bits.u_greaterThan(i2, i1) ? 1 : 0; 
+				val[j] = i2;
+			} else
 				carry = 1;
-			else
-				carry = 0;
-			i2 = i1 - i2;
-			if(Bits.u_greaterThan(i2, i1)) carry += 1;
-			val[j] = i2;
+			j++;
 		}
+		val[j] -= carry;
 		if(carry > 0)
-			if(j < this.length)
-				while(true) {
-					val[j]--;
-					if(val[j] != -1) {
-						break;
-					}
-				}
-			else
-				this.setMIN();
+			while(val[j] == -1 && ++j < length)
+				val[j]--;
 	}
 	
 	protected void p_multiply(int[] ints)
