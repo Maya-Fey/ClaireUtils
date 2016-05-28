@@ -372,7 +372,6 @@ public class Exponentiator<Int extends IInteger<Int>> {
 		}
 		if(exponent.isEqualTo(1))
 			return i;
-		o.setTo(i);
 		final int max = MathHelper.getMSB(exponent.getArr());
 		int bit = max - 1;
 		while(bit > -1)
@@ -380,7 +379,7 @@ public class Exponentiator<Int extends IInteger<Int>> {
 			i.p_square();
 			i.p_modulo(mod);		
 			if(exponent.bitAt(bit--)) {
-				i.p_multiply(o);
+				i.p_multiply(n);
 				i.p_modulo(mod);
 			}	
 		};
