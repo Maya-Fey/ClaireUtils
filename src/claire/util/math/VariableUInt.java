@@ -802,6 +802,14 @@ public class VariableUInt
 		System.arraycopy(arr, 0, val, 0, val.length > arr.length ? arr.length : val.length);
 	}
 	
+	public void p_trim()
+	{
+		length = MathHelper.getRealLength(val);
+		int[] n = new int[length];
+		System.arraycopy(val, 0, n, 0, length);
+		val = n;
+	}
+	
 	public boolean isOdd()
 	{
 		return (val[0] & 1) == 1;
