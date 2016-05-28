@@ -130,33 +130,25 @@ public class VariableUInt
 			this.setMIN();
 			this.build(1);
 		}
-		long carry = 0;
-		int j;
-		for(j = 0; j < len; j++)
+		int carry = 0;
+		int j = 0;
+		while(j < len)
 		{
-			int i1, i2;
-			i1 = val[j];
-			i2 = ints[j];
-			i2 += carry;
-			if(Bits.u_greaterThan((int) carry, i2)) 
+			int i2 = ints[j] + carry;
+			if(i2 != 0)
+			{
+				int i1 = val[j];
+				i2 = i1 - i2;
+				carry = Bits.u_greaterThan(i2, i1) ? 1 : 0; 
+				val[j] = i2;
+			} else
 				carry = 1;
-			else
-				carry = 0;
-			i2 = i1 - i2;
-			if(Bits.u_greaterThan(i2, i1)) 
-				carry += 1;
-			val[j] = i2;
+			j++;
 		}
+		val[j] -= carry;
 		if(carry > 0)
-			if(j < this.length)
-				while(true) {
-					val[j]--;
-					if(val[j++] != -1) {
-						break;
-					}
-				}
-			else
-				this.setMIN();
+			while(val[j] == -1 && ++j < length)
+				val[j]--;
 		if(this.down)
 			this.build(MathHelper.getRealLength(val));
 	}
