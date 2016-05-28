@@ -220,14 +220,13 @@ public class Exponentiator<Int extends IInteger<Int>> {
 		} 
 		if(exponent == 1)
 			return i;
-		o.setTo(i);
 		int max = Bits.getMSB(exponent);
 		int bit = max - 1;
 		while(bit > -1)
 		{
 			i.p_square();
 			if(Bits.getBit(exponent, bit--)) 
-				i.p_multiply(o);
+				i.p_multiply(n);
 		}
 		return i;
 	}
