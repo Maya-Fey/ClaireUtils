@@ -943,7 +943,7 @@ public final class MathHelper {
 	 * <br><br>
 	 * Returns: <i>i</i><sup><i>exponent</i></sup> mod <i>mod</i>
 	 */
-	public static IInteger<?> modular_exponent(final IInteger<?> i, final IInteger<?> exponent, final IInteger<?> mod)
+	public static <Int extends IInteger<Int>> Int modular_exponent(final Int i, final Int exponent, final Int mod)
 	{
 		if(getRealLength(exponent.getArr()) == 1)
 			return modular_exponent(i, exponent.getArr()[0] & 0xFFFFFFFFL, mod);
@@ -965,9 +965,9 @@ public final class MathHelper {
 	 * <br><br>
 	 * Returns: <i>i</i><sup><i>exponent</i></sup> mod <i>mod</i>
 	 */
-	public static IInteger<?> modular_exponent(final IInteger<?> i, long exponent, final IInteger<?> mod)
+	public static <Int extends IInteger<Int>> Int modular_exponent(final Int i, long exponent, final Int mod)
 	{
-		IInteger<?> n = i.createDeepClone();
+		Int n = i.createDeepClone();
 		if(exponent == 0) {
 			n.setTo(1);
 			return n;
@@ -1005,9 +1005,9 @@ public final class MathHelper {
 	 * <br><br>
 	 * Returns: <i>i</i><sup><i>exponent</i></sup> mod <i>mod</i>
 	 */
-	public static IInteger<?> modular_exponent_sure(final IInteger<?> i, final IInteger<?> exponent, final IInteger<?> mod)
+	public static <Int extends IInteger<Int>> Int modular_exponent_sure(final Int i, final Int exponent, final Int mod)
 	{
-		IInteger<?> n = i.createDeepClone();
+		Int n = i.createDeepClone();
 		if(!exponent.isNonZero()) {
 			n.setTo(1);
 			return n;
@@ -1813,21 +1813,21 @@ public final class MathHelper {
 			u2 = MathHelper.randomInteger(UInt.ifactory, 32, RandUtils.dprng, 16 * 32);
 			u3 = MathHelper.randomInteger(UInt.ifactory, 32, RandUtils.dprng, 16 * 32);
 			UInt u4 = u1.createDeepClone();
-			UInt u5 = (UInt) modular_exponent(u4, u3, u2);
+			UInt u5 = modular_exponent(u4, u3, u2);
 			p_modular_exponent(u4, u3, u2);
 			if(!u4.isEqualTo(u5)) {
 				er++;
 				Log.err.println("p_modular_exponent failed to deliver consistent results");
 			}
 			u4 = u1.createDeepClone();
-			u5 = (UInt) modular_exponent_sure(u4, u3, u2);
+			u5 = modular_exponent_sure(u4, u3, u2);
 			p_modular_exponent_sure(u4, u3, u2);
 			if(!u4.isEqualTo(u5)) {
 				er++;
 				Log.err.println("p_modular_exponent_sure failed to deliver consistent results");
 			}
 			u4 = u1.createDeepClone();
-			u5 = (UInt) modular_exponent(u4, 3432423, u2);
+			u5 = modular_exponent(u4, 3432423, u2);
 			p_modular_exponent(u4, 3432423, u2);
 			if(!u4.isEqualTo(u5)) {
 				er++;
