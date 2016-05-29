@@ -488,7 +488,7 @@ public class Exponentiator<Int extends IInteger<Int>> {
 				Log.err.println("p_exponent with IInteger failed to deliver consistent results");
 			}
 			u2 = u1.createDeepClone();
-			u3 = d.exponent(u2, e);
+			u3 = d.exponent_sure(u2, e);
 			d.p_exponent_sure(u2, e);
 			if(!u2.isEqualTo(u3)) {
 				er++;
