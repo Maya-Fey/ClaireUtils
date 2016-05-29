@@ -856,9 +856,9 @@ public final class MathHelper {
 	 * <br><br>
 	 * Returns: <i>i</i><sup><i>exponent</i></sup>
 	 */
-	public static IInteger<?> exponent(final IInteger<?> i, int exponent)
+	public static <Int extends IInteger<Int>> Int exponent(final Int i, int exponent)
 	{
-		IInteger<?> n = i.createDeepClone();
+		Int n = i.createDeepClone();
 		if(exponent == 0) {
 			n.setTo(1);
 			return n;
@@ -888,7 +888,7 @@ public final class MathHelper {
 	 * <br><br>
 	 * Returns: <i>i</i><sup><i>exponent</i></sup>
 	 */
-	public static IInteger<?> exponent(final IInteger<?> i, final IInteger<?> exponent)
+	public static <Int extends IInteger<Int>> Int exponent(final Int i, final Int exponent)
 	{
 		if(getRealLength(exponent.getArr()) == 1)
 			return exponent(i, exponent.getArr()[0]);
@@ -909,9 +909,9 @@ public final class MathHelper {
 	 * <br><br>
 	 * Returns:<i>i</i><sup><i>exponent</i></sup>
 	 */
-	public static IInteger<?> exponent_sure(final IInteger<?> i, final IInteger<?> exponent)
+	public static <Int extends IInteger<Int>> Int exponent_sure(final Int i, final Int exponent)
 	{
-		IInteger<?> n = i.createDeepClone();
+		Int n = i.createDeepClone();
 		if(!exponent.isNonZero()) {
 			n.setTo(1);
 			return n;
@@ -1788,21 +1788,21 @@ public final class MathHelper {
 			UInt u1 = new UInt("7", 128);
 			UInt u2 = u1.createDeepClone();
 			UInt e = new UInt(Integer.toString(exp), 8);
-			UInt u3 = (UInt) exponent(u2, exp);
+			UInt u3 = exponent(u2, exp);
 			p_exponent(u2, exp);
 			if(!u2.isEqualTo(u3)) {
 				er++;
 				Log.err.println("p_exponent failed to deliver consistent results");
 			}
 			u2 = u1.createDeepClone();
-			u3 = (UInt) exponent(u2, e);
+			u3 = exponent(u2, e);
 			p_exponent(u2, e);
 			if(!u2.isEqualTo(u3)) {
 				er++;
 				Log.err.println("p_exponent with IInteger failed to deliver consistent results");
 			}
 			u2 = u1.createDeepClone();
-			u3 = (UInt) exponent(u2, e);
+			u3 = exponent_sure(u2, e);
 			p_exponent_sure(u2, e);
 			if(!u2.isEqualTo(u3)) {
 				er++;
