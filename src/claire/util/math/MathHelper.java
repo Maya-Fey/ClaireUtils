@@ -918,17 +918,14 @@ public final class MathHelper {
 		}
 		if(exponent.isEqualTo(1))
 			return n;
-		final IInteger<?> o = i.createDeepClone();
 		final int max = getMSB(exponent.getArr());
-		int bit = 0;
-		o.setTo(1);
-		while(bit < max)
+		int bit = max - 1;
+		while(bit >= 0)
 		{
-			if(exponent.bitAt(bit++)) 
-				o.p_multiply(i);
-			n.p_square();			
+			n.p_square();	
+			if(exponent.bitAt(bit--)) 
+				n.p_multiply(i);			
 		}
-		n.p_multiply(o);
 		return n;
 	}
 	
