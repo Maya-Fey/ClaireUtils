@@ -976,20 +976,17 @@ public final class MathHelper {
 			n.p_modulo(mod);
 		if(exponent == 1)
 			return n;
-		final IInteger<?> o = i.createDeepClone();
-		o.setTo(1);
-		while(exponent > 1)
+		int max = Bits.getMSB(exponent);
+		int bit = max - 1;
+		while(bit > -1)
 		{
-			if((exponent & 1) == 1) {
-				o.p_multiply(i);
-				o.p_modulo(mod);
-			}
 			n.p_square();
 			n.p_modulo(mod);
-			exponent >>>= 1;
+			if(Bits.getBit(exponent, bit--)) {
+				n.p_multiply(i);
+				n.p_modulo(mod);
+			}
 		}
-		n.p_multiply(o);
-		n.p_modulo(mod);
 		return n;
 	}
 	
