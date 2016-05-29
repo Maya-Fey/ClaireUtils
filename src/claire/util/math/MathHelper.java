@@ -1790,13 +1790,76 @@ public final class MathHelper {
 		}
 	}
 	
+	public static int testExpReturn()
+	{
+		int er = 0;
+		try {
+			int exp = RandUtils.inRange(50, 600);
+			UInt u1 = new UInt("7", 128);
+			UInt u2 = u1.createDeepClone();
+			UInt e = new UInt(Integer.toString(exp), 8);
+			UInt u3 = (UInt) exponent(u2, exp);
+			p_exponent(u2, exp);
+			if(!u2.isEqualTo(u3)) {
+				er++;
+				Log.err.println("p_exponent failed to deliver consistent results");
+			}
+			u2 = u1.createDeepClone();
+			u3 = (UInt) exponent(u2, e);
+			p_exponent(u2, e);
+			if(!u2.isEqualTo(u3)) {
+				er++;
+				Log.err.println("p_exponent with IInteger failed to deliver consistent results");
+			}
+			u2 = u1.createDeepClone();
+			u3 = (UInt) exponent(u2, e);
+			p_exponent_sure(u2, e);
+			if(!u2.isEqualTo(u3)) {
+				er++;
+				Log.err.println("p_exponent_sure with IInteger failed to deliver consistent results");
+			}
+			
+			u1 = MathHelper.randomInteger(UInt.ifactory, 32, RandUtils.dprng, 16 * 32 - 1);
+			u2 = MathHelper.randomInteger(UInt.ifactory, 32, RandUtils.dprng, 16 * 32);
+			u3 = MathHelper.randomInteger(UInt.ifactory, 32, RandUtils.dprng, 16 * 32);
+			UInt u4 = u1.createDeepClone();
+			UInt u5 = (UInt) modular_exponent(u4, u3, u2);
+			p_modular_exponent(u4, u3, u2);
+			if(!u4.isEqualTo(u5)) {
+				er++;
+				Log.err.println("p_modular_exponent failed to deliver consistent results");
+			}
+			u4 = u1.createDeepClone();
+			u5 = (UInt) modular_exponent_sure(u4, u3, u2);
+			p_modular_exponent_sure(u4, u3, u2);
+			if(!u4.isEqualTo(u5)) {
+				er++;
+				Log.err.println("p_modular_exponent_sure failed to deliver consistent results");
+			}
+			u4 = u1.createDeepClone();
+			u5 = (UInt) modular_exponent(u4, 3432423, u2);
+			p_modular_exponent(u4, 3432423, u2);
+			if(!u4.isEqualTo(u5)) {
+				er++;
+				Log.err.println("p_modular_exponent with int with IInteger failed to deliver proper results");
+			}
+			return er;
+		} catch(Exception e) {
+			Log.err.println("Exception encountered while testing exponentiation of integers: " + e.getMessage());
+			e.printStackTrace();
+			return er + 1;
+		}
+	}
+	
 	public static int test()
 	{
 		//TODO: Complete tests
 		int er = 0;
 		er += testExponentiation();
 		er += testModularExponentiation();
+		er += testExpReturn();
 		er += testModularInverse();
+		er += testPrimeTest();
 		return er;
 	}
 	
