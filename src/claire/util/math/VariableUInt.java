@@ -167,13 +167,13 @@ public class VariableUInt
 		for(int j = 1; j < len; j++)
 		{
 			long borrow = 0;
-			long jw = ((long) ints[j] & 0xFFFFFFFFL);
+			long jw = ints[j] & 0xFFFFFFFFL;
 			int k = 0;
 			int t = 0;
 			while((t = k + j) < max)
 			{
 				if(k < tlen) {
-					borrow += (jw * ((long) ref[k] & 0xFFFFFFFFL)) + ((long) val[t] & 0xFFFFFFFFL);
+					borrow += (jw * (ref[k] & 0xFFFFFFFFL)) + (val[t] & 0xFFFFFFFFL);
 					val[t] = (int) borrow;
 					borrow >>>= 32;
 				} else {
@@ -261,7 +261,7 @@ public class VariableUInt
 			if(prev == divs) {
 				q = 0xFFFFFFFF;
 				r = divd[vit] + prev;
-				verify ^= Bits.u_greaterThan((int) prev, r);
+				verify ^= Bits.u_greaterThan(prev, r);
 			} else {
 				long cur = (((prev & 0xFFFFFFFFL) << 32) | (divd[vit] & 0xFFFFFFFFL));
 				if(cur >= 0) {
@@ -386,7 +386,7 @@ public class VariableUInt
 			if(prev == divs) {
 				q = 0xFFFFFFFF;
 				r = divd[vit] + prev;
-				verify ^= Bits.u_greaterThan((int) prev, r);
+				verify ^= Bits.u_greaterThan(prev, r);
 			} else {
 				long cur = (((prev & 0xFFFFFFFFL) << 32) | (divd[vit] & 0xFFFFFFFFL));
 				if(cur >= 0) {
@@ -624,13 +624,13 @@ public class VariableUInt
 		for(int j = 1; j < tlen; j++)
 		{
 			long borrow = 0;
-			long jw = ((long) ref[j] & 0xFFFFFFFFL);
+			long jw = ref[j] & 0xFFFFFFFFL;
 			int k = 0;
 			int t = 0;
 			while((t = k + j) < max)
 			{
 				if(k < tlen) {
-					borrow += (jw * ((long) ref[k] & 0xFFFFFFFFL)) + ((long) val[t] & 0xFFFFFFFFL);
+					borrow += (jw * (ref[k] & 0xFFFFFFFFL)) + (val[t] & 0xFFFFFFFFL);
 					val[t] = (int) borrow;
 					borrow >>>= 32;
 				} else {
