@@ -1017,21 +1017,17 @@ public final class MathHelper {
 		}
 		if(exponent.isEqualTo(1))
 			return n;
-		final IInteger<?> o = i.createDeepClone();
 		final int max = getMSB(exponent.getArr());
-		int bit = 0;
-		o.setTo(1);
-		while(bit < max)
+		int bit = max - 1;
+		while(bit > -1)
 		{
-			if(exponent.bitAt(bit++)) {
-				o.p_multiply(i);
-				o.p_modulo(mod);
-			}	
 			n.p_square();
 			n.p_modulo(mod);		
+			if(exponent.bitAt(bit--)) {
+				n.p_multiply(i);
+				n.p_modulo(mod);
+			}	
 		}
-		n.p_multiply(o);
-		n.p_modulo(mod);
 		return n;
 	}
 	
