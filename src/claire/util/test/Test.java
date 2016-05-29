@@ -68,6 +68,7 @@ import claire.util.encoding.CString;
 import claire.util.logging.Log;
 import claire.util.math.Exponentiator;
 import claire.util.math.MathHelper;
+import claire.util.math.SInt;
 import claire.util.math.UInt;
 import claire.util.math.counters.IntCounter;
 import claire.util.math.counters.LongCounter;
@@ -270,6 +271,8 @@ public class Test {
 		Log.info.println("Testing ../math");
 		Log.info.println("Testing claire.util.math.UInt");
 		reg += UInt.test();
+		Log.info.println("Testing claire.util.math.SInt");
+		reg += SInt.test();
 		Log.info.println("Testing claire.util.math.MathHelper");
 		reg += MathHelper.test();
 		Log.info.println("Testing claire.util.math.Exponentiator");

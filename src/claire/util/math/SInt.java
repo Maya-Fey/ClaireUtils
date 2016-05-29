@@ -8,7 +8,9 @@ import claire.util.io.Factory;
 import claire.util.io.IOUtils;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
+import claire.util.standards.IDeepClonable;
 import claire.util.standards.IInteger;
+import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
@@ -877,6 +879,23 @@ public class SInt
 			return new SInt(stream.readIntArr(), stream.readBool());
 		}
 		
+	}
+	
+	public static int test()
+	{
+		int er = 0;
+		er += IInteger.verifyConstruction(ifactory);
+		er += IInteger.verifyAddition(ifactory);
+		er += IInteger.verifySubtraction(ifactory);
+		er += IInteger.verifyMultiplication(ifactory);
+		er += IInteger.verifySquaring(ifactory);
+		er += IInteger.verifyDivision(ifactory);
+		er += IInteger.verifyModulus(ifactory);
+		er += IInteger.verifyAddSub(ifactory);
+		er += IInteger.verifyMulDiv(ifactory);
+		er += IPersistable.test(new UInt("34123213123213123123123213213", 32));
+		er += IDeepClonable.test(new UInt("34123213123213123123123213213", 32));
+		return er;
 	}
 	
 }
