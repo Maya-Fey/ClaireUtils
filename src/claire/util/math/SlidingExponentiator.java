@@ -74,12 +74,12 @@ public class SlidingExponentiator<Int extends IInteger<Int>> {
 			len = 1,
 			j = 1;
 		while(bit > -1 && j < max) {
+			j++;
 			if(Bits.getBit(exponent, bit--)) {
-				targ <<= ++j - len;
+				targ <<= j - len;
 				targ |= 1;
 				len = j;
-			} else
-				j++;
+			}
 		}
 		targ >>>= 1;
 		bit += j - len;
@@ -93,12 +93,12 @@ public class SlidingExponentiator<Int extends IInteger<Int>> {
 				len = 1;
 				j = 1;
 				while(bit > -1 && j < max) {
+					j++;
 					if(Bits.getBit(exponent, bit--)) {
-						targ <<= ++j - len;
+						targ <<= j - len;
 						targ |= 1;
 						len = j;
-					} else
-						j++;
+					} 
 				}
 				targ >>>= 1;
 				bit += j - len;
