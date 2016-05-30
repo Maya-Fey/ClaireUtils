@@ -13,8 +13,8 @@ public class SlidingExponentiator<Int extends IInteger<Int>> {
 		
 	private final Int[] ints;
 		
-	private int max, 
-				gen;
+	private final int max, 
+				      gen;
 	
 	
 	//TODO: WIP
@@ -24,19 +24,26 @@ public class SlidingExponentiator<Int extends IInteger<Int>> {
 		this.o = t;
 		max = bits;
 		ints = t.iFactory().array((int) MathHelper.exponent(2, bits - 1));
-		gen = ints.length - 2;
+		gen = ints.length - 1;
 	}
 	
 	private void construct(Int begin, boolean copy)
 	{
 		ints[0] = copy ? begin.createDeepClone() : begin;
-		if(max > 2)
+		if(max == 2) {
 			ints[1] = ints[0].square();
-		int i = gen;
-		int j = 2;
-		Int prev = ints[1];
-		while(i-- > 0) {
-			prev = ints[j] = prev.multiply(ints[1]); 
+			ints[1].p_multiply(begin);
+		}
+		if(max > 2)
+		{
+			o.setTo(begin);
+			o.p_square();
+			int i = gen;
+			int j = 1;
+			Int prev = ints[0];
+			while(i-- > 0) {
+				prev = ints[j++] = prev.multiply(o); 
+			}
 		}
 	}
 	
@@ -60,14 +67,32 @@ public class SlidingExponentiator<Int extends IInteger<Int>> {
 		} 
 		if(exponent == 1)
 			return;
-		o.setTo(i);
-		int max = Bits.getMSB(exponent);
-		int bit = max - 1;
+		construct(i, true);
+		int bmax = Bits.getMSB(exponent);
+		int bit = bmax - 1;
 		while(bit > -1)
 		{
-			i.p_square();
-			if(Bits.getBit(exponent, bit--)) 
-				i.p_multiply(o);
+			if(!Bits.getBit(exponent, bit--)) {
+				i.p_square();
+			} else {
+				int targ = 1,
+					len = 1,
+					j = 1;
+				while(bit > -1 && j < max) {
+					if(Bits.getBit(exponent, bit--)) {
+						targ <<= ++j - len;
+						targ |= 1;
+						len = j;
+						System.out.println(targ);
+					} else
+						j++;
+				}
+				targ >>>= 1;
+				bit += j - len;
+				while(len-- > 0)
+					i.p_square();
+				i.p_multiply(ints[targ]);
+			}
 		}
 	}
 	
@@ -419,6 +444,7 @@ public class SlidingExponentiator<Int extends IInteger<Int>> {
 		int er = 0;
 		try {
 			int exp = RandUtils.inRange(50, 600);
+			//int exp = 301;
 			UInt u = new UInt("7", 128);
 			SlidingExponentiator<UInt> d = new SlidingExponentiator<UInt>(u.createDeepClone(), 4);
 			UInt u2 = u.createDeepClone();
