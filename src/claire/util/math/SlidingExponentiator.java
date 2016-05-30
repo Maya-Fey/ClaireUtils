@@ -83,7 +83,6 @@ public class SlidingExponentiator<Int extends IInteger<Int>> {
 						targ <<= ++j - len;
 						targ |= 1;
 						len = j;
-						System.out.println(targ);
 					} else
 						j++;
 				}
