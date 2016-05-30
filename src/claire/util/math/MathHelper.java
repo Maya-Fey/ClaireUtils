@@ -648,18 +648,19 @@ public final class MathHelper {
 		} 
 		if(exponent == 1)
 			return i;
-		long o = 1;
-		while(exponent > 1)
+		long o = i;
+		int max = Bits.getMSB(exponent);
+		int bit = max - 1;
+		while(bit > -1)
 		{
-			if((exponent & 1) == 1) { 
-				o *= i;
-				o %= mod;
-			}
 			i *= i;
 			i %= mod;
-			exponent >>>= 1;
+			if(Bits.getBit(exponent, bit--)) { 
+				i *= o;
+				i %= mod;
+			}
 		}
-		return (i * o) % mod;
+		return i;
 	}
 	
 	/**
