@@ -893,10 +893,10 @@ public class SInt
 		er += IInteger.verifyModulus(ifactory);
 		er += IInteger.verifyAddSub(ifactory);
 		er += IInteger.verifyMulDiv(ifactory);
-		er += IPersistable.test(new UInt("34123213123213123123123213213", 32));
-		er += IDeepClonable.test(new UInt("34123213123213123123123213213", 32));
-		er += IPersistable.test(new UInt("-34123213123213123123123213213", 32));
-		er += IDeepClonable.test(new UInt("-34123213123213123123123213213", 32));
+		er += IPersistable.test(new SInt("34123213123213123123123213213", 32));
+		er += IDeepClonable.test(new SInt("34123213123213123123123213213", 32));
+		er += IPersistable.test(new SInt("-34123213123213123123123213213", 32));
+		er += IDeepClonable.test(new SInt("-34123213123213123123123213213", 32));
 		return er;
 	}
 	
