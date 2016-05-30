@@ -10,12 +10,34 @@ import claire.util.standards.IInteger;
 public class SlidingExponentiator<Int extends IInteger<Int>> {
 
 	private final Int o;
+		
+	private final Int[] ints;
+		
+	private int max, 
+				gen;
+	
 	
 	//TODO: WIP
 	
-	public SlidingExponentiator(Int t)
+	public SlidingExponentiator(Int t, int bits)
 	{
 		this.o = t;
+		max = bits;
+		ints = t.iFactory().array((int) MathHelper.exponent(2, bits - 1));
+		gen = ints.length - 2;
+	}
+	
+	private void construct(Int begin, boolean copy)
+	{
+		ints[0] = copy ? begin.createDeepClone() : begin;
+		if(max > 2)
+			ints[1] = ints[0].square();
+		int i = gen;
+		int j = 2;
+		Int prev = ints[1];
+		while(i-- > 0) {
+			prev = ints[j] = prev.multiply(ints[1]); 
+		}
 	}
 	
 	/**
@@ -398,7 +420,7 @@ public class SlidingExponentiator<Int extends IInteger<Int>> {
 		try {
 			int exp = RandUtils.inRange(50, 600);
 			UInt u = new UInt("7", 128);
-			SlidingExponentiator<UInt> d = new SlidingExponentiator<UInt>(u.createDeepClone());
+			SlidingExponentiator<UInt> d = new SlidingExponentiator<UInt>(u.createDeepClone(), 4);
 			UInt u2 = u.createDeepClone();
 			UInt e = new UInt(Integer.toString(exp), 8);
 			BigInteger b = new BigInteger("7");
@@ -435,7 +457,7 @@ public class SlidingExponentiator<Int extends IInteger<Int>> {
 			UInt u1 = MathHelper.randomInteger(UInt.ifactory, 32, RandUtils.dprng, 16 * 32 - 1);
 			UInt u2 = MathHelper.randomInteger(UInt.ifactory, 32, RandUtils.dprng, 16 * 32);
 			UInt u3 = MathHelper.randomInteger(UInt.ifactory, 32, RandUtils.dprng, 16 * 32);
-			SlidingExponentiator<UInt> d = new SlidingExponentiator<UInt>(u1.createDeepClone());
+			SlidingExponentiator<UInt> d = new SlidingExponentiator<UInt>(u1.createDeepClone(), 4);
 			UInt u4;
 			BigInteger b1 = new BigInteger(u1.toString());
 			BigInteger b2 = new BigInteger(u2.toString());
@@ -477,7 +499,7 @@ public class SlidingExponentiator<Int extends IInteger<Int>> {
 		try {
 			int exp = RandUtils.inRange(50, 600);
 			UInt u1 = new UInt("7", 128);
-			SlidingExponentiator<UInt> d = new SlidingExponentiator<UInt>(u1.createDeepClone());
+			SlidingExponentiator<UInt> d = new SlidingExponentiator<UInt>(u1.createDeepClone(), 4);
 			UInt u2 = u1.createDeepClone();
 			UInt e = new UInt(Integer.toString(exp), 8);
 			UInt u3 = d.exponent(u2, exp);
