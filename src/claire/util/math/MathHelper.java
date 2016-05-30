@@ -629,15 +629,16 @@ public final class MathHelper {
 		} 
 		if(exponent == 1)
 			return i;
-		long o = 1;
-		while(exponent > 1)
+		long o = i;
+		int max = Bits.getMSB(exponent);
+		int bit = max - 1;
+		while(bit > -1)
 		{
-			if((exponent & 1) == 1) 
-				o *= i;
 			i *= i;
-			exponent >>>= 1;
+			if(Bits.getBit(exponent, bit--)) 
+				i *= o;
 		}
-		return i * o;
+		return i;
 	}
 	
 	public static long modular_exponent(long i, long exponent, long mod)
