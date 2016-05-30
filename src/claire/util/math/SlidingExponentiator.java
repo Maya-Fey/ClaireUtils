@@ -139,14 +139,28 @@ public class SlidingExponentiator<Int extends IInteger<Int>> {
 		construct(i, true);
 		int bmax = MathHelper.getMSB(exponent.getArr());
 		int bit = bmax - 1;
+		int targ = 1,
+			len = 1,
+			j = 1;
+		while(bit > -1 && j < max) {
+			if(exponent.bitAt(bit--)) {
+				targ <<= ++j - len;
+				targ |= 1;
+				len = j;
+			} else
+				j++;
+		}
+		targ >>>= 1;
+		bit += j - len;
+		i.setTo(ints[targ]);
 		while(bit > -1)
 		{
 			if(!exponent.bitAt(bit--)) {
 				i.p_square();
 			} else {
-				int targ = 1,
-					len = 1,
-					j = 1;
+				targ = 1;
+				len = 1;
+				j = 1;
 				while(bit > -1 && j < max) {
 					if(exponent.bitAt(bit--)) {
 						targ <<= ++j - len;
