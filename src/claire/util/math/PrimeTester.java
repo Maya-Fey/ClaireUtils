@@ -11,7 +11,7 @@ public class PrimeTester<Int extends IInteger<Int>> {
 	private Int test;
 	private Int exponent;
 	private Int witness;
-	private Exponentiator<Int> exp;
+	private IExponentiator<Int> exp;
 	
 	public PrimeTester(IRandom<?, ?> rng, Int sample)
 	{
@@ -29,6 +29,24 @@ public class PrimeTester<Int extends IInteger<Int>> {
 		exponent = factory.construct(len);
 		witness = factory.construct(len);
 		exp = new Exponentiator<Int>(factory.construct(len));
+	}
+	
+	public PrimeTester(IExponentiator<Int> exp, IRandom<?, ?> rng, Int sample)
+	{
+		this.rng = rng;
+		test = sample.createDeepClone();
+		exponent = sample.createDeepClone();
+		witness = sample.createDeepClone();
+		this.exp = exp;
+	}
+	
+	public PrimeTester(IExponentiator<Int> exp, IRandom<?, ?> rng, IntegerFactory<Int> factory, int len)
+	{
+		this.rng = rng;
+		test = factory.construct(len);
+		exponent = factory.construct(len);
+		witness = factory.construct(len);
+		this.exp = exp;
 	}
 	
 	public void redefine(Int sample)
