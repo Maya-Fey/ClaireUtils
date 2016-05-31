@@ -7,7 +7,8 @@ import claire.util.logging.Log;
 import claire.util.memory.Bits;
 import claire.util.standards.IInteger;
 
-public class Exponentiator<Int extends IInteger<Int>> {
+public class Exponentiator<Int extends IInteger<Int>> 
+	   implements IExponentiator<Int> {
 
 	private final Int o;
 	
@@ -113,10 +114,10 @@ public class Exponentiator<Int extends IInteger<Int>> {
 	 * <br><br>
 	 * Returns: void, however the result ends up in <code>i</code>.
 	 */
-	public void p_modular_exponent(final Int i, final Int exponent, final Int mod)
+	public void p_modular_exponent(final Int i, final IInteger<?> exponent, final Int mod)
 	{
 		if(MathHelper.getRealLength(exponent.getArr()) == 1)
-			p_modular_exponent(i, exponent.getArr()[0] & 0xFFFFFFFFL, mod);
+			p_modular_exponent(i, exponent.getArr()[0], mod);
 		else
 			p_modular_exponent_sure(i, exponent, mod);
 	}
@@ -135,7 +136,7 @@ public class Exponentiator<Int extends IInteger<Int>> {
 	 * <br><br>
 	 * Returns: void, however the result ends up in <code>i</code>.
 	 */
-	public void p_modular_exponent(final Int i, long exponent, Int mod)
+	public void p_modular_exponent(final Int i, int exponent, Int mod)
 	{
 		if(exponent == 0) {
 			i.setTo(1);
@@ -174,7 +175,7 @@ public class Exponentiator<Int extends IInteger<Int>> {
 	 * <br><br>
 	 * Returns: void, however the result ends up in <code>i</code>.
 	 */
-	public void p_modular_exponent_sure(final Int i, final Int exponent, final Int mod)
+	public void p_modular_exponent_sure(final Int i, final IInteger<?> exponent, final Int mod)
 	{
 		if(!exponent.isNonZero()) {
 			i.setTo(1);
@@ -298,10 +299,10 @@ public class Exponentiator<Int extends IInteger<Int>> {
 	 * <br><br>
 	 * Returns: Integer of specified type
 	 */
-	public Int modular_exponent(final Int i, final Int exponent, final Int mod)
+	public Int modular_exponent(final Int i, final IInteger<?> exponent, final Int mod)
 	{
 		if(MathHelper.getRealLength(exponent.getArr()) == 1)
-			return modular_exponent(i, exponent.getArr()[0] & 0xFFFFFFFFL, mod);
+			return modular_exponent(i, exponent.getArr()[0], mod);
 		else
 			return modular_exponent_sure(i, exponent, mod);
 	}
@@ -320,7 +321,7 @@ public class Exponentiator<Int extends IInteger<Int>> {
 	 * <br><br>
 	 * Returns: Integer of specified type
 	 */
-	public Int modular_exponent(final Int n, long exponent, Int mod)
+	public Int modular_exponent(final Int n, int exponent, Int mod)
 	{
 		Int i = n.createDeepClone();
 		if(exponent == 0) {
@@ -360,7 +361,7 @@ public class Exponentiator<Int extends IInteger<Int>> {
 	 * <br><br>
 	 * Returns: Integer of specified type
 	 */
-	public Int modular_exponent_sure(final Int n, final Int exponent, final Int mod)
+	public Int modular_exponent_sure(final Int n, final IInteger<?> exponent, final Int mod)
 	{
 		Int i = n.createDeepClone();
 		if(!exponent.isNonZero()) {
