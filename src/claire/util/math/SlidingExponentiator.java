@@ -292,17 +292,49 @@ public class SlidingExponentiator<Int extends IInteger<Int>>
 		}
 		if(exponent.isEqualTo(1))
 			return;
-		o.setTo(i);
-		final int max = MathHelper.getMSB(exponent.getArr());
-		int bit = max - 1;
+		construct(i, mod, true);
+		int bmax = MathHelper.getMSB(exponent.getArr());
+		int bit = bmax - 1;
+		int targ = 1,
+			len = 1,
+			j = 1;
+		while(bit > -1 && j < max) {
+			j++;
+			if(exponent.bitAt(bit--)) {
+				targ <<= j - len;
+				targ |= 1;
+				len = j;
+			}
+		}
+		targ >>>= 1;
+		bit += j - len;
+		i.setTo(ints[targ]);
 		while(bit > -1)
 		{
-			i.p_square();
-			i.p_modulo(mod);		
-			if(exponent.bitAt(bit--)) {
-				i.p_multiply(o);
+			if(!exponent.bitAt(bit--)) {
+				i.p_square();
 				i.p_modulo(mod);
-			}	
+			} else {
+				targ = 1;
+				len = 1;
+				j = 1;
+				while(bit > -1 && j < max) {
+					j++;
+					if(exponent.bitAt(bit--)) {
+						targ <<= j - len;
+						targ |= 1;
+						len = j;
+					} 
+				}
+				targ >>>= 1;
+				bit += j - len;
+				while(len-- > 0) {
+					i.p_square();
+					i.p_modulo(mod);
+				}
+				i.p_multiply(ints[targ]);
+				i.p_modulo(mod);
+			}
 		}
 	}
 	
