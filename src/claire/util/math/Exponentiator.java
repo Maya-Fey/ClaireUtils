@@ -49,26 +49,6 @@ public class Exponentiator<Int extends IInteger<Int>>
 	}
 	
 	/**
-	 * This method takes the exponent of an IInteger by another IInteger
-	 * <br><br>
-	 * Expects:
-	 * <ul>
-	 * <li>An IInteger of any value</li>
-	 * <li>An IInteger greater then or equal to zero</li>
-	 * </ul>
-	 * An negative exponent will result in undefined behavior.
-	 * <br><br>
-	 * Returns: void, however the result ends up in <code>i</code>.
-	 */
-	public void p_exponent(final Int i, final IInteger<?> exponent)
-	{
-		if(MathHelper.getRealLength(exponent.getArr()) == 1)
-			p_exponent(i, exponent.getArr()[0]);
-		else
-			p_exponent_sure(i, exponent);
-	}
-	
-	/**
 	 * This method takes the exponent of an IInteger by another IInteger, without
 	 * testing if the number can fit in 32 bits.
 	 * <br><br>
@@ -98,28 +78,6 @@ public class Exponentiator<Int extends IInteger<Int>>
 			if(exponent.bitAt(bit--)) 
 				i.p_multiply(o);			
 		}
-	}
-	
-	/**
-	 * This method takes the exponent of an IInteger by an IInteger,
-	 * modulo a IInteger.
-	 * <br><br>
-	 * Expects:
-	 * <ul>
-	 * <li>An IInteger of any value</li>
-	 * <li>An IInteger greater then or equal to zero</li>
-	 * <li>An IInteger of any value</li>
-	 * </ul>
-	 * An negative exponent will result in undefined behavior.
-	 * <br><br>
-	 * Returns: void, however the result ends up in <code>i</code>.
-	 */
-	public void p_modular_exponent(final Int i, final IInteger<?> exponent, final Int mod)
-	{
-		if(MathHelper.getRealLength(exponent.getArr()) == 1)
-			p_modular_exponent(i, exponent.getArr()[0], mod);
-		else
-			p_modular_exponent_sure(i, exponent, mod);
 	}
 	
 	/**
@@ -233,26 +191,6 @@ public class Exponentiator<Int extends IInteger<Int>>
 	}
 	
 	/**
-	 * This method takes the exponent of an IInteger by another IInteger
-	 * <br><br>
-	 * Expects:
-	 * <ul>
-	 * <li>An IInteger of any value</li>
-	 * <li>An IInteger greater then or equal to zero</li>
-	 * </ul>
-	 * An negative exponent will result in undefined behavior.
-	 * <br><br>
-	 * Returns: Integer of specified type
-	 */
-	public Int exponent(final Int i, final IInteger<?> exponent)
-	{
-		if(MathHelper.getRealLength(exponent.getArr()) == 1)
-			return exponent(i, exponent.getArr()[0]);
-		else
-			return exponent_sure(i, exponent);
-	}
-	
-	/**
 	 * This method takes the exponent of an IInteger by another IInteger, without
 	 * testing if the number can fit in 32 bits.
 	 * <br><br>
@@ -283,28 +221,6 @@ public class Exponentiator<Int extends IInteger<Int>>
 				i.p_multiply(n);			
 		}
 		return i;
-	}
-	
-	/**
-	 * This method takes the exponent of an IInteger by an IInteger,
-	 * modulo a IInteger.
-	 * <br><br>
-	 * Expects:
-	 * <ul>
-	 * <li>An IInteger of any value</li>
-	 * <li>An IInteger greater then or equal to zero</li>
-	 * <li>An IInteger of any value</li>
-	 * </ul>
-	 * An negative exponent will result in undefined behavior.
-	 * <br><br>
-	 * Returns: Integer of specified type
-	 */
-	public Int modular_exponent(final Int i, final IInteger<?> exponent, final Int mod)
-	{
-		if(MathHelper.getRealLength(exponent.getArr()) == 1)
-			return modular_exponent(i, exponent.getArr()[0], mod);
-		else
-			return modular_exponent_sure(i, exponent, mod);
 	}
 	
 	/**

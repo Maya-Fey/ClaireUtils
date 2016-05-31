@@ -32,7 +32,7 @@ public interface IExponentiator<Int extends IInteger<Int>>
 			p_modular_exponent_sure(i, exp, mod);
 	}
 	
-	default IInteger<?> exponent(Int i, IInteger<?> exp)
+	default Int exponent(Int i, IInteger<?> exp)
 	{
 		if(MathHelper.getRealLength(exp.getArr()) == 1)
 			return exponent(i, exp.getArr()[0]);
