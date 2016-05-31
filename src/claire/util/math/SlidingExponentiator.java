@@ -47,6 +47,28 @@ public class SlidingExponentiator<Int extends IInteger<Int>> {
 		}
 	}
 	
+	private void construct(Int begin, Int modulus, boolean copy)
+	{
+		ints[0] = copy ? begin.createDeepClone() : begin;
+		if(max == 2) {
+			ints[1] = ints[0].square();
+			ints[1].p_multiply(begin);
+			ints[1].p_modulo(modulus);
+		}
+		if(max > 2)
+		{
+			o.setTo(begin);
+			o.p_square();
+			int i = gen;
+			int j = 1;
+			Int prev = ints[0];
+			while(i-- > 0) {
+				prev = ints[j++] = prev.multiply(o); 
+				prev.p_modulo(modulus);
+			}
+		}
+	}
+	
 	/**
 	 * This method takes the exponent of an IInteger by a 32-bit integer
 	 * <br><br>
