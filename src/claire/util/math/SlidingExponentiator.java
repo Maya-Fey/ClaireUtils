@@ -26,15 +26,16 @@ public class SlidingExponentiator<Int extends IInteger<Int>>
 		max = bits;
 		ints = t.iFactory().array((int) MathHelper.exponent(2, bits - 1));
 		for(int i = 0; i < ints.length; i++)
-			ints[i++] = t.createDeepClone();
+			ints[i] = t.createDeepClone();
 		gen = ints.length - 1;
 	}
 	
-	private void construct(Int begin, boolean copy)
+	private void construct(Int begin)
 	{
-		ints[0] = copy ? begin.createDeepClone() : begin;
+		ints[0].setTo(begin);
 		if(max == 2) {
-			ints[1] = ints[0].square();
+			ints[1].setTo(ints[0]);
+			ints[1].p_square();
 			ints[1].p_multiply(begin);
 		}
 		if(max > 2)
@@ -45,7 +46,9 @@ public class SlidingExponentiator<Int extends IInteger<Int>>
 			int j = 1;
 			Int prev = ints[0];
 			while(i-- > 0) {
-				prev = ints[j++] = prev.multiply(o); 
+				ints[j].setTo(prev);
+				prev = ints[j++];
+				prev.p_multiply(o); 
 			}
 		}
 	}
@@ -93,7 +96,7 @@ public class SlidingExponentiator<Int extends IInteger<Int>>
 		} 
 		if(exponent == 1)
 			return;
-		construct(i, true);
+		construct(i);
 		int bmax = Bits.getMSB(exponent);
 		int bit = bmax - 1;
 		int targ = 1,
@@ -156,7 +159,7 @@ public class SlidingExponentiator<Int extends IInteger<Int>>
 		}
 		if(exponent.isEqualTo(1))
 			return;
-		construct(i, true);
+		construct(i);
 		int bmax = MathHelper.getMSB(exponent.getArr());
 		int bit = bmax - 1;
 		int targ = 1,
@@ -361,7 +364,7 @@ public class SlidingExponentiator<Int extends IInteger<Int>>
 		} 
 		if(exponent == 1)
 			return i;
-		construct(n, true);
+		construct(n);
 		int bmax = Bits.getMSB(exponent);
 		int bit = bmax - 1;
 		int targ = 1,
@@ -426,7 +429,7 @@ public class SlidingExponentiator<Int extends IInteger<Int>>
 		}
 		if(exponent.isEqualTo(1))
 			return i;
-		construct(n, true);
+		construct(n);
 		int bmax = MathHelper.getMSB(exponent.getArr());
 		int bit = bmax - 1;
 		int targ = 1,
