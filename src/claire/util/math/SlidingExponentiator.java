@@ -25,6 +25,8 @@ public class SlidingExponentiator<Int extends IInteger<Int>>
 		this.o = t;
 		max = bits;
 		ints = t.iFactory().array((int) MathHelper.exponent(2, bits - 1));
+		for(int i = 0; i < ints.length; i++)
+			ints[i++] = t.createDeepClone();
 		gen = ints.length - 1;
 	}
 	
