@@ -80,7 +80,7 @@ public class PrimeGenerator<Int extends IInteger<Int>>
 		this.rand = rand;
 		this.primes = primes;
 		this.temp2 = min.createDeepClone();
-		this.tester = new PrimeTester<Int>(rand2, max);
+		this.tester = new PrimeTester<Int>(new SlidingExponentiator<Int>(temp2, SlidingExponentiator.getOptimalMax(max.getBits())), rand2, max);
 		Int add = min.createDeepClone();
 		if(add.getIntLen() < SPACE[primes])
 			add = add.getLarge(SPACE[primes]);
