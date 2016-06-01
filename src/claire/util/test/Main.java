@@ -70,6 +70,12 @@ public final class Main {
 	public static void main(String[] args) throws Exception
 	{
 		System.out.println("I've actually done something! Will ya look at that.");
+		CryptoPrimeGenerator<UInt> pg213 = new CryptoPrimeGenerator<UInt>(8, 1024, UInt.ifactory, 50);
+		UInt u123 = pg213.nextPrime();
+		System.out.println(u123);
+		System.out.println(u123.getBits());
+		System.out.println(MathHelper.isPrimeProbableMR(u123, new XorShiftNG(), 64));
+		end();
 		Test.runTests();
 		end();
 		CryptoPrimeGenerator<UInt> pg1 = new CryptoPrimeGenerator<UInt>(8, 512, UInt.ifactory, 1);
