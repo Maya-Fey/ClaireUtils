@@ -53,11 +53,12 @@ public class SlidingExponentiator<Int extends IInteger<Int>>
 		}
 	}
 	
-	private void construct(Int begin, Int modulus, boolean copy)
+	private void construct(Int begin, Int modulus)
 	{
-		ints[0] = copy ? begin.createDeepClone() : begin;
+		ints[0].setTo(begin);
 		if(max == 2) {
-			ints[1] = ints[0].square();
+			ints[1].setTo(ints[0]);
+			ints[1].p_square();
 			ints[1].p_multiply(begin);
 			ints[1].p_modulo(modulus);
 		}
@@ -70,7 +71,9 @@ public class SlidingExponentiator<Int extends IInteger<Int>>
 			int j = 1;
 			Int prev = ints[0];
 			while(i-- > 0) {
-				prev = ints[j++] = prev.multiply(o); 
+				ints[j].setTo(prev);
+				prev = ints[j++];
+				prev.p_multiply(o); 
 				prev.p_modulo(modulus);
 			}
 		}
@@ -225,7 +228,7 @@ public class SlidingExponentiator<Int extends IInteger<Int>>
 			i.p_modulo(mod);
 		if(exponent == 1)
 			return;
-		construct(i, mod, true);
+		construct(i, mod);
 		int bmax = Bits.getMSB(exponent);
 		int bit = bmax - 1;
 		int targ = 1,
@@ -297,7 +300,7 @@ public class SlidingExponentiator<Int extends IInteger<Int>>
 		}
 		if(exponent.isEqualTo(1))
 			return;
-		construct(i, mod, true);
+		construct(i, mod);
 		int bmax = MathHelper.getMSB(exponent.getArr());
 		int bit = bmax - 1;
 		int targ = 1,
@@ -497,7 +500,7 @@ public class SlidingExponentiator<Int extends IInteger<Int>>
 			i.p_modulo(mod);
 		if(exponent == 1)
 			return i;
-		construct(n, mod, true);
+		construct(n, mod);
 		int bmax = Bits.getMSB(exponent);
 		int bit = bmax - 1;
 		int targ = 1,
@@ -571,7 +574,7 @@ public class SlidingExponentiator<Int extends IInteger<Int>>
 		}
 		if(exponent.isEqualTo(1))
 			return i;
-		construct(n, mod, true);
+		construct(n, mod);
 		int bmax = MathHelper.getMSB(exponent.getArr());
 		int bit = bmax - 1;
 		int targ = 1,
