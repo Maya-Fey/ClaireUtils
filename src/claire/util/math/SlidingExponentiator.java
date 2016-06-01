@@ -772,4 +772,18 @@ public class SlidingExponentiator<Int extends IInteger<Int>>
 		return er;
 	}
 	
+	public static int getOptimalMax(int bits)
+	{
+		if(bits <= 128) 
+			return 4;
+		else if(bits <= 600)
+			return 5;
+		else if(bits <= 1600)
+			return 6;
+		else if(bits <= 5000)
+			return 7;
+		else
+			return 8;
+	}
+	
 }
