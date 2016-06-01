@@ -80,7 +80,7 @@ public class CryptoPrimeGenerator<Int extends IInteger<Int>>
 		this.rand = rand;
 		this.primes = primes;
 		this.temp2 = factory.construct(ints);
-		this.tester = new PrimeTester<Int>( rand2, temp2);
+		this.tester = new PrimeTester<Int>(new SlidingExponentiator<Int>(temp2, SlidingExponentiator.getOptimalMax(bits)), rand2, temp2);
 		Int add = factory.construct(ints);
 		if(add.getIntLen() < SPACE[primes])
 			throw new java.lang.IllegalArgumentException("The number of primes is too large for a " + bits + "-bit number");
