@@ -492,6 +492,26 @@ public interface IInteger<Type extends IInteger<Type>>
 		}
 	}
 	
+	public static <Int extends IInteger<Int>> int verifySigned(IntegerFactory<Int> fac)
+	{
+		int er = 0;
+		try {
+			int[] ints1 = new int[32];
+			RandUtils.fillArr(ints1, 0, 16);
+			Int i1 = fac.construct(ints1);
+			i1.invertSign();
+			if(i1.isGreaterOrEqualTo(0)) {
+				er++;
+				Log.err.println("Inverting the sign had no effect or comparison operation is unsigned.");
+			}
+			return er;
+		} catch(Exception e) {
+			Log.err.println("Exception encountered while testing addition of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
+			e.printStackTrace();
+			return er + 1;
+		}
+	}
+	
 	public static <Int extends IInteger<Int>> int verifyAddition(IntegerFactory<Int> fac)
 	{
 		int er = 0;
