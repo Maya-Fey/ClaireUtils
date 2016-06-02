@@ -729,6 +729,28 @@ public interface IInteger<Type extends IInteger<Type>>
 		}
 	}
 	
+	public static <Int extends IInteger<Int>> int verifySquareDiv(IntegerFactory<Int> fac)
+	{
+		int er = 0;
+		try {
+			int[] ints1 = new int[32];
+			RandUtils.fillArr(ints1, 0, 16);
+			Int i1 = fac.construct(ints1);
+			Int conf = i1.createDeepClone();
+			i1.p_square();
+			i1.p_divide(conf);
+			if(!i1.equals(conf)) {
+				Log.err.println("Squaring followed by Division did not yield the same value");
+				er++;
+			}
+			return er;
+		} catch(Exception e) {
+			Log.err.println("Exception encountered while testing squaring/division of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
+			e.printStackTrace();
+			return er + 1;
+		}
+	}
+	
 	public static <Int extends IInteger<Int>> int verifyVariable(IntegerFactory<Int> fac)
 	{
 		int er = 0;
