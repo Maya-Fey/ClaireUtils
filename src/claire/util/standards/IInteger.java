@@ -512,6 +512,30 @@ public interface IInteger<Type extends IInteger<Type>>
 		}
 	}
 	
+	public static <Int extends IInteger<Int>> int verifyAdditionCancel(IntegerFactory<Int> fac)
+	{
+		int er = 0;
+		try {
+			int[] ints1 = new int[32];
+			RandUtils.fillArr(ints1, 0, 16);
+			Int i1 = fac.construct(ints1);
+			int[] ints2 = new int[32];
+			RandUtils.fillArr(ints2, 0, 16);
+			Int i2 = fac.construct(ints2);
+			i2.invertSign();
+			i1.p_add(i2);
+			if(!i1.isEqualTo(0)) {
+				er++;
+				Log.err.println("Addition by inverse had unforseen effect.");
+			}
+			return er;
+		} catch(Exception e) {
+			Log.err.println("Exception encountered while testing addition of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
+			e.printStackTrace();
+			return er + 1;
+		}
+	}
+	
 	public static <Int extends IInteger<Int>> int verifyAddition(IntegerFactory<Int> fac)
 	{
 		int er = 0;
