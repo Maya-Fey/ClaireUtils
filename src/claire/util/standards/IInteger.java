@@ -512,6 +512,32 @@ public interface IInteger<Type extends IInteger<Type>>
 		}
 	}
 	
+	public static <Int extends IInteger<Int>> int verifyIncDec(IntegerFactory<Int> fac)
+	{
+		int er = 0;
+		try {
+			int[] ints1 = new int[32];
+			RandUtils.fillArr(ints1, 0, 16);
+			Int i1 = fac.construct(ints1);
+			Int i2 = i1.createDeepClone();
+			int ran = RandUtils.inRange(0, 5000);
+			int j = ran;
+			while(j-- > 0)
+				i1.increment();
+			while(ran-- > 0)
+				i1.decrement();
+			if(!i1.isEqualTo(i2)) {
+				er++;
+				Log.err.println("Increment followed by decrement failed to return the same value");
+			}
+			return er;
+		} catch(Exception e) {
+			Log.err.println("Exception encountered while inc/dec of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
+			e.printStackTrace();
+			return er + 1;
+		}
+	}
+	
 	public static <Int extends IInteger<Int>> int verifyAdditionCancel(IntegerFactory<Int> fac)
 	{
 		int er = 0;
