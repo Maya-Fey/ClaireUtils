@@ -538,6 +538,38 @@ public interface IInteger<Type extends IInteger<Type>>
 		}
 	}
 	
+	public static <Int extends IInteger<Int>> int verifyComparator(IntegerFactory<Int> fac)
+	{
+		int er = 0;
+		try {
+			int[] ints1 = new int[32];
+			RandUtils.fillArr(ints1, 0, 17);
+			Int i1 = fac.construct(ints1);
+			int[] ints2 = new int[32];
+			RandUtils.fillArr(ints2, 0, 16);
+			Int i2 = fac.construct(ints2);
+			Int c = i1.createDeepClone();
+			if(!i1.isEqualTo(c)) {
+				er++;
+				System.out.println("Equality test failed");
+			}
+			i1.p_add(i2);
+			if(!i1.isGreaterThan(i2)) {
+				er++;
+				System.out.println("Greater than test failed");
+			}
+			if(!i2.isLesserThan(i1)) {
+				er++;
+				System.out.println("Lesser than test failed");
+			}
+			return er;
+		} catch(Exception e) {
+			Log.err.println("Exception encountered while testing addition of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
+			e.printStackTrace();
+			return er + 1;
+		}
+	}
+	
 	public static <Int extends IInteger<Int>> int verifyAdditionCancel(IntegerFactory<Int> fac)
 	{
 		int er = 0;
