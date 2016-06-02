@@ -893,6 +893,8 @@ public class SInt
 		er += IInteger.verifyModulus(ifactory);
 		er += IInteger.verifyAddSub(ifactory);
 		er += IInteger.verifyMulDiv(ifactory);
+		er += IInteger.verifySquareDiv(ifactory);
+		er += IInteger.verifySigned(ifactory);
 		er += IPersistable.test(new SInt("34123213123213123123123213213", 32));
 		er += IDeepClonable.test(new SInt("34123213123213123123123213213", 32));
 		er += IPersistable.test(new SInt("-34123213123213123123123213213", 32));
