@@ -729,4 +729,26 @@ public interface IInteger<Type extends IInteger<Type>>
 		}
 	}
 	
+	public static <Int extends IInteger<Int>> int verifyVariable(IntegerFactory<Int> fac)
+	{
+		int er = 0;
+		try {
+			int[] ints1 = new int[32];
+			RandUtils.fillArr(ints1, 0, 32);
+			Int i1 = fac.construct(ints1);
+			BigInteger b = new BigInteger(i1.toString());
+			b = b.multiply(b);
+			i1.p_square();
+			if(!i1.toString().equals(b.toString())) {
+				Log.err.println("Variable Integer failed to expand.");
+				er++;
+			}
+			return er;
+		} catch(Exception e) {
+			Log.err.println("Exception encountered while testing variability of integers from " + fac.getClass().getSimpleName() + ": " + e.getMessage());
+			e.printStackTrace();
+			return er + 1;
+		}
+	}
+	
 }
