@@ -71,6 +71,7 @@ import claire.util.math.MathHelper;
 import claire.util.math.SInt;
 import claire.util.math.SlidingExponentiator;
 import claire.util.math.UInt;
+import claire.util.math.VariableUInt;
 import claire.util.math.counters.IntCounter;
 import claire.util.math.counters.LongCounter;
 import claire.util.memory.buffer.BufferedOutgoingStream;
@@ -274,6 +275,8 @@ public class Test {
 		reg += UInt.test();
 		Log.info.println("Testing claire.util.math.SInt");
 		reg += SInt.test();
+		Log.info.println("Testing claire.util.math.VariableUInt");
+		reg += VariableUInt.test();
 		Log.info.println("Testing claire.util.math.MathHelper");
 		reg += MathHelper.test();
 		Log.info.println("Testing claire.util.math.Exponentiator");
