@@ -936,6 +936,9 @@ public class VariableUInt
 		er += IInteger.verifyAddSub(ifactory);
 		er += IInteger.verifyMulDiv(ifactory);
 		er += IInteger.verifyVariable(ifactory);
+		er += IInteger.verifyComparator(ifactory);
+		er += IInteger.verifySquareDiv(ifactory);
+		er += IInteger.verifyIncDec(ifactory);
 		er += IPersistable.test(new VariableUInt("34123213123213123123123213213", 32));
 		er += IDeepClonable.test(new VariableUInt("34123213123213123123123213213", 32));
 		return er;
