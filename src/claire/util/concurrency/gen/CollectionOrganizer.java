@@ -1,4 +1,6 @@
-package claire.util.concurrency;
+package claire.util.concurrency.gen;
+
+import claire.util.concurrency.Basket;
 
 
 public class CollectionOrganizer<Type> 

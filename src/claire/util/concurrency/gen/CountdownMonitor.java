@@ -1,4 +1,4 @@
-package claire.util.concurrency;
+package claire.util.concurrency.gen;
 
 public class CountdownMonitor 
 	   extends TaskMonitor {

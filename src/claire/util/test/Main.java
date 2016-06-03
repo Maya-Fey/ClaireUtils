@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
 
-import claire.util.concurrency.CountdownMonitor;
-import claire.util.concurrency.GeneratorThread;
-import claire.util.concurrency.TaskMonitor;
+import claire.util.concurrency.gen.CountdownMonitor;
+import claire.util.concurrency.gen.GeneratorThread;
+import claire.util.concurrency.gen.TaskMonitor;
 import claire.util.crypto.hash.primitive.BEAR.$BEAR3;
 import claire.util.crypto.rng.primitive.XorShiftNG;
 import claire.util.display.ImageUtil;

@@ -1,5 +1,6 @@
-package claire.util.concurrency;
+package claire.util.concurrency.gen;
 
+import claire.util.concurrency.Basket;
 import claire.util.standards.IGenerator;
 
 public class GeneratorCollectorThread<Type> 
