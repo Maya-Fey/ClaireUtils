@@ -2,7 +2,6 @@ package claire.util.concurrency.gen;
 
 import claire.util.concurrency.Basket;
 
-
 public class CollectionOrganizer<Type> 
 	   extends TaskMonitor {
 	
