@@ -40,5 +40,16 @@ public class CollectionOrganizer<Type>
 		for(GeneratorCollectorThread<Type> g : gens)
 			g.interrupt();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static <Type> CollectionOrganizer<Type> fromFactory(GeneratorFactory<Type> fac, int thread, Type[] basket)
+	{
+		Basket<Type> bask = new Basket<Type>(basket);
+		GeneratorCollectorThread<Type>[] threads = new GeneratorCollectorThread[thread];
+		CollectionOrganizer<Type> izer = new CollectionOrganizer<Type>(bask, threads);
+		for(int i = 0; i < thread; i++)
+			threads[i] = new GeneratorCollectorThread<Type>(fac.generate(), izer, bask);
+		return izer;
+	}
 
 }
