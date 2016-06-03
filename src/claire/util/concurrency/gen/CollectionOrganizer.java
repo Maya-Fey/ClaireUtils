@@ -6,9 +6,9 @@ public class CollectionOrganizer<Type>
 	   extends TaskMonitor {
 	
 	private final Basket<Type> basket;
-	private final GeneratorThread<Type>[] gens;
+	private final GeneratorCollectorThread<Type>[] gens;
 	
-	public CollectionOrganizer(Basket<Type> basket, GeneratorThread<Type>[] gens)
+	public CollectionOrganizer(Basket<Type> basket, GeneratorCollectorThread<Type>[] gens)
 	{
 		this.basket = basket;
 		this.gens = gens;
@@ -37,7 +37,7 @@ public class CollectionOrganizer<Type>
 					this.wait();
 				} catch (InterruptedException e) {}
 		}
-		for(GeneratorThread<Type> g : gens)
+		for(GeneratorCollectorThread<Type> g : gens)
 			g.interrupt();
 	}
 
