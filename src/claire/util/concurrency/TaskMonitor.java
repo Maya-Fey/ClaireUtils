@@ -15,13 +15,13 @@ public abstract class TaskMonitor {
 	}
 	
 	public void waitOn()
-	{
-		while(!isDone())
-			synchronized(this) {
+	{		
+		synchronized(this) {
+			while(!isDone())
 				try {
 					this.wait();
 				} catch (InterruptedException e) {}
-			}
+		}
 	}
 
 }
