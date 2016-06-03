@@ -14,8 +14,14 @@ public class Basket<Type>
 	public void drop(Type t)
 	{
 		synchronized(this) {
-			basket[pos++] = t;
+			if(pos < basket.length)
+				basket[pos++] = t;
 		}
+	}
+	
+	public boolean hasSpace()
+	{
+		return pos < basket.length;
 	}
 	
 }
