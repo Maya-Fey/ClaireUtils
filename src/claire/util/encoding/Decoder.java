@@ -27,17 +27,17 @@ public class Decoder
 		}
 	}
 	
-	private final IDecoder encoder;
+	private final IDecoder decoder;
 	
 	public Decoder(String format)
 	{
-		this.encoder = getDecoder(format);
+		this.decoder = getDecoder(format);
 	}
 	
 	public Decoder(IIncomingStream os, String format)
 	{
 		this(format);
-		encoder.setToDecode(os);
+		decoder.setToDecode(os);
 	}
 	
 	public Decoder(File f, String format) throws IOException
@@ -47,36 +47,36 @@ public class Decoder
 
 	public void setToDecode(IIncomingStream os)
 	{
-		this.encoder.setToDecode(os);
+		this.decoder.setToDecode(os);
 	}
 
 	public char readChar() throws IOException
 	{
-		return this.encoder.readChar();
+		return this.decoder.readChar();
 	}
 
 	public void readChars(char[] chars, int start, int len) throws IOException
 	{
-		this.encoder.readChars(chars, start, len);
+		this.decoder.readChars(chars, start, len);
 	}
 
 	public int readChar32() throws IOException
 	{
-		return this.encoder.readChar32();
+		return this.decoder.readChar32();
 	}
 
 	public void readChars32(int[] chars, int start, int len) throws IOException
 	{
-		this.encoder.readChars32(chars, start, len);
+		this.decoder.readChars32(chars, start, len);
 	}
 	
 	public long readChar64() throws IOException
 	{
-		return this.encoder.readChar64();
+		return this.decoder.readChar64();
 	}
 
 	public void readChars64(long[] chars, int start, int len) throws IOException
 	{
-		this.encoder.readChars64(chars, start, len);
+		this.decoder.readChars64(chars, start, len);
 	}
 }
