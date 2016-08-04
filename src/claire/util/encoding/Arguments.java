@@ -28,6 +28,9 @@ public class Arguments {
 	 * 	<li>A string array</li>
 	 * 	<li>A start value less than the length of args and greater than zero</li>
 	 * </ul>
+	 * Errors:
+	 * <br>
+	 * Throws a NullPointerException if <code>args</code> is <code>null</code>
 	 * <br>
 	 * If an out-of bounds start is passed than a ArrayIndexOutOfBoundsException will be thrown
 	 */
@@ -70,8 +73,9 @@ public class Arguments {
 	 * <ul>
 	 * 	<li>A string array</li>
 	 * </ul>
+	 * Errors:
 	 * <br>
-	 * This constructor is safe
+	 * Throws a NullPointerException if <code>args</code> is <code>null</code>
 	 */
 	public Arguments(String[] args)
 	{
@@ -200,6 +204,11 @@ public class Arguments {
 	 * 	<li>A string array representing all the possible switch arguments</li>
 	 * 	<li>A string array representing all the possible complex arguments</li>
 	 * </ul>
+	 * Errors:
+	 * <br>
+	 * Throws a NullPointerException if either argument is <code>null</code>
+	 * <br>
+	 * <br>
 	 * Returns:
 	 * <br>
 	 * <b>true</b> if an erronous argument is found and <b>false</b> if none is found
