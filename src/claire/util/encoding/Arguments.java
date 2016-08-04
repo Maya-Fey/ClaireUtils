@@ -13,7 +13,7 @@ public class Arguments {
 	/**
 	 * Creates an arguments object from a String array containing the arguments from a start index
 	 * <br>
-	 * Accepts
+	 * Accepts:
 	 * <ul>
 	 * 	<li>A string array</li>
 	 * 	<li>A start value less than the length of args and greater than zero</li>
@@ -56,7 +56,7 @@ public class Arguments {
 	/**
 	 * Creates an arguments object from a String array
 	 * <br>
-	 * Accepts
+	 * Accepts:
 	 * <ul>
 	 * 	<li>A string array</li>
 	 * </ul>
@@ -94,21 +94,48 @@ public class Arguments {
 		}
 	}
 	
+	/**
+	 * Returns an internal string array containing all switch arguments
+	 * <br>
+	 * <br>
+	 * Modifying this array may result in undefined behavior
+	 */
 	public String[] getSwitches()
 	{
 		return this.switches;
 	}
 	
+	/**
+	 * Returns an internal string array containing the index for the complex arguments
+	 * <br>
+	 * <br>
+	 * Modifying this array may result in undefined behavior
+	 */
 	public String[] getWordArgIndex()
 	{
 		return this.index;
 	}
 	
+	/**
+	 * Returns an internal string array containing the data for the complex arguments
+	 * <br>
+	 * <br>
+	 * Modifying this array may result in undefined behavior
+	 */
 	public String[] getWords()
 	{
 		return this.words;
 	}
 	
+	/**
+	 * Returns whether the argument given has been switched
+	 * <br>
+	 * Accepts
+	 * <ul>
+	 *  <li>A string containing the arg you wish to check for</li>
+	 * </ul>
+	 * This function is safe
+	 */
 	public boolean isSwitched(String arg)
 	{
 		for(String s : switches)
@@ -117,6 +144,15 @@ public class Arguments {
 		return false;
 	}
 	
+	/**
+	 * Returns whether a complex argument under the given name has been passed
+	 * <br>
+	 * Accepts
+	 * <ul>
+	 *  <li>A string containing the arg you wish to check for</li>
+	 * </ul>
+	 * This function is safe
+	 */
 	public boolean hasArg(String arg)
 	{
 		for(String s : index)
@@ -125,6 +161,18 @@ public class Arguments {
 		return false;
 	}
 	
+	/**
+	 * Returns the value of a complex argument
+	 * <br>
+	 * Accepts
+	 * <ul>
+	 *  <li>A string containing the arg you wish to obtain the value of</li>
+	 * </ul>
+	 * This function is safe
+	 * <br>
+	 * <br>
+	 * This function returns a String containing the value. If your argument is not found, <code>null</code> is returned
+	 */
 	public String getArg(String arg)
 	{
 		for(int i = 0; i < index.length; i++)
