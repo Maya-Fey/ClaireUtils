@@ -10,6 +10,17 @@ public class Arguments {
 	private final String[] index;
 	private final String[] words;
 	
+	/**
+	 * Creates an arguments object from a String array containing the arguments from a start index
+	 * <br>
+	 * Accepts
+	 * <ul>
+	 * 	<li>A string array</li>
+	 * 	<li>A start value less than the length of args and greater than zero</li>
+	 * </ul>
+	 * <br>
+	 * If an out-of bounds start is passed than a ArrayIndexOutOfBoundsException will be thrown
+	 */
 	public Arguments(String[] args, int start)
 	{
 		//Prescan
@@ -42,6 +53,16 @@ public class Arguments {
 		}
 	}
 	
+	/**
+	 * Creates an arguments object from a String array
+	 * <br>
+	 * Accepts
+	 * <ul>
+	 * 	<li>A string array</li>
+	 * </ul>
+	 * <br>
+	 * This constructor is safe
+	 */
 	public Arguments(String[] args)
 	{
 		//Prescan
