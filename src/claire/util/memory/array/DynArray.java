@@ -3,6 +3,13 @@ package claire.util.memory.array;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
+/**
+ * This dynamic array class is a descendant of IJArray. 
+ * <br>
+ * <br>
+ * DynArray will automatically resize as items are added. Can be used as an array
+ * builder with getFinal()
+ */
 public class DynArray<Type> 
 	   extends CArray<Type> {
 
