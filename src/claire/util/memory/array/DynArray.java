@@ -1,7 +1,6 @@
 package claire.util.memory.array;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
 
 /**
  * This dynamic array class is a descendant of IJArray. 
@@ -45,6 +44,16 @@ public class DynArray<Type>
 		super(arr);
 	}
 
+	/**
+	 * Adds an element to the array
+	 * <br>
+	 * <br>
+	 * Accepts:
+	 * <ul>
+	 * 	<li>An object of the correct type</li>
+	 * </ul>
+	 * This function is safe
+	 */
 	public void add(Type t)
 	{
 		if(cur == this.array.length)
@@ -52,27 +61,68 @@ public class DynArray<Type>
 		this.array[cur++] = t;
 	}
 	
+	/**
+	 * Sets the growth rate of the DynArray. Higher rates result in less allocations but more unfilled
+	 * space in the array. An overflow rate of 1 will mean the array will never grow additional
+	 * unallocated spaces
+	 * <br>
+	 * <br>
+	 * Accepts:
+	 * <ul>
+	 * 	<li>An integer specifying the new overflow rate</li>
+	 * </ul>
+	 * If an overflow rate less than one is given, undefined behavior will occur during calls to add()
+	 */
 	public void setOverflowRate(int i)
 	{
 		this.overflowRate = i;
 	}
 	
+	/**
+	 * Returns the number of filled cells in the array 
+	 */
 	public int fill()
 	{
 		return this.cur;
 	}
 	
+	/**
+	 * Makes the array as long as the given size.
+	 * <br>
+	 * <br>
+	 * Accepts:
+	 * <ul>
+	 * 	<li>An integer specifying the new size</li>
+	 * </ul>
+	 * Passing a size below the current size will result in undefined behavior
+	 */
 	public void ensureSize(int size)
 	{
 		this.overflow(size - this.array.length);
 	}
 	
+	/**
+	 * Sets the internal array to a new one
+	 * <br>
+	 * <br>
+	 * By default, all the elements in the passed array will be considered filled.
+	 * <br>
+	 * <br>
+	 * Accepts:
+	 * <ul>
+	 * 	<li>An array of the correct type</li>
+	 * </ul>
+	 * If the array is <code>null</code>, than a NullPointerException will be thrown
+	 */
 	public void set(Type[] array)
 	{
+		this.cur = array.length; //Process this instruction first so NullPointers get caught before the array is set
 		this.array = array;
-		this.cur = 0;
 	}
 	
+	/**
+	 * A copy with no unallocated cells is returned. 
+	 */
 	public Type[] getFinal()
 	{
 		@SuppressWarnings("unchecked")
@@ -81,6 +131,20 @@ public class DynArray<Type>
 		return narr;
 	}
 	
+	/**
+	 * A copy with no unallocated cells is returned. If no unallocated
+	 * cells exist and <code>att</code> is <b>true</b> than the internal 
+	 * array will be returned as opposed to a copy. This behavior may
+	 * be desired if this object is being used as a one-time array builder
+	 * (To prevent unnecessary memory allocations)
+	 * <br>
+	 * <br>
+	 * Accepts:
+	 * <ul>
+	 * 	<li>A boolean that allows or denies the return-internal-array feature</li>
+	 * </ul>
+	 * This function is safe
+	 */
 	public Type[] getFinal(boolean att)
 	{
 		if(att && cur == this.array.length)
