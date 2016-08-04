@@ -17,18 +17,32 @@ public class DynArray<Type>
 	protected int overflowRate = 4;
 	
 	/**
-	 * Adds the add(Type) function over traditional arrays. Note that add(Type) is slower then set(Type, int)
-	 * 
-	 * @author Claire
-	 * @param class_
-	 * @param initSize
+	 * Constructs a dynamic array from a class and an initial size
+	 * <br><br>
+	 * Accepts:
+	 * <ul>
+	 * 	<li>A class object</li>
+	 * 	<li>A initial size</li>
+	 * </ul>
+	 * If a negative initSize is given then a NegativeArraySizeException will be thrown
+	 * <br>
+	 * If a <code>class_</code> is <code>null</code> a NullPointerException will be thrown
 	 */
 	public DynArray(Class<Type> class_, int initSize) {
 		super(class_, initSize);
 	}
 	
-	public DynArray(Type[] t) {
-		super(t);
+	/**
+	 * Constructs a dynamic array from an existing array
+	 * <br><br>
+	 * Accepts:
+	 * <ul>
+	 * 	<li>An array of the correct type</li>
+	 * </ul>
+	 * If a <code>arr</code> is <code>null</code> a NullPointerException will be thrown
+	 */
+	public DynArray(Type[] arr) {
+		super(arr);
 	}
 
 	public void add(Type t)
