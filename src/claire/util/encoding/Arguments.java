@@ -190,5 +190,43 @@ public class Arguments {
 				return words[i];
 		return null;
 	}
+	
+	/**
+	 * Checks for any arguments not contained in the <code>switches</code> or <code>values</code> arrays
+	 * <br>
+	 * <br>
+	 * Accepts
+	 * <ul>
+	 * 	<li>A string array representing all the possible switch arguments</li>
+	 * 	<li>A string array representing all the possible complex arguments</li>
+	 * </ul>
+	 * Returns:
+	 * <br>
+	 * <b>true</b> if an erronous argument is found and <b>false</b> if none is found
+	 */
+	public boolean outOfBounds(String[] switches, String[] values)
+	{
+		for(String swval : this.switches) {
+			boolean nf = true;
+			for(String swtest : switches) 
+				if(swtest.equals(swval)) {
+					nf = false;
+					break;
+				}
+			if(nf)
+				return true;
+		}
+		for(String coval : this.index) {
+			boolean nf = true;
+			for(String cotest : values) 
+				if(cotest.equals(coval)) {
+					nf = false;
+					break;
+				}
+			if(nf)
+				return true;
+		}
+		return false;
+	}
 
 }
