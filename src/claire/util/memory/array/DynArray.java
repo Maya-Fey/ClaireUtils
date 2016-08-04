@@ -81,7 +81,7 @@ public class DynArray<Type>
 	/**
 	 * Returns the number of filled cells in the array 
 	 */
-	public int fill()
+	public int length()
 	{
 		return this.cur;
 	}
