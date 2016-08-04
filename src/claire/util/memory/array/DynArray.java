@@ -121,6 +121,25 @@ public class DynArray<Type>
 	}
 	
 	/**
+	 * Sets the internal array to a new one with a specified length
+	 * <br>
+	 * <br>
+	 * Accepts:
+	 * <ul>
+	 * 	<li>An array of the correct type</li>
+	 * 	<li>An integer specifying the correct start-index for the dynamic array<li>
+	 * </ul>
+	 * If the array is <code>null</code>, undefined behavior will result with any use of the array
+	 * <br>
+	 * If <code>length</code> is negative, undefined behavior will result with any use of the array
+	 */
+	public void set(Type[] array, int length)
+	{
+		this.cur = length;
+		this.array = array;
+	}
+	
+	/**
 	 * A copy with no unallocated cells is returned. 
 	 */
 	public Type[] getFinal()
