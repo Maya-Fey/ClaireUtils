@@ -62,6 +62,14 @@ public class DynArray<Type>
 		cur = len2;
 	}
 	
+	public Type[] getFinal()
+	{
+		@SuppressWarnings("unchecked")
+		Type[] narr =  (Type[]) Array.newInstance(class_, cur);
+		System.arraycopy(this.array, 0, narr, 0, cur);
+		return narr;
+	}
+	
 	public Type[] getFinal(boolean att)
 	{
 		if(att && cur == this.array.length)
