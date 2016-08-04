@@ -1,5 +1,15 @@
 package claire.util.encoding;
 
+/**
+ * A class that collects arguments given to a command-line program.
+ * <br>
+ * <br>
+ * There are two kinds of arguments:
+ * <ul>
+ * 	<li>Switch arguments, which begin with a '-' and are only on or off</li>
+ * 	<li>Value arguments, which begin with a '--' and contain a string value</li>
+ * </ul>
+ */
 public class Arguments {
 	
 	/*
