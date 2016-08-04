@@ -47,13 +47,9 @@ public class DynArray<Type>
 
 	public void add(Type t)
 	{
-		try {
-			this.array[cur] = t;
-		} catch (java.lang.ArrayIndexOutOfBoundsException e) {
-			this.overflow(this.overflowRate);
-			this.array[cur] = t;
-		}
-		cur++;
+		if(cur == this.array.length)
+			this.overflow(overflowRate);
+		this.array[cur++] = t;
 	}
 	
 	public void setOverflowRate(int i)
