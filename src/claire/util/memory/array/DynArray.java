@@ -1,5 +1,6 @@
 package claire.util.memory.array;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class DynArray<Type> 
@@ -59,6 +60,16 @@ public class DynArray<Type>
 		} else 
 			this.array = array;
 		cur = len2;
+	}
+	
+	public Type[] getFinal(boolean att)
+	{
+		if(att && cur == this.array.length)
+			return this.array;
+		@SuppressWarnings("unchecked")
+		Type[] narr =  (Type[]) Array.newInstance(class_, cur);
+		System.arraycopy(this.array, 0, narr, 0, cur);
+		return narr;
 	}
 
 }
