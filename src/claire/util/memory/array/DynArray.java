@@ -69,14 +69,8 @@ public class DynArray<Type>
 	
 	public void set(Type[] array)
 	{
-		final int len1 = this.array.length;
-		final int len2 = array.length;
-		if(len1 >= array.length) {
-			System.arraycopy(array, 0, this.array, 0, len2);
-			Arrays.fill(this.array, len2, len1, null);
-		} else 
-			this.array = array;
-		cur = len2;
+		this.array = array;
+		this.cur = 0;
 	}
 	
 	public Type[] getFinal()
