@@ -1,5 +1,7 @@
 package claire.util.encoding;
 
+import claire.util.memory.array.DynArray;
+
 /**
  * A class that collects arguments given to a command-line program.
  * <br>
@@ -236,6 +238,51 @@ public class Arguments {
 				return true;
 		}
 		return false;
+	}
+	
+	 /**
+	 * Checks for any arguments not contained in the <code>switches</code> or <code>values</code> arrays
+	 * <br>
+	 * <br>
+	 * Accepts
+	 * <ul>
+	 * 	<li>A string array representing all the possible switch arguments</li>
+	 * 	<li>A string array representing all the possible complex arguments</li>
+	 * </ul>
+	 * Errors:
+	 * <br>
+	 * Throws a NullPointerException if either argument is <code>null</code>
+	 * <br>
+	 * <br>
+	 * Returns:
+	 * <br>
+	 * A String array containing each and every erronous argument
+	 */
+	public String[] getOutOfBounds(String[] switches, String[] values)
+	{
+		DynArray<String> dyn = new DynArray<String>(new String[((this.switches.length + this.index.length) / 10) + 1]);
+		dyn.setOverflowRate(1);
+		for(String swval : this.switches) {
+			boolean nf = true;
+			for(String swtest : switches) 
+				if(swtest.equals(swval)) {
+					nf = false;
+					break;
+				}
+			if(nf)
+				dyn.add(swval);
+		}
+		for(String coval : this.index) {
+			boolean nf = true;
+			for(String cotest : values) 
+				if(cotest.equals(coval)) {
+					nf = false;
+					break;
+				}
+			if(nf)
+				dyn.add(coval);
+		}
+		return dyn.getFinal(true);
 	}
 
 }
