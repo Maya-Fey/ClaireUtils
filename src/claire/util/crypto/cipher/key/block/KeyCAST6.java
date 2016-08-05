@@ -3,8 +3,9 @@ package claire.util.crypto.cipher.key.block;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.rng.RandUtils;
-import claire.util.io.Factory;
 import claire.util.io.IOUtils;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
@@ -12,6 +13,7 @@ import claire.util.standards.IDeepClonable;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -80,14 +82,14 @@ public class KeyCAST6
 		return bytes.length + 8;
 	}
 
-	public Factory<KeyCAST6> factory()
+	public KeyFactory<KeyCAST6> factory()
 	{
 		return factory;
 	}
 
 	private static final KeyCAST6Factory factory = new KeyCAST6Factory();
 
-	private static final class KeyCAST6Factory extends Factory<KeyCAST6> {
+	private static final class KeyCAST6Factory extends KeyFactory<KeyCAST6> {
 
 		protected KeyCAST6Factory()
 		{
@@ -104,6 +106,26 @@ public class KeyCAST6
 		{
 			int rounds = stream.readInt();
 			return new KeyCAST6(stream.readByteArr(), rounds);
+		}
+
+		public KeyCAST6 random(IRandom<?, ?> rand, CryptoString s)
+		{
+			int rounds = 12;
+			if(s.args() > 0) {
+				rounds = s.nextArg().toInt() & 0xFFFF; //Common-sense limit
+				if(rounds < 1)
+					throw new java.lang.IllegalArgumentException("You must have at least one round");
+			}
+			int amt = 32;
+			if(s.args() > 1) {
+				amt = s.nextArg().toInt();
+				if(amt < 1)
+					throw new java.lang.IllegalArgumentException("You cannot have a key length less than one");
+				if(amt > 32)
+					throw new java.lang.IllegalArgumentException("CAST6 can accept a maximum of 32 bytes of key information");
+			}
+			byte[] bytes = rand.readBytes(amt);
+			return new KeyCAST6(bytes, rounds);
 		}
 		
 	}
