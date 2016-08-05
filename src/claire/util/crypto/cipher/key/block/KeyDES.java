@@ -3,13 +3,15 @@ package claire.util.crypto.cipher.key.block;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.rng.RandUtils;
-import claire.util.io.Factory;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IDeepClonable;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -64,14 +66,14 @@ public class KeyDES
 		this.bytes = null;
 	}
 	
-	public Factory<KeyDES> factory()
+	public KeyFactory<KeyDES> factory()
 	{
 		return factory;
 	}
 	
 	public static final KeyDESFactory factory = new KeyDESFactory();
 
-	public static final class KeyDESFactory extends Factory<KeyDES> {
+	public static final class KeyDESFactory extends KeyFactory<KeyDES> {
 
 		protected KeyDESFactory() 
 		{
@@ -88,6 +90,11 @@ public class KeyDES
 		public KeyDES resurrect(final IIncomingStream stream) throws InstantiationException, IOException
 		{
 			return new KeyDES(stream.readBytes(7));
+		}
+
+		public KeyDES random(IRandom<?, ?> rand, CryptoString s)
+		{
+			return new KeyDES(rand.readBytes(7));
 		}
 		
 	}
