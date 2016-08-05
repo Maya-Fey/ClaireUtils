@@ -3,8 +3,9 @@ package claire.util.crypto.cipher.key.stream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.rng.RandUtils;
-import claire.util.io.Factory;
 import claire.util.io.IOUtils;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
@@ -12,6 +13,7 @@ import claire.util.standards.IDeepClonable;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -76,14 +78,14 @@ public class KeyRC4_DROP
 		return _NAMESPACE.KEYRC4_DROP;
 	}
 	
-	public Factory<KeyRC4_DROP> factory()
+	public KeyFactory<KeyRC4_DROP> factory()
 	{
 		return factory;
 	}
 	
 	public static final KeyRC4_DROPFactory factory = new KeyRC4_DROPFactory();
 	
-	private static final class KeyRC4_DROPFactory extends Factory<KeyRC4_DROP>
+	private static final class KeyRC4_DROPFactory extends KeyFactory<KeyRC4_DROP>
 	{
 
 		public KeyRC4_DROPFactory() 
@@ -101,6 +103,26 @@ public class KeyRC4_DROP
 		public KeyRC4_DROP resurrect(IIncomingStream stream) throws InstantiationException, IOException
 		{
 			return new KeyRC4_DROP(stream.readByteArr(), stream.readInt());
+		}
+
+		public KeyRC4_DROP random(IRandom<?, ?> rand, CryptoString s)
+		{
+			int drop = 600;
+			if(s.args() > 0) {
+				drop = s.nextArg().toInt() & 0xFFFF; //Common-sense limit
+				if(drop < 0)
+					throw new java.lang.IllegalArgumentException("You cannot have a negative drop");
+			}
+			int amt = 255;
+			if(s.args() > 1) {
+				amt = s.nextArg().toInt();
+				if(amt < 1)
+					throw new java.lang.IllegalArgumentException("You cannot have a key length less than one");
+				if(amt > 255)
+					throw new java.lang.IllegalArgumentException("RC4 can accept a maximum of 255 bytes of key information");
+			}
+			byte[] bytes = rand.readBytes(amt);
+			return new KeyRC4_DROP(bytes, drop);
 		}
 
 	
