@@ -3,14 +3,16 @@ package claire.util.crypto.cipher.key.block;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.rng.RandUtils;
-import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IDeepClonable;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -79,14 +81,14 @@ public class KeyXXTEA
 		this.words = 0;
 	}
 	
-	public Factory<KeyXXTEA> factory()
+	public KeyFactory<KeyXXTEA> factory()
 	{
 		return factory;
 	}
 	
 	public static final KeyTEAFactory factory = new KeyTEAFactory();
 
-	public static final class KeyTEAFactory extends Factory<KeyXXTEA> {
+	public static final class KeyTEAFactory extends KeyFactory<KeyXXTEA> {
 
 		protected KeyTEAFactory() 
 		{
@@ -106,6 +108,20 @@ public class KeyXXTEA
 		{
 			final int words = stream.readInt();
 			return new KeyXXTEA(stream.readInts(4), words);
+		}
+
+		public KeyXXTEA random(IRandom<?, ?> rand, CryptoString s)
+		{
+			int words = 4;
+			if(s.args() > 0) {
+				words = s.nextArg().toInt();
+				if(words < 2) 
+					throw new java.lang.IllegalArgumentException("The minimum word length is 2");
+				if(words > 4096) 
+					throw new java.lang.IllegalArgumentException("That block size is excessive");
+			}
+			int[] ints = rand.readInts(4);
+			return new KeyXXTEA(ints, words);
 		}
 		
 	}
