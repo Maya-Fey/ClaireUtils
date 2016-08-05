@@ -37,7 +37,8 @@ public class RC6
 		rounds = t.getRounds();
 		int p = rounds * 2 + 4;
 		start = p - 1;
-		KEY = new int[p];
+		if(KEY == null || KEY.length != p)
+			KEY = new int[p];
 		KEY[0] = P;
 		for(int i = 1; i < KEY.length; i++)
 			KEY[i] = KEY[i - 1] + Q;
