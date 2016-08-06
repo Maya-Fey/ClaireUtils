@@ -6,17 +6,18 @@ import claire.util.standards.crypto.ISymmetric;
 public class IDEA 
 	   implements ISymmetric<KeyIDEA>
 {
+		
+	private KeyIDEA key;
 
 	public KeyIDEA getKey()
 	{
-		// TODO Fix yo shiet
-		return null;
+		return key;
 	}
 
 	public void setKey(KeyIDEA t)
 	{
 		// TODO Fix yo shiet
-		
+		this.key = t;
 	}
 
 	public void reset() {}
