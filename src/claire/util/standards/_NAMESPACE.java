@@ -110,5 +110,6 @@ public class _NAMESPACE {
 	public static final int LONGSTATE = 98;
 	public static final int MERSENNESTATE = 99;
 	public static final int DHPRIVATEKEY = 100;
+	public static final int KEYIDEA = 101;
 	
 }
