@@ -19,6 +19,24 @@ public class IDEA
 		
 	}
 
+	public void reset() {}
+
+	public void wipe()
+	{
+		// TODO Fix yo shiet
+		
+	}
+
+	public int plaintextSize()
+	{
+		return 8;
+	}
+
+	public int ciphertextSize()
+	{
+		return 8;
+	}
+	
 	public void encryptBlock(byte[] block, int start)
 	{
 		// TODO Fix yo shiet
@@ -29,30 +47,6 @@ public class IDEA
 	{
 		// TODO Fix yo shiet
 		
-	}
-
-	public void reset()
-	{
-		// TODO Fix yo shiet
-		
-	}
-
-	public void wipe()
-	{
-		// TODO Fix yo shiet
-		
-	}
-
-	public int plaintextSize()
-	{
-		// TODO Fix yo shiet
-		return 0;
-	}
-
-	public int ciphertextSize()
-	{
-		// TODO Fix yo shiet
-		return 0;
 	}
 
 	public void decryptBlock(byte[] block, int start)
