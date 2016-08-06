@@ -1,5 +1,7 @@
 package claire.util.crypto.cipher.primitive.block;
 
+import java.util.Arrays;
+
 import claire.util.crypto.cipher.key.block.KeyIDEA;
 import claire.util.standards.crypto.ISymmetric;
 
@@ -8,6 +10,8 @@ public class IDEA
 {
 		
 	private KeyIDEA key;
+	
+	private int[] KEY;
 
 	public KeyIDEA getKey()
 	{
@@ -24,8 +28,9 @@ public class IDEA
 
 	public void wipe()
 	{
-		// TODO Fix yo shiet
-		
+		if(KEY != null)
+			Arrays.fill(KEY, 0);
+		KEY = null;
 	}
 
 	public int plaintextSize()
