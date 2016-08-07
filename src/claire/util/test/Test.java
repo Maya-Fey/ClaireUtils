@@ -1,8 +1,19 @@
 package claire.util.test;
 
 import claire.util.crypto.cipher.key.block.KeyAES;
+import claire.util.crypto.cipher.key.block.KeyDES;
+import claire.util.crypto.cipher.key.block.KeyFEAL;
+import claire.util.crypto.cipher.key.block.KeyFEAL_CI;
+import claire.util.crypto.cipher.key.block.KeyIDEA;
+import claire.util.crypto.cipher.key.block.KeySEED;
+import claire.util.crypto.cipher.key.block.KeySkipjack;
+import claire.util.crypto.cipher.key.block.KeyTEA;
+import claire.util.crypto.cipher.key.block.KeyXTEA;
+import claire.util.crypto.cipher.key.block.KeyXXTEA;
 import claire.util.crypto.cipher.key.stream.KeyIA;
 import claire.util.crypto.cipher.key.stream.KeyIBAA;
+import claire.util.crypto.cipher.key.stream.KeyRC4;
+import claire.util.crypto.cipher.key.stream.KeyRC4_DROP;
 import claire.util.crypto.cipher.primitive.block.AES;
 import claire.util.crypto.cipher.primitive.block.Blowfish;
 import claire.util.crypto.cipher.primitive.block.CAST5;
@@ -102,7 +113,7 @@ public class Test {
 		Log.info.println("Testing claire.util.crypto.cipher.key.block.KeyRC5");
 		reg += KeyRC5.test();
 		Log.info.println("Testing claire.util.crypto.cipher.key.block.KeyRC6");
-		reg += KeyRC6.test();
+		reg += KeyRC6.test();*/
 		Log.info.println("Testing claire.util.crypto.cipher.key.block.KeySEED");
 		reg += KeySEED.test();
 		Log.info.println("Testing claire.util.crypto.cipher.key.block.KeySkipjack");
@@ -119,11 +130,13 @@ public class Test {
 		reg += KeyFEAL.test();
 		Log.info.println("Testing claire.util.crypto.cipher.key.block.KeyFEAL_CI");
 		reg += KeyFEAL_CI.test();
+		Log.info.println("Testing claire.util.crypto.cipher.key.block.KeyIDEA");
+		reg += KeyIDEA.test();
 		Log.info.println("Testing stream");
 		Log.info.println("Testing claire.util.crypto.cipher.key.stream.KeyRC4");
 		reg += KeyRC4.test();
 		Log.info.println("Testing claire.util.crypto.cipher.key.stream.KeyRC4_DROP");
-		reg += KeyRC4_DROP.test();*/
+		reg += KeyRC4_DROP.test();
 		Log.info.println("Testing claire.util.crypto.cipher.key.stream.KeyIA");
 		reg += KeyIA.test();
 		Log.info.println("Testing claire.util.crypto.cipher.key.stream.KeyIBAA");

@@ -31,7 +31,7 @@ public class IDEA
 	public void wipe()
 	{
 		if(KEY != null)
-			Arrays.fill(KEY, 0);
+			Arrays.fill(KEY, (short) 0);
 		KEY = null;
 	}
 
