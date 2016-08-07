@@ -2,6 +2,12 @@ package claire.util.encoding;
 
 import claire.util.logging.Log;
 
+/**
+ * A simple class for encoding integers with SI prefixes.
+ * <br>
+ * <br>
+ * You can have a truncated output, or have a fixed-point decimal.
+ */
 public class SI
 {
 	private static final String[] PREFIX = new String[] {
