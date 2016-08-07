@@ -45,11 +45,11 @@ public class IDEA
 	
 	private short mul(int i1, int i2)
 	{
-		if(i1 == 0)
-	        i1 = 0x10000;
-		if(i2 == 0)
-	        i2 = 0x10000;
-	    return (short) ((i1 * i2) % 0x10001);
+		int r = i2 * i2;
+	    if(r != 0) 
+	    	return (short) ((r % 0x10001) & 0xFFFF); 
+	    else 
+	    	return (short) ((1 - i1 - i2) & 0xFFFF);
 	}
 	
 	public void encryptBlock(byte[] block, int start)
