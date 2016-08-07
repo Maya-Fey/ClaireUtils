@@ -1,5 +1,7 @@
 package claire.util.encoding;
 
+import claire.util.logging.Log;
+
 public class SI
 {
 	private static final String[] PREFIX = new String[] {
@@ -29,6 +31,19 @@ public class SI
 			amt /= 1000;
 		}
 		return amt + "." + prev + " " + PREFIX[pos] + unit;
+	}
+	
+	public static final int test()
+	{
+		int e = 0;
+		try {
+			
+		} catch(Exception ex) {
+			Log.err.println(ex.getClass().getSimpleName() + ": " + ex.getMessage() + " encountered while testing SI.java");
+			ex.printStackTrace();
+			return e + 1;
+		}
+		return e;
 	}
 	
 }
