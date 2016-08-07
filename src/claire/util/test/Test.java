@@ -76,6 +76,7 @@ import claire.util.crypto.hash.primitive.Whirlpool_0;
 import claire.util.crypto.hash.primitive.Whirlpool_T;
 import claire.util.crypto.rng.primitive.MersenneSeed;
 import claire.util.encoding.CString;
+import claire.util.encoding.SI;
 import claire.util.logging.Log;
 import claire.util.math.Exponentiator;
 import claire.util.math.MathHelper;
@@ -281,6 +282,8 @@ public class Test {
 		Log.info.println("Testing ../encoding");
 		Log.info.println("Testing claire.util.encoding.CString");
 		reg += CString.test();
+		Log.info.println("Testing claire.util.encoding.SI");
+		reg += SI.test();
 		//Log.info.println("Testing claire.util.encoding.Base10");
 		//reg += Base10.test();
 		Log.info.println("Testing ../math");

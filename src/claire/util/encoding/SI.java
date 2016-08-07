@@ -45,7 +45,7 @@ public class SI
 			};
 			for(int i = 0; i < in.length; i++)
 				if(!out[i].equals(toSI("LOL", in[i])))
-					System.out.println("SI equality test failed for " + in[i] + " LOL ==> " + out[i]);
+					Log.err.println("SI equality test failed for " + in[i] + " LOL ==> " + out[i]);
 		} catch(Exception ex) {
 			Log.err.println(ex.getClass().getSimpleName() + ": " + ex.getMessage() + " encountered while testing SI.java");
 			Log.err.println((Object[]) ex.getStackTrace());
