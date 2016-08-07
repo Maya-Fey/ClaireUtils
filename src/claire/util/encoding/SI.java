@@ -37,10 +37,18 @@ public class SI
 	{
 		int e = 0;
 		try {
-			
+			int[] in = new int[] {
+				500, 5000, 4997, 538209483
+			};
+			String[] out = new String[] {
+				"500 LOL", "5 KLOL", "4 KLOL", "538 MLOL"	
+			};
+			for(int i = 0; i < in.length; i++)
+				if(!out[i].equals(toSI("LOL", in[i])))
+					System.out.println("SI equality test failed for " + in[i] + " LOL ==> " + out[i]);
 		} catch(Exception ex) {
 			Log.err.println(ex.getClass().getSimpleName() + ": " + ex.getMessage() + " encountered while testing SI.java");
-			ex.printStackTrace();
+			Log.err.println((Object[]) ex.getStackTrace());
 			return e + 1;
 		}
 		return e;
