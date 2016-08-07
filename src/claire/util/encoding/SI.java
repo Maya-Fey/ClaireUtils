@@ -44,8 +44,10 @@ public class SI
 				"500 LOL", "5 KLOL", "4 KLOL", "538 MLOL"	
 			};
 			for(int i = 0; i < in.length; i++)
-				if(!out[i].equals(toSI("LOL", in[i])))
+				if(!out[i].equals(toSI("LOL", in[i]))) {
 					Log.err.println("SI equality test failed for " + in[i] + " LOL ==> " + out[i]);
+					e++;
+				}
 			int[] in2 = new int[] {
 				500, 5000, 4997, 538209483
 			};
@@ -53,8 +55,10 @@ public class SI
 				"500 LOL", "5.0 KLOL", "4.997 KLOL", "538.209 MLOL"	
 			};
 			for(int i = 0; i < in2.length; i++)
-				if(!out2[i].equals(toSiFP("LOL", in2[i])))
+				if(!out2[i].equals(toSiFP("LOL", in2[i]))) {
 					Log.err.println("SI equality test failed for " + in2[i] + " LOL ==> " + out2[i]);
+					e++;
+				}
 		} catch(Exception ex) {
 			Log.err.println(ex.getClass().getSimpleName() + ": " + ex.getMessage() + " encountered while testing SI.java");
 			Log.err.println((Object[]) ex.getStackTrace());
