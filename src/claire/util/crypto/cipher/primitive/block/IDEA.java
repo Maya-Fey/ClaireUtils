@@ -11,7 +11,7 @@ public class IDEA
 		
 	private KeyIDEA key;
 	
-	private int[] KEY;
+	private short[] KEY;
 
 	public KeyIDEA getKey()
 	{
@@ -20,8 +20,10 @@ public class IDEA
 
 	public void setKey(KeyIDEA t)
 	{
-		// TODO Fix yo shiet
 		this.key = t;
+		if(KEY == null)
+			KEY = new short[52];
+		
 	}
 
 	public void reset() {}
