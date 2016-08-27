@@ -83,6 +83,12 @@ public class FileSelectionMessage
 		}
 	}
 	
+	protected void done()
+	{
+		this.ok = true;
+		this.close();
+	}
+	
 	public boolean isOk()
 	{
 		return this.ok;
