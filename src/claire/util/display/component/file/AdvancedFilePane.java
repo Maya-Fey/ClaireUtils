@@ -290,9 +290,10 @@ public class AdvancedFilePane
 			int i = list.getSelectedIndex(); 
 			if(i > -1) {
 				File f = files[i];
-				if(f.isDirectory()) 
+				if(f.isDirectory()) {
 					status.setText("Directory " + f.getName() + " selected, press Enter to browse");
-				else {
+					this.unselect();
+				} else {
 					status.setText("File " + f.getName() + " selected, " + f.length() + " bytes.");
 					this.select(f);
 				}
@@ -306,8 +307,10 @@ public class AdvancedFilePane
 		int code = arg0.getKeyCode();
 		if(code == KeyEvent.VK_ENTER && list.getSelectedIndex() > -1) {
 			File f = files[list.getSelectedIndex()];
-			if(f.isDirectory()) 
+			if(f.isDirectory()) { 
 				this.update(f);
+				this.unselect();
+			}
 		} else if(code == KeyEvent.VK_BACK_SPACE) {
 			back();
 		}
