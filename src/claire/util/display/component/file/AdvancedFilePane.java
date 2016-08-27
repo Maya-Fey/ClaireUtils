@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -45,6 +46,8 @@ public class AdvancedFilePane
 	public AdvancedFilePane(Window owner, File f)
 	{
 		super(GridBagConstraints.BOTH);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
 		this.owner = owner;
 		folder.setActionCommand("0");
 		folder.addActionListener(this);
@@ -278,7 +281,7 @@ public class AdvancedFilePane
 	public void valueChanged(ListSelectionEvent arg0)
 	{
 		if(!arg0.getValueIsAdjusting()) {
-			int i = list.getSelectedIndex();
+			int i = list.getSelectedIndex(); 
 			if(i > -1) {
 				File f = files[i];
 				if(f.isDirectory()) 
