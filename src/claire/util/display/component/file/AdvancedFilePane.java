@@ -286,8 +286,10 @@ public class AdvancedFilePane
 				File f = files[i];
 				if(f.isDirectory()) 
 					status.setText("Directory " + f.getName() + " selected, press Enter to browse");
-				else 
-					status.setText("File " + f.getName() + " selected, " + f.length() + " bytes. Press Enter to Select.");
+				else {
+					status.setText("File " + f.getName() + " selected, " + f.length() + " bytes.");
+					this.select(f);
+				}
 			} else
 				status.setText("No file or folder selected.");
 		}
