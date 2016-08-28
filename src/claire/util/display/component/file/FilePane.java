@@ -112,6 +112,7 @@ public class FilePane
 			m.start();
 			return;
 		}
+		this.unselect();
 		update(p);
 	}
 	
