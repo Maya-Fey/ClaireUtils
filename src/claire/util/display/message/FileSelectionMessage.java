@@ -111,7 +111,7 @@ public class FileSelectionMessage
 			case 0:
 				return new FilePane(w, f);
 			case 1:
-				return new AdvancedFilePane(w, null, f);
+				return new AdvancedFilePane(w, f);
 			case 2: 
 				return new FolderPane(w, f);
 			case 3:
