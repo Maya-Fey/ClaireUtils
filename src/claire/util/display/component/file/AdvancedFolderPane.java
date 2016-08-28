@@ -40,6 +40,7 @@ public class AdvancedFolderPane
 	private File[] files = null;
 	private int[] ints = null;
 	private File current = null;
+	private File selected = null;
 	
 	public AdvancedFolderPane(Window owner, File f)
 	{
