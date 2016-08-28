@@ -78,7 +78,10 @@ public class AdvancedFolderPane
 	
 	public void update(File f)
 	{
-		File[] sub = files = f.listFiles();
+		File[] sub = f.listFiles();
+		if(sub == null)
+			return;
+		files = sub;
 		int len = 0;
 		for(int i = 0; i < sub.length; i++)
 			if(sub[i].isDirectory())
