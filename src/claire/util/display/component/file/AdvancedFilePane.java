@@ -312,7 +312,8 @@ public class AdvancedFilePane
 			if(f.isDirectory()) { 
 				this.update(f);
 				this.unselect();
-			}
+			} else if(onselect != null)
+				onselect.actionPerformed(new ActionEvent(this, 0, "fs"));
 		} else if(code == KeyEvent.VK_BACK_SPACE) {
 			back();
 		}
