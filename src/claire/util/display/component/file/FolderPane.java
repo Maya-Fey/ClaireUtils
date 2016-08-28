@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -41,6 +42,8 @@ public class FolderPane
 	public FolderPane(Window owner, File f)
 	{
 		super(GridBagConstraints.BOTH);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
 		this.owner = owner;
 		folder.setActionCommand("0");
 		folder.addActionListener(this);
