@@ -168,8 +168,10 @@ public class FilePane
 				File f = files[i];
 				if(f.isDirectory()) 
 					status.setText("Directory " + f.getName() + " selected, press Enter to browse");
-				else 
-					status.setText("File " + f.getName() + " selected, " + f.length() + " bytes. Press Enter to Select.");
+				else {
+					this.select(f);
+					status.setText("File " + f.getName() + " selected, " + f.length() + " bytes.");
+				}
 			} else
 				status.setText("No file or folder selected.");
 		}
