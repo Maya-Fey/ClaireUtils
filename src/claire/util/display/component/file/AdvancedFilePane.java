@@ -33,6 +33,8 @@ public class AdvancedFilePane
 	private static final long serialVersionUID = 4983742565289393874L;
 	private static final Border border = DisplayHelper.uniformBorder(6);	
 
+	private final ActionListener onselect;
+	
 	private final JTextField folder = new JTextField();
 	private final JTextField file = new JTextField();
 	private final JList<String> list = new JList<String>();
@@ -43,11 +45,11 @@ public class AdvancedFilePane
 	private File selected = null;
 	private File current = null;
 	
-	public AdvancedFilePane(Window owner, File f)
+	public AdvancedFilePane(Window owner, ActionListener selected, File f)
 	{
 		super(GridBagConstraints.BOTH);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+		this.onselect = selected;
 		this.owner = owner;
 		folder.setActionCommand("0");
 		folder.addActionListener(this);
