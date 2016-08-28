@@ -184,8 +184,6 @@ public class FilePane
 			File f = files[list.getSelectedIndex()];
 			if(f.isDirectory()) 
 				this.update(f);
-			else 
-				this.select(f);
 		} else if(code == KeyEvent.VK_BACK_SPACE) {
 			back();
 		}
