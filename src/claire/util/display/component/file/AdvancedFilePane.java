@@ -137,6 +137,7 @@ public class AdvancedFilePane
 			m.start();
 			return;
 		}
+		this.unselect();
 		update(p);
 	}
 	
