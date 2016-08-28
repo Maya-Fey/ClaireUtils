@@ -100,6 +100,11 @@ public class FolderPane
 		update(p);
 	}
 	
+	public void unselect()
+	{
+		this.selected = null;
+	}
+	
 	public boolean hasSelected()
 	{
 		return selected != null;
