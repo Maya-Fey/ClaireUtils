@@ -187,7 +187,7 @@ public class AdvancedFolderPane
 		if(!arg0.getValueIsAdjusting()) {
 			int i = list.getSelectedIndex();
 			if(i > -1) {
-				File f = files[i];
+				File f = files[ints[i]];
 				status.setText("Directory " + f.getName() + " selected, press Enter to browse");
 			} else
 				status.setText("No folder selected.");
