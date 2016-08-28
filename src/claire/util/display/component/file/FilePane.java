@@ -97,6 +97,12 @@ public class FilePane
 		this.file.setText(f.getAbsolutePath());
 	}
 	
+	public void unselect()
+	{
+		this.selected = null;
+		this.file.setText("");
+	}
+	
 	public void back()
 	{
 		File p = current.getParentFile();
