@@ -102,7 +102,7 @@ public class FolderPane
 	
 	public boolean hasSelected()
 	{
-		return true;
+		return selected != null;
 	}
 	
 	public File getFile()
