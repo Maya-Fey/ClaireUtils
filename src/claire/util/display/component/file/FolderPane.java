@@ -38,6 +38,7 @@ public class FolderPane
 	private File[] files = null;
 	private int[] ints = null;
 	private File current = null;
+	private File selected = null;
 	
 	public FolderPane(Window owner, File f)
 	{
