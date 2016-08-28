@@ -141,7 +141,7 @@ public class FolderPane
 		if(!arg0.getValueIsAdjusting()) {
 			int i = list.getSelectedIndex();
 			if(i > -1) {
-				File f = files[ints[i]];
+				File f = selected = files[ints[i]];
 				status.setText("Directory " + f.getName() + " selected, press Enter to browse");
 			} else
 				status.setText("No folder selected.");
