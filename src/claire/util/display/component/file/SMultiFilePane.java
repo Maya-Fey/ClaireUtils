@@ -7,18 +7,18 @@ import claire.util.display.component.TablePane;
 /**
  * @author Claire
  */
-public abstract class SFilePane
+public abstract class SMultiFilePane
 				extends TablePane {
 	
-	private static final long serialVersionUID = -2196804608103530032L;
+	private static final long serialVersionUID = -219684324323530032L;
 
-	public SFilePane(int gbc) 
+	public SMultiFilePane(int gbc) 
 	{
 		super(gbc);
 	}
 
 	public abstract boolean hasSelected();
 	
-	public abstract File getFile();
+	public abstract File[] getFiles();
 
 }
