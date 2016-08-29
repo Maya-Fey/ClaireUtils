@@ -146,6 +146,7 @@ public class FilePane
 					DisplayHelper.center(m);
 					m.start();
 				}
+				this.unselect();
 				break;
 			case "1":
 				back();
