@@ -111,6 +111,7 @@ public class AdvancedFolderPane
 			return;
 		}
 		update(p);
+		this.unselect();
 	}
 	
 	public void select(File file)
