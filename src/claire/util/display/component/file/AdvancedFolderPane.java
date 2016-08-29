@@ -213,8 +213,10 @@ public class AdvancedFolderPane
 		int code = arg0.getKeyCode();
 		if(code == KeyEvent.VK_ENTER && list.getSelectedIndex() > -1) 
 			this.update(files[ints[list.getSelectedIndex()]]);
-		else if(code == KeyEvent.VK_BACK_SPACE) 
+		else if(code == KeyEvent.VK_BACK_SPACE) {
 			back();			
+			unselect();
+		}
 	}
 
 	public void keyReleased(KeyEvent arg0) {}
