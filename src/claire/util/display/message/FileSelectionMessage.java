@@ -80,6 +80,11 @@ public class FileSelectionMessage
 				break;
 			case "2":
 				this.close();
+				break;
+			case "fs":
+				this.ok = true;
+				this.close();
+				break;
 		}
 	}
 	
