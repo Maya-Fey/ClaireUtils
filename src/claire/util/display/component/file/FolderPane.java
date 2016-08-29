@@ -51,8 +51,6 @@ public class FolderPane
 		list.addListSelectionListener(this);
 		list.addKeyListener(this);
 		
-		DisplayHelper.addBorder(status, border);
-		
 		this.newRow();
 		JButton up = new JButton("UP");
 		up.setActionCommand("1");
@@ -60,7 +58,7 @@ public class FolderPane
 		this.newCol(DisplayHelper.nestBorderWide(up, border));
 		this.newCol(DisplayHelper.nestBorderWide(folder, border), 1.0D);
 		this.newRow();
-		this.newCol(status, 2);
+		this.newCol(DisplayHelper.nestBorderWide(status, border), 2);
 		this.newRow(1.0D);
 		JScrollPane pane = new JScrollPane(list);
 		this.newCol(DisplayHelper.nestBorderWide(pane, border), 2);
