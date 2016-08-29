@@ -275,6 +275,8 @@ public class AdvancedFilePane
 				m = new InformationCollectionMessage(owner, s, "Rename File", true);
 				DisplayHelper.center(m);
 				m.start();
+				if(sel == selected)
+					this.unselect();
 				if(m.isOk()) {
 					File n = new File(current.getAbsolutePath() + '/' + s.getString());
 					if(!sel.renameTo(n)) {
