@@ -98,6 +98,7 @@ public class FolderPane
 			return;
 		}
 		update(p);
+		this.unselect();
 	}
 	
 	public void unselect()
