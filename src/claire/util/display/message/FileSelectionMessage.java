@@ -36,7 +36,7 @@ public class FileSelectionMessage
 	public FileSelectionMessage(Window arg0, int type, File f, String message, String button, boolean cancel) 
 	{
 		super(arg0, message);
-		filepane = newFilePane(this.getOwner(), f, type);
+		filepane = newFilePane(this.getOwner(), this, f, type);
 		TablePane table = new TablePane(GridBagConstraints.BOTH);
 		table.newRow(1.0D);
 		if(cancel) {
@@ -104,14 +104,14 @@ public class FileSelectionMessage
 	public static final int FOLDERPANE = 2;
 	public static final int ADVANCEDFOLDERPANE = 3;
 	
-	public static final SFilePane newFilePane(Window w, File f, int type)
+	public static final SFilePane newFilePane(Window w, FileSelectionMessage m, File f, int type)
 	{
 		switch(type)
 		{
 			case 0:
-				return new FilePane(w, f);
+				return new FilePane(w, m, f);
 			case 1:
-				return new AdvancedFilePane(w, f);
+				return new AdvancedFilePane(w, m, f);
 			case 2: 
 				return new FolderPane(w, f);
 			case 3:
