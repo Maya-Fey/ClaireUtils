@@ -203,6 +203,7 @@ public class AdvancedFolderPane
 			if(i > -1) {
 				File f = files[ints[i]];
 				status.setText("Directory " + f.getName() + " selected, press Enter to browse");
+				this.select(f);
 			} else
 				status.setText("No folder selected.");
 		}
