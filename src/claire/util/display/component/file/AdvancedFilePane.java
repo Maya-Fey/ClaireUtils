@@ -168,6 +168,7 @@ public class AdvancedFilePane
 					DisplayHelper.center(m);
 					m.start();
 				}
+				this.unselect();
 				break;
 			case "1":
 				back();
