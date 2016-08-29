@@ -193,6 +193,7 @@ public class AdvancedFolderPane
 					} else
 						this.update(current);
 				}
+				this.unselect();
 		}
 	}
 
