@@ -65,12 +65,12 @@ public class AdvancedFolderPane
 		JButton nf = new JButton("New Folder");
 		nf.setActionCommand("2");
 		nf.addActionListener(this);
-		this.newCol(DisplayHelper.nestBorderWide(nf, border));
+		this.newCol(DisplayHelper.nestBorderWide(nf, border), 0.001D);
 		JButton rf = new JButton("Rename Folder");
 		rf.setActionCommand("3");
 		rf.addActionListener(this);
-		this.newCol(DisplayHelper.nestBorderWide(rf, border));
-		this.newCol(status, 1.0D);
+		this.newCol(DisplayHelper.nestBorderWide(rf, border), 0.001D);
+		this.newCol(DisplayHelper.nestBorderWide(status, border), 1.0D);
 		this.newRow(1.0D);
 		JScrollPane pane = new JScrollPane(list);
 		this.newCol(DisplayHelper.nestBorderWide(pane, border), 3);
