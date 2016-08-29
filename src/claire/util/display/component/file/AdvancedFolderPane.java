@@ -115,7 +115,7 @@ public class AdvancedFolderPane
 
 	public boolean hasSelected()
 	{
-		return true;
+		return this.selected != null;
 	}
 	
 	public File getFile()
