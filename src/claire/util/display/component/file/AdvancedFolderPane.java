@@ -120,7 +120,7 @@ public class AdvancedFolderPane
 	
 	public File getFile()
 	{
-		return this.current;
+		return this.selected;
 	}
 
 	public void actionPerformed(ActionEvent arg0)
