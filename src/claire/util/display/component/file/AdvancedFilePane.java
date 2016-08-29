@@ -58,8 +58,6 @@ public class AdvancedFilePane
 		list.addListSelectionListener(this);
 		list.addKeyListener(this);
 		
-		DisplayHelper.addBorder(status, border);
-		
 		this.newRow();
 		JButton up = new JButton("UP");
 		up.setActionCommand("1");
@@ -76,7 +74,7 @@ public class AdvancedFilePane
 		rf.setActionCommand("4");
 		rf.addActionListener(this);
 		this.newCol(DisplayHelper.nestBorderWide(rf, border));
-		this.newMCol(status, 1, 1.0D);
+		this.newMCol(DisplayHelper.nestBorderWide(status, border), 1, 1.0D);
 		
 		this.newRow();
 		JButton nfi = new JButton("New File");
