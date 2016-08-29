@@ -53,8 +53,6 @@ public class AdvancedFolderPane
 		list.addListSelectionListener(this);
 		list.addKeyListener(this);
 		
-		DisplayHelper.addBorder(status, border);
-		
 		this.newRow();
 		JButton up = new JButton("UP");
 		up.setActionCommand("1");
