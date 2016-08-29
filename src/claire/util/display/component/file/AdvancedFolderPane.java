@@ -112,6 +112,11 @@ public class AdvancedFolderPane
 		}
 		update(p);
 	}
+	
+	public void select(File file)
+	{
+		this.selected = file;
+	}
 
 	public boolean hasSelected()
 	{
