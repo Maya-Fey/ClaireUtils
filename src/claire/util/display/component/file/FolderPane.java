@@ -161,7 +161,6 @@ public class FolderPane
 		if(code == KeyEvent.VK_ENTER && list.getSelectedIndex() > -1) 
 			this.update(files[ints[list.getSelectedIndex()]]);
 		else if(code == KeyEvent.VK_BACK_SPACE) {
-			unselect();
 			back();			
 		}
 	}
