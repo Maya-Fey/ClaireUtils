@@ -218,7 +218,6 @@ public class AdvancedFolderPane
 			this.update(files[ints[list.getSelectedIndex()]]);
 		else if(code == KeyEvent.VK_BACK_SPACE) {
 			back();			
-			unselect();
 		}
 	}
 
