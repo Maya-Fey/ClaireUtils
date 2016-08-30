@@ -3,6 +3,8 @@ package claire.util.display.component.file;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 
 import javax.swing.JButton;
@@ -20,7 +22,8 @@ import claire.util.display.DisplayHelper;
 public class MultiFilePane
 	   extends SMultiFilePane
 	   implements ActionListener,
-	   	          ListSelectionListener
+	   	          ListSelectionListener,
+	   	          KeyListener
 {
 	private static final long serialVersionUID = -2127410786080696314L;
 	private static final Border border = DisplayHelper.uniformBorder(6);	
@@ -81,6 +84,24 @@ public class MultiFilePane
 	}
 
 	public void valueChanged(ListSelectionEvent arg0)
+	{
+		// TODO Fix yo shiet
+		
+	}
+
+	public void keyPressed(KeyEvent arg0)
+	{
+		// TODO Fix yo shiet
+		
+	}
+
+	public void keyReleased(KeyEvent arg0)
+	{
+		// TODO Fix yo shiet
+		
+	}
+
+	public void keyTyped(KeyEvent arg0)
 	{
 		// TODO Fix yo shiet
 		
