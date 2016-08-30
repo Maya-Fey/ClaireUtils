@@ -1,6 +1,8 @@
 package claire.util.display.component.file;
 
 import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JLabel;
@@ -13,6 +15,7 @@ import claire.util.display.DisplayHelper;
 
 public class MultiFilePane
 	   extends SMultiFilePane
+	   implements ActionListener
 {
 	private static final long serialVersionUID = -2127410786080696314L;
 	private static final Border border = DisplayHelper.uniformBorder(6);	
@@ -43,6 +46,12 @@ public class MultiFilePane
 	{
 		// TODO Fix yo shiet
 		return null;
+	}
+
+	public void actionPerformed(ActionEvent e)
+	{
+		// TODO Fix yo shiet
+		
 	}
 	
 }
