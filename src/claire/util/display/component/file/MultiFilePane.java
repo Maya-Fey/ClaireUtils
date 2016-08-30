@@ -1,5 +1,6 @@
 package claire.util.display.component.file;
 
+import java.awt.GridBagConstraints;
 import java.io.File;
 
 import javax.swing.JList;
@@ -7,14 +8,16 @@ import javax.swing.JList;
 public class MultiFilePane
 	   extends SMultiFilePane
 {
+	private static final long serialVersionUID = -2127410786080696314L;
+	
 	private File parent;
 	private File[] current;
 	
 	private final JList<String> list = new JList<String>();
 	
-	public MultiFilePane(int gbc)
+	public MultiFilePane()
 	{
-		super(gbc);
+		super(GridBagConstraints.BOTH);
 	}
 
 	@Override
