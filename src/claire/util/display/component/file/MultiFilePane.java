@@ -7,8 +7,6 @@ import javax.swing.JList;
 public class MultiFilePane
 	   extends SMultiFilePane
 {
-	private int[] selected;
-	
 	private File parent;
 	private File[] current;
 	
