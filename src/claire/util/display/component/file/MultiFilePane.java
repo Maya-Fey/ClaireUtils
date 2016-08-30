@@ -1,6 +1,7 @@
 package claire.util.display.component.file;
 
 import java.awt.GridBagConstraints;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -18,7 +19,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import claire.util.display.DisplayHelper;
-import claire.util.display.message.ErrorMessage;
 
 public class MultiFilePane
 	   extends SMultiFilePane
@@ -36,11 +36,13 @@ public class MultiFilePane
 	private final JTextField folder = new JTextField();
 	private final JTextField file = new JTextField();
 	private final JLabel status = new JLabel("No file or folder selected");
+	private final Window owner;
 	
-	public MultiFilePane(File f)
+	public MultiFilePane(Window owner, File f)
 	{
 		super(GridBagConstraints.BOTH);
 		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		this.owner = owner;
 		
 		folder.setActionCommand("0");
 		folder.addActionListener(this);
