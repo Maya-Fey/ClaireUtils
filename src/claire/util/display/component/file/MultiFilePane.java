@@ -18,6 +18,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import claire.util.display.DisplayHelper;
+import claire.util.display.message.ErrorMessage;
 
 public class MultiFilePane
 	   extends SMultiFilePane
@@ -82,6 +83,12 @@ public class MultiFilePane
 		list.setListData(str);
 		folder.setText(f.getAbsolutePath());
 		parent = f;
+	}
+	
+	public void back()
+	{
+		File p = parent.getParentFile();
+		update(p);
 	}
 
 	public boolean hasSelected()
