@@ -7,11 +7,15 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.Border;
+
+import claire.util.display.DisplayHelper;
 
 public class MultiFilePane
 	   extends SMultiFilePane
 {
 	private static final long serialVersionUID = -2127410786080696314L;
+	private static final Border border = DisplayHelper.uniformBorder(6);	
 	
 	private File parent;
 	private File[] current;
