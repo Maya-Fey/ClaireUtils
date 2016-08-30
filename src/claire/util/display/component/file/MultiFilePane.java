@@ -36,7 +36,7 @@ public class MultiFilePane
 	private final JTextField file = new JTextField();
 	private final JLabel status = new JLabel("No file or folder selected");
 	
-	public MultiFilePane()
+	public MultiFilePane(File f)
 	{
 		super(GridBagConstraints.BOTH);
 		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -64,6 +64,7 @@ public class MultiFilePane
 		DisplayHelper.addBorder(t, border);
 		this.newCol(t);
 		this.newCol(DisplayHelper.nestBorderWide(file, border), 1.0D);
+		this.update(f);
 	}
 	
 	public void update(File f)
