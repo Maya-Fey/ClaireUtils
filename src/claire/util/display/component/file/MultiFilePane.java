@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.io.File;
 
 import javax.swing.JList;
+import javax.swing.ListSelectionModel;
 
 public class MultiFilePane
 	   extends SMultiFilePane
@@ -18,6 +19,7 @@ public class MultiFilePane
 	public MultiFilePane()
 	{
 		super(GridBagConstraints.BOTH);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
 
 	@Override
