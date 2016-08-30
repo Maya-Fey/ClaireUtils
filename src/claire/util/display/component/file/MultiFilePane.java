@@ -95,16 +95,7 @@ public class MultiFilePane
 		
 	}
 
-	public void keyReleased(KeyEvent arg0)
-	{
-		// TODO Fix yo shiet
-		
-	}
-
-	public void keyTyped(KeyEvent arg0)
-	{
-		// TODO Fix yo shiet
-		
-	}
+	public void keyReleased(KeyEvent arg0) {}
+	public void keyTyped(KeyEvent arg0) {}
 	
 }
