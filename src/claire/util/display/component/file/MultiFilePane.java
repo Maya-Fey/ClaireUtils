@@ -5,7 +5,8 @@ import java.io.File;
 public class MultiFilePane
 	   extends SMultiFilePane
 {
-
+	private File[] selected;
+	
 	public MultiFilePane(int gbc)
 	{
 		super(gbc);
