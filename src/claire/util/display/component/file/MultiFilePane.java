@@ -5,8 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
@@ -32,6 +34,29 @@ public class MultiFilePane
 	{
 		super(GridBagConstraints.BOTH);
 		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		
+		folder.setActionCommand("0");
+		folder.addActionListener(this);
+		file.setActionCommand("2");
+		file.addActionListener(this);
+
+		this.newRow();
+		JButton up = new JButton("UP");
+		up.setActionCommand("1");
+		up.addActionListener(this);
+		this.newCol(DisplayHelper.nestBorderWide(up, border));
+		this.newCol(DisplayHelper.nestBorderWide(folder, border), 1.0D);
+		this.newRow();
+		this.newCol(DisplayHelper.nestBorderWide(status, border), 2);
+		this.newRow(1.0D);
+		JScrollPane pane = new JScrollPane(list);
+		this.newCol(DisplayHelper.nestBorderWide(pane, border), 2);
+		this.newRow();
+		JLabel t = new JLabel("File Selected: ");
+		DisplayHelper.addBorder(t, border);
+		this.newCol(t);
+		this.newCol(DisplayHelper.nestBorderWide(file, border), 1.0D);
+		this.update(f);
 	}
 
 	@Override
