@@ -2,6 +2,8 @@ package claire.util.display.component.file;
 
 import java.io.File;
 
+import javax.swing.JList;
+
 public class MultiFilePane
 	   extends SMultiFilePane
 {
@@ -9,6 +11,8 @@ public class MultiFilePane
 	
 	private File parent;
 	private File[] current;
+	
+	private final JList<String> list = new JList<String>();
 	
 	public MultiFilePane(int gbc)
 	{
