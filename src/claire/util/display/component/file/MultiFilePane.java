@@ -12,12 +12,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import claire.util.display.DisplayHelper;
 
 public class MultiFilePane
 	   extends SMultiFilePane
-	   implements ActionListener
+	   implements ActionListener,
+	   	          ListSelectionListener
 {
 	private static final long serialVersionUID = -2127410786080696314L;
 	private static final Border border = DisplayHelper.uniformBorder(6);	
@@ -59,14 +62,12 @@ public class MultiFilePane
 		this.update(f);
 	}
 
-	@Override
 	public boolean hasSelected()
 	{
 		// TODO Fix yo shiet
 		return false;
 	}
 
-	@Override
 	public File[] getFiles()
 	{
 		// TODO Fix yo shiet
@@ -74,6 +75,12 @@ public class MultiFilePane
 	}
 
 	public void actionPerformed(ActionEvent e)
+	{
+		// TODO Fix yo shiet
+		
+	}
+
+	public void valueChanged(ListSelectionEvent arg0)
 	{
 		// TODO Fix yo shiet
 		
