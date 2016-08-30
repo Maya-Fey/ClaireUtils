@@ -64,7 +64,23 @@ public class MultiFilePane
 		DisplayHelper.addBorder(t, border);
 		this.newCol(t);
 		this.newCol(DisplayHelper.nestBorderWide(file, border), 1.0D);
-		this.update(f);
+	}
+	
+	public void update(File f)
+	{
+		File[] sub = f.listFiles();
+		if(sub == null)
+			return;
+		current = sub;
+		String[] str = new String[sub.length];
+		for(int i = 0; i < sub.length; i++)
+			if(sub[i].isDirectory())
+				str[i] = sub[i].getName() + "/";
+			else
+				str[i] = sub[i].getName();
+		list.setListData(str);
+		folder.setText(f.getAbsolutePath());
+		parent = f;
 	}
 
 	public boolean hasSelected()
