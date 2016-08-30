@@ -97,8 +97,11 @@ public class MultiFilePane
 
 	public File[] getFiles()
 	{
-		// TODO Fix yo shiet
-		return null;
+		int[] selected = list.getSelectedIndices();
+		File[] files = new File[selected.length];
+		for(int i = 0; i < files.length; i++)
+			files[i] = current[files.length];
+		return files;
 	}
 
 	public void actionPerformed(ActionEvent e)
