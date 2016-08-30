@@ -5,7 +5,10 @@ import java.io.File;
 public class MultiFilePane
 	   extends SMultiFilePane
 {
-	private File[] selected;
+	private int[] selected;
+	
+	private File parent;
+	private File[] current;
 	
 	public MultiFilePane(int gbc)
 	{
