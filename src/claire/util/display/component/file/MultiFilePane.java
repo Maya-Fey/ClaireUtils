@@ -45,6 +45,8 @@ public class MultiFilePane
 		folder.addActionListener(this);
 		file.setActionCommand("2");
 		file.addActionListener(this);
+		list.addListSelectionListener(this);
+		list.addKeyListener(this);
 
 		this.newRow();
 		JButton up = new JButton("UP");
