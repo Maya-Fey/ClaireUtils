@@ -86,8 +86,13 @@ public class MultiFilePane
 
 	public boolean hasSelected()
 	{
-		// TODO Fix yo shiet
-		return false;
+		int[] selected = list.getSelectedIndices();
+		if(selected.length == 0)
+			return false;
+		for(int i : selected)
+			if(current[i].isDirectory())
+				return false;
+		return true;
 	}
 
 	public File[] getFiles()
