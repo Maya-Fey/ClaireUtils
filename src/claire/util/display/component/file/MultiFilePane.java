@@ -174,9 +174,10 @@ public class MultiFilePane
 			int[] selected = list.getSelectedIndices();
 			if(selected.length == 1) {
 				File f = current[selected[0]];
-				if(f.isFile()) 
+				if(f.isFile()) {
 					status.setText("File " + f.getName() + " selected, " + f.length() + " bytes.");
-				else
+					showSelection();
+				} else
 					status.setText("Directory " + f.getName() + " selected, press Enter to browse");
 			} 
 			boolean af = true;
@@ -184,6 +185,7 @@ public class MultiFilePane
 				if(!(af &= current[i].isFile()))
 					break;
 			if(af) {
+				showSelection();
 				int total = 0;
 				for(int i : selected)
 					total += current[i].length();
