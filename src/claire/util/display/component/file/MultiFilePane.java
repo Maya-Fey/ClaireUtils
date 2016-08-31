@@ -136,6 +136,9 @@ public class MultiFilePane
 					m.start();
 				}
 				break;
+			case "1":
+				back();
+				break;
 		}
 	}
 
