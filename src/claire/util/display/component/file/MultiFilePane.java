@@ -174,6 +174,9 @@ public class MultiFilePane
 			if(ind.length == 1)
 				if(current[ind[0]].isDirectory())
 					this.update(current[ind[0]]);
+				else;
+			else if(this.hasSelected())
+				this.onselect.actionPerformed(new ActionEvent(this, 0, "fs"));
 		}
 	}
 
