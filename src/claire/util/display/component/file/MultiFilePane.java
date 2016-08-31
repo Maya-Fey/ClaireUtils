@@ -149,6 +149,10 @@ public class MultiFilePane
 				else
 					status.setText("Directory " + f.getName() + " selected, press Enter to browse");
 			} 
+			boolean af = true;
+			for(int i : selected)
+				if(!(af &= current[i].isFile()))
+					break;
 		}
 	}
 
