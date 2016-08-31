@@ -19,6 +19,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import claire.util.display.DisplayHelper;
+import claire.util.display.message.ErrorMessage;
 
 public class MultiFilePane
 	   extends SMultiFilePane
@@ -117,7 +118,22 @@ public class MultiFilePane
 	{
 		switch(e.getActionCommand())
 		{
-			
+			case "0":
+				File f = new File(this.folder.getText());
+				if(f.exists()) {
+					if(f.isDirectory()) {
+						this.update(f);
+					} else {
+						ErrorMessage m = new ErrorMessage(owner, "That is not a directory.");
+						DisplayHelper.center(m);
+						m.start();
+					}
+				} else {
+					ErrorMessage m = new ErrorMessage(owner, "That folder does not exist.");
+					DisplayHelper.center(m);
+					m.start();
+				}
+				break;
 		}
 	}
 
