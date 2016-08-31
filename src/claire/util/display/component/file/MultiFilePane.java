@@ -169,6 +169,12 @@ public class MultiFilePane
 	{
 		if(arg0.getKeyCode() == KeyEvent.VK_BACK_SPACE)
 			back();
+		else if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+			int[] ind = list.getSelectedIndices();
+			if(ind.length == 1)
+				if(current[ind[0]].isDirectory())
+					this.update(current[ind[0]]);
+		}
 	}
 
 	public void keyReleased(KeyEvent arg0) {}
