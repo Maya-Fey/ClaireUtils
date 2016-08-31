@@ -95,6 +95,16 @@ public class MultiFilePane
 		File p = parent.getParentFile();
 		update(p);
 	}
+	
+	public void showSelection()
+	{
+		int[] selected = list.getSelectedIndices();
+		String s = "";
+		s += current[selected[0]].getAbsolutePath();
+		for(int i = 1; i < selected.length; i++)
+			s += " ;:; " + current[selected[i]].getAbsolutePath();
+		this.file.setText(s);
+	}
 
 	public boolean hasSelected()
 	{
