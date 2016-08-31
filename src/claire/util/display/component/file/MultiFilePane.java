@@ -142,7 +142,12 @@ public class MultiFilePane
 		if(!arg0.getValueIsAdjusting())
 		{
 			int[] selected = list.getSelectedIndices();
-			
+			if(selected.length == 1) {
+				File f = current[selected[0]];
+				if(f.isFile()) {
+					status.setText("Directory " + f.getName() + " selected, press Enter to browse");
+				}
+			}
 		}
 	}
 
