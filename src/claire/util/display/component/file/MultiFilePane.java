@@ -38,12 +38,14 @@ public class MultiFilePane
 	private final JTextField file = new JTextField();
 	private final JLabel status = new JLabel("No file or folder selected");
 	private final Window owner;
+	private final ActionListener onselect; 
 	
-	public MultiFilePane(Window owner, File f)
+	public MultiFilePane(Window owner, ActionListener select, File f)
 	{
 		super(GridBagConstraints.BOTH);
 		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		this.owner = owner;
+		this.onselect = select;
 		
 		folder.setActionCommand("0");
 		folder.addActionListener(this);
