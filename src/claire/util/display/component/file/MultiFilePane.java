@@ -150,7 +150,25 @@ public class MultiFilePane
 				back();
 				break;
 			case "2":
-				f = new File(this.file.getText());
+				String[] s = this.file.getText().split(" :;: ");
+				File[] fs = new File[s.length];
+				for(int i = 0; i < s.length; i++)
+					fs[i] = new File(s[i]);
+				boolean okay = false;
+				for(File file : fs)
+					if(file.exists())
+						if(!file.isFile()) {
+							ErrorMessage m = new ErrorMessage(owner, file.getAbsolutePath() + " is not a file.");
+							DisplayHelper.center(m);
+							m.start();
+						} else;
+					else {
+						ErrorMessage m = new ErrorMessage(owner, "One of the specified files does not exist");
+						DisplayHelper.center(m);
+						m.start();
+					}
+				File parent = fs[0].getParentFile();
+				
 				if(f.exists()) {
 					if(f.isFile()) {
 						//TODO: Add selection
