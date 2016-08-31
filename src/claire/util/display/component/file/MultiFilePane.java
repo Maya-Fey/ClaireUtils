@@ -139,8 +139,11 @@ public class MultiFilePane
 
 	public void valueChanged(ListSelectionEvent arg0)
 	{
-		// TODO Fix yo shiet
-		
+		if(!arg0.getValueIsAdjusting())
+		{
+			int[] selected = list.getSelectedIndices();
+			
+		}
 	}
 
 	public void keyPressed(KeyEvent arg0)
