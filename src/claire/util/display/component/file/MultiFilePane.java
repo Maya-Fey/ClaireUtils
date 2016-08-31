@@ -168,7 +168,12 @@ public class MultiFilePane
 						m.start();
 					}
 				File parent = fs[0].getParentFile();
-				
+				for(int i = 1; i < s.length; i++)
+					if(!parent.equals(fs[i].getParentFile())) {
+						ErrorMessage m = new ErrorMessage(owner, "Your files do not share the same parent");
+						DisplayHelper.center(m);
+						m.start();
+					}
 				if(f.exists()) {
 					if(f.isFile()) {
 						//TODO: Add selection
