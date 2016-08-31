@@ -115,8 +115,10 @@ public class MultiFilePane
 
 	public void actionPerformed(ActionEvent e)
 	{
-		// TODO Fix yo shiet
-		
+		switch(e.getActionCommand())
+		{
+			
+		}
 	}
 
 	public void valueChanged(ListSelectionEvent arg0)
