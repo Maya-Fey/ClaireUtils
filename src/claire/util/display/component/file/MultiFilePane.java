@@ -145,8 +145,8 @@ public class MultiFilePane
 
 	public void keyPressed(KeyEvent arg0)
 	{
-		// TODO Fix yo shiet
-		
+		if(arg0.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+			back();
 	}
 
 	public void keyReleased(KeyEvent arg0) {}
