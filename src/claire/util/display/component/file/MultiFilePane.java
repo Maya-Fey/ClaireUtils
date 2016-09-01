@@ -178,12 +178,18 @@ public class MultiFilePane
 							ErrorMessage m = new ErrorMessage(owner, file.getAbsolutePath() + " is not a file.");
 							DisplayHelper.center(m);
 							m.start();
+							okay = true;
+							break;
 						} else;
 					else {
 						ErrorMessage m = new ErrorMessage(owner, "One of the specified files does not exist");
 						DisplayHelper.center(m);
 						m.start();
+						okay = true;
+						break;
 					}
+				if(okay)
+					break;
 				File parent = fs[0].getParentFile();
 				for(int i = 1; i < s.length; i++)
 					if(!parent.equals(fs[i].getParentFile())) {
