@@ -102,6 +102,7 @@ public class MultiFilePane
 	{
 		this.selected = null;
 		this.file.setText("");
+		this.status.setText("");
 	}
 	
 	public void select(int[] sel)
