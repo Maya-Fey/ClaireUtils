@@ -199,6 +199,14 @@ public class MultiFilePane
 					}
 				if(!this.parent.equals(parent)) 
 					this.update(parent);
+				int[] selected = new int[fs.length];
+				for(int i = 0; i < selected.length; i++)
+					for(int j = 0; j < current.length; j++)
+						if(fs[i].equals(current[j])) {
+							selected[i] = j;
+							break;
+						}
+				this.select(selected);
 		}
 	}
 
