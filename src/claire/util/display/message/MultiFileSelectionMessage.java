@@ -1,12 +1,17 @@
 package claire.util.display.message;
 
+import java.awt.GridBagConstraints;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
+import claire.util.display.DisplayHelper;
+import claire.util.display.component.TablePane;
 import claire.util.display.component.file.MultiFilePane;
 import claire.util.display.component.file.SMultiFilePane;
 
@@ -21,9 +26,40 @@ public class MultiFileSelectionMessage
 	
 	private boolean ok;
 
-	public MultiFileSelectionMessage(Window arg0, JPanel panel, String message)
+	public MultiFileSelectionMessage(Window arg0, int type, File f, String message, boolean cancel) 
 	{
-		super(arg0, panel, message);
+		this(arg0, type, f, message, "Ok", cancel);
+	}
+	
+	public MultiFileSelectionMessage(Window arg0, int type, File f, String message, String button, boolean cancel) 
+	{
+		super(arg0, message);
+		filepane = newMultiFilePane(this.getOwner(), this, f, type);
+		TablePane table = new TablePane(GridBagConstraints.BOTH);
+		table.newRow(1.0D);
+		if(cancel) {
+			table.newCol(filepane, 3);
+			table.newRow();
+			table.newCol(new JPanel(), 1.0D);
+			JButton ok = new JButton(button);
+			JButton can = new JButton("Cancel");
+			ok.setActionCommand("1");
+			can.setActionCommand("2");
+			ok.addActionListener(this);
+			can.addActionListener(this);
+			table.newCol(DisplayHelper.nestBorderWide(ok, new EmptyBorder(4, 4, 4, 4)), 0.1D);
+			table.newCol(DisplayHelper.nestBorderWide(can, new EmptyBorder(4, 4, 4, 4)), 0.1D);
+		} else {
+			table.newCol(filepane, 2);
+			table.newRow();
+			table.newCol(new JPanel(), 1.0D);
+			JButton ok = new JButton(button);
+			ok.setActionCommand("1");
+			ok.addActionListener(this);
+			table.newCol(DisplayHelper.nestBorderWide(ok, new EmptyBorder(4, 4, 4, 4)), 0.3D);
+		}
+		this.setSize(800, 450);
+		this.add(table);		
 	}
 	
 	public void actionPerformed(ActionEvent e)
