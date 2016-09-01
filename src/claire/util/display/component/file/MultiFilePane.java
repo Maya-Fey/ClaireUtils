@@ -174,19 +174,6 @@ public class MultiFilePane
 						DisplayHelper.center(m);
 						m.start();
 					}
-				if(f.exists()) {
-					if(f.isFile()) {
-						//TODO: Add selection
-					} else {
-						ErrorMessage m = new ErrorMessage(owner, "That is not a file.");
-						DisplayHelper.center(m);
-						m.start();
-					}
-				} else {
-					ErrorMessage m = new ErrorMessage(owner, "That file does not exist.");
-					DisplayHelper.center(m);
-					m.start();
-				}
 		}
 	}
 
