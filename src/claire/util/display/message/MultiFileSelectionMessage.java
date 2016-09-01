@@ -7,6 +7,7 @@ import java.io.File;
 
 import javax.swing.JPanel;
 
+import claire.util.display.component.file.MultiFilePane;
 import claire.util.display.component.file.SMultiFilePane;
 
 public class MultiFileSelectionMessage
@@ -27,10 +28,14 @@ public class MultiFileSelectionMessage
 		
 	}
 
+	public static final int MUTLIFILEPANE = 0;
+	
 	public static final SMultiFilePane newMultiFilePane(Window owner, MultiFileSelectionMessage m, File f, int type)
 	{
 		switch(type)
 		{
+			case 0:
+				return new MultiFilePane(owner, m, f);
 			default:
 				throw new java.lang.NullPointerException("Invalid type");
 		}
