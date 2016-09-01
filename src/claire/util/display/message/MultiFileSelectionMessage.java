@@ -17,6 +17,8 @@ public class MultiFileSelectionMessage
 
 	private static final long serialVersionUID = 5754140720953562887L;
 	
+	private final SMultiFilePane filepane;
+	
 	private boolean ok;
 
 	public MultiFileSelectionMessage(Window arg0, JPanel panel, String message)
