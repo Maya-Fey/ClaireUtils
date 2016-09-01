@@ -118,7 +118,6 @@ public class MultiFilePane
 
 	public File[] getFiles()
 	{
-		int[] selected = list.getSelectedIndices();
 		File[] files = new File[selected.length];
 		for(int i = 0; i < files.length; i++)
 			files[i] = current[files.length];
