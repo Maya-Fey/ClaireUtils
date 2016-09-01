@@ -108,6 +108,8 @@ public class MultiFilePane
 
 	public boolean hasSelected()
 	{
+		if(selected == null)
+			return false;
 		if(selected.length == 0)
 			return false;
 		for(int i : selected)
