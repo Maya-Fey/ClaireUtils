@@ -104,6 +104,16 @@ public class MultiFilePane
 		this.file.setText("");
 	}
 	
+	public void select(int[] sel)
+	{
+		this.selected = sel;
+		showSelection();
+		int total = 0;
+		for(int i : selected)
+			total += current[i].length();
+		status.setText(selected.length + " files selected, totalling " + total + " bytes.");
+	}
+	
 	public void showSelection()
 	{
 		String s = "";
