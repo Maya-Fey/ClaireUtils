@@ -89,6 +89,7 @@ public class MultiFilePane
 		list.setListData(str);
 		folder.setText(f.getAbsolutePath());
 		parent = f;
+		unselect();
 	}
 	
 	public void back()
@@ -209,7 +210,7 @@ public class MultiFilePane
 				status.setText(selected.length + " files selected, totalling " + total + " bytes.");
 			} else 
 				status.setText("Both files and folders selected");
-			this.selected = null;
+			unselect();
 		}
 	}
 
