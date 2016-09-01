@@ -99,7 +99,6 @@ public class MultiFilePane
 	
 	public void showSelection()
 	{
-		int[] selected = list.getSelectedIndices();
 		String s = "";
 		s += current[selected[0]].getAbsolutePath();
 		for(int i = 1; i < selected.length; i++)
