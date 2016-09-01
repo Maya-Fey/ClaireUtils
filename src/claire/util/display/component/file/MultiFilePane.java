@@ -32,6 +32,7 @@ public class MultiFilePane
 	
 	private File parent;
 	private File[] current;
+	private int[] selected;
 	
 	private final JList<String> list = new JList<String>();
 	private final JTextField folder = new JTextField();
