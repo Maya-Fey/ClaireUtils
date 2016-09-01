@@ -97,6 +97,12 @@ public class MultiFilePane
 		update(p);
 	}
 	
+	public void unselect()
+	{
+		this.selected = null;
+		this.file.setText("");
+	}
+	
 	public void showSelection()
 	{
 		String s = "";
