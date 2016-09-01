@@ -108,7 +108,6 @@ public class MultiFilePane
 
 	public boolean hasSelected()
 	{
-		int[] selected = list.getSelectedIndices();
 		if(selected.length == 0)
 			return false;
 		for(int i : selected)
