@@ -195,12 +195,12 @@ public class MultiFilePane
 				if(!(af &= current[i].isFile()))
 					break;
 			if(af) {
+				this.selected = selected;
 				showSelection();
 				int total = 0;
 				for(int i : selected)
 					total += current[i].length();
 				status.setText(selected.length + " files selected, totalling " + total + " bytes.");
-				this.selected = null;
 			} else 
 				status.setText("Both files and folders selected");
 			this.selected = null;
