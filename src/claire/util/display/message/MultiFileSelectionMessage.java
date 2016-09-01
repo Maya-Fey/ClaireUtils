@@ -36,6 +36,12 @@ public class MultiFileSelectionMessage
 	{
 		return ok;
 	}
+	
+	protected void done()
+	{
+		ok = true;
+		this.close();
+	}
 
 	public static final int MUTLIFILEPANE = 0;
 	
