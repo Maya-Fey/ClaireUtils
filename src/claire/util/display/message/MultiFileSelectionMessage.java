@@ -16,6 +16,8 @@ public class MultiFileSelectionMessage
 {
 
 	private static final long serialVersionUID = 5754140720953562887L;
+	
+	private boolean ok;
 
 	public MultiFileSelectionMessage(Window arg0, JPanel panel, String message)
 	{
@@ -26,6 +28,11 @@ public class MultiFileSelectionMessage
 	{
 		// TODO Fix yo shiet
 		
+	}
+	
+	public boolean isOk()
+	{
+		return ok;
 	}
 
 	public static final int MUTLIFILEPANE = 0;
