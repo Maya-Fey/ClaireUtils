@@ -191,6 +191,8 @@ public class MultiFilePane
 						DisplayHelper.center(m);
 						m.start();
 					}
+				if(!this.parent.equals(parent)) 
+					this.update(parent);
 		}
 	}
 
