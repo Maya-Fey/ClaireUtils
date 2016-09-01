@@ -42,6 +42,11 @@ public class MultiFileSelectionMessage
 		ok = true;
 		this.close();
 	}
+	
+	public File[] getFiles()
+	{
+		return filepane.getFiles();
+	}
 
 	public static final int MUTLIFILEPANE = 0;
 	
