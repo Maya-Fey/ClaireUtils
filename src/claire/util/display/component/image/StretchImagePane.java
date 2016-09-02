@@ -1,6 +1,8 @@
 package claire.util.display.component.image;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 
 import claire.util.display.component.ImagePane;
 
@@ -12,8 +14,8 @@ public class StretchImagePane
 
 	protected void drawImage(Graphics g)
 	{
-		// TODO Fix yo shiet
-		
+		Dimension d = this.getSize();
+        g.drawImage(img.getScaledInstance((int) d.getWidth(), (int) d.getHeight(), Image.SCALE_SMOOTH), 0, 0, null);
 	}
 	
 }
