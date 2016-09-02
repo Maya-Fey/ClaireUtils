@@ -75,15 +75,13 @@ public class FileSelectionMessage
 					m.start();
 					break;
 				}
-				this.ok = true;
-				this.close();
+				this.done();
 				break;
 			case "2":
 				this.close();
 				break;
 			case "fs":
-				this.ok = true;
-				this.close();
+				this.done();
 				break;
 		}
 	}
