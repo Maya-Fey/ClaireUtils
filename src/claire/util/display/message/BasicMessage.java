@@ -20,6 +20,11 @@ public class BasicMessage
 	{
 		super(arg0, message, ModalityType.APPLICATION_MODAL);
 	}
+	
+	public BasicMessage(Window arg0, String message, ModalityType type) 
+	{
+		super(arg0, message, type);
+	}
 
 	public void start()
 	{
