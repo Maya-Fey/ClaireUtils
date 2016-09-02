@@ -25,6 +25,12 @@ public class BasicMessage
 	{
 		super(arg0, message, type);
 	}
+	
+	public BasicMessage(Window arg0, JPanel panel, String message, ModalityType type) 
+	{
+		super(arg0, message, type);
+		this.add(panel);
+	}
 
 	public void start()
 	{
