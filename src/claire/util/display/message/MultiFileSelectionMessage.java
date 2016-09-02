@@ -66,6 +66,15 @@ public class MultiFileSelectionMessage
 	{
 		switch(e.getActionCommand())
 		{
+			case "1":
+				if(!filepane.hasSelected()) {
+					ErrorMessage m = new ErrorMessage(this.getOwner(), "No files selected!");
+					DisplayHelper.center(m);
+					m.start();
+					break;
+				}
+				this.done();
+				break;
 			case "2":
 				this.close();
 				break;
