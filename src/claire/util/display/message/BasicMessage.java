@@ -6,7 +6,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 public class BasicMessage 
-	extends JDialog {
+	   extends JDialog {
 	
 	private static final long serialVersionUID = 5397913021099878819L;
 
@@ -24,6 +24,11 @@ public class BasicMessage
 	public void start()
 	{
 		this.setVisible(true);
+	}
+	
+	public void disable()
+	{
+		this.setVisible(false);
 	}
 
 	public void close()
