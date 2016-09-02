@@ -1,5 +1,6 @@
 package claire.util.display.component;
 
+import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.JComponent;
@@ -16,6 +17,12 @@ public abstract class ImagePane
 	public void setImage(Image img)
 	{
 		this.img = img;
+	}
+	
+	protected void paintComponent(Graphics g) 
+	{
+        super.paintComponent(g);
+        this.drawImage();
 	}
 	
 }
