@@ -64,8 +64,10 @@ public class MultiFileSelectionMessage
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		// TODO Fix yo shiet
-		
+		switch(e.getActionCommand())
+		{
+			
+		}
 	}
 	
 	public boolean isOk()
