@@ -66,6 +66,9 @@ public class MultiFileSelectionMessage
 	{
 		switch(e.getActionCommand())
 		{
+			case "2":
+				this.close();
+				break;
 			case "fs":
 				this.done();
 				break;
