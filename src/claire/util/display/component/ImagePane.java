@@ -12,7 +12,7 @@ public abstract class ImagePane
 	
 	protected Image img;
 	
-	protected abstract void drawImage();
+	protected abstract void drawImage(Graphics g);
 
 	public void setImage(Image img)
 	{
@@ -22,7 +22,7 @@ public abstract class ImagePane
 	protected void paintComponent(Graphics g) 
 	{
         super.paintComponent(g);
-        this.drawImage();
+        this.drawImage(g);
 	}
 	
 }
