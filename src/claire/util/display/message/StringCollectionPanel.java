@@ -43,6 +43,13 @@ public class StringCollectionPanel
 		this.initialize();
 	}
 	
+	public StringCollectionPanel(String text, ActionListener enter)
+	{
+		this.title = new JLabel(text);
+		onenter = enter;
+		this.initialize();
+	}
+	
 	public void initialize()
 	{
 		TableLayout layout = new TableLayout(this);
