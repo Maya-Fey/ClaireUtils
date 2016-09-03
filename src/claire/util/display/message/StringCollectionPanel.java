@@ -1,5 +1,7 @@
 package claire.util.display.message;
 
+import java.awt.event.ActionListener;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -18,15 +20,19 @@ public class StringCollectionPanel
 	protected final JLabel title;
 	protected final JTextField field = new JTextField(8);
 	
+	protected final ActionListener onenter;
+	
 	public StringCollectionPanel()
 	{
 		this.title = new JLabel("Please enter string:");
+		onenter = null;
 		this.initialize();
 	}
 	
 	public StringCollectionPanel(String text)
 	{
 		this.title = new JLabel(text);
+		onenter = null;
 		this.initialize();
 	}
 	
