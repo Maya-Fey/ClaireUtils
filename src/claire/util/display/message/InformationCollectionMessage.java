@@ -86,6 +86,12 @@ public class InformationCollectionMessage
 		}
 	}
 	
+	public void done()
+	{
+		this.ok = true;
+		this.close();
+	}
+	
 	public boolean isOk()
 	{
 		return this.ok;
