@@ -28,7 +28,7 @@ public class StringCollectionPanel
 		this.title = new JLabel(text);
 	}
 	
-	public void initialize()
+	public void initialize(InformationCollectionMessage m)
 	{
 		TableLayout layout = new TableLayout(this);
 		title.setHorizontalAlignment(SwingConstants.CENTER);
