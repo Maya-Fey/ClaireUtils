@@ -30,6 +30,8 @@ public class StringCollectionPanel
 	
 	public void initialize(InformationCollectionMessage m)
 	{
+		field.addActionListener(m);
+		field.setActionCommand("done");
 		TableLayout layout = new TableLayout(this);
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 		DisplayHelper.addBorder(title, border);
