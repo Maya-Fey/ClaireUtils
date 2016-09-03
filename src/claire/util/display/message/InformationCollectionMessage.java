@@ -28,7 +28,7 @@ public class InformationCollectionMessage
 	{
 		super(arg0, message);
 		this.panel = panel;
-		panel.initialize();
+		panel.initialize(this);
 		TablePane table = new TablePane(GridBagConstraints.BOTH);
 		table.newRow(1.0D);
 		if(cancel) {
