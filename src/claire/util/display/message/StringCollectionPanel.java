@@ -26,28 +26,24 @@ public class StringCollectionPanel
 	{
 		this.title = new JLabel("Please enter string:");
 		onenter = null;
-		this.initialize();
 	}
 	
 	public StringCollectionPanel(String text)
 	{
 		this.title = new JLabel(text);
 		onenter = null;
-		this.initialize();
 	}
 	
 	public StringCollectionPanel(ActionListener enter)
 	{
 		this.title = new JLabel("Please enter string:");
 		onenter = enter;
-		this.initialize();
 	}
 	
 	public StringCollectionPanel(String text, ActionListener enter)
 	{
 		this.title = new JLabel(text);
 		onenter = enter;
-		this.initialize();
 	}
 	
 	public void initialize()
