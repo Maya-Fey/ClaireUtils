@@ -191,7 +191,6 @@ public class AdvancedFilePane
 				break;
 			case "3":
 				FilenameCollectionPanel s = new FilenameCollectionPanel("Enter name for folder");
-				s.initialize();
 				InformationCollectionMessage m = new InformationCollectionMessage(owner, s, "Create New Folder", true);
 				DisplayHelper.center(m);
 				m.start();
@@ -220,7 +219,6 @@ public class AdvancedFilePane
 					break;
 				}
 				s = new FilenameCollectionPanel("Enter name for folder");
-				s.initialize();
 				m = new InformationCollectionMessage(owner, s, "Rename Folder", true);
 				DisplayHelper.center(m);
 				m.start();
@@ -236,7 +234,6 @@ public class AdvancedFilePane
 				break;
 			case "5":
 				s = new FilenameCollectionPanel("Enter name for file");
-				s.initialize();
 				m = new InformationCollectionMessage(owner, s, "Create New File", true);
 				DisplayHelper.center(m);
 				m.start();
@@ -272,7 +269,6 @@ public class AdvancedFilePane
 					break;
 				}
 				s = new FilenameCollectionPanel("Enter name for file");
-				s.initialize();
 				m = new InformationCollectionMessage(owner, s, "Rename File", true);
 				DisplayHelper.center(m);
 				m.start();
