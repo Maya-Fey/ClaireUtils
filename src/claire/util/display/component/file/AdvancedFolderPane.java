@@ -158,7 +158,6 @@ public class AdvancedFolderPane
 				break;
 			case "2":
 				FilenameCollectionPanel s = new FilenameCollectionPanel("Enter name for folder");
-				s.initialize();
 				InformationCollectionMessage m = new InformationCollectionMessage(owner, s, "Create New Folder", true);
 				DisplayHelper.center(m);
 				m.start();
@@ -180,7 +179,6 @@ public class AdvancedFolderPane
 					break;
 				}
 				s = new FilenameCollectionPanel("Enter name for folder");
-				s.initialize();
 				m = new InformationCollectionMessage(owner, s, "Rename Folder", true);
 				DisplayHelper.center(m);
 				m.start();
