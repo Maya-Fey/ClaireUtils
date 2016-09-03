@@ -9,7 +9,7 @@ public abstract class InformationCollectionPanel
 
 	private static final long serialVersionUID = -8592273310526993784L;
 	
-	public abstract void initialize();
+	public abstract void initialize(InformationCollectionMessage m);
 	public abstract boolean error(Pointer<String> msg);
 	public abstract boolean close(Pointer<String> msg);
 	
