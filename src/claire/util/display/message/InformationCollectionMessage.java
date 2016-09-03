@@ -81,6 +81,9 @@ public class InformationCollectionMessage
 					this.close();
 					break;
 				}
+			case "done":
+				this.done();
+				break;
 			default:
 				throw new java.lang.AssertionError("Invalid event recieved");
 		}
