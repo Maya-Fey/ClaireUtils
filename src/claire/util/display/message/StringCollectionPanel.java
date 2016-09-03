@@ -21,11 +21,13 @@ public class StringCollectionPanel
 	public StringCollectionPanel()
 	{
 		this.title = new JLabel("Please enter string:");
+		this.initialize();
 	}
 	
 	public StringCollectionPanel(String text)
 	{
 		this.title = new JLabel(text);
+		this.initialize();
 	}
 	
 	public void initialize()
