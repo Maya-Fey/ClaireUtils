@@ -220,6 +220,7 @@ public class MultiFilePane
 				File f = current[selected[0]];
 				if(f.isFile()) {
 					status.setText("File " + f.getName() + " selected, " + f.length() + " bytes.");
+					select(selected);
 					showSelection();
 				} else
 					status.setText("Directory " + f.getName() + " selected, press Enter to browse");
