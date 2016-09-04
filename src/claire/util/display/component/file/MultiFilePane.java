@@ -37,7 +37,7 @@ public class MultiFilePane
 	private final JList<String> list = new JList<String>();
 	private final JTextField folder = new JTextField();
 	private final JTextField file = new JTextField();
-	private final JLabel status = new JLabel("No file or folder selected");
+	private final JLabel status = new JLabel("No files selected");
 	private final Window owner;
 	private final ActionListener onselect; 
 	
@@ -216,6 +216,10 @@ public class MultiFilePane
 		if(!arg0.getValueIsAdjusting())
 		{
 			int[] selected = list.getSelectedIndices();
+			if(selected.length == 0) {
+				status.setText("No files selected");
+				return;
+			}
 			if(selected.length == 1) {
 				File f = current[selected[0]];
 				if(f.isFile()) {
@@ -233,7 +237,7 @@ public class MultiFilePane
 				select(selected);
 				return;
 			} else 
-				status.setText("Both files and folders selected");
+				status.setText("Folders or both folders and files selected");
 			unselect();
 		}
 	}
