@@ -167,7 +167,7 @@ public class MultiFilePane
 				back();
 				break;
 			case "2":
-				String[] s = this.file.getText().split(" :;: ");
+				String[] s = this.file.getText().split(" ;:; ");
 				File[] fs = new File[s.length];
 				for(int i = 0; i < s.length; i++)
 					fs[i] = new File(s[i]);
@@ -182,6 +182,7 @@ public class MultiFilePane
 							break;
 						} else;
 					else {
+						System.out.println(file);
 						ErrorMessage m = new ErrorMessage(owner, "One of the specified files does not exist");
 						DisplayHelper.center(m);
 						m.start();
