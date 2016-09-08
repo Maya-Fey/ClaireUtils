@@ -17,6 +17,7 @@ public abstract class ImagePane
 	public void setImage(Image img)
 	{
 		this.img = img;
+		this.repaint();
 	}
 	
 	protected void paintComponent(Graphics g) 
