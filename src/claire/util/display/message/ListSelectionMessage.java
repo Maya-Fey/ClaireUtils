@@ -54,6 +54,11 @@ public class ListSelectionMessage
 		this.setSize(360, 640);
 		this.add(table);	
 	}
+	
+	public boolean isOk()
+	{
+		return ok;
+	}
 
 	public void actionPerformed(ActionEvent e)
 	{
