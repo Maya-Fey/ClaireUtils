@@ -78,6 +78,10 @@ public class ListSelectionMessage
 					DisplayHelper.center(mes);
 					mes.start();
 				}
+				break;
+			case "2":
+				this.close();
+				break;
 		}
 	}
 	
