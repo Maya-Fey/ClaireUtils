@@ -59,6 +59,11 @@ public class ListSelectionMessage
 	{
 		return ok;
 	}
+	
+	public int getSelected()
+	{
+		return list.getSelection();
+	}
 
 	public void actionPerformed(ActionEvent e)
 	{
