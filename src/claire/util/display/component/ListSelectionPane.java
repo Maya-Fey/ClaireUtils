@@ -22,6 +22,8 @@ public class ListSelectionPane
 		JLabel label = new JLabel(title);
 		
 		table.newRow();
+		table.newCol(label);
+		table.newRow();
 		table.newCol(list, 1.0D);
 		
 		this.add(table);
