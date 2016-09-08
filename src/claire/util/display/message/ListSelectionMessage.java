@@ -22,6 +22,8 @@ public class ListSelectionMessage
 
 	private final ListSelectionPane list;
 	
+	private boolean ok;
+	
 	public ListSelectionMessage(Window arg0, String title, String OK, String message, String[] elements, boolean cancel)
 	{
 		super(arg0, title);
