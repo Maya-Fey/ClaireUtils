@@ -30,4 +30,9 @@ public class ListSelectionPane
 		return list.getSelectedIndex() > -1;
 	}
 	
+	public int getSelection()
+	{
+		return list.getSelectedIndex();
+	}
+	
 }
