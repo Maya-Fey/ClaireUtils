@@ -19,6 +19,9 @@ public class ListSelectionPane
 		list = new JList<String>(elements);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
+		table.newRow();
+		table.newCol(list, 1.0D);
+		
 		this.add(table);
 	}
 }
