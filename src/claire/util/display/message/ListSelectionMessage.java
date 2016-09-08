@@ -49,6 +49,7 @@ public class ListSelectionMessage
 			ok.addActionListener(this);
 			table.newCol(DisplayHelper.nestBorderWide(ok, new EmptyBorder(4, 4, 4, 4)), 0.3D);
 		}
+		this.setSize(360, 640);
 		this.add(table);	
 	}
 
