@@ -1,6 +1,7 @@
 package claire.util.display.component;
 
 import java.awt.GridBagConstraints;
+import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -13,9 +14,11 @@ public class ListSelectionPane
 	private static final long serialVersionUID = 1L;
 	
 	private final JList<String> list;
+	private final ActionListener onselect;
 	
-	public ListSelectionPane(String[] elements, String title)
+	public ListSelectionPane(ActionListener onselect, String[] elements, String title)
 	{
+		this.onselect = onselect;
 		TablePane table = new TablePane(GridBagConstraints.BOTH);
 		list = new JList<String>(elements);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
