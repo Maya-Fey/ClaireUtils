@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 
 public class ListSelectionPane
 	   extends JPanel
@@ -16,6 +17,7 @@ public class ListSelectionPane
 	{
 		TablePane table = new TablePane(GridBagConstraints.BOTH);
 		list = new JList<String>(elements);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		this.add(table);
 	}
