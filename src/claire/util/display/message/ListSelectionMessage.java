@@ -69,7 +69,15 @@ public class ListSelectionMessage
 	{
 		switch(e.getActionCommand())
 		{
-			
+			case "1":
+				if(list.hasSelected()) {
+					ok = true;
+					this.close();
+				} else {
+					ErrorMessage mes = new ErrorMessage(this, "You have not selected an index");
+					DisplayHelper.center(mes);
+					mes.start();
+				}
 		}
 	}
 	
