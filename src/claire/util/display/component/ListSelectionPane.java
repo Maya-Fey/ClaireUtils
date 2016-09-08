@@ -2,6 +2,7 @@ package claire.util.display.component;
 
 import java.awt.GridBagConstraints;
 
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
@@ -13,11 +14,12 @@ public class ListSelectionPane
 	
 	private final JList<String> list;
 	
-	public ListSelectionPane(String[] elements)
+	public ListSelectionPane(String[] elements, String title)
 	{
 		TablePane table = new TablePane(GridBagConstraints.BOTH);
 		list = new JList<String>(elements);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		JLabel label = new JLabel(title);
 		
 		table.newRow();
 		table.newCol(list, 1.0D);
