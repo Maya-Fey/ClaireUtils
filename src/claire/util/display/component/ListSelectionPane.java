@@ -24,4 +24,10 @@ public class ListSelectionPane
 		
 		this.add(table);
 	}
+	
+	public boolean hasSelected()
+	{
+		return list.getSelectedIndex() > -1;
+	}
+	
 }
