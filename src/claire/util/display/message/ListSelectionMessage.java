@@ -27,7 +27,7 @@ public class ListSelectionMessage
 	public ListSelectionMessage(Window arg0, String title, String OK, String message, String[] elements, boolean cancel)
 	{
 		super(arg0, title);
-		list = new ListSelectionPane(elements, message);
+		list = new ListSelectionPane(this, elements, message);
 		TablePane table = new TablePane(GridBagConstraints.BOTH);
 		table.newRow(1.0D);
 		if(cancel) {
