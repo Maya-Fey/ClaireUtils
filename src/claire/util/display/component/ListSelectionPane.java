@@ -10,12 +10,15 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
 public class ListSelectionPane
 	   extends JPanel
 	   implements KeyListener
 {
 	private static final long serialVersionUID = 1L;
+	private static final Border border = new EmptyBorder(4, 4, 4, 4);
 	
 	private final JList<String> list;
 	private final ActionListener onselect;
