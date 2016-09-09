@@ -54,7 +54,7 @@ public class ListSelectionPane
 
 	public void keyPressed(KeyEvent arg0)
 	{
-		if(arg0.getKeyCode() == KeyEvent.VK_ENTER)
+		if(arg0.getKeyCode() == KeyEvent.VK_ENTER && this.hasSelected())
 			onselect.actionPerformed(new ActionEvent(this, 0, "sel"));
 	}
 
