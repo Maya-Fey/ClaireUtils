@@ -82,6 +82,10 @@ public class ListSelectionMessage
 			case "2":
 				this.close();
 				break;
+			case "sel":
+				ok = true;
+				this.close();
+				break;
 		}
 	}
 	
