@@ -2,6 +2,8 @@ package claire.util.display.component;
 
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -10,6 +12,7 @@ import javax.swing.ListSelectionModel;
 
 public class ListSelectionPane
 	   extends JPanel
+	   implements KeyListener
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -40,6 +43,27 @@ public class ListSelectionPane
 	public int getSelection()
 	{
 		return list.getSelectedIndex();
+	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0)
+	{
+		// TODO Fix yo shiet
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0)
+	{
+		// TODO Fix yo shiet
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0)
+	{
+		// TODO Fix yo shiet
+		
 	}
 	
 }
