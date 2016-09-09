@@ -13,6 +13,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+import claire.util.display.DisplayHelper;
+
 public class ListSelectionPane
 	   extends JPanel
 	   implements KeyListener
@@ -33,9 +35,9 @@ public class ListSelectionPane
 		JLabel label = new JLabel(title);
 		
 		table.newRow();
-		table.newCol(label);
+		table.newCol(DisplayHelper.nestBorderWide(label, border));
 		table.newRow();
-		table.newCol(list, 1.0D);
+		table.newCol(DisplayHelper.nestBorderWide(list, border), 1.0D);
 		
 		this.add(table);
 	}
