@@ -138,8 +138,8 @@ public class MultiFilePane
 	public File[] getFiles()
 	{
 		File[] files = new File[selected.length];
-		for(int i = 0; i < files.length; i++)
-			files[i] = current[files.length];
+		for(int i = 0; i < selected.length; i++)
+			files[i] = current[selected[i]];
 		return files;
 	}
 
