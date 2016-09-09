@@ -26,6 +26,7 @@ public class ListSelectionPane
 		TablePane table = new TablePane(GridBagConstraints.BOTH);
 		list = new JList<String>(elements);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.addKeyListener(this);
 		JLabel label = new JLabel(title);
 		
 		table.newRow();
