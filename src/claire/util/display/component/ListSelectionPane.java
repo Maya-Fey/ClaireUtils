@@ -1,6 +1,7 @@
 package claire.util.display.component;
 
 import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -45,25 +46,13 @@ public class ListSelectionPane
 		return list.getSelectedIndex();
 	}
 
-	@Override
 	public void keyPressed(KeyEvent arg0)
 	{
-		// TODO Fix yo shiet
-		
+		if(arg0.getKeyCode() == KeyEvent.VK_ENTER)
+			onselect.actionPerformed(new ActionEvent(this, 0, "sel"));
 	}
 
-	@Override
-	public void keyReleased(KeyEvent arg0)
-	{
-		// TODO Fix yo shiet
-		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent arg0)
-	{
-		// TODO Fix yo shiet
-		
-	}
+	public void keyReleased(KeyEvent arg0) {}
+	public void keyTyped(KeyEvent arg0) {}
 	
 }
