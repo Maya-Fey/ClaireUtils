@@ -42,8 +42,8 @@ public class ListSelectionMessage
 			can.setActionCommand("2");
 			ok.addActionListener(this);
 			can.addActionListener(this);
-			table.newCol(DisplayHelper.nestBorderWide(ok, new EmptyBorder(4, 4, 4, 4)), 0.1D);
-			table.newCol(DisplayHelper.nestBorderWide(can, new EmptyBorder(4, 4, 4, 4)), 0.1D);
+			table.newCol(DisplayHelper.nestBorderWide(ok, border), 0.1D);
+			table.newCol(DisplayHelper.nestBorderWide(can, border), 0.1D);
 		} else {
 			table.newCol(list, 2);
 			table.newRow();
@@ -51,7 +51,7 @@ public class ListSelectionMessage
 			JButton ok = new JButton(OK);
 			ok.setActionCommand("1");
 			ok.addActionListener(this);
-			table.newCol(DisplayHelper.nestBorderWide(ok, new EmptyBorder(4, 4, 4, 4)), 0.3D);
+			table.newCol(DisplayHelper.nestBorderWide(ok, border), 0.3D);
 		}
 		this.setSize(360, 640);
 		this.add(table);	
