@@ -9,6 +9,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -33,11 +34,13 @@ public class ListSelectionPane
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.addKeyListener(this);
 		JLabel label = new JLabel(title);
+		JScrollPane pane = new JScrollPane();
+		pane.add(list);
 		
 		table.newRow();
 		table.newCol(DisplayHelper.nestBorderWide(label, border));
 		table.newRow();
-		table.newCol(DisplayHelper.nestBorderWide(list, border), 1.0D);
+		table.newCol(DisplayHelper.nestBorderWide(pane, border), 1.0D);
 		
 		this.add(table);
 	}
