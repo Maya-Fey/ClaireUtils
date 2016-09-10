@@ -1,5 +1,6 @@
 package claire.util.display.component;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,10 +40,11 @@ public class ListSelectionPane
 		
 		table.newRow();
 		table.newCol(DisplayHelper.nestBorderWide(label, border));
-		table.newRow();
+		table.newRow(1.0D);
 		table.newCol(DisplayHelper.nestBorderWide(pane, border), 1.0D);
 		
-		this.add(table);
+		this.setLayout(new BorderLayout());
+		this.add(table, BorderLayout.CENTER);
 	}
 	
 	public boolean hasSelected()
