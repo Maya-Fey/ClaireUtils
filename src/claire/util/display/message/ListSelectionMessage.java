@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import claire.util.display.DisplayHelper;
@@ -19,6 +20,7 @@ public class ListSelectionMessage
 {
 
 	private static final long serialVersionUID = -8679876580683360350L;
+	private static final Border border = new EmptyBorder(4, 4, 4, 4);
 
 	private final ListSelectionPane list;
 	
