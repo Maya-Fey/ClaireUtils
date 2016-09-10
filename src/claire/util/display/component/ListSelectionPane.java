@@ -35,8 +35,7 @@ public class ListSelectionPane
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.addKeyListener(this);
 		JLabel label = new JLabel(title);
-		JScrollPane pane = new JScrollPane();
-		pane.add(list);
+		JScrollPane pane = new JScrollPane(list);
 		
 		table.newRow();
 		table.newCol(DisplayHelper.nestBorderWide(label, border));
