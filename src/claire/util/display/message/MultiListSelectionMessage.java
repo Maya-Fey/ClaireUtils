@@ -61,6 +61,11 @@ public class MultiListSelectionMessage
 	{
 		return ok;
 	}
+	
+	public int[] getSelection()
+	{
+		return pane.getSelected();
+	}
 
 	public void actionPerformed(ActionEvent arg0)
 	{
