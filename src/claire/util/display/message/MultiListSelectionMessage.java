@@ -72,7 +72,7 @@ public class MultiListSelectionMessage
 		switch(arg0.getActionCommand())
 		{
 			case "1":
-				if(pane.hasSelected()) {
+				if(!pane.hasSelected()) {
 					ErrorMessage mes = new ErrorMessage(this, "You have not selected any elements yet");
 					DisplayHelper.center(mes);
 					mes.start();
