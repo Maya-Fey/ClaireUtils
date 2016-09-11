@@ -7,6 +7,8 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
 public class MultiListSelectionPane
 	   extends JPanel
@@ -14,6 +16,7 @@ public class MultiListSelectionPane
 {
 
 	private static final long serialVersionUID = 2315352448715873384L;
+	private static final Border border = new EmptyBorder(4, 4, 4, 4);
 	
 	private final JList<String> list = new JList<String>();
 	private final ActionListener onselect;
