@@ -7,8 +7,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -26,16 +28,19 @@ public class MultiListSelectionPane
 	private final JList<String> list = new JList<String>();
 	private final ActionListener onselect;
 	
-	public MultiListSelectionPane(ActionListener onselect, String[] stuff)
+	public MultiListSelectionPane(ActionListener onselect, String[] stuff, String title)
 	{
 		this.onselect = onselect;
 		list.setListData(stuff);
 		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		list.addKeyListener(this);
 		TablePane table = new TablePane(GridBagConstraints.BOTH);
+		JLabel label = new JLabel(title);
 		
+		table.newRow();
+		table.newCol(label);
 		table.newRow(1.0D);
-		table.newCol(DisplayHelper.nestBorderWide(pane, border), 1.0D);
+		table.newCol(DisplayHelper.nestBorderWide(new JScrollPane(list), border), 1.0D);
 		
 		this.setLayout(new BorderLayout());
 		this.add(table, BorderLayout.CENTER);
