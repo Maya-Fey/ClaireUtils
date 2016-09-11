@@ -7,6 +7,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
@@ -25,6 +26,8 @@ public class MultiListSelectionPane
 	{
 		this.onselect = onselect;
 		list.setListData(stuff);
+		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		list.addKeyListener(this);
 	}
 	
 	public boolean hasSelected()
