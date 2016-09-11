@@ -20,4 +20,9 @@ public class MultiListSelectionPane
 		list.setListData(stuff);
 	}
 	
+	public boolean hasSelected()
+	{
+		return list.getSelectedIndex() > -1;
+	}
+	
 }
