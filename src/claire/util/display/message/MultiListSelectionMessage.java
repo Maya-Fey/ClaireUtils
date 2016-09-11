@@ -15,10 +15,17 @@ public class MultiListSelectionMessage
 	
 	private final MultiListSelectionPane pane;
 	
+	private boolean ok;
+	
 	public MultiListSelectionMessage(Window arg0, String title, String ok, String message, String[] elements)
 	{
 		super(arg0, title);
 		this.pane = new MultiListSelectionPane(this, elements, message);
+	}
+	
+	public boolean isOk()
+	{
+		return ok;
 	}
 
 	public void actionPerformed(ActionEvent arg0)
