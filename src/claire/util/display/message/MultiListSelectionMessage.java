@@ -84,6 +84,10 @@ public class MultiListSelectionMessage
 			case "2":
 				this.close();
 				break;
+			case "sel":
+				ok = true;
+				this.close();
+				break;
 		}
 	}
 	
