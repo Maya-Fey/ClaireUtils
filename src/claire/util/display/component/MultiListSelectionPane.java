@@ -14,9 +14,10 @@ public class MultiListSelectionPane
 	private final JList<String> list = new JList<String>();
 	private final ActionListener onselect;
 	
-	public MultiListSelectionPane(ActionListener onselect)
+	public MultiListSelectionPane(ActionListener onselect, String[] stuff)
 	{
 		this.onselect = onselect;
+		list.setListData(stuff);
 	}
 	
 }
