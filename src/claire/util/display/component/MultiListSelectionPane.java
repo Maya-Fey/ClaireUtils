@@ -25,4 +25,9 @@ public class MultiListSelectionPane
 		return list.getSelectedIndex() > -1;
 	}
 	
+	public int[] getSelected()
+	{
+		return list.getSelectedIndices();
+	}
+	
 }
