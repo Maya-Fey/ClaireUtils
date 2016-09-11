@@ -1,12 +1,15 @@
 package claire.util.display.component;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
 
 public class MultiListSelectionPane
 	   extends JPanel
+	   implements KeyListener
 {
 
 	private static final long serialVersionUID = 2315352448715873384L;
@@ -29,5 +32,13 @@ public class MultiListSelectionPane
 	{
 		return list.getSelectedIndices();
 	}
+
+	public void keyPressed(KeyEvent e)
+	{
+	
+	}
+
+	public void keyReleased(KeyEvent e) {}
+	public void keyTyped(KeyEvent e) {}
 	
 }
