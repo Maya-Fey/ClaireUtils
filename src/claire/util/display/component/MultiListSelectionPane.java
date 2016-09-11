@@ -1,5 +1,7 @@
 package claire.util.display.component;
 
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -10,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
+import claire.util.display.DisplayHelper;
 
 public class MultiListSelectionPane
 	   extends JPanel
@@ -28,6 +32,13 @@ public class MultiListSelectionPane
 		list.setListData(stuff);
 		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		list.addKeyListener(this);
+		TablePane table = new TablePane(GridBagConstraints.BOTH);
+		
+		table.newRow(1.0D);
+		table.newCol(DisplayHelper.nestBorderWide(pane, border), 1.0D);
+		
+		this.setLayout(new BorderLayout());
+		this.add(table, BorderLayout.CENTER);
 	}
 	
 	public boolean hasSelected()
