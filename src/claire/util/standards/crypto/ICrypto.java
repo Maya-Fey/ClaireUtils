@@ -1,5 +1,7 @@
 package claire.util.standards.crypto;
 
+import claire.util.crypto.KeyFactory;
+
 public interface ICrypto<Type extends IKey<?>> {
 		
 	/**
@@ -17,5 +19,7 @@ public interface ICrypto<Type extends IKey<?>> {
 	 * private key
 	 */
 	void setKey(Type t);	
+	
+	KeyFactory<Type> keyFactory();
 
 }

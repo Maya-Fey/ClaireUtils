@@ -1,24 +1,26 @@
 package claire.util.test;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.util.Arrays;
 
 import claire.util.concurrency.gen.CountdownMonitor;
 import claire.util.concurrency.gen.GeneratorThread;
+import claire.util.concurrency.gen.ResultsCollector;
 import claire.util.concurrency.gen.TaskMonitor;
-import claire.util.crypto.hash.primitive.BEAR.$BEAR3;
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.cipher.key.block.KeySimon32;
+import claire.util.crypto.cipher.primitive.block.Simon32;
+import claire.util.crypto.rng.RandUtils;
+import claire.util.crypto.rng.primitive.FastXorShift;
 import claire.util.crypto.rng.primitive.XorShiftNG;
-import claire.util.display.ImageUtil;
 import claire.util.encoding.CString;
 import claire.util.encoding.EncodingUtil;
 import claire.util.encoding.Hex;
-import claire.util.math.CryptoPrimeGenerator;
 import claire.util.math.MathHelper;
-import claire.util.math.StrongPrimeGenerator;
-import claire.util.math.UInt;
+import claire.util.math.prime.CryptoPrimeGenerator;
+import claire.util.math.primitive.UInt;
 import claire.util.memory.Bits;
 
 public final class Main {
@@ -42,37 +44,63 @@ public final class Main {
 		return new BigInteger(new String(u.toChars()));
 	}
 	
-	public static final int[] inv = new int[]
-		{
-			39, 7, 47, 15, 55, 23, 63, 31, 
-			38, 6, 46, 14, 54, 22, 62, 30, 
-			37, 5, 45, 13, 53, 21, 61, 29, 
-			36, 4, 44, 12, 52, 20, 60, 28, 
-			35, 3, 43, 11, 51, 19, 59, 27, 
-			34, 2, 42, 10, 50, 18, 58, 26, 
-			33, 1, 41,  9, 49, 17, 57, 25, 
-			32, 0, 40,  8, 48, 16, 56, 24, 
-
-		};
-	
-	public static final byte[] permute = new byte[]
-		{
-			57, 49, 41, 33, 25, 17, 9,  1, 
-			59, 51, 43, 35, 27, 19, 11, 3, 
-			61, 53, 45, 37, 29, 21, 13, 5, 
-			63, 55, 47, 39, 31, 23, 15, 7, 
-			56, 48, 40, 32, 24, 16, 8,  0, 
-			58, 50, 42, 34, 26, 18, 10, 2, 
-			60, 52, 44, 36, 28, 20, 12, 4, 
-			62, 54, 46, 38, 30, 22, 14, 6, 
-		};
-	
 	public static void main(String[] args) throws Exception
 	{
-		System.out.println("I've actually done something! Will ya look at that.");
+		
+		//Test.runTests();
+		//end();
+		int len = 8192;
+		int primes = 70;
+		CryptoPrimeGenerator pg1 = new CryptoPrimeGenerator(4, len, primes);
+		//pg1.test();
+		
+		
+		CryptoPrimeGenerator pg2 = new CryptoPrimeGenerator(4, len, primes);
+		CryptoPrimeGenerator pg3 = new CryptoPrimeGenerator(4, len, primes);
+		CryptoPrimeGenerator pg4 = new CryptoPrimeGenerator(4, len, primes);
+		CryptoPrimeGenerator pg5 = new CryptoPrimeGenerator(4, len, primes);
+		CryptoPrimeGenerator pg6 = new CryptoPrimeGenerator(4, len, primes);
+		CryptoPrimeGenerator pg7 = new CryptoPrimeGenerator(4, len, primes);
+		CryptoPrimeGenerator pg8 = new CryptoPrimeGenerator(4, len, primes);
+		TaskMonitor mon = new CountdownMonitor(2);
+		UInt[] pa = new UInt[2];
+		ResultsCollector<UInt> rc = new ResultsCollector<UInt>(pa, 0);
+		GeneratorThread<UInt> t1 = new GeneratorThread<UInt>(pg1, rc, mon);
+		GeneratorThread<UInt> t2 = new GeneratorThread<UInt>(pg2, rc, mon);
+		GeneratorThread<UInt> t3 = new GeneratorThread<UInt>(pg3, rc, mon);
+		GeneratorThread<UInt> t4 = new GeneratorThread<UInt>(pg4, rc, mon);
+		GeneratorThread<UInt> t5 = new GeneratorThread<UInt>(pg5, rc, mon);
+		GeneratorThread<UInt> t6 = new GeneratorThread<UInt>(pg6, rc, mon);
+		GeneratorThread<UInt> t7 = new GeneratorThread<UInt>(pg7, rc, mon);
+		GeneratorThread<UInt> t8 = new GeneratorThread<UInt>(pg8, rc, mon);
+		t1.start();
+		t2.start();
+		t3.start();
+		t4.start();
+		t5.start();
+		t6.start();
+		t7.start();
+		t8.start();
+		mon.waitOn();
+		System.out.println(pa[0]);
+		System.out.println(pa[1]);
+		end();
+		Test.runTests();
+		Simon32 aria = new Simon32();
+		aria.setKey(KeySimon32.factory.random(new FastXorShift(3309), new CryptoString("96".toCharArray(), 0, 2, 's')));
+		byte[] bytes1 = Hex.fromHex("deadbeefbeefdeaddeadbeefbeefdead");
+		System.out.println(Hex.toHex(bytes1));
+		aria.encryptBlock(bytes1);
+		System.out.println(Hex.toHex(bytes1));
+		aria.decryptBlock(bytes1);
+		System.out.println(Hex.toHex(bytes1));
+		end();
+		
+		
+		/*
 		Test.runTests();
 		end();
-		CryptoPrimeGenerator<UInt> pg213 = new CryptoPrimeGenerator<UInt>(8, 512, UInt.ifactory, 50);
+		CryptoPrimeGenerator pg213 = new CryptoPrimeGenerator(8, 512, 50);
 		long t = System.currentTimeMillis();
 		for(int i = 0; i < 30; i++)
 		{
@@ -83,31 +111,20 @@ public final class Main {
 		}
 		System.out.println((System.currentTimeMillis() - t) / 1000);
 		//System.out.println(MathHelper.isPrimeProbableMR(u123, new XorShiftNG(), 64));
+		end();*/
+		Test.runTests();
 		end();
 		Test.runTests();
 		end();
-		CryptoPrimeGenerator<UInt> pg1 = new CryptoPrimeGenerator<UInt>(8, 512, UInt.ifactory, 1);
-		CryptoPrimeGenerator<UInt> pg2 = new CryptoPrimeGenerator<UInt>(8, 512, UInt.ifactory, 1);
-		TaskMonitor mon = new CountdownMonitor(2);
-		GeneratorThread<UInt> t1 = new GeneratorThread<UInt>(pg1, mon);
-		GeneratorThread<UInt> t2 = new GeneratorThread<UInt>(pg2, mon);
-		t1.start();
-		t2.start();
-		mon.waitOn();
-		System.out.println(t1.harvest());
-		System.out.println(t2.harvest());
-		end();
-		Test.runTests();
-		end();
-		CryptoPrimeGenerator<UInt> pg = new CryptoPrimeGenerator<UInt>(8, 512, UInt.ifactory, 50);
+		CryptoPrimeGenerator pg = new CryptoPrimeGenerator(8, 512, 50);
 		UInt u = pg.nextPrime();
 		System.out.println(u);
 		System.out.println(u.getBits());
 		System.out.println(MathHelper.isPrimeProbableMR(u, new XorShiftNG(), 64));
 		end();
 		System.out.println(MathHelper.getRealLength(new int[] { 0, 0, 0, 0 }));
-		StrongPrimeGenerator<UInt> p = new StrongPrimeGenerator<UInt>(8, new UInt(new CString(0x70000000L), 64), new UInt(new CString(0xFF0000000L), 64));
-		System.out.println(p.nextPrime());
+		//CryptoStrongPrimeGenerator<UInt> p = new CryptoStrongPrimeGenerator<UInt>(8, new UInt(new CString(0x70000000L), 64), new UInt(new CString(0xFF0000000L), 64));
+		//System.out.println(p.nextPrime());
 		long mod = 2648397443L;
 		long i = 2;
 		long j =  100;
@@ -200,7 +217,7 @@ public final class Main {
 		System.out.println(build.toString());
 	}
 	
-	public static void bearImage(int size, String name) throws IOException
+	/*public static void bearImage(int size, String name) throws IOException
 	{
 		int SAMPLE = size;
 		byte[] data = new byte[SAMPLE * SAMPLE * 3];
@@ -226,7 +243,7 @@ public final class Main {
 		File fi = new File(name);
 		BufferedImage i = ImageUtil.imageFromBytes(data, SAMPLE, SAMPLE);
 		ImageUtil.saveImage(i, fi);
-	}
+	}*/
 	
 	public static void convertByteString(String s)
 	{

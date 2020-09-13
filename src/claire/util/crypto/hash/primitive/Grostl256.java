@@ -22,12 +22,23 @@ public class Grostl256
 		return Hash.GROSTL256;
 	}
 
-	protected void output(byte[] out, int start)
+	protected void output(byte[] out, int start, int max)
 	{
-		Bits.BigEndian.longToBytes(A[4] ^ B[4], out, start     );
-		Bits.BigEndian.longToBytes(A[5] ^ B[5], out, start + 8 );
-		Bits.BigEndian.longToBytes(A[6] ^ B[6], out, start + 16);
-		Bits.BigEndian.longToBytes(A[7] ^ B[7], out, start + 24);
+		if(max > 24) {
+			Bits.BigEndian.longToBytes(A[4] ^ B[4], out, start     );
+			Bits.BigEndian.longToBytes(A[5] ^ B[5], out, start + 4 );
+			Bits.BigEndian.longToBytes(A[6] ^ B[6], out, start + 12);
+			Bits.BigEndian.longToBytes(A[7] ^ B[7], out, start + 20, max - 24);
+		} else if(max > 16) {
+			Bits.BigEndian.longToBytes(A[4] ^ B[4], out, start     );
+			Bits.BigEndian.longToBytes(A[5] ^ B[5], out, start + 4 );
+			Bits.BigEndian.longToBytes(A[6] ^ B[6], out, start + 12, max - 16);
+		} else if(max > 8) {
+			Bits.BigEndian.longToBytes(A[4] ^ B[4], out, start     );
+			Bits.BigEndian.longToBytes(A[5] ^ B[5], out, start + 4, max - 8);
+		} else {
+			Bits.BigEndian.longToBytes(A[4] ^ B[4], out, start, max);
+		}
 	}
 	
 	/*
@@ -48,6 +59,11 @@ public class Grostl256
 		i += IPersistable.test(state);
 		return i;
 	}
+
+	public String genString(char sep)
+	{
+		return "";
+	}
 	
 	public HashFactory<Grostl256> factory()
 	{
@@ -63,7 +79,7 @@ public class Grostl256
 		{
 			return new Grostl256();
 		}
-		
+
 	}
 
 

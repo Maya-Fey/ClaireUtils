@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import claire.util.crypto.hash.primitive.JHCore.JHState;
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.io.Factory;
 import claire.util.math.counters.LongCounter;
 import claire.util.memory.Bits;
@@ -116,7 +117,7 @@ abstract class JHCore<Hash extends JHCore<Hash>>
 	}
 	
 	protected abstract long[] getIV();
-	protected abstract void output(byte[] out, int start);
+	protected abstract void output(byte[] out, int start, int max);
 	
 	public void reset()
 	{
@@ -361,7 +362,7 @@ abstract class JHCore<Hash extends JHCore<Hash>>
 		STATE[15] ^= i8;
 	}
 
-	public void finalize(byte[] remaining, int pos, byte[] out, int start)
+	public void finalize(byte[] remaining, int pos, byte[] out, int start, int max)
 	{
 		counter.add(pos << 3);
 		Arrays.fill(remaining, pos, 64, (byte) 0);
@@ -373,7 +374,7 @@ abstract class JHCore<Hash extends JHCore<Hash>>
 		}
 		Bits.BigEndian.longToBytes(counters[0], remaining, 56);
 		processNext(remaining, 0);
-		output(out, start);
+		output(out, start, max);
 		reset();
 	}
 	

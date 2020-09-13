@@ -101,6 +101,11 @@ public class KeyTEA
 		{
 			return new KeyTEA(rand.readInts(4));
 		}
+
+		public int bytesRequired(CryptoString s)
+		{
+			return 16;
+		}
 		
 	}
 	

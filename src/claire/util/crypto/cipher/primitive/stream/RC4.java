@@ -3,6 +3,7 @@ package claire.util.crypto.cipher.primitive.stream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.cipher.key.stream.KeyRC4;
 import claire.util.crypto.cipher.primitive.stream.RC4.RC4State;
 import claire.util.crypto.rng.RandUtils;
@@ -24,6 +25,8 @@ public class RC4
 	
 	private int i = 0;
 	private int j = 0;
+	
+	public RC4() {}
 
 	public RC4(KeyRC4 key) 
 	{
@@ -249,6 +252,11 @@ public class RC4
 		RandUtils.fillArr(bytes);
 		RC4State state = new RC4State(bytes, RandUtils.dprng.nextIntGood(256), RandUtils.dprng.nextIntGood(256));
 		return IPersistable.test(state);
+	}
+
+	public KeyFactory<KeyRC4> keyFactory()
+	{
+		return KeyRC4.factory;
 	}
 	
 }

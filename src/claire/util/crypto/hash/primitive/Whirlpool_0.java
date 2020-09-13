@@ -1097,6 +1097,11 @@ public class Whirlpool_0
 		i += IPersistable.test(state);
 		return i;
 	}
+
+	public String genString(char sep)
+	{
+		return "";
+	}
 	
 	public HashFactory<Whirlpool_0> factory()
 	{
@@ -1112,7 +1117,7 @@ public class Whirlpool_0
 		{
 			return new Whirlpool_0();
 		}
-		
+
 	}
 	
 }

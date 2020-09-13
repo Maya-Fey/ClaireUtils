@@ -4,6 +4,8 @@ import java.math.BigInteger;
 
 import claire.util.crypto.rng.RandUtils;
 import claire.util.logging.Log;
+import claire.util.math.primitive.SInt;
+import claire.util.math.primitive.UInt;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.memory.util.Pointer;
@@ -11,6 +13,26 @@ import claire.util.standards.IInteger;
 import claire.util.standards.crypto.IRandom;
 
 public final class MathHelper {
+	
+	public static final int[] primes = new int[] {
+		  2,   3,   5,   7,  11,  13,  17,  19,  23,  29,
+		 31,  37,  41,  43,  47,  53,  59,  61,  67,  71,
+		 73,  79,  83,  89,  97, 101, 103, 107, 109, 113,
+		127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 
+		179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 
+		233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 
+		283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 
+		353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 
+		419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 
+		467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 
+		547, 557, 563, 569, 571, 577, 587, 593, 599, 601, 
+		607, 613, 617, 619, 631, 641, 643, 647, 653, 659, 
+		661, 673, 677, 683, 691, 701, 709, 719, 727, 733, 
+		739, 743, 751, 757, 761, 769, 773, 787, 797, 809, 
+		811, 821, 823, 827, 829, 839, 853, 857, 859, 863, 
+		877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 
+		947, 953, 967, 971, 977, 983, 991, 997
+	};
 	
 	/**
 	 * This method shifts an integer array right by <code>places</code> <i>bit
@@ -125,6 +147,28 @@ public final class MathHelper {
 			ArrayUtil.shiftRight(arr, bplaces);
 	}
 	
+	public static void shiftArrayRightBE(final int[] arr, int places, int len)
+	{
+		final int bplaces; 
+		if(places > 31) {
+			bplaces = places / 32;
+			places &= 31;
+		} else {
+			bplaces = 0;
+		}
+		
+		if(places > 0)
+		{
+			final int invplaces = 32 - places;
+			int start = len > arr.length - 1 ? arr.length - 1 : len;
+			while(start > 0)
+				arr[start] = (arr[start--] << places) | (arr[start] >>> invplaces);
+			arr[0] <<= places;
+		}
+		if(bplaces != 0)
+			ArrayUtil.shiftRight(arr, bplaces);
+	}
+	
 	/**
 	 * This method shifts an integer array left by <code>places</code> <i>bit
 	 * positions</i>. Not to be confused with the array rotation methods in <code>
@@ -231,10 +275,43 @@ public final class MathHelper {
 		return total + Bits.getMSB(arr[i]);
 	}
 	
+	public static void truncate(byte[] ints, int bits)
+	{
+		int i = bits / 8;
+		bits &= 7;
+		if(i < ints.length) {
+			ints[i] = Bits.truncate(ints[i++], bits);
+			while(i < ints.length)
+				ints[i++] = 0;
+		}
+	}
+	
+	public static void truncate(short[] ints, int bits)
+	{
+		int i = bits / 16;
+		bits &= 15;
+		if(i < ints.length) {
+			ints[i] = Bits.truncate(ints[i++], bits);
+			while(i < ints.length)
+				ints[i++] = 0;
+		}
+	}
+	
 	public static void truncate(int[] ints, int bits)
 	{
 		int i = bits / 32;
 		bits &= 31;
+		if(i < ints.length) {
+			ints[i] = Bits.truncate(ints[i++], bits);
+			while(i < ints.length)
+				ints[i++] = 0;
+		}
+	}
+	
+	public static void truncate(long[] ints, int bits)
+	{
+		int i = bits / 64;
+		bits &= 63;
 		if(i < ints.length) {
 			ints[i] = Bits.truncate(ints[i++], bits);
 			while(i < ints.length)
@@ -601,7 +678,7 @@ public final class MathHelper {
 	 * outside of claire.util.math, then you are doing something 
 	 * wrong.
 	 */
-	public static int mul1(int[] r1, int tlen, int mul)
+	public static void mul1(int[] r1, int tlen, int mul)
 	{
 		long carry = 0;
 		long mull = (mul & 0xFFFFFFFFL);
@@ -612,11 +689,8 @@ public final class MathHelper {
 			r1[k] = (int) carry;
 			carry >>>= 32;
 		}
-		if(k < r1.length && carry != 0) {
+		if(carry != 0) 
 			r1[k] = (int) carry;
-			carry = 0;
-		}
-		return (int) carry;
 	}
 	
 	/**

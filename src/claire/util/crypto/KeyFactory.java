@@ -11,6 +11,8 @@ public abstract class KeyFactory<Type>
 		super(class_);
 	}
 
-	public abstract Type random(IRandom<?, ?> rand, CryptoString s);
+	public abstract Type random(IRandom<?, ?> rand, CryptoString s) throws InstantiationException;
+
+	public abstract int bytesRequired(CryptoString s) throws InstantiationException;
 
 }

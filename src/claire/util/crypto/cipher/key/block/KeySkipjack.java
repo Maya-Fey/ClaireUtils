@@ -98,6 +98,11 @@ public class KeySkipjack
 			rand.readBytes(bytes);
 			return new KeySkipjack(bytes);
 		}
+
+		public int bytesRequired(CryptoString s)
+		{
+			return 10;
+		}
 		
 	}
 	

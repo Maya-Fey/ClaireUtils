@@ -33,9 +33,9 @@ public class BLAKE224
 		return IV;
 	}
 
-	protected void output(byte[] out, int start)
+	protected void output(byte[] out, int start, int max)
 	{
-		Bits.BigEndian.intsToBytes(STATE, 0, out, start, 7);
+		Bits.BigEndian.intsToSBytes(STATE, 0, out, start, 28 > max ? max : 28);
 	}
 
 	/*
@@ -57,6 +57,11 @@ public class BLAKE224
 		return i;
 	}
 
+	public String genString(char sep)
+	{
+		return "";
+	}
+	
 	public HashFactory<BLAKE224> factory()
 	{
 		return factory;

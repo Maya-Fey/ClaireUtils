@@ -43,5 +43,6 @@ public interface IState<Type extends IState<?>>
 	static int GROSTL_32 = 29;
 	static int GROSTL_64 = 30;
 	static int WHIRLPOOL = 31;
+	static int SALSA = 32;
 
 }

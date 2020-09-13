@@ -3,7 +3,8 @@ package claire.util.crypto.rng;
 import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 
-public class RandomStreamAdapter implements IIncomingStream {
+public class RandomStreamAdapter 
+	   implements IIncomingStream {
 
 	private final IRandom<?, ?> rand;
 	

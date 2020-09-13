@@ -1697,6 +1697,215 @@ public final class Base10 {
 	}
 	
 	/**
+	 * Converts an unsigned long integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A long integer of any value</li>
+	 * <li>An array of chars with a minimum length of twenty</li>
+	 * <li>The desired end of the number string</li>
+	 * <li>
+	 * </ul>
+	 * If the array has a length less then the Base10 representation of the passed integer an ArrayIndexOutOfBounds
+	 * exception may occur.
+	 * <br>
+	 * If <code>end</code> is greater than the length of the char array a <code>ArrayIndexOutOfBoundsException</code>
+	 * will most likely occur
+	 * <br><br>
+	 * Returns: the length of the number string
+	 */
+	public static int fromLong(long ger, final char[] chars, int end)
+	{
+		if(ger == 0x8000000000000000L) { 
+			chars[end--] = '8';
+			chars[end--] = '0';
+			chars[end--] = '8';
+			chars[end--] = '5';
+			chars[end--] = '7';
+			chars[end--] = '7';
+			chars[end--] = '4';
+			chars[end--] = '5';
+			chars[end--] = '8';
+			chars[end--] = '6';
+			chars[end--] = '3';
+			chars[end--] = '0';
+			chars[end--] = '2';
+			chars[end--] = '7';
+			chars[end--] = '3';
+			chars[end--] = '3';
+			chars[end--] = '2';
+			chars[end--] = '2';
+			chars[end--] = '9';
+			chars[end--] = '-';
+			return 20;
+		}			
+		final boolean negative;
+		int i = end;
+		if(ger < 0) 	
+			negative = true;
+		else {
+			ger = -ger;
+			negative = false;
+		}
+		while(ger <= -10)
+		{
+			chars[i--] = (char) (48 + (-ger % 10));
+			ger /= 10;
+		}
+		chars[i--] = (char) (48 + -ger);
+		if(negative)
+			chars[i--] = '-';
+		return end - i;
+	}
+
+	/**
+	 * Converts an unsigned long integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A long integer of any value</li>
+	 * <li>An array of chars with a minimum length of twenty</li>
+	 * <li>The desired end of the number string</li>
+	 * <li>
+	 * </ul>
+	 * If the array has a length less then the Base10 representation of the passed integer an ArrayIndexOutOfBounds
+	 * exception may occur.
+	 * <br>
+	 * If <code>end</code> is greater than the length of the char array a <code>ArrayIndexOutOfBoundsException</code>
+	 * will most likely occur
+	 * <br><br>
+	 * Returns: the length of the number string
+	 */
+	public static int fromInt(int ger, final char[] chars, int end)
+	{
+		if(ger == 0x80000000) {
+			chars[end--] = '8';
+			chars[end--] = '4';
+			chars[end--] = '6';
+			chars[end--] = '3';
+			chars[end--] = '8';
+			chars[end--] = '4';
+			chars[end--] = '7';
+			chars[end--] = '4';
+			chars[end--] = '1';
+			chars[end--] = '2';
+			chars[end--] = '-';
+			return 11;
+		}
+		final boolean negative;
+		int i = end;
+		if(ger < 0) 
+			negative = true;
+		else {
+			negative = false;
+			ger = -ger;
+		}
+		while(ger <= -10)
+		{
+			chars[i--] = (char) (48 + (-ger % 10));
+			ger /= 10;
+		}
+		chars[i--] = (char) (48 + -ger);
+		if(negative)
+			chars[i--] = '-';
+		return end - 1;
+	}
+
+	/**
+	 * Converts an unsigned long integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A long integer of any value</li>
+	 * <li>An array of chars with a minimum length of twenty</li>
+	 * <li>The desired end of the number string</li>
+	 * <li>
+	 * </ul>
+	 * If the array has a length less then the Base10 representation of the passed integer an ArrayIndexOutOfBounds
+	 * exception may occur.
+	 * <br>
+	 * If <code>end</code> is greater than the length of the char array a <code>ArrayIndexOutOfBoundsException</code>
+	 * will most likely occur
+	 * <br><br>
+	 * Returns: the length of the number string
+	 */
+	public static int fromShort(short ger, final char[] chars, int end)
+	{
+		if(ger == 0x8000) {
+			chars[end--] = '8';
+			chars[end--] = '6';
+			chars[end--] = '7';
+			chars[end--] = '2';
+			chars[end--] = '3';
+			chars[end--] = '-';
+			return 6;
+		}
+		final boolean negative;
+		int i = end;
+		if(ger < 0) 	
+			negative = true;
+		else {
+			negative = false;
+			ger = (short) -ger;
+		}
+		while(ger <= -10)
+		{
+			chars[i--] = (char) (48 + (-ger % 10));
+			ger /= 10;
+		}
+		chars[i--] = (char) (48 + -ger);
+		if(negative)
+			chars[i--] = '-';
+		return end - i;
+	}
+
+	/**
+	 * Converts an unsigned long integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A long integer of any value</li>
+	 * <li>An array of chars with a minimum length of twenty</li>
+	 * <li>The desired end of the number string</li>
+	 * <li>
+	 * </ul>
+	 * If the array has a length less then the Base10 representation of the passed integer an ArrayIndexOutOfBounds
+	 * exception may occur.
+	 * <br>
+	 * If <code>end</code> is greater than the length of the char array a <code>ArrayIndexOutOfBoundsException</code>
+	 * will most likely occur
+	 * <br><br>
+	 * Returns: the length of the number string
+	 */
+	public static int fromByte(byte ger, final char[] chars, int end)
+	{
+		if(ger == 0x80) {
+			chars[end--] = '8';
+			chars[end--] = '2';
+			chars[end--] = '1';
+			chars[end--] = '-';
+			return 4;
+		}
+		final boolean negative;
+		int i = end;
+		if(ger < 0) 
+			negative = true;
+		else {
+			negative = false;
+			ger = (byte) -ger;
+		}
+		while(ger <= -10)
+		{
+			chars[i--] = (char) (48 + (-ger % 10));
+			ger /= 10;
+		}
+		chars[i--] = (char) (48 + -ger);
+		if(negative)
+			chars[i--] = '-';
+		return end - i;
+	}
+	
+	/**
 	 * Converts a long integer too a string of chars representing it.
 	 * <br><br>
 	 * Expects:
@@ -1984,6 +2193,134 @@ public final class Base10 {
 		if(negative)
 			chars[i--] = '-';
 		return CString.newFrom(chars, ++i);
+	}
+	
+	/**
+	 * Converts an unsigned long integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A long integer of any value</li>
+	 * <li>An array of chars with a minimum length of twenty</li>
+	 * <li>The desired end of the number string</li>
+	 * <li>
+	 * </ul>
+	 * If the array has a length less then the Base10 representation of the passed integer an ArrayIndexOutOfBounds
+	 * exception may occur.
+	 * <br>
+	 * If <code>end</code> is greater than the length of the char array a <code>ArrayIndexOutOfBoundsException</code>
+	 * will most likely occur
+	 * <br><br>
+	 * Returns: the length of the number string
+	 */
+	public static int fromLongUn(long ger, final char[] chars, int end)
+	{
+		int i = chars.length - 1;
+		if(ger < 10) {
+			Pointer<Long> p = new Pointer<Long>(0L);
+			ger = MathHelper.dividemodC(ger, 10, p);
+			chars[i--] = (char) (48 + p.get());
+		}
+		while(ger > 10)
+		{
+			chars[i--] = (char) (48 + (ger % 10));
+			ger /= 10;
+		}
+		chars[i--] = (char) (48 + ger);
+		return end - i;
+	}
+
+	/**
+	 * Converts an unsigned integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A long integer of any value</li>
+	 * <li>An array of chars with a minimum length of twenty</li>
+	 * <li>The desired end of the number string</li>
+	 * <li>
+	 * </ul>
+	 * If the array has a length less then the Base10 representation of the passed integer an ArrayIndexOutOfBounds
+	 * exception may occur.
+	 * <br>
+	 * If <code>end</code> is greater than the length of the char array a <code>ArrayIndexOutOfBoundsException</code>
+	 * will most likely occur
+	 * <br><br>
+	 * Returns: the length of the number string
+	 */
+	public static int fromIntUn(int uger, final char[] chars, int end)
+	{
+		int i = end;
+		long ger = uger;
+		while(ger >= 10)
+		{
+			chars[i--] = (char) (48 + (ger % 10));
+			ger /= 10;
+		}
+		chars[i--] = (char) (48 + ger);
+		return end - i;
+	}
+
+	/**
+	 * Converts an unsigned integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A long integer of any value</li>
+	 * <li>An array of chars with a minimum length of twenty</li>
+	 * <li>The desired end of the number string</li>
+	 * <li>
+	 * </ul>
+	 * If the array has a length less then the Base10 representation of the passed integer an ArrayIndexOutOfBounds
+	 * exception may occur.
+	 * <br>
+	 * If <code>end</code> is greater than the length of the char array a <code>ArrayIndexOutOfBoundsException</code>
+	 * will most likely occur
+	 * <br><br>
+	 * Returns: the length of the number string
+	 */
+	public static int fromShortUn(short uger, final char[] chars, int end)
+	{
+		int ger = (short) (uger & 0xFFFF);
+		int i = end;
+		while(ger >= 10)
+		{
+			chars[i--] = (char) (48 + (ger % 10));
+			ger /= 10;
+		}
+		chars[i--] = (char) (48 + ger);
+		return end - i;
+	}
+
+	/**
+	 * Converts an unsigned integer too a string of chars representing it.
+	 * <br><br>
+	 * Expects:
+	 * <ul>
+	 * <li>A long integer of any value</li>
+	 * <li>An array of chars with a minimum length of twenty</li>
+	 * <li>The desired end of the number string</li>
+	 * <li>
+	 * </ul>
+	 * If the array has a length less then the Base10 representation of the passed integer an ArrayIndexOutOfBounds
+	 * exception may occur.
+	 * <br>
+	 * If <code>end</code> is greater than the length of the char array a <code>ArrayIndexOutOfBoundsException</code>
+	 * will most likely occur
+	 * <br><br>
+	 * Returns: the length of the number string
+	 */
+	public static int fromByteUn(byte uger, final char[] chars, int end)
+	{
+		short ger = (short) (uger & 0xFF);
+		int i = end;
+		while(ger >= 10)
+		{
+			chars[i--] = (char) (48 + (ger % 10));
+			ger /= 10;
+		}
+		chars[i--] = (char) (48 + ger);
+		return end - i;
 	}
 	
 	/**

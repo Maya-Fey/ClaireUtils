@@ -48,13 +48,13 @@ public abstract class MerkleHash<State extends MerkleState<State, ?>, Hash exten
 	}
 	
 	public abstract void processNext(byte[] bytes, int offset);
-	public abstract void finalize(byte[] remaining, int pos, byte[] out, int start);
+	public abstract void finalize(byte[] remaining, int pos, byte[] out, int start, int max);
 	public abstract void loadCustom(State state);
 
-	public void finish(byte[] out, int start)
+	public void finish(byte[] out, int start, int max)
 	{
 		try {
-			this.finalize(temp, pos, out, start);
+			this.finalize(temp, pos, out, start, max);
 		} finally {
 			pos = 0;
 		}

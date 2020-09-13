@@ -39,9 +39,9 @@ public class JH512
 		return IV;
 	}
 
-	protected void output(byte[] out, int start)
+	protected void output(byte[] out, int start, int max)
 	{
-		Bits.BigEndian.longsToBytes(STATE, 10, out, start, 4);
+		Bits.BigEndian.longsToSBytes(STATE, 8, out, start, 64 > max ? max : 64);
 	}
 	
 	/*
@@ -62,6 +62,11 @@ public class JH512
 		i += IPersistable.test(state);
 		return i;
 	}
+
+	public String genString(char sep)
+	{
+		return "";
+	}
 	
 	public HashFactory<JH512> factory()
 	{
@@ -77,7 +82,7 @@ public class JH512
 		{
 			return new JH512();
 		}
-		
+
 	}
 
 }

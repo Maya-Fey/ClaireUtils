@@ -90,6 +90,11 @@ public class LongSeed
 		{
 			return new LongSeed(rand.readLong());
 		}
+
+		public int bytesRequired(CryptoString s)
+		{
+			return 8;
+		}
 		
 	}
 	

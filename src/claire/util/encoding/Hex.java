@@ -87,6 +87,11 @@ public final class Hex {
 		}
 	}
 	
+	public static byte hexToNibble(char c)
+	{
+		return (byte) ((c <= '9') ? c - '0' : c - 'W');
+	}
+	
 	public static CString toHexCString(byte[] bytes)
 	{
 		return new CString(toHex(bytes));
@@ -139,6 +144,26 @@ public final class Hex {
 	public static CString toHexCStr(byte b)
 	{
 		return new CString(toHex(b));
+	}
+	
+	public static boolean isHex(char[] chars, int start, int len)
+	{
+		while(len-- > 0) {
+			char c = chars[start++];
+			if((c < '0' || c > 'f') || (c > '9' && c < 'a'))
+				return false;
+		}
+		return true;
+	}
+	
+	public static boolean isHex(String s)
+	{
+		for(int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			if((c < '0' || c > 'f') || (c > '9' && c < 'a'))
+				return false;
+		}
+		return true;
 	}
 
 }

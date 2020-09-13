@@ -5,7 +5,7 @@ import java.io.IOException;
 import claire.util.crypto.CryptoString;
 import claire.util.crypto.KeyFactory;
 import claire.util.math.MathHelper;
-import claire.util.math.UInt;
+import claire.util.math.primitive.UInt;
 import claire.util.memory.Bits;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IRandom;

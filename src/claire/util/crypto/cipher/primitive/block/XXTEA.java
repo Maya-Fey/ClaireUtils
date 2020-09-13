@@ -1,5 +1,6 @@
 package claire.util.crypto.cipher.primitive.block;
 
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.cipher.key.block.KeyXXTEA;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -15,6 +16,8 @@ public class XXTEA
 	
 	private int words;
 	private int rounds;
+	
+	public XXTEA() {}
 
 	public XXTEA(KeyXXTEA key)
 	{
@@ -164,5 +167,10 @@ public class XXTEA
 		KeyXXTEA a2 = new KeyXXTEA(ints2, 6);
 		XXTEA aes = new XXTEA(a1);
 		return ISymmetric.testSymmetric(aes, a2);
+	}
+
+	public KeyFactory<KeyXXTEA> keyFactory()
+	{
+		return KeyXXTEA.factory;
 	}
 }

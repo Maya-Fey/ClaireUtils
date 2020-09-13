@@ -5,6 +5,7 @@ import claire.util.standards.io.ILogger;
 
 public class Log {
 	
+	public static ILogger debug;
 	public static ILogger info;
 	public static ILogger warn;
 	public static ILogger err;
@@ -16,11 +17,13 @@ public class Log {
 	static
 	{
 		setOut(new StandardOut());
+		manager.addLogListener(new StandardOutListener());
 	}
 	
 	public static final void setOut(ILogManager manager)
 	{
 		Log.manager = manager;
+		debug = manager.getDebug();
 		info = manager.getInfo();
 		warn = manager.getWarning();
 		err = manager.getError();
@@ -32,6 +35,21 @@ public class Log {
 		return manager;
 	}
 	
+	public static final void setLogLevel(int level)
+	{
+		manager.setLogLevel(level);
+	}
+	
+	public static final void addLogListener(ILogListener listener)
+	{
+		manager.addLogListener(listener);
+	}
+	
+	public static final void remLogListener(ILogListener listener)
+	{
+		manager.remLogListener(listener);
+	}
+	
 	public static void setVersion(Version version)
 	{
 		Log.version = version;
@@ -41,5 +59,7 @@ public class Log {
 	{
 		return Log.version;
 	}
+	
+	
 
 }

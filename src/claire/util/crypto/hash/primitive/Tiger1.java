@@ -40,6 +40,11 @@ public class Tiger1
 		i += IPersistable.test(state);
 		return i;
 	}
+
+	public String genString(char sep)
+	{
+		return "";
+	}
 	
 	public HashFactory<Tiger1> factory()
 	{
@@ -55,7 +60,7 @@ public class Tiger1
 		{
 			return new Tiger1();
 		}
-		
+
 	}
 
 }

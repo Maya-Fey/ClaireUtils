@@ -200,7 +200,7 @@ public final class RIPEMD256
 				
 	}
 
-	public void finalize(byte[] remaining, int pos, byte[] out, int start)
+	public void finalize(byte[] remaining, int pos, byte[] out, int start, int max)
 	{
 		byte[] bytes = new byte[64];
 		System.arraycopy(remaining, 0, bytes, 0, pos);
@@ -213,7 +213,7 @@ public final class RIPEMD256
 		}
 		Bits.longToBytes(length << 3, bytes, 56);
 		processNext(bytes, 0);
-		Bits.intsToBytes(STATE, 0, out, start);
+		Bits.intsToSBytes(STATE, 0, out, start, 32 > max ? max : 32);
 		reset();
 	}
 	
@@ -357,7 +357,12 @@ public final class RIPEMD256
 		i += IPersistable.test(state);
 		return i;
 	}
-
+	
+	public String genString(char sep)
+	{
+		return "";
+	}
+	
 	public HashFactory<RIPEMD256> factory()
 	{
 		return factory;
@@ -372,7 +377,7 @@ public final class RIPEMD256
 		{
 			return new RIPEMD256();
 		}
-		
+
 	}
 	
 }

@@ -2,12 +2,12 @@ package claire.util.standards.genetic;
 
 import java.util.concurrent.CountDownLatch;
 
-import claire.util.memory.array.CArray;
+import claire.util.memory.array.IJArray;
 
 public class TestThread extends Thread {
 	
 	private static final TestThread[] threads = new TestThread[2];
-	private static CArray<ICompetitor> array;
+	private static IJArray<ICompetitor> array;
 	private static final long[] results = new long[100];
 	private final int[] range;
 	private boolean go = true;
@@ -48,7 +48,7 @@ public class TestThread extends Thread {
 		}
 	}
 
-	public static void init(CArray<ICompetitor> array)
+	public static void init(IJArray<ICompetitor> array)
 	{
 		TestThread.array = array;
 		monitor = new CountDownLatch(2);

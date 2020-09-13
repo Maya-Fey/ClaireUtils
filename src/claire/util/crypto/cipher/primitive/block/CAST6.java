@@ -2,6 +2,7 @@ package claire.util.crypto.cipher.primitive.block;
 
 import java.util.Arrays;
 
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.cipher.key.block.KeyCAST6;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -17,6 +18,8 @@ public class CAST6
 	
 	private int[] KMASK;
 	private int[] KROT;
+	
+	public CAST6() {}
 	
 	public CAST6(KeyCAST6 key)
 	{
@@ -234,6 +237,11 @@ public class CAST6
 		KeyCAST6 a2 = new KeyCAST6(bytes2, 12);
 		CAST6 aes = new CAST6(a1);
 		return ISymmetric.testSymmetric(aes, a2);
+	}
+
+	public KeyFactory<KeyCAST6> keyFactory()
+	{
+		return KeyCAST6.factory;
 	}
 	
 }

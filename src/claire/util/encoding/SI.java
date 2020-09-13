@@ -67,7 +67,7 @@ public class SI
 				}
 		} catch(Exception ex) {
 			Log.err.println(ex.getClass().getSimpleName() + ": " + ex.getMessage() + " encountered while testing SI.java");
-			Log.err.println((Object[]) ex.getStackTrace());
+			Log.err.printStackTrace(ex.getStackTrace());
 			return e + 1;
 		}
 		return e;

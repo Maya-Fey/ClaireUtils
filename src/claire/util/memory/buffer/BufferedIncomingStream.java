@@ -98,23 +98,23 @@ public class BufferedIncomingStream
 	public int readInt() throws IOException
 	{
 		ensure(4);
-		return (int) (((buffer[pos++] & 0x00FF))       |
-			          ((buffer[pos++] & 0x00FF) << 8 ) |
-			          ((buffer[pos++] & 0x00FF) << 16) |
-			          ((buffer[pos++] & 0x00FF) << 24));
+		return ((buffer[pos++] & 0x00FF))       |
+			   ((buffer[pos++] & 0x00FF) << 8 ) |
+			   ((buffer[pos++] & 0x00FF) << 16) |
+			   ((buffer[pos++] & 0x00FF) << 24);
 	}
 
 	public long readLong() throws IOException
 	{
 		ensure(8);
-		return (long) (((buffer[pos++] & 0x00FF))       |
-			           ((buffer[pos++] & 0x00FF) << 8 ) |
-			           ((buffer[pos++] & 0x00FF) << 16) |
-			           ((buffer[pos++] & 0x00FF) << 24) |
-			           ((buffer[pos++] & 0x00FF) << 32) |
-			           ((buffer[pos++] & 0x00FF) << 40) |
-			           ((buffer[pos++] & 0x00FF) << 48) |
-			           ((buffer[pos++] & 0x00FF) << 56));
+		return ((buffer[pos++] & 0x00FF))       |
+			   ((buffer[pos++] & 0x00FF) << 8 ) |
+			   ((buffer[pos++] & 0x00FF) << 16) |
+			   ((buffer[pos++] & 0x00FF) << 24) |
+			   ((buffer[pos++] & 0x00FF) << 32) |
+			   ((buffer[pos++] & 0x00FF) << 40) |
+			   ((buffer[pos++] & 0x00FF) << 48) |
+			   ((buffer[pos++] & 0x00FF) << 56);
 	}
 
 	public void readBools(boolean[] out, int off, int amt) throws IOException

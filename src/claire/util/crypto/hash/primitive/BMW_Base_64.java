@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import claire.util.crypto.hash.primitive.BMW_Base_64.BMW_64State;
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
@@ -54,7 +55,7 @@ abstract class BMW_Base_64<Hash extends BMW_Base_64<Hash>>
 	}
 
 	protected abstract long[] getIV();
-	protected abstract void output(byte[] out, int start);
+	protected abstract void output(byte[] out, int start, int max);
 	
 	public void reset()
 	{
@@ -236,7 +237,7 @@ abstract class BMW_Base_64<Hash extends BMW_Base_64<Hash>>
 		compress(BLOCK);
 	}
 
-	public void finalize(byte[] remaining, int pos, byte[] out, int start)
+	public void finalize(byte[] remaining, int pos, byte[] out, int start, int max)
 	{
 		counter += pos << 3;
 		Arrays.fill(remaining, pos, 128, (byte) 0);
@@ -251,7 +252,7 @@ abstract class BMW_Base_64<Hash extends BMW_Base_64<Hash>>
 		System.arraycopy(STATE, 0, BLOCK, 0, 16);
 		System.arraycopy(last, 0, STATE, 0, 16);
 		compress(BLOCK);
-		output(out, start);
+		output(out, start, max);
 		reset();
 	}
 	

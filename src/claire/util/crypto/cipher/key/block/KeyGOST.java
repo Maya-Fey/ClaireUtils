@@ -3,14 +3,16 @@ package claire.util.crypto.cipher.key.block;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.rng.RandUtils;
-import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IDeepClonable;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -122,14 +124,14 @@ public class KeyGOST
 		return 33 + (hasS ? 64 : 0);
 	}
 
-	public Factory<KeyGOST> factory()
+	public KeyFactory<KeyGOST> factory()
 	{
 		return factory;
 	}
 	
-	private static final KeyGOSTFactory factory = new KeyGOSTFactory();
+	public static final KeyGOSTFactory factory = new KeyGOSTFactory();
 
-	public static final class KeyGOSTFactory extends Factory<KeyGOST> {
+	public static final class KeyGOSTFactory extends KeyFactory<KeyGOST> {
 
 		protected KeyGOSTFactory() 
 		{
@@ -155,6 +157,26 @@ public class KeyGOST
 				return new KeyGOST(key, stream.readNibbles(128));
 			else
 				return new KeyGOST(key);
+		}
+
+		public KeyGOST random(IRandom<?, ?> rand, CryptoString s)
+		{
+			int[] key = rand.readInts(8);
+			if(s.args() > 0 && s.nextArg().equals("SBOX")) {
+				byte[] sbox = new byte[256];
+				for(int i = 0; i < 256; i++)
+					sbox[i] = (byte) (rand.readByte() & 0xF);
+				return new KeyGOST(key, sbox);
+			} else
+				return new KeyGOST(key);
+		}
+		
+		public int bytesRequired(CryptoString s)
+		{
+			if(s.args() > 0 && s.nextArg().equals("SBOX"))
+				return 256 + 64;
+			else
+				return 64;
 		}
 		
 	}

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import claire.util.crypto.hash.primitive.Grostl_Base_64.Grostl64State;
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
@@ -386,9 +387,9 @@ abstract class Grostl_Base_64<Hash extends Grostl_Base_64<Hash>>
 			A[i] ^= B[i] ^ C[i];
 	}
 
-	protected abstract void output(byte[] remaining, int pos);
+	protected abstract void output(byte[] remaining, int pos, int max);
 	
-	public void finalize(byte[] remaining, int pos, byte[] out, int start)
+	public void finalize(byte[] remaining, int pos, byte[] out, int start, int max)
 	{
 		Arrays.fill(remaining, pos, 128, (byte) 0);
 		remaining[pos] = (byte) 0x80;
@@ -402,7 +403,7 @@ abstract class Grostl_Base_64<Hash extends Grostl_Base_64<Hash>>
 		processNext(remaining, 0, false);
 		System.arraycopy(A, 0, B, 0, 16);
 		P1();
-		output(out, start);
+		output(out, start, max);
 		reset();
 	}
 	

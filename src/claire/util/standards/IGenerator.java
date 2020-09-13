@@ -1,7 +1,9 @@
 package claire.util.standards;
 
+import claire.util.concurrency.gen.TaskMonitor;
+
 public interface IGenerator<Type> {
 
-	Type generate();
+	Type generate(TaskMonitor mon);
 	
 }

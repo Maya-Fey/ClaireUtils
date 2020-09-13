@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import claire.util.crypto.hash.primitive.BLAKE_Base_32.BLAKE_32State;
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.io.Factory;
 import claire.util.math.counters.IntCounter;
 import claire.util.memory.Bits;
@@ -37,7 +38,7 @@ abstract class BLAKE_Base_32<Hash extends BLAKE_Base_32<Hash>>
 	}
 	
 	protected abstract int[] getIV();
-	protected abstract void output(byte[] out, int start);
+	protected abstract void output(byte[] out, int start, int max);
 	
 	public void reset()
 	{
@@ -165,7 +166,7 @@ abstract class BLAKE_Base_32<Hash extends BLAKE_Base_32<Hash>>
 		STATE[7] ^= H ^ P;
 	}
 
-	public void finalize(byte[] remaining, int pos, byte[] out, int start)
+	public void finalize(byte[] remaining, int pos, byte[] out, int start, int max)
 	{
 		counter.add(pos << 3);
 		Arrays.fill(remaining, pos, 64, (byte) 0);
@@ -182,7 +183,7 @@ abstract class BLAKE_Base_32<Hash extends BLAKE_Base_32<Hash>>
 		Bits.BigEndian.intToBytes(c1, remaining, 56);
 		Bits.BigEndian.intToBytes(c2, remaining, 60);
 		processNext(remaining, 0, false);
-		this.output(out, start);
+		this.output(out, start, max);
 		reset();
 	}
 	

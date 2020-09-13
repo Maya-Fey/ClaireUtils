@@ -141,6 +141,11 @@ public class KeyIBAA implements IKey<KeyIBAA> {
 			rand.readInts(key);
 			return new KeyIBAA(key);
 		}
+
+		public int bytesRequired(CryptoString s)
+		{
+			return 1024;
+		}
 	}
 	
 	public static final int test()

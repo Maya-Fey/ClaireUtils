@@ -122,6 +122,11 @@ public class KeyFEAL
 			return new KeyFEAL(bytes, rounds);
 		}
 		
+		public int bytesRequired(CryptoString s)
+		{
+			return 12;
+		}
+		
 	}
 	
 	public static final int test()

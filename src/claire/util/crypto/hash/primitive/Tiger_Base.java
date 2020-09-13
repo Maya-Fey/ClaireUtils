@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.crypto.hash.primitive.Tiger_Base.TigerState;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
@@ -401,7 +402,7 @@ abstract class Tiger_Base<Hash extends Tiger_Base<Hash>>
         R3 += C;
 	}
 
-	public void finalize(byte[] remaining, int pos, byte[] out, int start)
+	public void finalize(byte[] remaining, int pos, byte[] out, int start, int max)
 	{
 		byte[] bytes = new byte[64];
 		System.arraycopy(remaining, 0, bytes, 0, pos);
@@ -414,9 +415,15 @@ abstract class Tiger_Base<Hash extends Tiger_Base<Hash>>
 		}
 		Bits.longToBytes(total << 3, bytes, 56);
 		processNext(bytes, 0);
-		Bits.longToBytes(R1, out, start);
-		Bits.longToBytes(R2, out, start + 8);
-		Bits.longToBytes(R3, out, start + 16);
+		if(max > 12) {
+			Bits.longToBytes(R1, out, start);
+			Bits.longToBytes(R2, out, start + 8);
+			Bits.longToBytes(R3, out, start + 16, max - 16);
+		} else if(max > 6) {
+			Bits.longToBytes(R1, out, start);
+			Bits.longToBytes(R2, out, start + 8, max - 8);
+		} else 
+			Bits.longToBytes(R1, out, start, max);
 		reset();
 	}
 	

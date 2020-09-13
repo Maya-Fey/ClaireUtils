@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import claire.util.crypto.hash.primitive.BMW_Base_32.BMW_32State;
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.io.Factory;
 import claire.util.math.counters.IntCounter;
 import claire.util.memory.Bits;
@@ -39,7 +40,7 @@ abstract class BMW_Base_32<Hash extends BMW_Base_32<Hash>>
 	}
 
 	protected abstract int[] getIV();
-	protected abstract void output(byte[] out, int start);
+	protected abstract void output(byte[] out, int start, int max);
 	
 	public void reset()
 	{
@@ -472,7 +473,7 @@ abstract class BMW_Base_32<Hash extends BMW_Base_32<Hash>>
 		compress(BLOCK);
 	}
 
-	public void finalize(byte[] remaining, int pos, byte[] out, int start)
+	public void finalize(byte[] remaining, int pos, byte[] out, int start, int max)
 	{
 		counter.add(pos << 3);
 		Arrays.fill(remaining, pos, 64, (byte) 0);
@@ -488,7 +489,7 @@ abstract class BMW_Base_32<Hash extends BMW_Base_32<Hash>>
 		System.arraycopy(STATE, 0, BLOCK, 0, 16);
 		System.arraycopy(last, 0, STATE, 0, 16);
 		compress(BLOCK);
-		output(out, start);
+		output(out, start, max);
 		reset();
 	}
 	

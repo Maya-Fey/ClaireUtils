@@ -39,10 +39,11 @@ public class JH384
 		return IV;
 	}
 
-	protected void output(byte[] out, int start)
+	//TODO: Check this output
+	protected void output(byte[] out, int start, int max)
 	{
 		//System.out.println(EncodingUtil.hexString(Bits.BigEndian.longsToBytes(STATE)));
-		Bits.BigEndian.longsToBytes(STATE, 10, out, start, 4);
+		Bits.BigEndian.longsToSBytes(STATE, 10, out, start, 48 > max ? max : 48);
 	}
 	
 	/*
@@ -63,6 +64,11 @@ public class JH384
 		i += IPersistable.test(state);
 		return i;
 	}
+
+	public String genString(char sep)
+	{
+		return "";
+	}
 	
 	public HashFactory<JH384> factory()
 	{
@@ -78,7 +84,7 @@ public class JH384
 		{
 			return new JH384();
 		}
-		
+
 	}
 
 }

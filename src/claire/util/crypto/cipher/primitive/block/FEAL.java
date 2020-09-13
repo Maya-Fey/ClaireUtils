@@ -2,6 +2,7 @@ package claire.util.crypto.cipher.primitive.block;
 
 import java.util.Arrays;
 
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.cipher.key.block.KeyFEAL;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -20,6 +21,8 @@ public class FEAL
 	protected KeyFEAL key;
 	private int rounds;
 	private int estart;
+	
+	public FEAL() {}
 	
 	public FEAL(KeyFEAL key)
 	{
@@ -343,6 +346,11 @@ public class FEAL
 		KeyFEAL a2 = new KeyFEAL(bytes2, 48);
 		FEAL aes = new FEAL(a1);
 		return ISymmetric.testSymmetric(aes, a2);
+	}
+
+	public KeyFactory<KeyFEAL> keyFactory()
+	{
+		return KeyFEAL.factory;
 	}
 
 }

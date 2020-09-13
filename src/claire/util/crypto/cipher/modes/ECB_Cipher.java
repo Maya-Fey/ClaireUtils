@@ -1,5 +1,6 @@
 package claire.util.crypto.cipher.modes;
 
+import claire.util.crypto.KeyFactory;
 import claire.util.standards.crypto.IKey;
 import claire.util.standards.crypto.ISymmetric;
 
@@ -17,6 +18,11 @@ public class ECB_Cipher<Key extends IKey<Key>, Cipher extends ISymmetric<Key>>
 	{
 		enc.reset();
 		dec.reset();
+	}
+	
+	public KeyFactory<Key> keyFactory()
+	{
+		return this.cipher.keyFactory();
 	}
 
 }

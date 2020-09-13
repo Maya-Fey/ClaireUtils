@@ -3,15 +3,18 @@ package claire.util.crypto.cipher.key.block;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.rng.RandUtils;
-import claire.util.io.Factory;
 import claire.util.io.IOUtils;
+import claire.util.math.MathHelper;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IDeepClonable;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -76,14 +79,14 @@ public class KeyRC5
 		return bytes.length + 8;
 	}
 
-	public Factory<KeyRC5> factory()
+	public KeyFactory<KeyRC5> factory()
 	{
 		return factory;
 	}
 
-	private static final KeyRC5Factory factory = new KeyRC5Factory();
+	public static final KeyRC5Factory factory = new KeyRC5Factory();
 
-	private static final class KeyRC5Factory extends Factory<KeyRC5> {
+	private static final class KeyRC5Factory extends KeyFactory<KeyRC5> {
 
 		protected KeyRC5Factory()
 		{
@@ -100,6 +103,43 @@ public class KeyRC5
 		{
 			int rounds = stream.readInt();
 			return new KeyRC5(stream.readByteArr(), rounds);
+		}
+
+		public KeyRC5 random(IRandom<?, ?> rand, CryptoString s) throws InstantiationException
+		{
+			int rounds = 12;
+			int len = 128;
+			if(s.args() > 0) {
+				rounds = s.nextArg().toInt();
+				if(rounds < 1)
+					throw new java.lang.InstantiationException("RC5 requires at least one round");
+				if(rounds > 255)
+					throw new java.lang.InstantiationException("RC5 has a maximum of 255 rounds");
+				if(s.args() > 1) {
+					len = s.nextArg().toInt();
+					if(len < 1) 
+						throw new java.lang.InstantiationException("RC5 requires at least one key bit");
+					if(len > 2048) 
+						throw new java.lang.InstantiationException("RC5 has a maximum key length of 2048 bits");
+				}
+			}
+			byte[] bytes = new byte[((len - 1) / 8) + 1];
+			rand.readBytes(bytes);
+			MathHelper.truncate(bytes, len);
+			return new KeyRC5(bytes, rounds);
+		}
+
+		public int bytesRequired(CryptoString s)
+		{
+			int len = 128;
+			if(s.args() > 1) {
+				len = s.nextArg().toInt();
+				if(len < 1) 
+					throw new java.lang.IllegalArgumentException("RC5 requires at least one key bit");
+				if(len > 2048) 
+					throw new java.lang.IllegalArgumentException("RC5 has a maximum key length of 2048 bits");
+			}
+			return ((len - 1) / 8) + 1;
 		}
 		
 	}

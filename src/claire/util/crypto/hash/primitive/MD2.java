@@ -99,15 +99,15 @@ public class MD2
 		}
 	}
 	
-	public void finalize(byte[] remaining, int pos, byte[] out, final int start)
+	public void finalize(byte[] remaining, int pos, byte[] out, final int start, int max)
 	{
-		System.arraycopy(remaining, 0, out, start, pos);
+		///System.arraycopy(remaining, 0, out, start, pos);
 		for(int i = pos + start; i < (16 + start); i++)
-			out[i] = (byte) (16 - pos);
-		processNext(out, start);
-		System.arraycopy(checksum, 0, out, start, 16);
-		processNext(out, start);
-		System.arraycopy(state, 0, out, start, 16);
+			remaining[i] = (byte) (16 - pos);
+		processNext(remaining, start);
+		System.arraycopy(checksum, 0, remaining, start, 16);
+		processNext(remaining, start);
+		System.arraycopy(state, 0, out, start, 16 > max ? max : 16);
 		reset();
 	}
 	
@@ -255,6 +255,11 @@ public class MD2
 		IState state = blake.getState();
 		i += IPersistable.test(state);
 		return i;
+	}
+	
+	public String genString(char sep)
+	{
+		return "";
 	}
 	
 	public HashFactory<MD2> factory()

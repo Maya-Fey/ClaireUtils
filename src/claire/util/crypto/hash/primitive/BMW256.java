@@ -35,9 +35,9 @@ public class BMW256
 		return IV;
 	}
 
-	protected void output(byte[] out, int start)
+	protected void output(byte[] out, int start, int max)
 	{
-		Bits.intsToBytes(STATE, 8, out, start, 8);
+		Bits.intsToSBytes(STATE, 8, out, start, 32 > max ? max : 32);
 	}
 	
 	/*
@@ -58,6 +58,11 @@ public class BMW256
 		i += IPersistable.test(state);
 		return i;
 	}
+
+	public String genString(char sep)
+	{
+		return "";
+	}
 	
 	public HashFactory<BMW256> factory()
 	{
@@ -73,7 +78,7 @@ public class BMW256
 		{
 			return new BMW256();
 		}
-		
+
 	}
 
 }

@@ -1,5 +1,6 @@
 package claire.util.crypto.cipher.primitive.block;
 
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.cipher.key.block.KeyTEA;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -14,6 +15,8 @@ public class TEA
 	protected static final int DELTA = 0x9e3779b9;
 	
 	private static final int PRSUM = 0xc6ef3720;
+	
+	public TEA() {}
 	
 	public TEA(KeyTEA key)
 	{
@@ -151,6 +154,11 @@ public class TEA
 		KeyTEA a2 = new KeyTEA(ints2);
 		TEA aes = new TEA(a1);
 		return ISymmetric.testSymmetric(aes, a2);
+	}
+
+	public KeyFactory<KeyTEA> keyFactory()
+	{
+		return KeyTEA.factory;
 	}
 	
 }

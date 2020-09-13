@@ -16,7 +16,9 @@ import claire.util.standards.crypto.IRandom;
  */
 
 public interface Bits<Type extends Bits<Type>> 
-	   extends IUUID<Type>, IReferrable<Type>, IIterable<Boolean> {
+	   extends IUUID<Type>, 
+	   		   IReferrable<Type>, 
+	   		   IIterable<Boolean> {
 	
 	public static final int[] BYTESHIFTS =
 	{
@@ -533,10 +535,7 @@ public interface Bits<Type extends Bits<Type>>
 	
 	public static byte setBit(byte t, int p, boolean b)
 	{
-		if(b)
-			return (byte) (t | BIT32_TABLE[p]);
-		else
-			return (byte) (t & ~BIT32_TABLE[p]);
+		return (byte) (b ? t | BIT32_TABLE[p] : t & ~BIT32_TABLE[p]);
 	}
 	
 	public static short setBit(short t, int p, boolean b)
@@ -573,7 +572,7 @@ public interface Bits<Type extends Bits<Type>>
 	public static long UNSIGNED_DIVIDE(int i, int divisor)
 	{
 		if(divisor == 0) throw new java.lang.ArithmeticException("Division by Zero");
-		return ((long) i & 0xFFFFFFFFL) / ((long) divisor & 0xFFFFFFFFL);
+		return (i & 0xFFFFFFFFL) / (divisor & 0xFFFFFFFFL);
 	}
 	
 	/**
@@ -625,17 +624,17 @@ public interface Bits<Type extends Bits<Type>>
 	}
 	
 	/**
-	 * Please note that this does not accound for any digit grouping or negative sign
+	 * Please note that this does not account for any digit grouping or negative sign
 	 * 
 	 * @param words
 	 * @return
 	 */
-	public static int APPROXIMATEB10DIDGITS(int words)
+	public static int APPROXIMATEB10DIDGITS(int doublewords)
 	{
 		/*
 		 * Approximately 9.7 base10 digits per 32-bits
 		 */
-		return words * 10;
+		return doublewords * 10;
 	}
 	
 	public static int[] splitLong(long l)
@@ -655,7 +654,7 @@ public interface Bits<Type extends Bits<Type>>
 	
 	public static long getLong(int major, int minor)
 	{
-		return (((long) major) << 32) | ((long) minor & 0xFFFFFFFFL);
+		return (((long) major) << 32) | (minor & 0xFFFFFFFFL);
 	}
 	
 	public static boolean canFit32(long l)
@@ -741,10 +740,10 @@ public interface Bits<Type extends Bits<Type>>
 	
 	public static int intFromBytes(byte[] bytes, int start)
 	{
-		return ((((int) bytes[start++] & 0xFF)) |
-				(((int) bytes[start++] & 0xFF) <<  8) |
-				(((int) bytes[start++] & 0xFF) << 16) |
-				(((int) bytes[start  ] & 0xFF) << 24));
+		return (((bytes[start++] & 0xFF)) |
+				((bytes[start++] & 0xFF) <<  8) |
+				((bytes[start++] & 0xFF) << 16) |
+				((bytes[start  ] & 0xFF) << 24));
 	}
 	
 	public static int intFromBytes(byte[] bytes, int start, int len)
@@ -752,7 +751,7 @@ public interface Bits<Type extends Bits<Type>>
 		int l = 0;
 		int roof = start + len, shift = 0;
 		while(start < roof) {
-			l |= (int) (bytes[start++] & 0xFF) << shift;
+			l |= (bytes[start++] & 0xFF) << shift;
 			shift += 8;
 		}
 		return l;
@@ -760,8 +759,8 @@ public interface Bits<Type extends Bits<Type>>
 	
 	public static short shortFromBytes(byte[] bytes, int start)
 	{
-		return (short) ((((short) bytes[start++] & 0xFF)) |
-				        (((short) bytes[start  ] & 0xFF) << 8));
+		return (short) (((bytes[start++] & 0xFF)) |
+				        ((bytes[start  ] & 0xFF) << 8));
 	}
 	
 	public static short shortFromBytes(byte[] bytes, int start, int len)
@@ -1318,6 +1317,286 @@ public interface Bits<Type extends Bits<Type>>
 		final long temp = bits[start + len - 1];
 		System.arraycopy(bits, start, bits, start + 1, len - 1);
 		bits[start] = temp;
+	}
+	
+	public static void rotateBitsRight(byte[] bytes, int shift)
+	{
+		int t = bytes[0] & 0xFF; 
+		int inv = 8 - shift;
+		bytes[0] = (byte) (((t >>> shift) | (bytes[bytes.length - 1] << inv)) & 0xFF);
+		for(int i = 1; i < bytes.length; i++) 
+			bytes[i] = (byte) (((t << inv) | ((t = bytes[i] & 0xFF) >>> shift)) & 0xFF);
+	}
+	
+	public static void rotateBitsRight(short[] shorts, int shift)
+	{
+		int t = shorts[0] & 0xFFFF; 
+		int inv = 16 - shift;
+		shorts[0] = (short) (((t >>> shift) | (shorts[shorts.length - 1] << inv)) & 0xFFFF);
+		for(int i = 1; i < shorts.length; i++) 
+			shorts[i] = (short) (((t << inv) | ((t = shorts[i] & 0xFFFF) >>> shift)) & 0xFFFF);
+	}
+	
+	public static void rotateBitsRight(char[] chars, int shift)
+	{
+		int t = chars[0] & 0xFFFF; 
+		int inv = 16 - shift;
+		chars[0] = (char) (((t >>> shift) | (chars[chars.length - 1] << inv)) & 0xFFFF);
+		for(int i = 1; i < chars.length; i++) 
+			chars[i] = (char) (((t << inv) | ((t = chars[i] & 0xFFFF) >>> shift)) & 0xFFFF);
+	}
+	
+	public static void rotateBitsRight(int[] ints, int shift)
+	{
+		int t = ints[0]; 
+		int inv = 32 - shift;
+		ints[0] = (int) (((t >>> shift) | (ints[ints.length - 1] << inv)));
+		for(int i = 1; i < ints.length; i++) 
+			ints[i] = (t << inv) | ((t = ints[i]) >>> shift);
+	}
+	
+	public static void rotateBitsRight(long[] longs, long shift)
+	{
+		long t = longs[0]; 
+		long inv = 64 - shift;
+		longs[0] = (long) (((t >>> shift) | (longs[longs.length - 1] << inv)));
+		for(int i = 1; i < longs.length; i++) 
+			longs[i] = (t << inv) | ((t = longs[i]) >>> shift);
+	}
+	
+	public static void rotateBitsLeft(byte[] bytes, int shift)
+	{
+		int t = bytes[bytes.length - 1] & 0xFF; 
+		int inv = 8 - shift;
+		bytes[bytes.length - 1] = (byte) (((t << shift) | ((bytes[0] & 0xFF) >>> inv)) & 0xFF);
+		for(int i = bytes.length - 2; i > -1; i--) 
+			bytes[i] = (byte) ((((t >>> inv) | ((t = bytes[i] & 0xFF) << shift))) & 0xFF);
+	}
+	
+	public static void rotateBitsLeft(short[] shorts, int shift)
+	{
+		int t = shorts[shorts.length - 1] & 0xFFFF; 
+		int inv = 16 - shift;
+		shorts[shorts.length - 1] = (short) (((t << shift) | ((shorts[0] & 0xFFFF) >>> inv)) & 0xFFFF);
+		for(int i = shorts.length - 2; i > -1; i--) 
+			shorts[i] = (short) ((((t >>> inv) | ((t = shorts[i] & 0xFFFF) << shift))) & 0xFFFF);
+	}
+	
+	public static void rotateBitsLeft(char[] chars, int shift)
+	{
+		int t = chars[chars.length - 1] & 0xFFFF; 
+		int inv = 16 - shift;
+		chars[chars.length - 1] = (char) (((t << shift) | ((chars[0] & 0xFFFF) >>> inv)) & 0xFFFF);
+		for(int i = chars.length - 2; i > -1; i--) 
+			chars[i] = (char) ((((t >>> inv) | ((t = chars[i] & 0xFFFF) << shift))) & 0xFFFF);
+	}
+	
+	public static void rotateBitsLeft(int[] ints, int shift)
+	{
+		int t = ints[ints.length - 1] & 0xFF; 
+		int inv = 32 - shift;
+		ints[ints.length - 1] = (t << shift) | (ints[0] >>> inv);
+		for(int i = ints.length - 2; i > -1; i--) 
+			ints[i] = (t >>> inv) | ((t = ints[i]) << shift);
+	}
+	
+	public static void rotateBitsLeft(long[] longs, long shift)
+	{
+		long t = longs[longs.length - 1]; 
+		long inv = 64 - shift;
+		longs[longs.length - 1] = (t << shift) | ((longs[0] & 0xFF) >>> inv);
+		for(int i = longs.length - 2; i > -1; i--) 
+			longs[i] = (t >>> inv) | ((t = longs[i]) << shift);
+	}
+	
+	public static void rotateBitsRight(byte[] in, int start0, byte[] out, int start1, int len, int shift)
+	{
+		int off = shift / 8;
+		shift &= 7;
+		if(shift == 0) {
+			System.arraycopy(in, start0, out, start1 + off, len - off);
+			System.arraycopy(in, start0 + len - off, out, start1, off);
+			return;
+		}
+		int ishift = 8 - shift;
+		int i = 0, j = start0 + len - off - 1;
+		while(i++ < off) 
+			out[start1++] = (byte) ((in[j++] << ishift) | ((in[j] & 0xFF) >>> shift));
+		out[start1++] = (byte) ((in[j++] << ishift) | ((in[start0] & 0xFF) >>> shift));
+		len += start0 - off - 1;
+		while(start0 < len)
+			out[start1++] = (byte) ((in[start0++] << ishift) | ((in[start0] & 0xFF) >>> shift));
+	}
+	
+	public static void rotateBitsRight(short[] in, int start0, short[] out, int start1, int len, int shift)
+	{
+		int off = shift / 16;
+		shift &= 15;
+		if(shift == 0) {
+			System.arraycopy(in, start0, out, start1 + off, len - off);
+			System.arraycopy(in, start0 + len - off, out, start1, off);
+			return;
+		}
+		int ishift = 16 - shift;
+		int i = 0, j = start0 + len - off - 1;
+		while(i++ < off) 
+			out[start1++] = (short) ((in[j++] << ishift) | ((in[j] & 0xFFFF) >>> shift));
+		out[start1++] = (short) ((in[j++] << ishift) | ((in[start0] & 0xFFFF) >>> shift));
+		len += start0 - off - 1;
+		while(start0 < len)
+			out[start1++] = (short) ((in[start0++] << ishift) | ((in[start0] & 0xFFFF) >>> shift));
+	}
+
+	public static void rotateBitsRight(char[] in, int start0, char[] out, int start1, int len, int shift)
+	{
+		int off = shift / 16;
+		shift &= 15;
+		if(shift == 0) {
+			System.arraycopy(in, start0, out, start1 + off, len - off);
+			System.arraycopy(in, start0 + len - off, out, start1, off);
+			return;
+		}
+		int ishift = 16 - shift;
+		int i = 0, j = start0 + len - off - 1;
+		while(i++ < off) 
+			out[start1++] = (char) ((in[j++] << ishift) | ((in[j] & 0xFFFF) >>> shift));
+		out[start1++] = (char) ((in[j++] << ishift) | ((in[start0] & 0xFFFF) >>> shift));
+		len += start0 - off - 1;
+		while(start0 < len)
+			out[start1++] = (char) ((in[start0++] << ishift) | ((in[start0] & 0xFFFF) >>> shift));
+	}
+	
+	public static void rotateBitsRight(int[] in, int start0, int[] out, int start1, int len, int shift)
+	{
+		int off = shift / 32;
+		shift &= 31;
+		if(shift == 0) {
+			System.arraycopy(in, start0, out, start1 + off, len - off);
+			System.arraycopy(in, start0 + len - off, out, start1, off);
+			return;
+		}
+		int ishift = 32 - shift;
+		int i = 0, j = start0 + len - off - 1;
+		while(i++ < off) 
+			out[start1++] = (in[j++] << ishift) | ((in[j] & 0xFF) >>> shift);
+		out[start1++] = (in[j++] << ishift) | ((in[start0] & 0xFF) >>> shift);
+		len += start0 - off - 1;
+		while(start0 < len)
+			out[start1++] = (in[start0++] << ishift) | ((in[start0] & 0xFF) >>> shift);
+	}
+	
+	public static void rotateBitsRight(long[] in, int start0, long[] out, int start1, int len, int shift)
+	{
+		int off = shift / 64;
+		shift &= 63;
+		if(shift == 0) {
+			System.arraycopy(in, start0, out, start1 + off, len - off);
+			System.arraycopy(in, start0 + len - off, out, start1, off);
+			return;
+		}
+		int ishift = 64 - shift;
+		int i = 0, j = start0 + len - off - 1;
+		while(i++ < off) 
+			out[start1++] = (in[j++] << ishift) | ((in[j] & 0xFF) >>> shift);
+		out[start1++] = (in[j++] << ishift) | ((in[start0] & 0xFF) >>> shift);
+		len += start0 - off - 1;
+		while(start0 < len)
+			out[start1++] = (in[start0++] << ishift) | ((in[start0] & 0xFF) >>> shift);
+	}
+	
+	public static void rotateBitsLeft(byte[] in, int start0, byte[] out, int start1, int len, int shift)
+	{
+		int off = shift / 8;
+		shift &= 7;
+		if(shift == 0) {
+			System.arraycopy(in, start0 + off, out, start1, len - off);
+			System.arraycopy(in, start0, out, start1 + len - off, off);
+			return;
+		}
+		int ishift = 8 - shift;
+		int i = start0 + len - 1, j = start0 + off;
+		while(j < i) 
+			out[start1++] = (byte) ((in[j++] << shift) | ((in[j] & 0xFF) >>> ishift));
+		out[start1++] = (byte) ((in[j++] << shift) | ((in[start0] & 0xFF) >>> ishift));
+		off += start0;
+		while(start0 < off)
+			out[start1++] = (byte) ((in[start0++] << shift) | ((in[start0] & 0xFF) >>> ishift));
+	}
+	
+	public static void rotateBitsLeft(short[] in, int start0, short[] out, int start1, int len, int shift)
+	{
+		int off = shift / 16;
+		shift &= 15;
+		if(shift == 0) {
+			System.arraycopy(in, start0 + off, out, start1, len - off);
+			System.arraycopy(in, start0, out, start1 + len - off, off);
+			return;
+		}
+		int ishift = 16 - shift;
+		int i = start0 + len - 1, j = start0 + off;
+		while(j < i) 
+			out[start1++] = (short) ((in[j++] << shift) | ((in[j] & 0xFFFF) >>> ishift));
+		out[start1++] = (short) ((in[j++] << shift) | ((in[start0] & 0xFFFF) >>> ishift));
+		off += start0;
+		while(start0 < off)
+			out[start1++] = (short) ((in[start0++] << shift) | ((in[start0] & 0xFFFF) >>> ishift));
+	}
+	
+	public static void rotateBitsLeft(char[] in, int start0, char[] out, int start1, int len, int shift)
+	{
+		int off = shift / 16;
+		shift &= 15;
+		if(shift == 0) {
+			System.arraycopy(in, start0 + off, out, start1, len - off);
+			System.arraycopy(in, start0, out, start1 + len - off, off);
+			return;
+		}
+		int ishift = 16 - shift;
+		int i = start0 + len - 1, j = start0 + off;
+		while(j < i) 
+			out[start1++] = (char) ((in[j++] << shift) | ((in[j] & 0xFFFF) >>> ishift));
+		out[start1++] = (char) ((in[j++] << shift) | ((in[start0] & 0xFFFF) >>> ishift));
+		off += start0;
+		while(start0 < off)
+			out[start1++] = (char) ((in[start0++] << shift) | ((in[start0] & 0xFFFF) >>> ishift));
+	}
+	
+	public static void rotateBitsLeft(int[] in, int start0, int[] out, int start1, int len, int shift)
+	{
+		int off = shift / 32;
+		shift &= 31;
+		if(shift == 0) {
+			System.arraycopy(in, start0 + off, out, start1, len - off);
+			System.arraycopy(in, start0, out, start1 + len - off, off);
+			return;
+		}
+		int ishift = 32 - shift;
+		int i = start0 + len - 1, j = start0 + off;
+		while(j < i) 
+			out[start1++] = (in[j++] << shift) | (in[j] >>> ishift);
+		out[start1++] = (in[j++] << shift) | (in[start0] >>> ishift);
+		off += start0;
+		while(start0 < off)
+			out[start1++] = (in[start0++] << shift) | (in[start0] >>> ishift);
+	}
+	
+	public static void rotateBitsLeft(long[] in, int start0, long[] out, int start1, int len, int shift)
+	{
+		int off = shift / 64;
+		shift &= 63;
+		if(shift == 0) {
+			System.arraycopy(in, start0 + off, out, start1, len - off);
+			System.arraycopy(in, start0, out, start1 + len - off, off);
+			return;
+		}
+		int ishift = 64 - shift;
+		int i = start0 + len - 1, j = start0 + off;
+		while(j < i) 
+			out[start1++] = (in[j++] << shift) | (in[j] >>> ishift);
+		out[start1++] = (in[j++] << shift) | (in[start0] >>> ishift);
+		off += start0;
+		while(start0 < off)
+			out[start1++] = (in[start0++] << shift) | (in[start0] >>> ishift);
 	}
 	
 	public static int countTrue(byte in)
@@ -2027,10 +2306,10 @@ public interface Bits<Type extends Bits<Type>>
 		int roof = len + start1;
 		while(start1 < roof)
 		{
-			ints[start1++] = ((((int) bytes[start0++] & 0xFF)) |
-							  (((int) bytes[start0++] & 0xFF) << 8 ) |
-							  (((int) bytes[start0++] & 0xFF) << 16) |
-							  (((int) bytes[start0++] & 0xFF) << 24));
+			ints[start1++] = (((bytes[start0++] & 0xFF)) |
+							  ((bytes[start0++] & 0xFF) << 8 ) |
+							  ((bytes[start0++] & 0xFF) << 16) |
+							  ((bytes[start0++] & 0xFF) << 24));
 		}
 	}
 	
@@ -2237,8 +2516,8 @@ public interface Bits<Type extends Bits<Type>>
 		int roof = len + start1;
 		while(start1 < roof)
 		{
-			ints[start1++] = ((int) (shorts[start0++] & 0xFFFF)) |
-							 ((int) (shorts[start0++] & 0xFFFF) << 16);
+			ints[start1++] = (shorts[start0++] & 0xFFFF) |
+							 ((shorts[start0++] & 0xFFFF) << 16);
 		}
 	}
 	
@@ -2271,7 +2550,7 @@ public interface Bits<Type extends Bits<Type>>
 		int roof = len + start1;
 		while(start1 < roof)
 		{
-			longs[start1++] = ((long) (shorts[start0++] & 0xFFFF)) |
+			longs[start1++] = (shorts[start0++] & 0xFFFF) |
 							  ((long) (shorts[start0++] & 0xFFFF) << 16) |
 							  ((long) (shorts[start0++] & 0xFFFF) << 32) |
 							  ((long) (shorts[start0++] & 0xFFFF) << 48);
@@ -2421,8 +2700,8 @@ public interface Bits<Type extends Bits<Type>>
 		int roof = len + start1;
 		while(start1 < roof)
 		{
-			ints[start1++] = ((int) (chars[start0++] & 0xFFFF)) |
-							 ((int) (chars[start0++] & 0xFFFF) << 16);
+			ints[start1++] = (chars[start0++] & 0xFFFF) |
+							 ((chars[start0++] & 0xFFFF) << 16);
 		}
 	}
 	
@@ -2455,7 +2734,7 @@ public interface Bits<Type extends Bits<Type>>
 		int roof = len + start1;
 		while(start1 < roof)
 		{
-			longs[start1++] = ((long) (chars[start0++] & 0xFFFF)) |
+			longs[start1++] = (chars[start0++] & 0xFFFF) |
 							  ((long) (chars[start0++] & 0xFFFF) << 16) |
 							  ((long) (chars[start0++] & 0xFFFF) << 32) |
 							  ((long) (chars[start0++] & 0xFFFF) << 48);
@@ -2700,6 +2979,22 @@ public interface Bits<Type extends Bits<Type>>
 		return bits;
 	}
 	
+	public static void longsToSBytes(long[] longs, int start0, byte[] bytes, int start1, int len)
+	{
+		int last = len & 7;
+		int longlen = len >> 3;
+		longsToBytes(longs, start0, bytes, start1, longlen);
+		if(last > 0)
+			longToBytes(longs[start0 + longlen], bytes, start1 + len - last, last);
+	}
+	
+	public static void longToBytes(long data, byte[] bytes, int start, int len)
+	{
+		bytes[start++] = (byte) data;
+		for(int i = 1; i < len; i++) 
+			bytes[start++] = (byte) (data >>> BYTESHIFTS[i]);
+	}
+	
 	public static byte[] longToBytes(long data)
 	{
 		byte[] bytes = new byte[8];
@@ -2920,12 +3215,12 @@ public interface Bits<Type extends Bits<Type>>
 		
 		public void add(byte b, int bitpos)
 		{
-			temp |= ((int) b << bitpos);
+			temp |= (b << bitpos);
 		}
 		
 		public void add(byte b)
 		{
-			temp |= ((int) b << pos);
+			temp |= (b << pos);
 			pos += 8;
 		}
 		
@@ -3649,8 +3944,6 @@ public interface Bits<Type extends Bits<Type>>
 	
 	/**
 	 * Don't ask for full Big Endian support. I make methods here as I need them
-	 * 
-	 * @author Claire
 	 */
 	public static final class BigEndian
 	{
@@ -3659,10 +3952,10 @@ public interface Bits<Type extends Bits<Type>>
 			int roof = len + start1;
 			while(start1 < roof)
 			{
-				ints[start1++] = ((((int) bytes[start0++] & 0xFF) << 24) |
-								  (((int) bytes[start0++] & 0xFF) << 16) |
-								  (((int) bytes[start0++] & 0xFF) << 8) |
-								  (((int) bytes[start0++] & 0xFF)));
+				ints[start1++] = (((bytes[start0++] & 0xFF) << 24) |
+								  ((bytes[start0++] & 0xFF) << 16) |
+								  ((bytes[start0++] & 0xFF) << 8) |
+								  ((bytes[start0++] & 0xFF)));
 			}
 		}
 		
@@ -3681,6 +3974,22 @@ public interface Bits<Type extends Bits<Type>>
 			int[] ints = new int[bytes.length >> 2];
 			bytesToInts(bytes, ints);
 			return ints;
+		}
+		
+		public static void intToBytes(int data, byte[] bytes, int start, int len)
+		{
+			len = 4 - len;
+			for(int i = 3; i > 0; i--) 
+				bytes[start++] = (byte) (data >>> BYTESHIFTS[i]);
+		}
+		
+		public static void intsToSBytes(int[] ints, int start0, byte[] bytes, int start1, int len)
+		{
+			int last = len & 3;
+			int intlen = len >> 2;
+			intsToBytes(ints, start0, bytes, start1, intlen);
+			if(last > 0)
+				intToBytes(ints[start0 + intlen], bytes, start1 + len - last, last);
 		}
 		
 		public static void intsToBytes(int[] ints, int start0, byte[] bytes, int start1, int len)
@@ -3712,6 +4021,22 @@ public interface Bits<Type extends Bits<Type>>
 			byte[] bytes = new byte[ints.length << 2];
 			intsToBytes(ints, bytes);
 			return bytes;
+		}
+		
+		public static void longsToSBytes(long[] longs, int start0, byte[] bytes, int start1, int len)
+		{
+			int last = len & 7;
+			int longlen = len >> 3;
+			longsToBytes(longs, start0, bytes, start1, longlen);
+			if(last > 0)
+				longToBytes(longs[start0 + longlen], bytes, start1 + len - last, last);
+		}
+		
+		public static void longToBytes(long data, byte[] bytes, int start, int len)
+		{
+			len = 8 - len;
+			for(int i = 7; i > 0; i--) 
+				bytes[start++] = (byte) (data >>> BYTESHIFTS[i]);
 		}
 		
 		public static void longToBytes(long data, byte[] bytes, int start)

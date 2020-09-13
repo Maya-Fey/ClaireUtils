@@ -39,7 +39,7 @@ public final class SHA2_256
 		return Hash.SHA2_256;
 	}
 
-	protected void complete(byte[] remaining, int pos, byte[] out, int start)
+	protected void complete(byte[] remaining, int pos, byte[] out, int start, int max)
 	{
 		byte[] bytes = new byte[64];
 		System.arraycopy(remaining, 0, bytes, 0, pos);
@@ -52,7 +52,7 @@ public final class SHA2_256
 		}
 		Bits.BigEndian.longToBytes(length << 3, bytes, 56);
 		processNext(bytes, 0);
-		Bits.BigEndian.intsToBytes(STATE, 0, out, start, 8);
+		Bits.BigEndian.intsToSBytes(STATE, 0, out, start, 32 > max ? max : 32);
 	}
 	
 	/*
@@ -74,6 +74,12 @@ public final class SHA2_256
 		return i;
 	}
 	
+
+	public String genString(char sep)
+	{
+		return "";
+	}
+	
 	public HashFactory<SHA2_256> factory()
 	{
 		return factory;
@@ -88,7 +94,7 @@ public final class SHA2_256
 		{
 			return new SHA2_256();
 		}
-		
+
 	}
 
 }

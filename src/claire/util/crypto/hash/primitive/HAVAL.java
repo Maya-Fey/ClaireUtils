@@ -628,79 +628,76 @@ public class HAVAL
 		return ((A & 0x03E00000) | (B & 0xFC000000)) >>> 21;
 	}
 	
-	private final void R128(byte[] out, int start)
+	private final void R128(byte[] out, int start, int max)
 	{
-		Bits.intToBytes(STATE[0] + M128(STATE[7], STATE[4], STATE[5], STATE[6], 24), out, start     );
-		Bits.intToBytes(STATE[1] + M128(STATE[6], STATE[7], STATE[4], STATE[5], 16), out, start + 4 );
-		Bits.intToBytes(STATE[2] + M128(STATE[5], STATE[6], STATE[7], STATE[4],  8), out, start + 8 );
-		Bits.intToBytes(STATE[3] + M128(STATE[4], STATE[5], STATE[6], STATE[7],  0), out, start + 12);
+		STATE[0] += M128(STATE[7], STATE[4], STATE[5], STATE[6], 24);
+		STATE[1] += M128(STATE[7], STATE[4], STATE[5], STATE[6], 16);
+		STATE[2] += M128(STATE[7], STATE[4], STATE[5], STATE[6],  8);
+		STATE[3] += M128(STATE[7], STATE[4], STATE[5], STATE[6],  0);
+		Bits.intsToSBytes(STATE, 0, out, start, 16 > max ? max : 16);
 	}
 	
-	private final void R160(byte[] out, int start)
+	private final void R160(byte[] out, int start, int max)
 	{
-		Bits.intToBytes(STATE[0] + M160_0(STATE[5], STATE[6], STATE[7]), out, start     );
-		Bits.intToBytes(STATE[1] + M160_1(STATE[5], STATE[6], STATE[7]), out, start + 4 );
-		Bits.intToBytes(STATE[2] + M160_2(STATE[5], STATE[6], STATE[7]), out, start + 8 );
-		Bits.intToBytes(STATE[3] + M160_3(STATE[5], STATE[6], STATE[7]), out, start + 12);
-		Bits.intToBytes(STATE[4] + M160_4(STATE[5], STATE[6], STATE[7]), out, start + 16);
+		STATE[0] += M160_0(STATE[5], STATE[6], STATE[7]);
+		STATE[1] += M160_1(STATE[5], STATE[6], STATE[7]);
+		STATE[2] += M160_2(STATE[5], STATE[6], STATE[7]);
+		STATE[3] += M160_3(STATE[5], STATE[6], STATE[7]);
+		STATE[4] += M160_4(STATE[5], STATE[6], STATE[7]);
+		Bits.intsToSBytes(STATE, 0, out, start, 20 > max ? max : 20);
 	}
 
-	private final void R192(byte[] out, int start)
+	private final void R192(byte[] out, int start, int max)
 	{
-		Bits.intToBytes(STATE[0] + M192_0(STATE[6], STATE[7]), out, start     );
-		Bits.intToBytes(STATE[1] + M192_1(STATE[6], STATE[7]), out, start + 4 );
-		Bits.intToBytes(STATE[2] + M192_2(STATE[6], STATE[7]), out, start + 8 );
-		Bits.intToBytes(STATE[3] + M192_3(STATE[6], STATE[7]), out, start + 12);
-		Bits.intToBytes(STATE[4] + M192_4(STATE[6], STATE[7]), out, start + 16);
-		Bits.intToBytes(STATE[5] + M192_5(STATE[6], STATE[7]), out, start + 20);
+		STATE[0] += M192_0(STATE[6], STATE[7]);
+		STATE[1] += M192_1(STATE[6], STATE[7]);
+		STATE[2] += M192_2(STATE[6], STATE[7]);
+		STATE[3] += M192_3(STATE[6], STATE[7]);
+		STATE[4] += M192_4(STATE[6], STATE[7]);
+		STATE[5] += M192_5(STATE[6], STATE[7]);
+		Bits.intsToSBytes(STATE, 0, out, start, 24 > max ? max : 24);
 	}
 
-	private final void R224(byte[] out, int start)
+	private final void R224(byte[] out, int start, int max)
 	{
-		Bits.intToBytes(STATE[0] + ((STATE[7] >>> 27) & 0x1F), out, start	  );
-		Bits.intToBytes(STATE[1] + ((STATE[7] >>> 22) & 0x1F), out, start + 4 );
-		Bits.intToBytes(STATE[2] + ((STATE[7] >>> 18) & 0x0F), out, start + 8 );
-		Bits.intToBytes(STATE[3] + ((STATE[7] >>> 13) & 0x1F), out, start + 12);
-		Bits.intToBytes(STATE[4] + ((STATE[7] >>>  9) & 0x0F), out, start + 16);
-		Bits.intToBytes(STATE[5] + ((STATE[7] >>>  4) & 0x1F), out, start + 20);
-		Bits.intToBytes(STATE[6] + ((STATE[7]       ) & 0x0F), out, start + 24);
+		STATE[0] += (STATE[7] >>> 27) & 0x1F;
+		STATE[1] += (STATE[7] >>> 22) & 0x1F;
+		STATE[2] += (STATE[7] >>> 18) & 0x0F;
+		STATE[3] += (STATE[7] >>> 13) & 0x1F;
+		STATE[4] += (STATE[7] >>>  9) & 0x0F;
+		STATE[5] += (STATE[7] >>>  4) & 0x1F;
+		STATE[6] += (STATE[7]       ) & 0x0F;
+		Bits.intsToSBytes(STATE, 0, out, start, 28 > max ? max : 28);
 	}
 
-	private final void R256(byte[] out, int start)
+	private final void R256(byte[] out, int start, int max)
 	{
-		Bits.intToBytes(STATE[0], out, start     );
-		Bits.intToBytes(STATE[1], out, start + 4 );
-		Bits.intToBytes(STATE[2], out, start + 8 );
-		Bits.intToBytes(STATE[3], out, start + 12);
-		Bits.intToBytes(STATE[4], out, start + 16);
-		Bits.intToBytes(STATE[5], out, start + 20);
-		Bits.intToBytes(STATE[6], out, start + 24);
-		Bits.intToBytes(STATE[7], out, start + 28);
+		Bits.intsToSBytes(STATE, 0, out, start, 32 > max ? max : 32);
 	}
 	
-	private final void out(byte[] out, int start)
+	private final void out(byte[] out, int start, int max)
 	{
 		switch(this.out)
 		{
 			case 4:
-				R128(out, start);
+				R128(out, start, max);
 				break;
 			case 5:
-				R160(out, start);
+				R160(out, start, max);
 				break;
 			case 6:
-				R192(out, start);
+				R192(out, start, max);
 				break;
 			case 7:
-				R224(out, start);
+				R224(out, start, max);
 				break;
 			case 8:
-				R256(out, start);
+				R256(out, start, max);
 				break;
 		}
 	}
 
-	public void finalize(byte[] remaining, int pos, byte[] out, int start)
+	public void finalize(byte[] remaining, int pos, byte[] out, int start, int max)
 	{
 		byte[] bytes = new byte[128];
 		System.arraycopy(remaining, 0, bytes, 0, pos);
@@ -715,7 +712,7 @@ public class HAVAL
 		bytes[119] = (byte) (this.out << 3);
 		Bits.longToBytes(counter, bytes, 120);
 		processNext(bytes, 0, false);
-		out(out, start);
+		out(out, start, max);
 		reset();
 	}
 	
@@ -857,6 +854,11 @@ public class HAVAL
 		i += IPersistable.test(state);
 		return i;
 	}
+	
+	public String genString(char sep)
+	{
+		return rounds + "" + sep + out;
+	}
 
 	public HashFactory<HAVAL> factory()
 	{
@@ -870,7 +872,7 @@ public class HAVAL
 		{
 			return new HAVAL(str.nextArg().toInt() / 32, str.nextArg().toInt());
 		}
-		
+
 	}
 	
 }

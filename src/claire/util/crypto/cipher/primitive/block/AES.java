@@ -2,6 +2,7 @@ package claire.util.crypto.cipher.primitive.block;
 
 import java.util.Arrays;
 
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.cipher.key.block.KeyAES;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -231,6 +232,8 @@ public class AES
 	private int[][] EKEY;
 	private int[][] DKEY;
 	private int rounds;
+	
+	public AES() {}
 
 	public AES(KeyAES aes) 
 	{
@@ -462,6 +465,11 @@ public class AES
 		KeyAES a2 = new KeyAES(ints2);
 		AES aes = new AES(a1);
 		return ISymmetric.testSymmetric(aes, a2);
+	}
+
+	public KeyFactory<KeyAES> keyFactory()
+	{
+		return KeyAES.factory;
 	}
 
 }

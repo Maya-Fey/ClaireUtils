@@ -3,15 +3,18 @@ package claire.util.crypto.cipher.key.block;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.rng.RandUtils;
-import claire.util.io.Factory;
 import claire.util.io.IOUtils;
+import claire.util.math.MathHelper;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IDeepClonable;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
@@ -76,14 +79,14 @@ public class KeyRC6
 		this.ints = null;
 	}
 	
-	public Factory<KeyRC6> factory()
+	public KeyFactory<KeyRC6> factory()
 	{
 		return factory;
 	}
 	
 	public static final KeyRC6Factory factory = new KeyRC6Factory();
 
-	public static final class KeyRC6Factory extends Factory<KeyRC6> {
+	public static final class KeyRC6Factory extends KeyFactory<KeyRC6> {
 
 		protected KeyRC6Factory() 
 		{
@@ -100,6 +103,39 @@ public class KeyRC6
 		{
 			int rounds = stream.readInt();
 			return new KeyRC6(stream.readIntArr(), rounds);
+		}
+		
+		public KeyRC6 random(IRandom<?, ?> rand, CryptoString s) throws InstantiationException
+		{
+			int rounds = 12;
+			int len = 128;
+			if(s.args() > 0) {
+				rounds = s.nextArg().toInt();
+				if(rounds < 1)
+					throw new java.lang.InstantiationException("RC6 requires at least one round");
+				if(rounds > 255)
+					throw new java.lang.InstantiationException("RC6 has a maximum of 255 rounds");
+				if(s.args() > 1) {
+					len = s.nextArg().toInt();
+					if(len != 128 || (len != 192 || len != 256)) 
+						throw new java.lang.InstantiationException("RC6 allows key sizes of only 128, 192, or 256 bits");
+				}
+			}
+			int[] ints = new int[len / 32];
+			rand.readInts(ints);
+			MathHelper.truncate(ints, len);
+			return new KeyRC6(ints, rounds);
+		}
+
+		public int bytesRequired(CryptoString s)
+		{
+			int len = 128;
+			if(s.args() > 1) {
+				len = s.nextArg().toInt();
+				if(len != 128 || (len != 192 || len != 256)) 
+					throw new java.lang.IllegalArgumentException("RC6 allows key sizes of only 128, 192, or 256 bits");
+			}
+			return len / 8;
 		}
 		
 	}

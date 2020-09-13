@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.crypto.hash.primitive.SHAvite_Base_32.SHAvite32State;
 import claire.util.io.Factory;
 import claire.util.math.counters.IntCounter;

@@ -2,8 +2,8 @@ package claire.util.crypto.exchange.dh;
 
 import claire.util.crypto.KeyFactory;
 import claire.util.crypto.exchange.dh.DHPrivateKey.DHPrivateKeyFactory;
-import claire.util.math.Exponentiator;
-import claire.util.math.UInt;
+import claire.util.math.exp.Exponentiator;
+import claire.util.math.primitive.UInt;
 import claire.util.memory.Bits;
 import claire.util.standards.crypto.IKeyExchange;
 

@@ -8,29 +8,27 @@ import claire.util.crypto.hash.primitive.WMD.WMD.WMDState;
 
 public class WMD 
 	   extends MerkleHash<WMDState, WMD> {
-
-	private final int L,
-					  R,
-					  F;
 	
-	private final int[] STATE;
+	private static short[] DSBOX = new short[65536];
 	
-	/**
-	 * L: The output size of the hash in 32-bit integers
-	 * 
-	 * N: Amount of L-sized chunks to make the state out of.
-	 * 
-	 * R: The amount of rounds per input
-	 * 
-	 * F: The amount of final rounds
-	 */
-	protected WMD(int L, int N, int R, int F)
+	static {
+		WMD_SBOX.init(DSBOX);
+	}
+	
+	private static short[] SBOX = new short[65536];
+	
+	private static int[] state;
+	
+	private final int L;
+	
+	protected WMD(int N, int R, int L)
 	{
-		super(L * 4, L * 4);
-		STATE = new int[L * N];
-		this.L = L;
-		this.R = R;
-		this.F = F;
+		super(L / 8, L / 8);
+		if((L & 31) != 0) 
+			throw new java.lang.IllegalArgumentException("Length must be divisible by 32");
+		this.L = L / 32;
+		state = new int[L * R * N];
+		this.reinit();
 	}
 	
 	public int hashID()
@@ -38,6 +36,11 @@ public class WMD
 		return Hash.WMD;
 	}
 
+	private void reinit()
+	{
+		System.arraycopy(DSBOX, 0, SBOX, 0, 65536);
+	}
+	
 	public void updateState(WMDState state)
 	{
 		// TODO Auto-generated method stub
@@ -82,6 +85,18 @@ public class WMD
 			super(bytes, pos);
 		}
 		
+	}
+	
+	public abstract class WMDFunc 
+	{
+		
+	}
+
+	@Override
+	public String genString(char sep)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -30,7 +30,7 @@ public class _NAMESPACE {
 	public static final int INT32 = 13;
 	public static final int UINT1024 = 14;
 	public static final int REGULATOR = 15;
-	//Vacant 16
+	public static final int KEYCAMELLIA = 16;
 	public static final int AESKEY = 17;
 	public static final int KEYRC2 = 18;
 	public static final int KEYRC5 = 19;
@@ -110,6 +110,19 @@ public class _NAMESPACE {
 	public static final int LONGSTATE = 98;
 	public static final int MERSENNESTATE = 99;
 	public static final int DHPRIVATEKEY = 100;
-	public static final int KEYIDEA = 101;
+	public static final int KEYARIA = 101;
+	public static final int KEYSPECK16 = 103;
+	public static final int KEYSPECK32 = 103;
+	public static final int KEYSPECK64 = 104;
+	public static final int KEYSIMON16 = 105;
+	public static final int KEYSIMON32 = 106;
+	public static final int KEYSIMON64 = 107;
+	public static final int KEYSALSA = 108;
+	public static final int SALSASTATE = 109;
+	public static final int KEYDESX = 110;
+	public static final int KEYTDEA = 111;
+	public static final int KEYMARS = 112;
+	public static final int KEYTHREEFISH = 113;
+	public static final int KEYHMAC = 114;
 	
 }

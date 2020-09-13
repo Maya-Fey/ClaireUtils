@@ -105,10 +105,8 @@ public class KeyAES
 		{
 			return new KeyAES(stream.readIntArr());
 		}
-		
-		
 
-		public KeyAES random(IRandom<?, ?> rand, CryptoString s)
+		public KeyAES random(IRandom<?, ?> rand, CryptoString s) throws InstantiationException
 		{
 			int bits;
 			if(s.args() > 0)
@@ -116,7 +114,7 @@ public class KeyAES
 			else 
 				bits = 128;
 			if(bits < 0)
-				throw new java.lang.IllegalArgumentException("Negative key length specified");
+				throw new java.lang.InstantiationException("Negative key length specified");
 			int[] ints = new int[(bits / 32) + (((bits & 31) > 0) ? 1 : 0)];
 			rand.readInts(ints);
 			MathHelper.truncate(ints, bits);
@@ -129,6 +127,18 @@ public class KeyAES
 				return new KeyAES(ints, rounds);
 			} else */ //TODO: Look into variable round count
 				return new KeyAES(ints);
+		}
+
+		public int bytesRequired(CryptoString s)
+		{
+			int bits;
+			if(s.args() > 0)
+				bits = s.nextArg().toInt();
+			else 
+				bits = 128;
+			if(bits < 0)
+				throw new java.lang.IllegalArgumentException("Negative key length specified");
+			return ((bits / 32) + (((bits & 31) > 0) ? 1 : 0)) * 4;
 		}
 		
 	}

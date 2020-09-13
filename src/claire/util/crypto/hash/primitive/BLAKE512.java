@@ -35,9 +35,9 @@ public class BLAKE512
 		return IV;
 	}
 
-	protected void output(byte[] out, int start)
+	protected void output(byte[] out, int start, int max)
 	{
-		Bits.BigEndian.longsToBytes(STATE, 0, out, start, 8);
+		Bits.BigEndian.longsToSBytes(STATE, 0, out, start, 64 > max ? max : 64);
 	}
 
 	/*
@@ -58,6 +58,11 @@ public class BLAKE512
 		i += IPersistable.test(state);
 		return i;
 	}
+
+	public String genString(char sep)
+	{
+		return "";
+	}
 	
 	public HashFactory<BLAKE512> factory()
 	{
@@ -73,7 +78,7 @@ public class BLAKE512
 		{
 			return new BLAKE512();
 		}
-		
+
 	}
 	
 }

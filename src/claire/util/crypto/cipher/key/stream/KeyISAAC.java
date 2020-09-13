@@ -141,6 +141,11 @@ public class KeyISAAC implements IKey<KeyISAAC> {
 			rand.readInts(key);
 			return new KeyISAAC(key);
 		}
+		
+		public int bytesRequired(CryptoString s)
+		{
+			return 1024;
+		}
 	}
 	
 	public static final int test()

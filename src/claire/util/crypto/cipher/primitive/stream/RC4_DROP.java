@@ -3,6 +3,7 @@ package claire.util.crypto.cipher.primitive.stream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.cipher.key.stream.KeyRC4_DROP;
 import claire.util.crypto.cipher.primitive.stream.RC4_DROP.RC4_DROPState;
 import claire.util.crypto.rng.RandUtils;
@@ -24,6 +25,8 @@ public class RC4_DROP
 	
 	private int i = 0;
 	private int j = 0;
+	
+	public RC4_DROP() {}
 
 	public RC4_DROP(KeyRC4_DROP key) 
 	{
@@ -271,6 +274,11 @@ public class RC4_DROP
 		RandUtils.fillArr(bytes);
 		RC4_DROPState state = new RC4_DROPState(bytes, RandUtils.dprng.nextIntGood(256), RandUtils.dprng.nextIntGood(256));
 		return IPersistable.test(state);
+	}
+
+	public KeyFactory<KeyRC4_DROP> keyFactory()
+	{
+		return KeyRC4_DROP.factory;
 	}
 	
 }

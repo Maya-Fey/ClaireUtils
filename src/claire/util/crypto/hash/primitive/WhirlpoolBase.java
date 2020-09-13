@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.crypto.hash.primitive.WhirlpoolBase.WhirlpoolState;
 import claire.util.io.Factory;
 import claire.util.math.counters.LongCounter;
@@ -242,7 +243,7 @@ public abstract class WhirlpoolBase<Hash extends WhirlpoolBase<Hash>>
 		STATE[7] ^= H1 ^ IN[7];
 	}
 
-	public void finalize(byte[] remaining, int pos, byte[] out, int start)
+	public void finalize(byte[] remaining, int pos, byte[] out, int start, int max)
 	{
 		byte[] bytes = new byte[64];
 		System.arraycopy(remaining, 0, bytes, 0, pos);
@@ -257,7 +258,7 @@ public abstract class WhirlpoolBase<Hash extends WhirlpoolBase<Hash>>
 		Bits.BigEndian.longToBytes(counters[1], bytes, 48);
 		Bits.BigEndian.longToBytes(counters[0], bytes, 56);
 		processNext(bytes, 0, false);
-		Bits.longsToBytes(STATE, 0, out, start);
+		Bits.longsToSBytes(STATE, 0, out, start, 64 > max ? max : 64);
 		this.reset();
 	}
 	

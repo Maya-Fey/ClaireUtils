@@ -96,6 +96,11 @@ public class KeyDES
 		{
 			return new KeyDES(rand.readBytes(7));
 		}
+
+		public int bytesRequired(CryptoString s)
+		{
+			return 7;
+		}
 		
 	}
 	

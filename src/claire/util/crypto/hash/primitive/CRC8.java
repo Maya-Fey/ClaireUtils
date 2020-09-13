@@ -201,7 +201,7 @@ public final class CRC8
 	public void seek(long pos) {}
 	public IIncomingStream getIncoming() { return null; }
 
-	public void finish(byte[] out, int start)
+	public void finish(byte[] out, int start, int max)
 	{
 		out[start] = STATE;
 		STATE = 0x00;
@@ -344,6 +344,11 @@ public final class CRC8
 		return i;
 	}
 
+	public String genString(char sep)
+	{
+		return "";
+	}
+	
 	public HashFactory<CRC8> factory()
 	{
 		return factory;
@@ -358,7 +363,7 @@ public final class CRC8
 		{
 			return new CRC8();
 		}
-		
+
 	}
 	
 }

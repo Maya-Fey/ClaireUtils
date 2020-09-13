@@ -87,7 +87,7 @@ public class KeyCAST6
 		return factory;
 	}
 
-	private static final KeyCAST6Factory factory = new KeyCAST6Factory();
+	public static final KeyCAST6Factory factory = new KeyCAST6Factory();
 
 	private static final class KeyCAST6Factory extends KeyFactory<KeyCAST6> {
 
@@ -126,6 +126,20 @@ public class KeyCAST6
 			}
 			byte[] bytes = rand.readBytes(amt);
 			return new KeyCAST6(bytes, rounds);
+		}
+
+		public int bytesRequired(CryptoString s)
+		{
+			if(s.args() > 1) {
+				int amt = s.nextArg().toInt();
+				amt = ((amt - 1) / 8) + 1;
+				if(amt < 1)
+					throw new java.lang.IllegalArgumentException("You cannot have a key length less than one");
+				if(amt > 32)
+					throw new java.lang.IllegalArgumentException("CAST6 can accept a maximum of 32 bytes of key information");
+				return amt;
+			}
+			return 32;
 		}
 		
 	}

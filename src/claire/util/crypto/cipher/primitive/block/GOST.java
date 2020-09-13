@@ -1,5 +1,6 @@
 package claire.util.crypto.cipher.primitive.block;
 
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.cipher.key.block.KeyGOST;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -11,6 +12,8 @@ public class GOST
 	private KeyGOST key;
 	private byte[] SBOX;
 	private int[] KEY;
+	
+	public GOST() {}
 	
 	public GOST(KeyGOST key)
 	{
@@ -221,6 +224,11 @@ public class GOST
 		KeyGOST a2 = new KeyGOST(bytes2, nibs);
 		GOST aes = new GOST(a1);
 		return ISymmetric.testSymmetric(aes, a2);
+	}
+
+	public KeyFactory<KeyGOST> keyFactory()
+	{
+		return KeyGOST.factory;
 	}
 
 }

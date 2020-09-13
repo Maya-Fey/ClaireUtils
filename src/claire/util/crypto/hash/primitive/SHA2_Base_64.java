@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.crypto.hash.primitive.SHA2_Base_64.SHA2_64State;
 import claire.util.io.Factory;
 import claire.util.math.counters.LongCounter;
@@ -51,7 +52,7 @@ abstract class SHA2_Base_64<Hash extends SHA2_Base_64<Hash>>
 		reset();
 	}
 	
-	protected abstract void complete(byte[] out, int start);
+	protected abstract void complete(byte[] out, int start, int max);
 	
 	private static long F1(long A, long B, long C)
 	{
@@ -147,7 +148,7 @@ abstract class SHA2_Base_64<Hash extends SHA2_Base_64<Hash>>
 		STATE[7] += H;
 	}
 
-	public void finalize(byte[] remaining, int pos, byte[] out, int start)
+	public void finalize(byte[] remaining, int pos, byte[] out, int start, int max)
 	{
 		try {
 			byte[] bytes = new byte[128];
@@ -161,7 +162,7 @@ abstract class SHA2_Base_64<Hash extends SHA2_Base_64<Hash>>
 			}
 			Bits.BigEndian.longsToBytes(counters, 0, bytes, 112, 2);
 			processNext(bytes, 0);
-			complete(out, start);
+			complete(out, start, max);
 		} finally {
 			reset();
 		}

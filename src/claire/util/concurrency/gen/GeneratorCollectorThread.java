@@ -21,7 +21,7 @@ public class GeneratorCollectorThread<Type>
 	{
 		while(bask.hasSpace())
 		{
-			bask.drop(gen.generate());
+			bask.drop(gen.generate(mon));
 			mon.notifyProgress();
 		}
 	}

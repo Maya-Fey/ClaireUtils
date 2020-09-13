@@ -12,6 +12,26 @@ public final class Base64 {
 		'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 
 		'u', 'v', 'w', 'x', 'y', 'z', '#', '$'
 	};
+	
+	public static boolean isBase64(char[] chars, int start, int len)
+	{
+		while(len-- > 0) {
+			char c = chars[start++];
+			if((c < '0' || c > 'z') || (c > '9' && c < 'A') || (c > 'Z' && c < 'a'))
+				return false;
+		}
+		return true;
+	}
+	
+	public static boolean isBase64(String s)
+	{
+		for(int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			if((c < '0' || c > 'z') || (c > '9' && c < 'A') || (c > 'Z' && c < 'a'))
+				return false;
+		}
+		return true;
+	}
 
 	public static void fromBytes(byte[] b, int start0, char[] chars, int start1, int len)
 	{
@@ -118,6 +138,65 @@ public final class Base64 {
 		byte[] bytes = new byte[size];
 		toBytes(chars, start, bytes, 0, len);
 		return bytes;
+	}
+	
+	//TODO: Clean this entire class
+	
+	public static byte[] toBytes(String s)
+	{
+		int size = (s.length() / 4) * 3 ;
+		int rem = s.length() & 3;
+		if(rem == 2)
+			size++;
+		else
+			rem += 2;
+		byte[] bytes = new byte[size];
+		toBytes(s, bytes, 0);
+		return bytes;
+	}
+	
+	public static void toBytes(String s, byte[] bytes, int start1)
+	{
+		int tmp = 0, 
+			bits = 0;
+		byte b,
+			 t1,
+			 t2;
+		char c;
+		for(int i = 0; i < s.length(); i++) {
+			c = s.charAt(i);
+			if(c > '`') {
+				b = (byte) (c - '=');
+			} else if(c > '@') {
+				b = (byte) (c - '7');
+			} else if(c > '/') {
+				b = (byte) (c - '0');
+			} else
+				b = (byte) (c + 27);
+			bits += 6;
+			tmp <<= 6;
+			tmp |= b;
+			if(bits == 24) {
+				t2 = (byte) (tmp & 0xFF); tmp >>>= 8;
+				t1 = (byte) (tmp & 0xFF); tmp >>>= 8;
+				bytes[start1++] = (byte) (tmp & 0xFF); tmp = 0;
+				bytes[start1++] = t1;
+				bytes[start1++] = t2;
+				bits = 0;
+			}
+		}
+		if(bits == 18) {
+			tmp >>>= 2;
+			t1 = (byte) (tmp & 0xFF); tmp >>>= 8;
+			bytes[start1++] = (byte) (tmp & 0xFF); 
+			bytes[start1++] = t1;
+			return;
+		}
+		if(bits == 12) {
+			tmp >>>= 4;
+			bytes[start1++] = (byte) (tmp & 0xFF);
+			return;
+		}
 	}
 	
 	public static void toBytesSafe(char[] chars, int start0, byte[] bytes, int start1, int len)

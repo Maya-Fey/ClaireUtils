@@ -57,6 +57,12 @@ public class MultiListSelectionMessage
 		this.add(table);	
 	}
 	
+	public void start()
+	{
+		ok = false;
+		super.start();
+	}
+	
 	public boolean isOk()
 	{
 		return ok;

@@ -1,5 +1,6 @@
 package claire.util.memory.array;
 
+
 public class IndexedRegistry<Type> 
 	   extends Registry<Type> {
 	
@@ -31,20 +32,16 @@ public class IndexedRegistry<Type>
 	public String getName(Type t)
 	{
 		for(int i = 0; i < this.current; i++)
-		{
 			if(this.get(i).equals(t)) return this.index[i];
-		}
-		throw new java.lang.NullPointerException();
+		return null;
 	}
 	
 	public Type getByName(String s)
 	{
 		for(int i = 0; i < this.current; i++)
-		{
-			if(this.index[i].equals(s)) return this.get(i);
-			System.out.println(this.index[i] + " clearly doesn't equal " + s);
-		}
-		throw new java.lang.NullPointerException();
+			if(this.index[i].equals(s)) 
+				return this.get(i);
+		return null;
 	}
 
 	public String getName(int i)

@@ -122,6 +122,11 @@ public class KeyXTEA
 			}
 			return new KeyXTEA(rand.readInts(4), rounds);
 		}
+
+		public int bytesRequired(CryptoString s)
+		{
+			return 16;
+		}
 		
 	}
 	

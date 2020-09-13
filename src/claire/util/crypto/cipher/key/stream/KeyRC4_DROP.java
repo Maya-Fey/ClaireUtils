@@ -124,6 +124,20 @@ public class KeyRC4_DROP
 			byte[] bytes = rand.readBytes(amt);
 			return new KeyRC4_DROP(bytes, drop);
 		}
+		
+		public int bytesRequired(CryptoString s)
+		{
+			int len = 256;
+			s.nextArg();
+			if(s.args() > 1) {
+				len = s.nextArg().toInt();
+				if(len < 1)
+					throw new java.lang.IllegalArgumentException("RC4 does not accept key lengths below 1 byte");
+				if(len > 256)
+					throw new java.lang.IllegalArgumentException("RC4 does not accept key lengths in excess of 256 bytes");
+			}
+			return len;
+		}
 
 	
 	}	

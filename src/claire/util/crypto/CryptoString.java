@@ -4,58 +4,63 @@ import claire.util.encoding.PartialString;
 
 public class CryptoString 
 	   extends PartialString {
+	
+	private static final char[] levels = new char[] {
+		'_', '-', '~', '/', '.'
+	};
 
 	private final char sep;
 	
-	private int a = 0,
-			    b;
+	private int next;
 	
 	private final int end = this.getEnd();
 	
-	public CryptoString(char[] chars, int off, int len, char sep) 
+	public CryptoString(char[] chars, int off, int len, int level) 
 	{
 		super(chars, off, len);
-		this.sep = sep;
-		b = this.next(-1, sep);
+		this.sep = levels[level];
+		next = this.next(-1, sep);
+		if(next == -1)
+			next = end;
 	}
 	
 	public int args()
 	{
-		return this.count(sep);
+		return this.count(sep) + (this.hasNext() ? 1 : 0);
 	}
 	
 	public boolean hasNext()
 	{
-		return a != -1;
+		return len > 0;
 	}
 	
 	public PartialString nextArg()
 	{
 		try {
-			return this.substr(a, b - a);
+			return this.substr(0, next - off);
 		} finally {
-			if(b == end)
-				a = -1;
-			else {
-				a = b + 1;
-				if((b = this.next(a, sep)) == -1) 
-					b = end;
-			}
+			len -= next - off + 1;
+			off = next + 1;
+			if((next = this.next(0, sep)) == -1) 
+				next = end;
 		}
 	}
 	
-	public CryptoString nextLevel(char sep)
+	public CryptoString nextLevel()
 	{
-		try {
-			return new CryptoString(this.chars, this.off + a, b - a, sep);
-		} finally {
-			if(b == end)
-				a = -1;
-			else {
-				a = b + 1;
-				if((b = this.next(a, sep)) == -1) 
-					b = end;
+		char sep = ' ';
+		for(int i = 0; i < levels.length; i++)
+			if(this.sep == levels[i]) {
+				sep = levels[++i];
+				break;
 			}
+		try {
+			return new CryptoString(this.chars, off, next - off, sep);
+		} finally {
+			len -= next - off + 1;
+			off = next + 1;
+			if((next = this.next(0, sep)) == -1) 
+				next = end;
 		}
 	}
 

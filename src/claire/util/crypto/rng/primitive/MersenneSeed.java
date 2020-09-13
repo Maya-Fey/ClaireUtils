@@ -109,6 +109,11 @@ public class MersenneSeed
 			rand.readInts(ints);
 			return new MersenneSeed(ints);
 		}
+
+		public int bytesRequired(CryptoString s)
+		{
+			return 624 * 4;
+		}
 		
 	}
 	

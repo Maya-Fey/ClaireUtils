@@ -1,6 +1,6 @@
 package claire.util.crypto.publickey.rsa;
 
-import claire.util.math.UInt;
+import claire.util.math.primitive.UInt;
 import claire.util.standards.IUUID;
 import claire.util.standards.crypto.IPrivateKey;
 

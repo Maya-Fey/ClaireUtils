@@ -97,6 +97,11 @@ public class KeySEED
 		{
 			return new KeySEED(rand.readInts(4));
 		}
+
+		public int bytesRequired(CryptoString s)
+		{
+			return 16;
+		}
 		
 	}
 	

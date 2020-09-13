@@ -2,6 +2,7 @@ package claire.util.crypto.cipher.primitive.block;
 
 import java.util.Arrays;
 
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.cipher.key.block.KeyRC5;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -17,6 +18,8 @@ public class RC5_16
 	private short[] schedule;
 	
 	private int rounds;
+	
+	public RC5_16() {}
 	
 	public RC5_16(KeyRC5 key)
 	{
@@ -155,6 +158,11 @@ public class RC5_16
 		KeyRC5 a2 = new KeyRC5(bytes2, 12);
 		RC5_16 aes = new RC5_16(a1);
 		return ISymmetric.testSymmetric(aes, a2);
+	}
+
+	public KeyFactory<KeyRC5> keyFactory()
+	{
+		return KeyRC5.factory;
 	}
 	
 }

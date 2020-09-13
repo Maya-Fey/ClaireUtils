@@ -294,7 +294,7 @@ public final class RIPEMD160
 		STATE[0] =     TEMP + C + DD;
 	}
 
-	public void finalize(byte[] remaining, int pos, byte[] out, int start)
+	public void finalize(byte[] remaining, int pos, byte[] out, int start, int max)
 	{
 		byte[] bytes = new byte[64];
 		System.arraycopy(remaining, 0, bytes, 0, pos);
@@ -307,7 +307,7 @@ public final class RIPEMD160
 		}
 		Bits.longToBytes(length << 3, bytes, 56);
 		processNext(bytes, 0);
-		Bits.intsToBytes(STATE, 0, out, start);
+		Bits.intsToSBytes(STATE, 0, out, start, 20 > max ? max : 20);
 		reset();
 	}
 
@@ -452,6 +452,11 @@ public final class RIPEMD160
 		return i;
 	}
 	
+	public String genString(char sep)
+	{
+		return "";
+	}
+	
 	public HashFactory<RIPEMD160> factory()
 	{
 		return factory;
@@ -466,7 +471,7 @@ public final class RIPEMD160
 		{
 			return new RIPEMD160();
 		}
-		
+
 	}
 	
 }

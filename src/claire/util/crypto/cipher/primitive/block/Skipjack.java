@@ -2,6 +2,7 @@ package claire.util.crypto.cipher.primitive.block;
 
 import java.util.Arrays;
 
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.cipher.key.block.KeySkipjack;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -49,6 +50,8 @@ public class Skipjack
 	private KeySkipjack key;
 	
 	private final byte[][] KEY = new byte[4][32];
+	
+	public Skipjack() {}
 	
 	public Skipjack(KeySkipjack key)
 	{
@@ -346,6 +349,11 @@ public class Skipjack
 		KeySkipjack a2 = new KeySkipjack(bytes2);
 		Skipjack aes = new Skipjack(a1);
 		return ISymmetric.testSymmetric(aes, a2);
+	}
+
+	public KeyFactory<KeySkipjack> keyFactory()
+	{
+		return KeySkipjack.factory;
 	}
 	
 }

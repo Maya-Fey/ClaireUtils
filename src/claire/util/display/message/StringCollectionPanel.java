@@ -45,6 +45,11 @@ public class StringCollectionPanel
 	{
 		return field.getText();
 	}
+	
+	public void reset()
+	{
+		field.setText("");
+	}
 
 	public boolean error(Pointer<String> msg)
 	{

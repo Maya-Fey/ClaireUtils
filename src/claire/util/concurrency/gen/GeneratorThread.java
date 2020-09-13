@@ -6,29 +6,25 @@ public class GeneratorThread<Type>
 	   extends Thread {
 	
 	private IGenerator<Type> gen;
+	private ResultsCollector<Type> results;
 	private TaskMonitor mon;
-	private Type fruit;
 	
-	public GeneratorThread(IGenerator<Type> gen, TaskMonitor mon)
+	public GeneratorThread(IGenerator<Type> gen, ResultsCollector<Type> collect, TaskMonitor mon)
 	{
 		this.gen = gen;
 		this.mon = mon;
+		this.results = collect;
 	}
 			
 	public void run()
 	{
-		fruit = gen.generate();
-		mon.notifyProgress();
-	}
-	
-	public Type harvest()
-	{
-		return fruit;
-	}
-	
-	public boolean harvested()
-	{
-		return fruit != null;
+		while(!mon.isDone()) {
+			Type t = gen.generate(mon);
+			if(mon.isDone()) 
+				return;
+			results.addResult(t);
+			mon.notifyProgress();
+		}
 	}
 
 }

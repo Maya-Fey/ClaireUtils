@@ -16,10 +16,15 @@ public class ErrorMessage
 	private static final int MIN_HEIGHT = 142;
 	private static final double IDEAL = Math.sqrt(9D / 4D);
 	//Uses a 9:4 aspect ratio
-
-	public ErrorMessage(Window arg0, String error) 
+	
+	public ErrorMessage(Window win, String error)
 	{
-		super(arg0, "Error", ModalityType.APPLICATION_MODAL);
+		this(win, "Error", error);
+	}
+
+	public ErrorMessage(Window arg0, String title, String error) 
+	{
+		super(arg0, title, ModalityType.APPLICATION_MODAL);
 		ErrorPanel panel = new ErrorPanel(error);
 		panel.getButton().addActionListener(this);
 		this.add(panel);

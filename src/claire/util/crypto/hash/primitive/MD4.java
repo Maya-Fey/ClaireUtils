@@ -136,7 +136,7 @@ public class MD4
         return t << s | t >>> (32 - s);
     }
 
-	public void finalize(byte[] remaining, int len, byte[] out, int start)
+	public void finalize(byte[] remaining, int len, byte[] out, int start, int max)
 	{
 		byte[] BUFFER = new byte[64];
 		System.arraycopy(remaining, 0, BUFFER, 0, len);
@@ -150,7 +150,7 @@ public class MD4
             BUFFER[56 + i] = (byte)((total * 8) >>> (8 * i));
 		processNext(BUFFER, 0);
 		count = 0;
-		Bits.intsToBytes(STATE, 0, out, start);
+		Bits.intsToSBytes(STATE, 0, out, start, max > 16 ? 16 : max);
 		reset();
 	}
 	
@@ -295,6 +295,11 @@ public class MD4
 		return i;
 	}
 	
+	public String genString(char sep)
+	{
+		return "";
+	}
+	
 	public HashFactory<MD4> factory()
 	{
 		return factory;
@@ -309,7 +314,7 @@ public class MD4
 		{
 			return new MD4();
 		}
-		
+
 	}
     
 }

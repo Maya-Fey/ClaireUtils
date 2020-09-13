@@ -3,6 +3,7 @@ package claire.util.crypto.cipher.primitive.stream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.cipher.key.stream.KeyIBAA;
 import claire.util.crypto.cipher.primitive.stream.IBAA.StateIBAA;
 import claire.util.crypto.rng.RandUtils;
@@ -26,6 +27,8 @@ public class IBAA
 			    b = 0,
 				prev = 0,
 				rem = 0;
+	
+	public IBAA() {}
 	
 	public IBAA(final KeyIBAA key) 
 	{
@@ -292,6 +295,11 @@ public class IBAA
 		RandUtils.fillArr(bytes);
 		final StateIBAA state = new StateIBAA(bytes, RandUtils.dprng.nextIntGood(256), RandUtils.dprng.readInt(), RandUtils.dprng.readInt(), RandUtils.dprng.readInt(), RandUtils.dprng.readInt());
 		return IPersistable.test(state);
+	}
+
+	public KeyFactory<KeyIBAA> keyFactory()
+	{
+		return KeyIBAA.factory;
 	}
 
 }

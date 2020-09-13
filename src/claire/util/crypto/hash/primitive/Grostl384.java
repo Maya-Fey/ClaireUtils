@@ -22,14 +22,36 @@ public class Grostl384
 		return Hash.GROSTL384;
 	}
 
-	protected void output(byte[] out, int start)
+	protected void output(byte[] out, int start, int max)
 	{
-		Bits.BigEndian.longToBytes(A[10] ^ B[10], out, start 	 );
-		Bits.BigEndian.longToBytes(A[11] ^ B[11], out, start + 8 );
-		Bits.BigEndian.longToBytes(A[12] ^ B[12], out, start + 16);
-		Bits.BigEndian.longToBytes(A[13] ^ B[13], out, start + 24);
-		Bits.BigEndian.longToBytes(A[14] ^ B[14], out, start + 32);
-		Bits.BigEndian.longToBytes(A[15] ^ B[15], out, start + 40);
+		if(max > 40) {
+			Bits.BigEndian.longToBytes(A[10] ^ B[10], out, start 	 );
+			Bits.BigEndian.longToBytes(A[11] ^ B[11], out, start + 8 );
+			Bits.BigEndian.longToBytes(A[12] ^ B[12], out, start + 16);
+			Bits.BigEndian.longToBytes(A[13] ^ B[13], out, start + 24);
+			Bits.BigEndian.longToBytes(A[14] ^ B[14], out, start + 32);
+			Bits.BigEndian.longToBytes(A[15] ^ B[15], out, start + 40, max - 40);
+		} else if(max > 32) {
+			Bits.BigEndian.longToBytes(A[10] ^ B[10], out, start 	 );
+			Bits.BigEndian.longToBytes(A[11] ^ B[11], out, start + 8 );
+			Bits.BigEndian.longToBytes(A[12] ^ B[12], out, start + 16);
+			Bits.BigEndian.longToBytes(A[13] ^ B[13], out, start + 24);
+			Bits.BigEndian.longToBytes(A[14] ^ B[14], out, start + 32, max - 32);
+		} else if(max > 24) {
+			Bits.BigEndian.longToBytes(A[10] ^ B[10], out, start 	 );
+			Bits.BigEndian.longToBytes(A[11] ^ B[11], out, start + 8 );
+			Bits.BigEndian.longToBytes(A[12] ^ B[12], out, start + 16);
+			Bits.BigEndian.longToBytes(A[13] ^ B[13], out, start + 24, max - 24);
+		} else if(max > 16) {
+			Bits.BigEndian.longToBytes(A[10] ^ B[10], out, start 	 );
+			Bits.BigEndian.longToBytes(A[11] ^ B[11], out, start + 8 );
+			Bits.BigEndian.longToBytes(A[12] ^ B[12], out, start + 16, max - 16);
+		} else if(max > 8) {
+			Bits.BigEndian.longToBytes(A[10] ^ B[10], out, start 	 );
+			Bits.BigEndian.longToBytes(A[11] ^ B[11], out, start + 8, max - 8);
+		} else {
+			Bits.BigEndian.longToBytes(A[10] ^ B[10], out, start, max);
+		}
 	}
 	
 	/*
@@ -50,6 +72,11 @@ public class Grostl384
 		i += IPersistable.test(state);
 		return i;
 	}
+
+	public String genString(char sep)
+	{
+		return "";
+	}
 	
 	public HashFactory<Grostl384> factory()
 	{
@@ -65,7 +92,7 @@ public class Grostl384
 		{
 			return new Grostl384();
 		}
-		
+
 	}
 
 }

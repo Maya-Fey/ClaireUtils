@@ -1,5 +1,6 @@
 package claire.util.crypto.cipher.modes;
 
+import claire.util.crypto.KeyFactory;
 import claire.util.standards.crypto.IKey;
 import claire.util.standards.crypto.ISymmetric;
 
@@ -23,6 +24,11 @@ public class CFB_Cipher<Key extends IKey<Key>, Cipher extends ISymmetric<Key>>
 	{
 		enc.setIV(bytes, start);
 		dec.setIV(bytes, start);
+	}
+	
+	public KeyFactory<Key> keyFactory()
+	{
+		return this.cipher.keyFactory();
 	}
 
 }

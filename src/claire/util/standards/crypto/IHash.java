@@ -11,11 +11,13 @@ public interface IHash<Hash extends IHash<Hash, State>, State extends IState<Sta
 	
 	void add(byte[] bytes, int start, int length);
 	
-	void finish(byte[] out, int start);
+	void finish(byte[] out, int start, int max);
 	
 	int hashID();
 	int outputLength();
 	int desiredInputLength();
+	
+	String genString(char sep);
 	
 	HashFactory<Hash> factory();
 	
@@ -26,13 +28,18 @@ public interface IHash<Hash extends IHash<Hash, State>, State extends IState<Sta
 
 	default void finish(byte[] out)
 	{
-		finish(out, 0);
+		finish(out, 0, this.outputLength());
+	}
+	
+	default void finish(byte[] out, int start)
+	{
+		finish(out, start, this.outputLength());
 	}
 	
 	default byte[] finish()
 	{
 		byte[] bytes = new byte[this.outputLength()];
-		finish(bytes, 0);
+		finish(bytes, 0, this.outputLength());
 		return bytes;
 	}
 	

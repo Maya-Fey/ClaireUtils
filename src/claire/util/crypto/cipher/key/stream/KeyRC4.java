@@ -65,6 +65,19 @@ public class KeyRC4
 			return new KeyRC4(bytes);
 		}
 		
+		public int bytesRequired(CryptoString s)
+		{
+			int len = 256;
+			if(s.args() > 0) {
+				len = s.nextArg().toInt();
+				if(len < 1)
+					throw new java.lang.IllegalArgumentException("RC4 does not accept key lengths below 1 byte");
+				if(len > 256)
+					throw new java.lang.IllegalArgumentException("RC4 does not accept key lengths in excess of 256 bytes");
+			}
+			return len;
+		}
+		
 	}	
 	
 	public static final int test()

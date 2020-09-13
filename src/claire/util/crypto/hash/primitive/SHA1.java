@@ -146,7 +146,7 @@ public class SHA1
 	}
 
 
-	public void finalize(byte[] remaining, int pos, byte[] out, int start)
+	public void finalize(byte[] remaining, int pos, byte[] out, int start, int max)
 	{
 		byte[] bytes = new byte[64];
 		System.arraycopy(remaining, 0, bytes, 0, pos);
@@ -159,7 +159,7 @@ public class SHA1
 		}
 		Bits.BigEndian.longToBytes(total << 3, bytes, 56);
 		processNext(bytes, 0);
-		Bits.BigEndian.intsToBytes(STATE, 0, out, start);
+		Bits.BigEndian.intsToSBytes(STATE, 0, out, start, 40 > max ? max : 40);
 		reset();
 	}
 	
@@ -308,6 +308,11 @@ public class SHA1
 	public HashFactory<SHA1> factory()
 	{
 		return factory;
+	}
+	
+	public String genString(char sep)
+	{
+		return "";
 	}
 	
 	public static final SHA1Factory factory = new SHA1Factory();

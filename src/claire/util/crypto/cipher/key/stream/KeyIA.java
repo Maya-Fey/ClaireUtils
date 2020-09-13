@@ -16,7 +16,8 @@ import claire.util.standards.crypto.IRandom;
 import claire.util.standards.io.IIncomingStream;
 import claire.util.standards.io.IOutgoingStream;
 
-public class KeyIA implements IKey<KeyIA> {
+public class KeyIA 
+	   implements IKey<KeyIA> {
 	
 	/*
 	 * WARNING: THIS CODE MAY NOT CONFORM TO ANY STANDARDS THAT MAY EXIST
@@ -140,6 +141,11 @@ public class KeyIA implements IKey<KeyIA> {
 			int[] key = new int[256];
 			rand.readInts(key);
 			return new KeyIA(key);
+		}
+
+		public int bytesRequired(CryptoString s)
+		{
+			return 1024;
 		}
 	}
 	

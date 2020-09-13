@@ -26,27 +26,21 @@ public class DynamicIndexedRegistry<T>
 	
 	public void add(T t, String s)
 	{
-		try {
-			this.index[this.current] = s;
-		} catch (java.lang.NullPointerException e) {
+		if(this.current == index.length)
 			this.overflow();
-			this.index[this.current] = s;
-		}
-		super.add(t);
+		this.index[this.current] = s;
+		this.array[this.current++] = t;
 	}
 	
 	public void add(T t)
 	{
-		try {
-			this.index[this.current] = "NULL";
-		} catch (java.lang.NullPointerException e) {
+		if(this.current == index.length)
 			this.overflow();
-			this.index[this.current] = "NULL";
-		}
-		super.add(t);
+		this.index[this.current] = "NULL";
+		this.array[this.current++] = t;
 	}
 	
-	public T[] getArray()
+	public T[] getFinal()
 	{
 		@SuppressWarnings("unchecked")
 		T[] arr = (T[]) Array.newInstance(this.class_, this.current);
@@ -59,7 +53,8 @@ public class DynamicIndexedRegistry<T>
 		return new DIRator();
 	}
 	
-	private final class DIRator implements IIterator<T>
+	private final class DIRator
+				  implements IIterator<T>
 	{
 
 		private final int max = DynamicIndexedRegistry.this.current;

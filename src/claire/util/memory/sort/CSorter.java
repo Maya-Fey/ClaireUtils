@@ -1,18 +1,18 @@
 package claire.util.memory.sort;
 
-import claire.util.memory.array.CArray;
+import claire.util.memory.array.IJArray;
 
 public class CSorter<T> {
 	
 	private final Getter<Long, T> getter;
-	private CArray<T> array;
+	private IJArray<T> array;
 	
 	public CSorter(Getter<Long, T> getter)
 	{
 		this.getter = getter;
 	}
 	
-	public CArray<T> sort(CArray<T> array)
+	public IJArray<T> sort(IJArray<T> array)
 	{
 		this.array = array;
 		quickSort(0, this.array.size() - 1);

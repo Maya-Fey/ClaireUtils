@@ -38,7 +38,7 @@ public final class SHA2_224
 		return Hash.SHA2_224;
 	}
 
-	protected void complete(byte[] remaining, int pos, byte[] out, int start)
+	protected void complete(byte[] remaining, int pos, byte[] out, int start, int max)
 	{
 		byte[] bytes = new byte[64];
 		System.arraycopy(remaining, 0, bytes, 0, pos);
@@ -51,7 +51,7 @@ public final class SHA2_224
 		}
 		Bits.BigEndian.longToBytes(length << 3, bytes, 56);
 		processNext(bytes, 0);
-		Bits.BigEndian.intsToBytes(STATE, 0, out, start, 7);
+		Bits.BigEndian.intsToSBytes(STATE, 0, out, start, 28 > max ? max : 28);
 	}
 	
 	/*
@@ -72,6 +72,11 @@ public final class SHA2_224
 		i += IPersistable.test(state);
 		return i;
 	}
+
+	public String genString(char sep)
+	{
+		return "";
+	}
 	
 	public HashFactory<SHA2_224> factory()
 	{
@@ -87,7 +92,7 @@ public final class SHA2_224
 		{
 			return new SHA2_224();
 		}
-		
+
 	}
 	
 

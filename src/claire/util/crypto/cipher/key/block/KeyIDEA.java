@@ -6,6 +6,7 @@ import java.util.Arrays;
 import claire.util.crypto.CryptoString;
 import claire.util.crypto.KeyFactory;
 import claire.util.crypto.rng.RandUtils;
+import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards.IDeepClonable;
 import claire.util.standards.IPersistable;
@@ -18,31 +19,31 @@ import claire.util.standards.io.IOutgoingStream;
 public class KeyIDEA 
 	   implements IKey<KeyIDEA> {
 	
-	private byte[] bytes;
+	private short[] shorts;
 	
-	public KeyIDEA(final byte[] bytes)
+	public KeyIDEA(final short[] shorts)
 	{
-		this.bytes = bytes;
+		this.shorts = shorts;
 	}
 	
-	public byte[] getBytes()
+	public short[] getShorts()
 	{
-		return this.bytes;
+		return this.shorts;
 	}
 	
 	public KeyIDEA createDeepClone()
 	{
-		return new KeyIDEA(ArrayUtil.copy(bytes));
+		return new KeyIDEA(ArrayUtil.copy(shorts));
 	}
 
 	public void export(final IOutgoingStream stream) throws IOException
 	{
-		stream.writeBytes(bytes);
+		stream.writeShorts(shorts);
 	}
 
 	public void export(final byte[] bytes, final int offset)
 	{
-		System.arraycopy(this.bytes, 0, bytes, offset, 16);
+		Bits.shortsToBytes(shorts, 0, bytes, offset, 8);
 	}
 	
 	public int exportSize()
@@ -57,13 +58,13 @@ public class KeyIDEA
 
 	public boolean sameAs(final KeyIDEA obj)
 	{
-		return ArrayUtil.equals(bytes, obj.bytes);
+		return ArrayUtil.equals(shorts, obj.shorts);
 	}
 
 	public void erase()
 	{
-		Arrays.fill(bytes, (byte) 0);
-		this.bytes = null;
+		Arrays.fill(shorts, (short) 0);
+		this.shorts = null;
 	}
 	
 	public KeyFactory<KeyIDEA> factory()
@@ -82,30 +83,35 @@ public class KeyIDEA
 
 		public KeyIDEA resurrect(final byte[] data, final int start) throws InstantiationException
 		{
-			byte[] bytes = new byte[16];
-			System.arraycopy(data, start, bytes, 0, 16);
-			return new KeyIDEA(bytes);
+			short[] shorts = new short[8];
+			Bits.bytesToShorts(data, start, shorts, 0, 8);
+			return new KeyIDEA(shorts);
 		}
 
 		public KeyIDEA resurrect(final IIncomingStream stream) throws InstantiationException, IOException
 		{
-			return new KeyIDEA(stream.readBytes(16));
+			return new KeyIDEA(stream.readShorts(8));
 		}
 
 		public KeyIDEA random(IRandom<?, ?> rand, CryptoString s)
 		{
-			byte[] bytes = new byte[16];
-			rand.readBytes(bytes);
-			return new KeyIDEA(bytes);
+			short[] shorts = new short[8];
+			rand.readShorts(shorts);
+			return new KeyIDEA(shorts);
+		}
+		
+		public int bytesRequired(CryptoString s)
+		{
+			return 16;
 		}
 		
 	}
 	
 	public static final int test()
 	{
-		final byte[] bytes = new byte[16];
-		RandUtils.fillArr(bytes);
-		KeyIDEA aes = new KeyIDEA(bytes);
+		final short[] shorts = new short[8];
+		RandUtils.fillArr(shorts);
+		KeyIDEA aes = new KeyIDEA(shorts);
 		int i = 0;
 		i += IPersistable.test(aes);
 		i += IDeepClonable.test(aes);

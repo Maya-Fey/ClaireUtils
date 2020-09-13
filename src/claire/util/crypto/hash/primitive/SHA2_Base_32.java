@@ -3,6 +3,7 @@ package claire.util.crypto.hash.primitive;
 import java.io.IOException;
 import java.util.Arrays;
 
+import claire.util.crypto.hash.primitive.MerkleHash.MerkleState;
 import claire.util.crypto.hash.primitive.SHA2_Base_32.SHA2_32State;
 import claire.util.io.Factory;
 import claire.util.memory.Bits;
@@ -38,7 +39,7 @@ abstract class SHA2_Base_32<Hash extends SHA2_Base_32<Hash>>
 	protected final int[] STATE = new int[8];
 	protected long length;
 	
-	protected abstract void complete(byte[] bytes, int pos, byte[] out, int start);
+	protected abstract void complete(byte[] bytes, int pos, byte[] out, int start, int max);
 
 	protected SHA2_Base_32(int out) 
 	{
@@ -140,10 +141,10 @@ abstract class SHA2_Base_32<Hash extends SHA2_Base_32<Hash>>
 		STATE[7] += H;
 	}
 	
-	public void finalize(byte[] bytes, int pos, byte[] out, int start)
+	public void finalize(byte[] bytes, int pos, byte[] out, int start, int max)
 	{
 		try {
-			complete(bytes, pos, out, start);
+			complete(bytes, pos, out, start, max);
 		} finally {
 			reset();
 		}
@@ -167,7 +168,8 @@ abstract class SHA2_Base_32<Hash extends SHA2_Base_32<Hash>>
 	
 	public static final SHA2_32StateFactory sfactory = new SHA2_32StateFactory();
 	
-	protected static final class SHA2_32State extends MerkleState<SHA2_32State, SHA2_Base_32<? extends SHA2_Base_32<?>>>
+	protected static final class SHA2_32State 
+						   extends MerkleState<SHA2_32State, SHA2_Base_32<? extends SHA2_Base_32<?>>>
 	{
 
 		protected int[] state;

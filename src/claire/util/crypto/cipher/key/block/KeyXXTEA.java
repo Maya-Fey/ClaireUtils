@@ -123,6 +123,11 @@ public class KeyXXTEA
 			int[] ints = rand.readInts(4);
 			return new KeyXXTEA(ints, words);
 		}
+
+		public int bytesRequired(CryptoString s)
+		{
+			return 16;
+		}
 		
 	}
 	

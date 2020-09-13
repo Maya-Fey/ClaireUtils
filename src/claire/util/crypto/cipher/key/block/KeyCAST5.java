@@ -34,7 +34,7 @@ public class KeyCAST5
 		return factory;
 	}
 	
-	private static final KeyCAST5Factory factory = new KeyCAST5Factory();
+	public static final KeyCAST5Factory factory = new KeyCAST5Factory();
 	
 	private static final class KeyCAST5Factory extends ByteKeyFactory<KeyCAST5> {
 
@@ -62,6 +62,19 @@ public class KeyCAST5
 				bytes = new byte[12];
 			rand.readBytes(bytes);
 			return new KeyCAST5(bytes);
+		}
+
+		public int bytesRequired(CryptoString s)
+		{
+			if(s.args() > 0) {
+				int amt = s.nextArg().toInt() / 8;
+				if(amt > 12)
+					throw new java.lang.IllegalArgumentException("CAST5 only supports keys of up to 128 bits");
+				if(amt < 5)
+					throw new java.lang.IllegalArgumentException("CAST5 only supports keys of greater than 40 bits");
+				return amt;
+			} else
+				return 12;
 		}
 		
 	}

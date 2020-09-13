@@ -22,12 +22,24 @@ public class Grostl224
 		return Hash.GROSTL224;
 	}
 
-	protected void output(byte[] out, int start)
+	protected void output(byte[] out, int start, int max)
 	{
-		Bits.BigEndian.intToBytes((int) (A[4] ^ B[4]), out, start);
-		Bits.BigEndian.longToBytes(A[5] ^ B[5], out, start + 4 );
-		Bits.BigEndian.longToBytes(A[6] ^ B[6], out, start + 12);
-		Bits.BigEndian.longToBytes(A[7] ^ B[7], out, start + 20);
+		if(max > 20) {
+			Bits.BigEndian.intToBytes((int) (A[4] ^ B[4]), out, start);
+			Bits.BigEndian.longToBytes(A[5] ^ B[5], out, start + 4 );
+			Bits.BigEndian.longToBytes(A[6] ^ B[6], out, start + 12);
+			Bits.BigEndian.longToBytes(A[7] ^ B[7], out, start + 20, max - 20);
+		} else if(max > 12) {
+			Bits.BigEndian.intToBytes((int) (A[4] ^ B[4]), out, start);
+			Bits.BigEndian.longToBytes(A[5] ^ B[5], out, start + 4 );
+			Bits.BigEndian.longToBytes(A[6] ^ B[6], out, start + 12, max - 12);
+		} else if(max > 4) {
+			Bits.BigEndian.intToBytes((int) (A[4] ^ B[4]), out, start);
+			Bits.BigEndian.longToBytes(A[5] ^ B[5], out, start + 4, max - 4);
+		} else {
+			Bits.BigEndian.intToBytes((int) (A[4] ^ B[4]), out, start, max);
+		}
+		
 	}
 	
 	/*
@@ -48,6 +60,11 @@ public class Grostl224
 		i += IPersistable.test(state);
 		return i;
 	}
+
+	public String genString(char sep)
+	{
+		return "";
+	}
 	
 	public HashFactory<Grostl224> factory()
 	{
@@ -63,7 +80,7 @@ public class Grostl224
 		{
 			return new Grostl224();
 		}
-		
+
 	}
 
 }

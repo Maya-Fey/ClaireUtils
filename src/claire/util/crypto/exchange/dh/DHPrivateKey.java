@@ -5,7 +5,7 @@ import java.io.IOException;
 import claire.util.crypto.CryptoString;
 import claire.util.crypto.KeyFactory;
 import claire.util.math.MathHelper;
-import claire.util.math.UInt;
+import claire.util.math.primitive.UInt;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
 import claire.util.standards.crypto.IRandom;
@@ -99,6 +99,11 @@ public class DHPrivateKey
 		public DHPrivateKey resurrect(IIncomingStream stream) throws InstantiationException, IOException
 		{
 			return new DHPrivateKey(params, stream.resurrect(UInt.factory));
+		}
+
+		public int bytesRequired(CryptoString s)
+		{
+			return -1;
 		}
 	}
 

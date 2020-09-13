@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import claire.util.io.Factory;
 import claire.util.io.IOUtils;
-import claire.util.math.UInt;
+import claire.util.math.primitive.UInt;
 import claire.util.standards.IPersistable;
 import claire.util.standards.IUUID;
 import claire.util.standards._NAMESPACE;

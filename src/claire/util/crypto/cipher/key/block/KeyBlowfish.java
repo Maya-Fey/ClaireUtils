@@ -1,13 +1,16 @@
 package claire.util.crypto.cipher.key.block;
 
+import claire.util.crypto.CryptoString;
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.cipher.key.ByteKey;
 import claire.util.crypto.cipher.key.ByteKeyFactory;
 import claire.util.crypto.rng.RandUtils;
-import claire.util.io.Factory;
+import claire.util.math.MathHelper;
 import claire.util.standards.IDeepClonable;
 import claire.util.standards.IPersistable;
 import claire.util.standards._NAMESPACE;
 import claire.util.standards.crypto.IKey;
+import claire.util.standards.crypto.IRandom;
 
 public class KeyBlowfish 
 	   extends ByteKey<KeyBlowfish> {
@@ -27,12 +30,12 @@ public class KeyBlowfish
 		return _NAMESPACE.KEYBLOWFISH;
 	}
 	
-	public Factory<KeyBlowfish> factory()
+	public KeyFactory<KeyBlowfish> factory()
 	{
 		return factory;
 	}
 	
-	private static final KeyBlowfishFactory factory = new KeyBlowfishFactory();
+	public static final KeyBlowfishFactory factory = new KeyBlowfishFactory();
 	
 	private static final class KeyBlowfishFactory extends ByteKeyFactory<KeyBlowfish> {
 
@@ -44,6 +47,29 @@ public class KeyBlowfish
 		protected KeyBlowfish construct(final byte[] key)
 		{
 			return new KeyBlowfish(key);
+		}
+
+		public KeyBlowfish random(IRandom<?, ?> rand, CryptoString s) throws InstantiationException
+		{
+			int len = 64;
+			if(s.args() > 0)
+				len = s.nextArg().toInt();
+			if(len < 1)
+				throw new java.lang.InstantiationException("You cannot have a key length of zero or less");
+			byte[] bytes = new byte[((len - 1) / 8) + 1];
+			rand.readBytes(bytes);
+			MathHelper.truncate(bytes, len);
+			return new KeyBlowfish(bytes);
+		}
+
+		public int bytesRequired(CryptoString s)
+		{
+			int len = 64;
+			if(s.args() > 0)
+				len = s.nextArg().toInt();
+			if(len < 1)
+				throw new java.lang.IllegalArgumentException("You cannot have a key length of zero or less");
+			return ((len - 1) / 8) + 1;
 		}
 		
 	}

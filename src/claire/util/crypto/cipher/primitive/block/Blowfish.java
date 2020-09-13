@@ -2,6 +2,7 @@ package claire.util.crypto.cipher.primitive.block;
 
 import java.util.Arrays;
 
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.cipher.key.block.KeyBlowfish;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -292,6 +293,8 @@ public class Blowfish implements ISymmetric<KeyBlowfish> {
 	
 	private KeyBlowfish key;
 	
+	public Blowfish() {}
+	
 	public Blowfish(KeyBlowfish key)
 	{
 		this.setKey(key);
@@ -487,6 +490,11 @@ public class Blowfish implements ISymmetric<KeyBlowfish> {
 		KeyBlowfish a2 = new KeyBlowfish(bytes2);
 		Blowfish aes = new Blowfish(a1);
 		return ISymmetric.testSymmetric(aes, a2);
+	}
+
+	public KeyFactory<KeyBlowfish> keyFactory()
+	{
+		return KeyBlowfish.factory;
 	}
 
 }

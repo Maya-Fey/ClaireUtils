@@ -2,9 +2,9 @@ package claire.util.crypto.publickey.rsa;
 
 import claire.util.encoding.CString;
 import claire.util.math.MathHelper;
-import claire.util.math.PrimeGenerator;
-import claire.util.math.StrongPrimeGenerator;
-import claire.util.math.UInt;
+import claire.util.math.prime.PrimeGenerator;
+import claire.util.math.prime.StrongPrimeGenerator;
+import claire.util.math.primitive.UInt;
 import claire.util.standards.crypto.IRandom;
 
 public class RSAKeyGenerator {

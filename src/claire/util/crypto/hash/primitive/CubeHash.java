@@ -22,6 +22,8 @@ import claire.util.standards.io.IOutgoingStream;
 public final class CubeHash 
 	  	     extends MerkleHash<CubeHashState, CubeHash> {
 	
+	private final int init;
+	
 	private final int[] IV;
 	
 	private int[] SCRATCH;
@@ -47,7 +49,7 @@ public final class CubeHash
 		this.close = close >> 1;
 		this.sRound = (rounds & 1) == 1;
 		this.sClose = (close & 1) == 1;
-		genIV(IV, SCRATCH, out, block, rounds, init);
+		genIV(IV, SCRATCH, out, block, rounds, this.init = init);
 		System.arraycopy(IV, 0, STATE, 0, 32);
 	}
 	
@@ -444,7 +446,7 @@ public final class CubeHash
 			singleRound(STATE, SCRATCH);
 	}	
 	
-	public void finalize(byte[] remaining, int pos, byte[] out, int start)
+	public void finalize(byte[] remaining, int pos, byte[] out, int start, int max)
 	{
 		remaining[pos++] = (byte) 0x80;
 		Arrays.fill(remaining, pos, block, (byte) 0); 
@@ -454,7 +456,7 @@ public final class CubeHash
 			doubleRound(STATE);
 		if(sClose)
 			singleRound(STATE, SCRATCH);
-		Bits.intsToSBytes(STATE, 0, out, start, this.outputLength());
+		Bits.intsToSBytes(STATE, 0, out, start, this.outputLength() > max ? max : this.outputLength());
 		this.reset();
 	}
 	
@@ -600,6 +602,12 @@ public final class CubeHash
 	
 	public static final CubeHashFactory factory = new CubeHashFactory();
 	
+	public String genString(char sep)
+	{
+		String sepp = "" + sep;
+		return this.outputLength() * 8 + sepp + this.block * 8 + sepp + this.init + sepp + round * 2 + (sRound ? 1 : 0) + sepp + close * 2 + (sClose ? 1 : 0);
+	}
+	
 	public HashFactory<CubeHash> factory()
 	{
 		return factory;
@@ -612,12 +620,12 @@ public final class CubeHash
 		{
 			int out = str.nextArg().toInt() / 8;
 			int ini = str.nextArg().toInt();
-			int inp = str.nextArg().toInt();
+			int inp = str.nextArg().toInt() / 8;
 			int rou = str.nextArg().toInt();
 			int fin = str.nextArg().toInt();
 			return new CubeHash(ini, inp, out, rou, fin);
 		}
-		
+
 	}
 	
 }

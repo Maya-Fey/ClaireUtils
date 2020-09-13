@@ -2,7 +2,7 @@ package claire.util.crypto.publickey.rsa;
 
 import java.util.Arrays;
 
-import claire.util.math.UInt;
+import claire.util.math.primitive.UInt;
 import claire.util.memory.Bits;
 import claire.util.standards.crypto.IAsymmetric;
 

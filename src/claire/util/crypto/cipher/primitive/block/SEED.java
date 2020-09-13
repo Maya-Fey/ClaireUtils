@@ -2,6 +2,7 @@ package claire.util.crypto.cipher.primitive.block;
 
 import java.util.Arrays;
 
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.cipher.key.block.KeySEED;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -289,6 +290,8 @@ public class SEED
 	private KeySEED key;
 	private int[] KEY = new int[32];
 	
+	public SEED() {}
+	
 	public SEED(KeySEED a1)
 	{
 		this.setKey(a1);
@@ -457,6 +460,11 @@ public class SEED
 		KeySEED a2 = new KeySEED(ints2);
 		SEED aes = new SEED(a1);
 		return ISymmetric.testSymmetric(aes, a2);
+	}
+
+	public KeyFactory<KeySEED> keyFactory()
+	{
+		return KeySEED.factory;
 	}
 	
 }

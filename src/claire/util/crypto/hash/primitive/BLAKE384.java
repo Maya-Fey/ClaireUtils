@@ -35,9 +35,9 @@ public class BLAKE384
 		return IV;
 	}
 
-	protected void output(byte[] out, int start)
+	protected void output(byte[] out, int start, int max)
 	{
-		Bits.BigEndian.longsToBytes(STATE, 0, out, start, 6);
+		Bits.BigEndian.longsToSBytes(STATE, 0, out, start, 48 > max ? max : 48);
 	}
 
 	/*
@@ -57,6 +57,11 @@ public class BLAKE384
 		IState state = blake.getState();
 		i += IPersistable.test(state);
 		return i;
+	}
+
+	public String genString(char sep)
+	{
+		return "";
 	}
 	
 	public HashFactory<BLAKE384> factory()

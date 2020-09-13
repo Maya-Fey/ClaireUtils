@@ -37,9 +37,9 @@ public final class SHA2_384
 	}
 
 
-	protected void complete(byte[] out, int start)
+	protected void complete(byte[] out, int start, int max)
 	{
-		Bits.BigEndian.longsToBytes(STATE, 0, out, start, 6);
+		Bits.BigEndian.longsToSBytes(STATE, 0, out, start, 48 > max ? max : 48);
 	}
 	
 	/*
@@ -61,6 +61,11 @@ public final class SHA2_384
 		return i;
 	}
 	
+	public String genString(char sep)
+	{
+		return "";
+	}
+	
 	public HashFactory<SHA2_384> factory()
 	{
 		return factory;
@@ -75,7 +80,7 @@ public final class SHA2_384
 		{
 			return new SHA2_384();
 		}
-		
+
 	}
 
 }

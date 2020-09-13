@@ -39,9 +39,9 @@ public class JH256
 		return IV;
 	}
 
-	protected void output(byte[] out, int start)
+	protected void output(byte[] out, int start, int max)
 	{
-		Bits.BigEndian.longsToBytes(STATE, 12, out, start, 4);
+		Bits.BigEndian.longsToSBytes(STATE, 12, out, start, 32 > max ? max : 32);
 	}
 
 	/*
@@ -62,6 +62,11 @@ public class JH256
 		i += IPersistable.test(state);
 		return i;
 	}
+
+	public String genString(char sep)
+	{
+		return "";
+	}
 	
 	public HashFactory<JH256> factory()
 	{
@@ -77,7 +82,7 @@ public class JH256
 		{
 			return new JH256();
 		}
-		
+
 	}
 	
 }

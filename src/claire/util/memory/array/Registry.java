@@ -1,7 +1,7 @@
 package claire.util.memory.array;
 
 public class Registry<Type> 
-	   extends CArray<Type> {
+	   extends IJArray<Type> {
 	
 	protected int current = 0;
 

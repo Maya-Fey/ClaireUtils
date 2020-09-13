@@ -6,7 +6,7 @@ import java.math.BigInteger;
 import claire.util.crypto.CryptoString;
 import claire.util.crypto.KeyFactory;
 import claire.util.math.MathHelper;
-import claire.util.math.UInt;
+import claire.util.math.primitive.UInt;
 import claire.util.memory.Bits;
 import claire.util.memory.util.ArrayUtil;
 import claire.util.standards._NAMESPACE;

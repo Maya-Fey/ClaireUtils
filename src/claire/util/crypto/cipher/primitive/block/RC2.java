@@ -2,6 +2,7 @@ package claire.util.crypto.cipher.primitive.block;
 
 import java.util.Arrays;
 
+import claire.util.crypto.KeyFactory;
 import claire.util.crypto.cipher.key.block.KeyRC2;
 import claire.util.crypto.rng.RandUtils;
 import claire.util.memory.Bits;
@@ -48,6 +49,8 @@ public class RC2
 	private KeyRC2 key;
 	
 	private short[] keyData = new short[64];
+	
+	public RC2() {}
 	
 	public RC2(KeyRC2 key)
 	{
@@ -251,6 +254,11 @@ public class RC2
 		KeyRC2 a2 = new KeyRC2(bytes2);
 		RC2 aes = new RC2(a1);
 		return ISymmetric.testSymmetric(aes, a2);
+	}
+
+	public KeyFactory<KeyRC2> keyFactory()
+	{
+		return KeyRC2.factory;
 	}
 	
 }

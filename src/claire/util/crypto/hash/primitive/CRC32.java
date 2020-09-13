@@ -233,9 +233,9 @@ public final class CRC32
 	public void seek(long pos) {}
 	public IIncomingStream getIncoming() { return null; }
 
-	public void finish(byte[] out, int start)
+	public void finish(byte[] out, int start, int max)
 	{
-		Bits.BigEndian.intToBytes(STATE ^ 0xFFFFFFFF, out, start);
+		Bits.BigEndian.intToBytes(STATE ^ 0xFFFFFFFF, out, start, max);
 		STATE = 0xFFFFFFFF;
 	}
 	
@@ -374,6 +374,11 @@ public final class CRC32
 		IState state = blake.getState();
 		i += IPersistable.test(state);
 		return i;
+	}
+
+	public String genString(char sep)
+	{
+		return "";
 	}
 	
 	public HashFactory<CRC32> factory()

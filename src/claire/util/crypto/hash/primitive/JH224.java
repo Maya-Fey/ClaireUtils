@@ -39,10 +39,14 @@ public class JH224
 		return IV;
 	}
 
-	protected void output(byte[] out, int start)
+	protected void output(byte[] out, int start, int max)
 	{
-		Bits.BigEndian.intToBytes((int) STATE[12], out, start);
-		Bits.BigEndian.longsToBytes(STATE, 13, out, start + 4, 3);
+		if(max > 4) {
+			Bits.BigEndian.intToBytes((int) STATE[12], out, start);
+			max -= 4;
+			Bits.BigEndian.longsToSBytes(STATE, 13, out, start + 4, 24 > max ? max : 24);
+		} else
+			Bits.BigEndian.intToBytes((int) STATE[12], out, start, max);
 	}
 	
 	/*
@@ -63,6 +67,11 @@ public class JH224
 		i += IPersistable.test(state);
 		return i;
 	}
+
+	public String genString(char sep)
+	{
+		return "";
+	}
 	
 	public HashFactory<JH224> factory()
 	{
@@ -78,7 +87,7 @@ public class JH224
 		{
 			return new JH224();
 		}
-		
+
 	}
 
 }

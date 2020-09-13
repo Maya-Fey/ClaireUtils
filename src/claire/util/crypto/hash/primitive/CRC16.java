@@ -202,9 +202,12 @@ public final class CRC16
 	public void seek(long pos) {}
 	public IIncomingStream getIncoming() { return null; }
 
-	public void finish(byte[] out, int start)
+	public void finish(byte[] out, int start, int max)
 	{
-		Bits.BigEndian.shortToBytes((short) STATE, out, start);
+		if(max == 1)
+			out[start] = (byte) (STATE >>> 8);
+		else if(max == 2)
+			Bits.BigEndian.shortToBytes((short) STATE, out, start);
 		STATE = 0;
 	}
 	
@@ -344,6 +347,11 @@ public final class CRC16
 		i += IPersistable.test(state);
 		return i;
 	}
+
+	public String genString(char sep)
+	{
+		return "";
+	}
 	
 	public HashFactory<CRC16> factory()
 	{
@@ -359,7 +367,7 @@ public final class CRC16
 		{
 			return new CRC16();
 		}
-		
+
 	}
 	
 }

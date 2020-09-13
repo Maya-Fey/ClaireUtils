@@ -180,6 +180,7 @@ public interface IInteger<Type extends IInteger<Type>>
 	int[] getArr();
 	void upsize(int size);
 	Type getLarge(int size);
+	int realLen();
 	
 	byte toInt8();
 	short toInt16();

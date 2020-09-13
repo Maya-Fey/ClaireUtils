@@ -2,15 +2,20 @@ package claire.util.memory.array;
 
 import java.lang.reflect.Array;
 
+import claire.util.memory.util.ArrayUtil;
+import claire.util.memory.util.IJIterator;
+
 /**
  * This dynamic array class is a descendant of IJArray. 
  * <br>
  * <br>
  * DynArray will automatically resize as items are added. Can be used as an array
  * builder with getFinal()
+ * <br><br>
+ * @author Jane
  */
 public class DynArray<Type> 
-	   extends CArray<Type> {
+	   extends IJArray<Type> {
 
 	protected int cur = 0;
 	protected int overflowRate = 4;
@@ -27,7 +32,8 @@ public class DynArray<Type>
 	 * <br>
 	 * If a <code>class_</code> is <code>null</code> a NullPointerException will be thrown
 	 */
-	public DynArray(Class<Type> class_, int initSize) {
+	public DynArray(Class<Type> class_, int initSize) 
+	{
 		super(class_, initSize);
 	}
 	
@@ -40,7 +46,8 @@ public class DynArray<Type>
 	 * </ul>
 	 * If a <code>arr</code> is <code>null</code> a NullPointerException will be thrown
 	 */
-	public DynArray(Type[] arr) {
+	public DynArray(Type[] arr) 
+	{
 		super(arr);
 	}
 
@@ -59,6 +66,31 @@ public class DynArray<Type>
 		if(cur == this.array.length)
 			this.overflow(overflowRate);
 		this.array[cur++] = t;
+	}
+	
+	/**
+	 * Adds an array of elements. The entire added array will be considered filled.
+	 * <br><br>
+	 * If the array is null, a <code>NullPointerException</code> will be thrown.
+	 * <br><br>
+	 * The array size will be padded to make enough space. If the internal array structure is already big
+	 * enough, than the internal array size will not be affected.
+	 */
+	public void add(Type[] t)
+	{
+		ensureSize(cur + t.length);
+		System.arraycopy(t, 0, array, cur, t.length);
+		cur += t.length;
+	}
+	
+	/**
+	 * Returns the last element added and removes it from the array.
+	 * <br><br>
+	 * If no elements currently exist in the array than this method will fail. 
+	 */
+	public Type pop()
+	{
+		return array[--cur];
 	}
 	
 	/**
@@ -173,5 +205,14 @@ public class DynArray<Type>
 		System.arraycopy(this.array, 0, narr, 0, cur);
 		return narr;
 	}
+	
+	public IJIterator<Type> iterator()
+	{
+		return new IJIterator<Type>(array, 0, cur);
+	}
 
+	public IJIterator<Type> copyIterator()
+	{
+		return new IJIterator<Type>(ArrayUtil.subArr(array, 0, cur), 0, cur);
+	}
 }

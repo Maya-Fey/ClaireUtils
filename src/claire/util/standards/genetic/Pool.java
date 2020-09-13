@@ -1,14 +1,14 @@
 package claire.util.standards.genetic;
 
-import claire.util.memory.array.CArray;
+import claire.util.memory.array.IJArray;
 import claire.util.memory.sort.CSorter;
 import claire.util.memory.sort.Getter;
 import claire.util.memory.util.Pair;
 
 public class Pool implements IEnvironment {
 	
-	CArray<Pair<Long, Integer>> last;
-	final CArray<ICompetitor> competitors = new CArray<ICompetitor>(ICompetitor.class, 100);
+	IJArray<Pair<Long, Integer>> last;
+	final IJArray<ICompetitor> competitors = new IJArray<ICompetitor>(ICompetitor.class, 100);
 	static final Pair<Long, Integer> lol = new Pair<Long, Integer>(0L, 0);
 	final CSorter<Pair<Long, Integer>> sorter = new CSorter<Pair<Long, Integer>>(new Getter<Long, Pair<Long, Integer>>() {
 
@@ -34,12 +34,12 @@ public class Pool implements IEnvironment {
 	@SuppressWarnings("unchecked")
 	public void cull()
 	{
-		CArray<Pair<Long, Integer>> scores = new CArray<Pair<Long, Integer>>((Class<Pair<Long, Integer>>) lol.getClass(), 100);
+		IJArray<Pair<Long, Integer>> scores = new IJArray<Pair<Long, Integer>>((Class<Pair<Long, Integer>>) lol.getClass(), 100);
 		TestThread.process();
 		long[] raw = TestThread.getResults();
 		for(int i = 0; i < 100; i++)
 			scores.set(i, new Pair<Long, Integer>(raw[i], i));
-		CArray<Pair<Long, Integer>> sorted = sorter.sort(scores);
+		IJArray<Pair<Long, Integer>> sorted = sorter.sort(scores);
 		last = sorted;
 		for(int i = 0; i < 50; i++)
 			competitors.get(sorted.get(i).getPair()).age();
